@@ -7,3 +7,4 @@ Collection of routines to operate URI(s) in the reliable and consistent way. Uri
 npm install
 node sample/Sample.s
 ```
+
