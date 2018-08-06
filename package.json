@@ -1,0 +1,51 @@
+{
+  "name": "wurifundamentals",
+  "version": "0.6.3",
+  "engine": "node >= 6.0.0",
+  "description": "Collection of routines to operate paths in the reliable and consistent way. Path leverages parsing, joining, extracting, normalizing, nativizing, resolving paths. Use the module to get uniform experience from playing with paths on different platforms.",
+  "license": "MIT",
+  "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@willbe.so"
+    },
+    {
+      "name": "Volodymyr M.",
+      "email": "volodymyr.migdal@gmail.com"
+    }
+  ],
+  "main": "staging/dwtools/abase/layer3/Path.s",
+  "files": [
+    "staging/dwtools/abase/layer3",
+    "production"
+  ],
+  "scripts": {
+    "test": "wtest staging",
+    "make_doc": "./doc.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wUriFundamentals.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/wUriFundamentals/issues"
+  },
+  "dependencies": {
+    "wTools": ""
+  },
+  "devDependencies": {
+    "wTesting": "",
+    "wFiles": "",
+    "wurifundamentals": "."
+  },
+  "keywords": [
+    "wTools",
+    "wPath",
+    "path",
+    "url",
+    "uri",
+    "path",
+    "file"
+  ]
+}
