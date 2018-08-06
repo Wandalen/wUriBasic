@@ -1,6 +1,6 @@
 ( function _Uri_s_() {
 
-'use strict'; /*aaa*/
+'use strict';
 
 /**
   @module Tools/base/Uri - Collection of routines to operate URIs ( URLs ) in the reliable and consistent way. Path leverages parsing, joining, extracting, normalizing, nativizing, resolving paths. Use the module to get uniform experience from playing with paths on different platforms.
@@ -404,10 +404,10 @@ function uriRefine( fileUrl )
   if( this.uriIsGlobal( fileUrl ) )
   fileUrl = this.uriParsePrimitiveOnly( fileUrl );
   else
-  return this.pathRefine( fileUrl );
+  return this.refine( fileUrl );
 
   if( _.strIsNotEmpty( fileUrl.localPath ) )
-  fileUrl.localPath = this.pathRefine( fileUrl.localPath );
+  fileUrl.localPath = this.refine( fileUrl.localPath );
 
   return this.uriStr( fileUrl );
 
@@ -450,10 +450,10 @@ function uriNormalize( fileUrl )
     if( this.uriIsGlobal( fileUrl ) )
     fileUrl = this.uriParsePrimitiveOnly( fileUrl );
     else
-    return this.pathNormalize( fileUrl );
+    return this.normalize( fileUrl );
   }
   _.assert( !!fileUrl );
-  fileUrl.localPath = this.pathNormalize( fileUrl.localPath );
+  fileUrl.localPath = this.normalize( fileUrl.localPath );
   return this.uriStr( fileUrl );
 }
 
@@ -485,10 +485,10 @@ function uriNormalizeTolerant( fileUrl )
     if( this.uriIsGlobal( fileUrl ) )
     fileUrl = this.uriParsePrimitiveOnly( fileUrl );
     else
-    return this.pathNormalizeTolerant( fileUrl );
+    return this.normalizeTolerant( fileUrl );
   }
   _.assert( !!fileUrl );
-  fileUrl.localPath = this.pathNormalizeTolerant( fileUrl.localPath );
+  fileUrl.localPath = this.normalizeTolerant( fileUrl.localPath );
   return this.uriStr( fileUrl );
 }
 
@@ -535,7 +535,7 @@ function _uriJoin_body( o )
     if( o.isUri )
     src = self.uriRefine( src );
     else
-    src = self.pathRefine( src );
+    src = self.refine( src );
 
     if( !src )
     return prepending;
@@ -603,7 +603,7 @@ function _uriJoin_body( o )
     let src = o.paths[ a ];
 
     if( !_.strIs( src ) )
-    _.assert( 0,'pathJoin :','expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+    _.assert( 0,'join :','expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
 
     prepending = prepend( src );
     if( prepending === false && !o.isUri )
@@ -671,7 +671,7 @@ function uriJoin()
     if( !result.localPath && src.localPath !== undefined )
     result.localPath = src.localPath;
     else if( src.localPath )
-    result.localPath = this.pathJoin( src.localPath,result.localPath );
+    result.localPath = this.join( src.localPath,result.localPath );
 
     if( src.query !== undefined )
     if( !result.query )
@@ -740,7 +740,7 @@ function uriResolve()
     }
     else
     {
-      result.localPath = this.pathResolve( result.localPath, src.localPath );
+      result.localPath = this.resolve( result.localPath, src.localPath );
     }
 
     if( src.query !== undefined )
@@ -873,7 +873,7 @@ function uriRebase( srcPath, oldPath, newPath )
     delete dstPath.host;
   }
 
-  dstPath.localPath = this.pathRebase( srcPath.localPath, oldPath.localPath, newPath.localPath );
+  dstPath.localPath = this.rebase( srcPath.localPath, oldPath.localPath, newPath.localPath );
 
   return this.uriStr( dstPath );
 }
@@ -890,16 +890,16 @@ function uriName( o )
   _.routineOptions( uriName, o );
 
   if( !this.uriIsGlobal( o.path ) )
-  return this.pathName( o );
+  return this.name( o );
 
   let path = this.uriParse( o.path );
 
   let optionsForName = _.mapExtend( null,o );
   optionsForName.path = path.localPath;
-  return this.pathName( optionsForName );
+  return this.name( optionsForName );
 }
 
-uriName.defaults = Object.create( _.path.pathName.defaults );
+uriName.defaults = Object.create( _.path.name.defaults );
 
 //
 
@@ -911,7 +911,7 @@ function uriExt( path )
   if( this.uriIsGlobal( path ) )
   path = this.uriParse( path ).localPath;
 
-  return this.pathExt( path );
+  return this.ext( path );
 }
 
 //
@@ -924,7 +924,7 @@ function uriExts( path )
   if( this.uriIsGlobal( path ) )
   path = this.uriParse( path ).localPath;
 
-  return this.pathExts( path );
+  return this.exts( path );
 }
 
 //
@@ -936,10 +936,10 @@ function uriChangeExt( path, ext )
   _.assert( _.strIs( ext ) );
 
   if( !this.uriIsGlobal( path ) )
-  return this.pathChangeExt( path, ext );
+  return this.changeExt( path, ext );
 
   path = this.uriParse( path );
-  path.localPath = this.pathChangeExt( path.localPath, ext );
+  path.localPath = this.changeExt( path.localPath, ext );
 
   path.full = null;
   path.origin = null;
@@ -955,10 +955,10 @@ function uriDir( path )
   _.assert( _.strIsNotEmpty( path ) );
 
   if( !this.uriIsGlobal( path ) )
-  return this.pathDir( path );
+  return this.dir( path );
 
   path = this.uriParse( path );
-  path.localPath = this.pathDir( path.localPath );
+  path.localPath = this.dir( path.localPath );
 
   path.full = null;
   path.origin = null;
@@ -1192,7 +1192,7 @@ function uriIsSafe( path )
   if( this.uriIsGlobal( path ) )
   path = this.uriParse( path ).localPath;
 
-  return this.pathIsSafe( path );
+  return this.isSafe( path );
 }
 
 //
@@ -1214,7 +1214,7 @@ function uriIsAbsolute( path )
   if( this.uriIsGlobal( path ) )
   path = this.uriParse( path ).localPath;
 
-  return this.pathIsAbsolute( path );
+  return this.isAbsolute( path );
 }
 
 // --

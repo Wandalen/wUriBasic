@@ -1,6 +1,6 @@
 ( function _Uri_test_s_( ) {
 
-'use strict'; /*aaa*/
+'use strict'; /*zzz*/
 
 if( typeof module !== 'undefined' )
 {
@@ -2435,7 +2435,7 @@ function uriJoin( test )
 
   //
 
-  test.case = 'works like pathJoin';
+  test.case = 'works like join';
   var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
   var expected = '/c/foo/bar';
   var got = _.uri.uriJoin.apply( _.uri, paths );
@@ -2738,7 +2738,7 @@ function uriCommonLocalPaths( test )
 function uriResolve( test )
 {
 
-  var pathCurrent = _.strPrependOnce( _.uri.pathCurrent(), '/' );
+  var current = _.strPrependOnce( _.uri.current(), '/' );
 
   var got = _.uri.uriResolve( 'http://www.site.com:13','a' );
   test.identical( got, 'http://www.site.com:13/a' );
@@ -2924,7 +2924,7 @@ function uriResolve( test )
   test.identical( got, 'https://web.archive.org/web/*\/http://a.com' )
 
   var got = _.uri.uriResolve( '127.0.0.1:61726', '../path'  );
-  test.identical( got, _.uri.pathJoin( _.uri.pathCurrent(),'path' ) )
+  test.identical( got, _.uri.join( _.uri.current(),'path' ) )
 
   var got = _.uri.uriResolve( 'http://127.0.0.1:61726', '../path'  );
   test.identical( got, 'http://127.0.0.1:61726/../path' )
@@ -2944,42 +2944,42 @@ function uriResolve( test )
   test.identical( got, expected );
 
   var paths = [  'aa','.','cc' ];
-  var expected = _.uri.pathJoin( _.uri.pathCurrent(),'aa/cc' );
+  var expected = _.uri.join( _.uri.current(),'aa/cc' );
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  'aa','cc','.' ];
-  var expected = _.uri.pathJoin( _.uri.pathCurrent(),'aa/cc' )
+  var expected = _.uri.join( _.uri.current(),'aa/cc' )
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  '.','aa','cc' ];
-  var expected = _.uri.pathJoin( _.uri.pathCurrent(),'aa/cc' )
+  var expected = _.uri.join( _.uri.current(),'aa/cc' )
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  '.','aa','cc','..' ];
-  var expected = _.uri.pathJoin( _.uri.pathCurrent(),'aa' )
+  var expected = _.uri.join( _.uri.current(),'aa' )
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  '.','aa','cc','..','..' ];
-  var expected = _.uri.pathCurrent();
+  var expected = _.uri.current();
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  'aa','cc','..','..','..' ];
-  var expected = _.uri.pathResolve( _.uri.pathCurrent(),'..' );
+  var expected = _.uri.resolve( _.uri.current(),'..' );
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  '.x.','aa','bb','.x.' ];
-  var expected = _.uri.pathJoin( _.uri.pathCurrent(),'.x./aa/bb/.x.' );
+  var expected = _.uri.join( _.uri.current(),'.x./aa/bb/.x.' );
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
   var paths = [  '..x..','aa','bb','..x..' ];
-  var expected = _.uri.pathJoin( _.uri.pathCurrent(),'..x../aa/bb/..x..' );
+  var expected = _.uri.join( _.uri.current(),'..x../aa/bb/..x..' );
   var got = _.uri.uriResolve.apply( _.uri, paths );
   test.identical( got, expected );
 
@@ -3105,7 +3105,7 @@ function uriName( test )
     'name',
   ]
 
-  test.case = 'uriName works like pathName'
+  test.case = 'uriName works like name'
   paths.forEach( ( path, i ) =>
   {
     var got = _.uri.uriName( path );
@@ -3398,4 +3398,4 @@ Self = wTestSuite( Self );
 if( typeof module !== 'undefined' && !module.parent )
 _.Tester.test( Self );
 
-} )( );
+})();
