@@ -15,9 +15,9 @@
       "email": "volodymyr.migdal@gmail.com"
     }
   ],
-  "main": "staging/dwtools/abase/layer3/Path.s",
+  "main": "staging/dwtools/abase/layer4/Uri.s",
   "files": [
-    "staging/dwtools/abase/layer3",
+    "staging/dwtools/abase/layer4",
     "production"
   ],
   "scripts": {
@@ -32,7 +32,8 @@
     "url": "https://github.com/Wandalen/wUriFundamentals/issues"
   },
   "dependencies": {
-    "wTools": ""
+    "wTools": "",
+    "wpathfundamentals": ""
   },
   "devDependencies": {
     "wTesting": "",
