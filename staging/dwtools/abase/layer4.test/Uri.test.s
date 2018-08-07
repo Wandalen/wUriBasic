@@ -25,8 +25,7 @@ if( typeof module !== 'undefined' )
   var _ = _global_.wTools;
 
   _.include( 'wTesting' );
-
-  require( '../layer3/Path.s' );
+  require( '../layer4/Uri.s' );
 
 }
 
