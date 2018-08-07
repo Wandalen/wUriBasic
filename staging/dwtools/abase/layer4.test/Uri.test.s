@@ -26,7 +26,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wTesting' );
 
-  require( '../layer3/PathFundamentals.s' );
+  require( '../layer3/Path.s' );
 
 }
 
