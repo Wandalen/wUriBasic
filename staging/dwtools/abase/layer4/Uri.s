@@ -57,7 +57,7 @@ function _filterOnlyUrl( e,k,c )
     else
     return false
   }
-  return this.uriIs( e );
+  return this.is( e );
 }
 
 //
@@ -65,6 +65,83 @@ function _filterOnlyUrl( e,k,c )
 function _filterNoInnerArray( arr )
 {
   return arr.every( ( e ) => !_.arrayIs( e ) );
+}
+
+// --
+// uri checker
+// --
+
+  // '^(https?:\\/\\/)?'                                     // define classcol
+  // + '(\\/)?'                                              // relative
+  // + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
+  // + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
+  // + '(\\:\\d+)?'                                          // port
+  // + '(\\/[-a-z\\d%_.~+]*)*'                               // path
+  // + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
+  // + '(\\#[-a-z\\d_]*)?$';                                 // anchor
+
+let isRegExpString =
+  '^([\w\d]*:\\/\\/)?'                                    // define classcol
+  + '(\\/)?'                                              // relative
+  + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
+  + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
+  + '(\\:\\d+)?'                                          // port
+  + '(\\/[-a-z\\d%_.~+]*)*'                               // path
+  + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
+  + '(\\#[-a-z\\d_]*)?$';                                 // anchor
+
+let isRegExp = new RegExp( isRegExpString,'i' );
+function is( uri )
+{
+  _.assert( arguments.length === 1, 'expects single argument' );
+  return _.strIs( path );
+}
+
+//
+
+function isGlobal( fileUrl )
+{
+  _.assert( _.strIs( fileUrl ) );
+  return _.strHas( fileUrl,'://' );
+}
+
+//
+
+function isSafe( path )
+{
+  let parent = Object.getPrototypeOf( this );
+
+  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( _.strIsNotEmpty( path ) );
+
+  if( this.isGlobal( path ) )
+  path = this.parse( path ).localPath;
+
+  return parent.isSafe( path );
+}
+
+//
+
+function isNormalized( path )
+{
+  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( _.strIs( path ) );
+  return this.normalize( path ) === path;
+}
+
+//
+
+function isAbsolute( path )
+{
+  let parent = Object.getPrototypeOf( this );
+
+  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( _.strIsNotEmpty( path ) );
+
+  if( this.isGlobal( path ) )
+  path = this.parse( path ).localPath;
+
+  return parent.isAbsolute( path );
 }
 
 // --
@@ -133,7 +210,7 @@ function _uriParse( o )
     else if( o.srcPath.full )
     o.srcPath = o.srcPath.full;
     else
-    o.srcPath = this.uriStr( o.srcPath );
+    o.srcPath = this.str( o.srcPath );
   }
 
   _.assert( _.strIs( o.srcPath ) );
@@ -166,7 +243,7 @@ function _uriParse( o )
     result.hostWithPort = e[ 2 ];
     if( _.strIs( result.protocol ) || _.strIs( result.hostWithPort ) )
     result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostWithPort;
-    result.full = this.uriStr( result );
+    result.full = this.str( result );
   }
 
   return result;
@@ -188,7 +265,7 @@ _uriParse.components = _uriComponents;
  *
    let uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor'
 
-   wTools.uriParse( uri );
+   wTools.uri.parse( uri );
 
    // {
    //   protocol : 'http',
@@ -207,11 +284,11 @@ _uriParse.components = _uriComponents;
     included into result
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
- * @method uriParse
+ * @method parse
  * @memberof wTools
  */
 
-function uriParse( srcPath )
+function parse( srcPath )
 {
 
   let result = this._uriParse
@@ -225,11 +302,11 @@ function uriParse( srcPath )
   return result;
 }
 
-uriParse.components = _uriComponents;
+parse.components = _uriComponents;
 
 //
 
-function uriParsePrimitiveOnly( srcPath )
+function parsePrimitiveOnly( srcPath )
 {
   let result = this._uriParse
   ({
@@ -242,7 +319,7 @@ function uriParsePrimitiveOnly( srcPath )
   return result;
 }
 
-uriParsePrimitiveOnly.components = _uriComponents;
+parsePrimitiveOnly.components = _uriComponents;
 
 //
 
@@ -260,17 +337,17 @@ uriParsePrimitiveOnly.components = _uriComponents;
        query : 'query=here&and=here',
        hash : 'anchor',
      };
-   wTools.uriStr( UrlComponents );
+   wTools.uri.str( UrlComponents );
    // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
  * @param {UrlComponents} components Components for uri
  * @returns {string} Complete uri string
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
- * @method uriStr
+ * @method str
  * @memberof wTools
  */
 
-function uriStr( components )
+function str( components )
 {
   let result = '';
 
@@ -338,7 +415,7 @@ function uriStr( components )
   return result;
 }
 
-uriStr.components = _uriComponents;
+str.components = _uriComponents;
 
   // define classcol : null, /* 'svn+http' */
   // host : null, /* 'www.site.com' */
@@ -367,75 +444,63 @@ uriStr.components = _uriComponents;
      query : 'query=here&and=here',
      hash : 'anchor',
    };
-   let res = wTools.uriFor(o);
+   let res = wTools.uri.from(o);
    // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
  *
- * @param {UrlComponents} o o for resolving uri
  * @returns {string} composed uri
- * @method uriFor
+ * @method from
  * @memberof wTools
  */
 
-function uriFor( o )
+function from( o )
 {
 
   if( o.full )
-  return this.uriStr( o );
+  return this.str( o );
 
   _.assertMapHasOnly( o, this._uriComponents )
-  let uri = this.uriServer();
+  let uri = this.server();
   // let o = _.mapOnly( o, this._uriComponents );
 
-  let parsed = this.uriParsePrimitiveOnly( uri );
+  let parsed = this.parsePrimitiveOnly( uri );
 
   _.mapExtend( parsed,o );
 
-  return this.uriStr( parsed );
+  return this.str( parsed );
 }
 
 //
 
-function uriRefine( fileUrl )
+function refine( fileUrl )
 {
+  let parent = Object.getPrototypeOf( this );
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( fileUrl ) );
 
-  if( this.uriIsGlobal( fileUrl ) )
-  fileUrl = this.uriParsePrimitiveOnly( fileUrl );
+  if( this.isGlobal( fileUrl ) )
+  fileUrl = this.parsePrimitiveOnly( fileUrl );
   else
-  return this.refine( fileUrl );
+  return parent.refine( fileUrl );
 
   if( _.strIsNotEmpty( fileUrl.localPath ) )
-  fileUrl.localPath = this.refine( fileUrl.localPath );
+  fileUrl.localPath = parent.refine( fileUrl.localPath );
 
-  return this.uriStr( fileUrl );
-
-  // throw _.err( 'deprecated' );
-  //
-  // if( !src.length )
-  // debugger;
-  //
-  // if( !src.length )
-  // return '';
-  //
-  // let result = src.replace( /\\/g,'/' );
-  //
-  // return result;
+  return this.str( fileUrl );
 }
 
 //
 
 let urisRefine = _.routineVectorize_functor
 ({
-  routine : uriRefine,
+  routine : refine,
   vectorizingArray : 1,
   vectorizingMap : 1,
 });
 
 let urisOnlyRefine = _.routineVectorize_functor
 ({
-  routine : uriRefine,
+  routine : refine,
   fieldFilter : _filterOnlyUrl,
   vectorizingArray : 1,
   vectorizingMap : 1,
@@ -443,25 +508,26 @@ let urisOnlyRefine = _.routineVectorize_functor
 
 //
 
-function uriNormalize( fileUrl )
+function normalize( fileUrl )
 {
+  let parent = Object.getPrototypeOf( this );
   if( _.strIs( fileUrl ) )
   {
-    if( this.uriIsGlobal( fileUrl ) )
-    fileUrl = this.uriParsePrimitiveOnly( fileUrl );
+    if( this.isGlobal( fileUrl ) )
+    fileUrl = this.parsePrimitiveOnly( fileUrl );
     else
-    return this.normalize( fileUrl );
+    return parent.normalize( fileUrl );
   }
   _.assert( !!fileUrl );
-  fileUrl.localPath = this.normalize( fileUrl.localPath );
-  return this.uriStr( fileUrl );
+  fileUrl.localPath = parent.normalize( fileUrl.localPath );
+  return this.str( fileUrl );
 }
 
 //
 
 let urisNormalize = _.routineVectorize_functor
 ({
-  routine : uriNormalize,
+  routine : normalize,
   vectorizingArray : 1,
   vectorizingMap : 1,
 });
@@ -470,7 +536,7 @@ let urisNormalize = _.routineVectorize_functor
 
 let urisOnlyNormalize = _.routineVectorize_functor
 ({
-  routine : uriNormalize,
+  routine : normalize,
   fieldFilter : _._filterOnlyPath,
   vectorizingArray : 1,
   vectorizingMap : 1,
@@ -478,18 +544,19 @@ let urisOnlyNormalize = _.routineVectorize_functor
 
 //
 
-function uriNormalizeTolerant( fileUrl )
+function normalizeTolerant( fileUrl )
 {
+  let parent = Object.getPrototypeOf( this );
   if( _.strIs( fileUrl ) )
   {
-    if( this.uriIsGlobal( fileUrl ) )
-    fileUrl = this.uriParsePrimitiveOnly( fileUrl );
+    if( this.isGlobal( fileUrl ) )
+    fileUrl = this.parsePrimitiveOnly( fileUrl );
     else
-    return this.normalizeTolerant( fileUrl );
+    return parent.normalizeTolerant( fileUrl );
   }
   _.assert( !!fileUrl );
-  fileUrl.localPath = this.normalizeTolerant( fileUrl.localPath );
-  return this.uriStr( fileUrl );
+  fileUrl.localPath = parent.normalizeTolerant( fileUrl.localPath );
+  return this.str( fileUrl );
 }
 
 //
@@ -515,25 +582,51 @@ function uriNormalizeTolerant( fileUrl )
 function _uriJoin_body( o )
 {
   let self = this;
-  let result = '';
+  let result = null;
   let prepending = true;
 
   /* */
 
   debugger;
-  _.assert( Object.keys( o ).length === 3 );
+  _.assert( Object.keys( o ).length === 4 );
   _.assert( o.paths.length > 0 );
   _.assert( _.boolLike( o.reroot ) );
+
+  /* */
+
+  for( let a = o.paths.length-1 ; a >= 0 ; a-- )
+  {
+    let src = o.paths[ a ];
+
+    if( o.allowingNull )
+    if( src === null )
+    break;
+
+    if( result === null )
+    result = '';
+
+    _.assert( _.strIs( src ), () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+
+    prepending = prepend( src );
+    if( prepending === false && !o.isUri )
+    break;
+
+  }
+
+  /* */
+
+  if( result === '' )
+  return '.';
+
+  return result;
 
   /* */
 
   function prepend( src )
   {
 
-    _.assert( _.strIs( src ) );
-
     if( o.isUri )
-    src = self.uriRefine( src );
+    src = self.refine( src );
     else
     src = self.refine( src );
 
@@ -596,27 +689,6 @@ function _uriJoin_body( o )
     return prepending;
   }
 
-  /* */
-
-  for( let a = o.paths.length-1 ; a >= 0 ; a-- )
-  {
-    let src = o.paths[ a ];
-
-    if( !_.strIs( src ) )
-    _.assert( 0,'join :','expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
-
-    prepending = prepend( src );
-    if( prepending === false && !o.isUri )
-    break;
-
-  }
-
-  /* */
-
-  if( result === '' )
-  return '.';
-
-  return result;
 }
 
 _uriJoin_body.defaults =
@@ -624,12 +696,14 @@ _uriJoin_body.defaults =
   paths : null,
   reroot : 0,
   isUri : 0,
+  allowingNull : 1,
 }
 
 //
 
-function uriJoin()
+function join()
 {
+  let parent = Object.getPrototypeOf( this );
   let result = Object.create( null );
   let srcs = [];
 
@@ -637,10 +711,10 @@ function uriJoin()
 
   for( let s = 0 ; s < arguments.length ; s++ )
   {
-    if( this.uriIsGlobal( arguments[ s ] ) )
+    if( this.isGlobal( arguments[ s ] ) )
     {
       parsed = true;
-      srcs[ s ] = this.uriParsePrimitiveOnly( arguments[ s ] );
+      srcs[ s ] = this.parsePrimitiveOnly( arguments[ s ] );
     }
     else
     {
@@ -671,7 +745,7 @@ function uriJoin()
     if( !result.localPath && src.localPath !== undefined )
     result.localPath = src.localPath;
     else if( src.localPath )
-    result.localPath = this.join( src.localPath,result.localPath );
+    result.localPath = parent.join( src.localPath, result.localPath );
 
     if( src.query !== undefined )
     if( !result.query )
@@ -687,30 +761,31 @@ function uriJoin()
   if( !parsed )
   return result.localPath;
 
-  return this.uriStr( result );
+  return this.str( result );
 }
 
 //
 
 let urisJoin = _.path._pathMultiplicator_functor
 ({
-  routine : uriJoin
+  routine : join
 });
 
 //
 
-function uriResolve()
+function resolve()
 {
+  let parent = Object.getPrototypeOf( this );
   let result = Object.create( null );
   let srcs = [];
   let parsed = false;
 
   for( let s = 0 ; s < arguments.length ; s++ )
   {
-    if( this.uriIsGlobal( arguments[ s ] ) )
+    if( this.isGlobal( arguments[ s ] ) )
     {
       parsed = true;
-      srcs[ s ] = this.uriParsePrimitiveOnly( arguments[ s ] );
+      srcs[ s ] = this.parsePrimitiveOnly( arguments[ s ] );
     }
     else
     {
@@ -740,7 +815,7 @@ function uriResolve()
     }
     else
     {
-      result.localPath = this.resolve( result.localPath, src.localPath );
+      result.localPath = parent.resolve( result.localPath, src.localPath );
     }
 
     if( src.query !== undefined )
@@ -757,13 +832,14 @@ function uriResolve()
   if( !parsed )
   return result.localPath;
 
-  return this.uriStr( result );
+  return this.str( result );
 }
 
 //
 
-function uriRelative( o )
+function relative( o )
 {
+  let parent = Object.getPrototypeOf( this );
 
   if( arguments[ 1 ] !== undefined )
   {
@@ -771,29 +847,30 @@ function uriRelative( o )
   }
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( this._pathRelative, o );
+  _.routineOptions( this._relative, o );
 
-  if( !this.uriIsGlobal( o.relative ) && !this.uriIsGlobal( o.path ) )
-  return this._pathRelative( o );
+  if( !this.isGlobal( o.relative ) && !this.isGlobal( o.path ) )
+  return this._relative( o );
 
-  let relative = this.uriParsePrimitiveOnly( o.relative );
-  let path = this.uriParsePrimitiveOnly( o.path );
+  let relative = this.parsePrimitiveOnly( o.relative );
+  let path = this.parsePrimitiveOnly( o.path );
 
   let optionsForPath = _.mapExtend( null,o );
   optionsForPath.relative = relative.localPath;
   optionsForPath.path = path.localPath;
 
-  relative.localPath = this._pathRelative( optionsForPath );
+  relative.localPath = this._relative( optionsForPath );
 
-  return this.uriStr( relative );
+  return this.str( relative );
 }
 
-uriRelative.defaults = Object.create( _.path._pathRelative.defaults );
+relative.defaults = Object.create( _.path._relative.defaults );
 
 //
 
-function uriCommon( uris )
+function common( uris )
 {
+  let parent = Object.getPrototypeOf( this );
   let self = this;
 
   _.assert( arguments.length === 1, 'expects single argument' );
@@ -820,13 +897,13 @@ function uriCommon( uris )
       return result;
     }
 
-    result.localPath = this._pathCommon( currentUrl.localPath, result.localPath );
+    result.localPath = this._common( currentUrl.localPath, result.localPath );
   }
 
   if( onlyLocals )
   return result.localPath;
 
-  return this.uriStr( result );
+  return this.str( result );
 
   /* */
 
@@ -834,9 +911,9 @@ function uriCommon( uris )
   {
     let result;
 
-    if( self.uriIsGlobal( uri ) )
+    if( self.isGlobal( uri ) )
     {
-      result = self.uriParsePrimitiveOnly( uri );
+      result = self.parsePrimitiveOnly( uri );
       onlyLocals = false;
     }
     else
@@ -851,13 +928,14 @@ function uriCommon( uris )
 
 //
 
-function uriRebase( srcPath, oldPath, newPath )
+function rebase( srcPath, oldPath, newPath )
 {
+  let parent = Object.getPrototypeOf( this );
   _.assert( arguments.length === 3, 'expects exactly three argument' );
 
-  srcPath = this.uriParsePrimitiveOnly( srcPath );
-  oldPath = this.uriParsePrimitiveOnly( oldPath );
-  newPath = this.uriParsePrimitiveOnly( newPath );
+  srcPath = this.parsePrimitiveOnly( srcPath );
+  oldPath = this.parsePrimitiveOnly( oldPath );
+  newPath = this.parsePrimitiveOnly( newPath );
 
   let dstPath = _.mapExtend( null,srcPath,newPath );
 
@@ -873,97 +951,106 @@ function uriRebase( srcPath, oldPath, newPath )
     delete dstPath.host;
   }
 
-  dstPath.localPath = this.rebase( srcPath.localPath, oldPath.localPath, newPath.localPath );
+  dstPath.localPath = parent.rebase( srcPath.localPath, oldPath.localPath, newPath.localPath );
 
-  return this.uriStr( dstPath );
+  return this.str( dstPath );
 }
 
 //
 
-function uriName( o )
+function name( o )
 {
+  let parent = Object.getPrototypeOf( this );
   if( _.strIs( o ) )
   o = { path : o }
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( o.path ) );
-  _.routineOptions( uriName, o );
+  _.routineOptions( name, o );
 
-  if( !this.uriIsGlobal( o.path ) )
-  return this.name( o );
+  if( !this.isGlobal( o.path ) )
+  return parent.name( o );
 
-  let path = this.uriParse( o.path );
+  let path = this.parse( o.path );
 
   let optionsForName = _.mapExtend( null,o );
   optionsForName.path = path.localPath;
-  return this.name( optionsForName );
+  return parent.name( optionsForName );
 }
 
-uriName.defaults = Object.create( _.path.name.defaults );
+name.defaults = Object.create( _.path.name.defaults );
 
 //
 
-function uriExt( path )
+function ext( path )
 {
+  let parent = Object.getPrototypeOf( this );
+
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
 
-  if( this.uriIsGlobal( path ) )
-  path = this.uriParse( path ).localPath;
+  if( this.isGlobal( path ) )
+  path = this.parse( path ).localPath;
 
-  return this.ext( path );
+  return parent.ext( path );
 }
 
 //
 
-function uriExts( path )
+function exts( path )
 {
+  let parent = Object.getPrototypeOf( this );
+
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
 
-  if( this.uriIsGlobal( path ) )
-  path = this.uriParse( path ).localPath;
+  if( this.isGlobal( path ) )
+  path = this.parse( path ).localPath;
 
-  return this.exts( path );
+  return parent.exts( path );
 }
 
 //
 
-function uriChangeExt( path, ext )
+function changeExt( path, ext )
 {
+  let parent = Object.getPrototypeOf( this );
+
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( _.strIsNotEmpty( path ) );
   _.assert( _.strIs( ext ) );
 
-  if( !this.uriIsGlobal( path ) )
-  return this.changeExt( path, ext );
+  if( !this.isGlobal( path ) )
+  return parent.changeExt( path, ext );
 
-  path = this.uriParse( path );
+  path = this.parse( path );
   path.localPath = this.changeExt( path.localPath, ext );
 
   path.full = null;
   path.origin = null;
 
-  return this.uriStr( path );
+  return this.str( path );
 }
 
 //
 
-function uriDir( path )
+function dir( path )
 {
+  let parent = Object.getPrototypeOf( this );
+
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
 
-  if( !this.uriIsGlobal( path ) )
-  return this.dir( path );
+  if( !this.isGlobal( path ) )
+  return parent.dir( path );
 
-  path = this.uriParse( path );
+  path = this.parse( path );
   path.localPath = this.dir( path.localPath );
 
   path.full = null;
   path.origin = null;
 
-  return this.uriStr( path );
+  return this.str( path );
 }
 
 //
@@ -973,18 +1060,18 @@ function uriDir( path )
  * @example
  *
    let path = 'https://www.site.com:13/path/name?query=here&and=here#anchor';
-   wTools.uriDocument( path, { withoutProtocol : 1 } );
+   wTools.uri.uri.documentGet( path, { withoutProtocol : 1 } );
    // 'www.site.com:13/path/name'
  * @param {string} path uri string
- * @param {Object} [o] uriDocument o
+ * @param {Object} [o] o - options
  * @param {boolean} o.withoutServer if true rejects origin part from result
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
- * @method uriDocument
+ * @method documentGet
  * @memberof wTools
  */
 
-function uriDocument( path, o )
+function documentGet( path, o )
 {
   o = o || Object.create( null );
 
@@ -1015,7 +1102,7 @@ function uriDocument( path, o )
 
 }
 
-uriDocument.defaults =
+documentGet.defaults =
 {
   path : null,
   withoutServer : null,
@@ -1030,15 +1117,15 @@ uriDocument.defaults =
  * @example
  *
    let path = 'http://www.site.com:13/path/name?query=here'
-   wTools.uriServer( path );
+   wTools.uri.server( path );
    // 'http://www.site.com:13/'
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
- * @method uriServer
+ * @method server
  * @memberof wTools
  */
 
-function uriServer( path )
+function server( path )
 {
   let a,b;
 
@@ -1067,14 +1154,14 @@ function uriServer( path )
  * Returns query part of uri. If method is called without arguments, it returns current query of current document uri.
  * @example
    let uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor',
-   wTools.uriQuery( uri ); // 'query=here&and=here#anchor'
+   wTools.uri.query( uri ); // 'query=here&and=here#anchor'
  * @param {string } [path] uri
  * @returns {string}
- * @method uriQuery
+ * @method query
  * @memberof wTools
  */
 
-function uriQuery( path )
+function query( path )
 {
 
   if( path === undefined )
@@ -1093,7 +1180,7 @@ function uriQuery( path )
  *
    let query = 'k1=&k2=v2%20v3&k3=v4_v4';
 
-   let res = wTools.uriDequery( query );
+   let res = wTools.uri.dequery( query );
    // {
    //   k1 : '',
    //   k2 : 'v2 v3',
@@ -1102,11 +1189,11 @@ function uriQuery( path )
 
  * @param {string} query query string
  * @returns {Object}
- * @method uriDequery
+ * @method dequery
  * @memberof wTools
  */
 
-function uriDequery( query )
+function dequery( query )
 {
 
   let result = Object.create( null );
@@ -1145,79 +1232,6 @@ function uriDequery( query )
 }
 
 // --
-// uri tester
-// --
-
-  // '^(https?:\\/\\/)?'                                     // define classcol
-  // + '(\\/)?'                                              // relative
-  // + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
-  // + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
-  // + '(\\:\\d+)?'                                          // port
-  // + '(\\/[-a-z\\d%_.~+]*)*'                               // path
-  // + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
-  // + '(\\#[-a-z\\d_]*)?$';                                 // anchor
-
-let uriIsRegExpString =
-  '^([\w\d]*:\\/\\/)?'                                    // define classcol
-  + '(\\/)?'                                              // relative
-  + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
-  + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
-  + '(\\:\\d+)?'                                          // port
-  + '(\\/[-a-z\\d%_.~+]*)*'                               // path
-  + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
-  + '(\\#[-a-z\\d_]*)?$';                                 // anchor
-
-let uriIsRegExp = new RegExp( uriIsRegExpString,'i' );
-function uriIs( uri )
-{
-  _.assert( arguments.length === 1, 'expects single argument' );
-  return _.strIs( path );
-}
-
-//
-
-function uriIsGlobal( fileUrl )
-{
-  _.assert( _.strIs( fileUrl ) );
-  return _.strHas( fileUrl,'://' );
-}
-
-//
-
-function uriIsSafe( path )
-{
-  _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
-
-  if( this.uriIsGlobal( path ) )
-  path = this.uriParse( path ).localPath;
-
-  return this.isSafe( path );
-}
-
-//
-
-function uriIsNormalized( path )
-{
-  _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIs( path ) );
-  return this.uriNormalize( path ) === path;
-}
-
-//
-
-function uriIsAbsolute( path )
-{
-  _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
-
-  if( this.uriIsGlobal( path ) )
-  path = this.uriParse( path ).localPath;
-
-  return this.isAbsolute( path );
-}
-
-// --
 // declare Fields
 // --
 
@@ -1240,57 +1254,57 @@ let Routines =
   _filterOnlyUrl : _filterOnlyUrl,
   _filterNoInnerArray : _filterNoInnerArray,
 
+  // uri checker
+
+  is : is,
+  isGlobal : isGlobal,
+  isSafe : isSafe,
+  isNormalized : isNormalized,
+  isAbsolute : isAbsolute,
+
   // uri
 
   _uriParse : _uriParse,
-  uriParse : uriParse,
-  uriParsePrimitiveOnly : uriParsePrimitiveOnly,
+  parse : parse,
+  parsePrimitiveOnly : parsePrimitiveOnly,
 
-  uriStr : uriStr,
-  uriFor : uriFor,
+  str : str,
+  from : from,
 
-  uriRefine : uriRefine,
+  refine : refine,
   urisRefine : urisRefine,
   urisOnlyRefine : urisOnlyRefine,
 
-  uriNormalize : uriNormalize,
+  normalize : normalize,
   urisNormalize : urisNormalize,
   urisOnlyNormalize : urisOnlyNormalize,
 
-  uriNormalizeTolerant : uriNormalizeTolerant,
+  normalizeTolerant : normalizeTolerant,
 
   _uriJoin_body : _uriJoin_body,
-  uriJoin : uriJoin,
+  join : join,
   urisJoin : urisJoin,
 
-  uriResolve : uriResolve,
-  uriRelative : uriRelative,
-  uriCommon : uriCommon,
-  uriRebase : uriRebase,
+  resolve : resolve,
+  relative : relative,
+  common : common,
+  rebase : rebase,
 
-  uriName : uriName,
-  uriExt : uriExt,
-  uriExts : uriExts,
-  uriChangeExt : uriChangeExt,
-  uriDir : uriDir,
+  name : name,
+  ext : ext,
+  exts : exts,
+  changeExt : changeExt,
+  dir : dir,
 
-  uriDocument : uriDocument,
-  uriServer : uriServer,
-  uriQuery : uriQuery,
-  uriDequery : uriDequery,
-
-  // uri tester
-
-  uriIs : uriIs,
-  uriIsGlobal : uriIsGlobal,
-  uriIsSafe : uriIsSafe,
-  uriIsNormalized : uriIsNormalized,
-  uriIsAbsolute : uriIsAbsolute,
+  documentGet : documentGet,
+  server : server,
+  query : query,
+  dequery : dequery,
 
 }
 
-_.mapSupplement( Self, Fields );
-_.mapSupplement( Self, Routines );
+_.mapSupplementOwn( Self, Fields );
+_.mapSupplementOwn( Self, Routines );
 
 // --
 // export
