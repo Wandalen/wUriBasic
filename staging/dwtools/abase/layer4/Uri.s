@@ -431,43 +431,44 @@ str.components = _uriComponents;
   // full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
 
 //
-
-/**
- * Complements current window uri origin by components passed in o.
- * All components of current origin is replaced by appropriates components from o if they exist.
- * If { o.full } exists and valid, method returns it.
- * @example
- * // current uri http://www.site.com:13/foo/baz
-   let components =
-   {
-     localPath : '/path/name',
-     query : 'query=here&and=here',
-     hash : 'anchor',
-   };
-   let res = wTools.uri.from(o);
-   // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
- *
- * @returns {string} composed uri
- * @method from
- * @memberof wTools
- */
-
-function from( o )
-{
-
-  if( o.full )
-  return this.str( o );
-
-  _.assertMapHasOnly( o, this._uriComponents )
-  let uri = this.server();
-  // let o = _.mapOnly( o, this._uriComponents );
-
-  let parsed = this.parsePrimitiveOnly( uri );
-
-  _.mapExtend( parsed,o );
-
-  return this.str( parsed );
-}
+//
+// /**
+//  * Complements current window uri origin by components passed in o.
+//  * All components of current origin is replaced by appropriates components from o if they exist.
+//  * If { o.full } exists and valid, method returns it.
+//  * @example
+//  * // current uri http://www.site.com:13/foo/baz
+//    let components =
+//    {
+//      localPath : '/path/name',
+//      query : 'query=here&and=here',
+//      hash : 'anchor',
+//    };
+//    let res = wTools.uri.from(o);
+//    // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+//  *
+//  * @returns {string} composed uri
+//  * @method from
+//  * @memberof wTools
+//  */
+//
+// function from( o )
+// {
+//
+//   _.assert( arguments.length === 1 );
+//   _.assert( _.mapIs( o ) );
+//   _.assertMapHasOnly( o, this._uriComponents );
+//
+//   if( o.full )
+//   return this.str( o );
+//
+//   let currentUri = this.server();
+//   let carentParsed = this.parsePrimitiveOnly( currentUri );
+//
+//   _.mapExtend( carentParsed, o );
+//
+//   return this.str( carentParsed );
+// }
 
 //
 
@@ -1269,7 +1270,7 @@ let Routines =
   parsePrimitiveOnly : parsePrimitiveOnly,
 
   str : str,
-  from : from,
+  // from : from,
 
   refine : refine,
   urisRefine : urisRefine,

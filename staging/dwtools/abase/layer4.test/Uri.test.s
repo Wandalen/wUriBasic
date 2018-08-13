@@ -1505,28 +1505,26 @@ function parse( test )
   }
   test.identical( got, expected );
 
-  if( Config.debug )  /* */
+  if( !Config.debug )  /* */
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
   {
+    _.uri.parse();
+  });
 
-    test.case = 'missed arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.uri.parse();
-    });
+  test.case = 'redundant argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parse( 'http://www.site.com:13/path/name?query=here&and=here#anchor','' );
+  });
 
-    test.case = 'redundant argument';
-    test.shouldThrowErrorSync( function()
-    {
-      _.uri.parse( 'http://www.site.com:13/path/name?query=here&and=here#anchor','' );
-    });
-
-    test.case = 'argument is not string';
-    test.shouldThrowErrorSync( function()
-    {
-      _.uri.parse( 34 );
-    });
-
-  }
+  test.case = 'argument is not string';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parse( 34 );
+  });
 
 }
 
@@ -1876,51 +1874,49 @@ function str( test )
 
   //
 
-  if( Config.debug )
+  if( !Config.debug )
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
   {
+    _.uri.str();
+  });
 
-    test.case = 'missed arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.uri.str();
-    });
+  test.case = 'argument is not uri component object';
+  test.shouldThrowErrorSync( function()
+  {
+    debugger
+    _.uri.str( uri );
+  });
 
-    test.case = 'argument is not uri component object';
-    test.shouldThrowErrorSync( function()
-    {
-      debugger
-      _.uri.str( uri );
-    });
-
-  }
 }
 
 //
-
-function from( test )
-{
-  var string = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var options1 =
-  {
-    full : string,
-  }
-  var expected1 = string;
-
-  test.case = 'call with options.uri';
-  var got = _.uri.from( options1 );
-  test.contains( got, expected1 );
-
-  if( Config.debug )
-  {
-
-    test.case = 'missed arguments';
-    test.shouldThrowErrorSync( function()
-    {
-      _.uri.from();
-    });
-
-  }
-}
+//
+// function from( test )
+// {
+//   var string = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+//   var options1 =
+//   {
+//     full : string,
+//   }
+//   var expected1 = string;
+//
+//   test.case = 'call with options.uri';
+//   var got = _.uri.from( options1 );
+//   test.contains( got, expected1 );
+//
+//   if( !Config.debug )
+//   return;
+//
+//   test.case = 'missed arguments';
+//   test.shouldThrowErrorSync( function()
+//   {
+//     _.uri.from();
+//   });
+//
+// }
 
 //
 
@@ -3373,7 +3369,7 @@ var Self =
     urisRefine : urisRefine,
     parse : parse,
     str : str,
-    from : from,
+    // from : from,
     documentGet : documentGet,
     server : server,
     query : query,
