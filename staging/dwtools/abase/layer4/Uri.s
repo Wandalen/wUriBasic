@@ -91,7 +91,7 @@ let isRegExpString =
   + '(\\#[-a-z\\d_]*)?$';                                 // anchor
 
 let isRegExp = new RegExp( isRegExpString,'i' );
-function is( uri )
+function is( path )
 {
   _.assert( arguments.length === 1, 'expects single argument' );
   return _.strIs( path );
@@ -99,10 +99,10 @@ function is( uri )
 
 //
 
-function isGlobal( fileUrl )
+function isGlobal( path )
 {
-  _.assert( _.strIs( fileUrl ) );
-  return _.strHas( fileUrl,'://' );
+  _.assert( _.strIs( path ) );
+  return _.strHas( path,'://' );
 }
 
 //
@@ -472,22 +472,22 @@ str.components = _uriComponents;
 
 //
 
-function refine( fileUrl )
+function refine( fileUri )
 {
   let parent = Object.getPrototypeOf( this );
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( fileUrl ) );
+  _.assert( _.strIsNotEmpty( fileUri ) );
 
-  if( this.isGlobal( fileUrl ) )
-  fileUrl = this.parsePrimitiveOnly( fileUrl );
+  if( this.isGlobal( fileUri ) )
+  fileUri = this.parsePrimitiveOnly( fileUri );
   else
-  return parent.refine( fileUrl );
+  return parent.refine( fileUri );
 
-  if( _.strIsNotEmpty( fileUrl.localPath ) )
-  fileUrl.localPath = parent.refine( fileUrl.localPath );
+  if( _.strIsNotEmpty( fileUri.localPath ) )
+  fileUri.localPath = parent.refine( fileUri.localPath );
 
-  return this.str( fileUrl );
+  return this.str( fileUri );
 }
 
 //
@@ -509,19 +509,19 @@ let urisOnlyRefine = _.routineVectorize_functor
 
 //
 
-function normalize( fileUrl )
+function normalize( fileUri )
 {
   let parent = Object.getPrototypeOf( this );
-  if( _.strIs( fileUrl ) )
+  if( _.strIs( fileUri ) )
   {
-    if( this.isGlobal( fileUrl ) )
-    fileUrl = this.parsePrimitiveOnly( fileUrl );
+    if( this.isGlobal( fileUri ) )
+    fileUri = this.parsePrimitiveOnly( fileUri );
     else
-    return parent.normalize( fileUrl );
+    return parent.normalize( fileUri );
   }
-  _.assert( !!fileUrl );
-  fileUrl.localPath = parent.normalize( fileUrl.localPath );
-  return this.str( fileUrl );
+  _.assert( !!fileUri );
+  fileUri.localPath = parent.normalize( fileUri.localPath );
+  return this.str( fileUri );
 }
 
 //
@@ -545,19 +545,19 @@ let urisOnlyNormalize = _.routineVectorize_functor
 
 //
 
-function normalizeTolerant( fileUrl )
+function normalizeTolerant( fileUri )
 {
   let parent = Object.getPrototypeOf( this );
-  if( _.strIs( fileUrl ) )
+  if( _.strIs( fileUri ) )
   {
-    if( this.isGlobal( fileUrl ) )
-    fileUrl = this.parsePrimitiveOnly( fileUrl );
+    if( this.isGlobal( fileUri ) )
+    fileUri = this.parsePrimitiveOnly( fileUri );
     else
-    return parent.normalizeTolerant( fileUrl );
+    return parent.normalizeTolerant( fileUri );
   }
-  _.assert( !!fileUrl );
-  fileUrl.localPath = parent.normalizeTolerant( fileUrl.localPath );
-  return this.str( fileUrl );
+  _.assert( !!fileUri );
+  fileUri.localPath = parent.normalizeTolerant( fileUri.localPath );
+  return this.str( fileUri );
 }
 
 //
