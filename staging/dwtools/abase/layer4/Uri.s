@@ -712,7 +712,11 @@ function join()
 
   for( let s = 0 ; s < arguments.length ; s++ )
   {
-    if( this.isGlobal( arguments[ s ] ) )
+    if( !arguments[ s ] )
+    {
+      srcs[ s ] = null;
+    }
+    else if( this.isGlobal( arguments[ s ] ) )
     {
       parsed = true;
       srcs[ s ] = this.parsePrimitiveOnly( arguments[ s ] );
@@ -726,6 +730,9 @@ function join()
   for( let s = srcs.length-1 ; s >= 0 ; s-- )
   {
     let src = srcs[ s ];
+
+    if( src === null )
+    break;
 
     if( result.protocol && src.protocol )
     if( result.protocol !== src.protocol )
