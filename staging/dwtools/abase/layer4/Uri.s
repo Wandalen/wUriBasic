@@ -285,7 +285,7 @@ _uriParse.components = _uriComponents;
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
  * @method parse
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function parse( srcPath )
@@ -344,7 +344,7 @@ parsePrimitiveOnly.components = _uriComponents;
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
  * @method str
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function str( components )
@@ -358,7 +358,7 @@ function str( components )
 
   if( components.full )
   {
-    _.assert( _.strIs( components.full ) && components.full );
+    _.assert( _.strIsNotEmpty( components.full ) );
     return components.full;
   }
 
@@ -449,7 +449,7 @@ str.components = _uriComponents;
 //  *
 //  * @returns {string} composed uri
 //  * @method from
-//  * @memberof wTools
+//  * @memberof wTools.uri
 //  */
 //
 // function from( o )
@@ -469,6 +469,50 @@ str.components = _uriComponents;
 //
 //   return this.str( carentParsed );
 // }
+
+//
+
+/**
+ * Complements current window uri origin by components passed in o.
+ * All components of current origin is replaced by appropriates components from o if they exist.
+ * If { o.full } exists and valid, method returns it.
+ * @example
+ * // current uri http://www.site.com:13/foo/baz
+   let components =
+   {
+     localPath : '/path/name',
+     query : 'query=here&and=here',
+     hash : 'anchor',
+   };
+   let res = wTools.uri.full( o );
+   // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+ *
+ * @returns {string} composed uri
+ * @method full
+ * @memberof wTools.uri
+ */
+
+function full( o )
+{
+
+  _.assert( arguments.length === 1 );
+  _.assert( this.is( o ) || _.mapIs( o ) );
+
+  if( _.strIs( o ) )
+  o = this.parsePrimitiveOnly( o )
+
+  _.assertMapHasOnly( o, this._uriComponents );
+
+  // if( o.full )
+  // return this.str( o );
+
+  let serverUri = this.server();
+  let serverParsed = this.parsePrimitiveOnly( serverUri );
+
+  _.mapExtend( serverParsed, o );
+
+  return this.str( serverParsed );
+}
 
 //
 
@@ -577,7 +621,7 @@ function normalizeTolerant( fileUri )
  * @throws {Error} If elements of `paths` are not strings
  * @throws {Error} If o has extra parameters.
  * @method _uriJoin_body
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function _uriJoin_body( o )
@@ -1069,7 +1113,7 @@ function dir( path )
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
  * @method documentGet
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function documentGet( path, o )
@@ -1123,7 +1167,7 @@ documentGet.defaults =
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
  * @method server
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function server( path )
@@ -1159,7 +1203,7 @@ function server( path )
  * @param {string } [path] uri
  * @returns {string}
  * @method query
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function query( path )
@@ -1191,7 +1235,7 @@ function query( path )
  * @param {string} query query string
  * @returns {Object}
  * @method dequery
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function dequery( query )
@@ -1270,6 +1314,7 @@ let Routines =
   parsePrimitiveOnly : parsePrimitiveOnly,
 
   str : str,
+  full : full,
   // from : from,
 
   refine : refine,
