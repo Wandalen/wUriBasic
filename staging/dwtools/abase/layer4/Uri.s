@@ -642,6 +642,14 @@ function _uriJoin_body( o )
   for( let a = o.paths.length-1 ; a >= 0 ; a-- )
   {
     let src = o.paths[ a ];
+    _.sure( _.strIs( src ) || src === null, () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+  }
+
+  /* */
+
+  for( let a = o.paths.length-1 ; a >= 0 ; a-- )
+  {
+    let src = o.paths[ a ];
 
     if( o.allowingNull )
     if( src === null )
@@ -650,7 +658,7 @@ function _uriJoin_body( o )
     if( result === null )
     result = '';
 
-    _.assert( _.strIs( src ), () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+    // _.assert( _.strIs( src ), () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
 
     prepending = prepend( src );
     if( prepending === false && !o.isUri )
