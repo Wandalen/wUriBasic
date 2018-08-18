@@ -762,9 +762,11 @@ function join()
 
   let parsed = false;
 
+  /* */
+
   for( let s = 0 ; s < arguments.length ; s++ )
   {
-    if( this.isGlobal( arguments[ s ] ) )
+    if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
     {
       parsed = true;
       srcs[ s ] = this.parsePrimitiveOnly( arguments[ s ] );
@@ -774,6 +776,8 @@ function join()
       srcs[ s ] = { localPath : arguments[ s ] };
     }
   }
+
+  /* */
 
   for( let s = srcs.length-1 ; s >= 0 ; s-- )
   {
@@ -810,6 +814,8 @@ function join()
     result.hash = src.hash;
 
   }
+
+  /* */
 
   if( !parsed )
   return result.localPath;
