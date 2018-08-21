@@ -109,7 +109,7 @@ function isGlobal( path )
 
 function isSafe( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -133,7 +133,7 @@ function isNormalized( path )
 
 function isAbsolute( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -518,7 +518,7 @@ function full( o )
 
 function refine( fileUri )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( fileUri ) );
@@ -555,7 +555,7 @@ let urisOnlyRefine = _.routineVectorize_functor
 
 function normalize( fileUri )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   if( _.strIs( fileUri ) )
   {
     if( this.isGlobal( fileUri ) )
@@ -591,7 +591,7 @@ let urisOnlyNormalize = _.routineVectorize_functor
 
 function normalizeTolerant( fileUri )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   if( _.strIs( fileUri ) )
   {
     if( this.isGlobal( fileUri ) )
@@ -756,10 +756,9 @@ _uriJoin_body.defaults =
 
 function join()
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   let result = Object.create( null );
   let srcs = [];
-
   let parsed = false;
 
   /* */
@@ -834,7 +833,7 @@ let urisJoin = _.path._pathMultiplicator_functor
 
 function resolve()
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   let result = Object.create( null );
   let srcs = [];
   let parsed = false;
@@ -898,7 +897,7 @@ function resolve()
 
 function relative( o )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   if( arguments[ 1 ] !== undefined )
   {
@@ -929,7 +928,7 @@ relative.defaults = Object.create( _.path._relative.defaults );
 
 function common( uris )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   let self = this;
 
   _.assert( arguments.length === 1, 'expects single argument' );
@@ -989,7 +988,7 @@ function common( uris )
 
 function rebase( srcPath, oldPath, newPath )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   _.assert( arguments.length === 3, 'expects exactly three argument' );
 
   srcPath = this.parsePrimitiveOnly( srcPath );
@@ -1019,7 +1018,7 @@ function rebase( srcPath, oldPath, newPath )
 
 function name( o )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   if( _.strIs( o ) )
   o = { path : o }
 
@@ -1043,7 +1042,7 @@ name.defaults = Object.create( _.path.name.defaults );
 
 function ext( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -1058,7 +1057,7 @@ function ext( path )
 
 function exts( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -1073,7 +1072,7 @@ function exts( path )
 
 function changeExt( path, ext )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -1095,7 +1094,7 @@ function changeExt( path, ext )
 
 function dir( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
