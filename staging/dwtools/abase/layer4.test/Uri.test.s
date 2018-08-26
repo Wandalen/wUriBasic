@@ -1,6 +1,6 @@
 ( function _Uri_test_s_( ) {
 
-'use strict'; /*zzz*/
+'use strict';
 
 if( typeof module !== 'undefined' )
 {
@@ -32,11 +32,49 @@ if( typeof module !== 'undefined' )
 var _global = _global_;
 var _ = _global_.wTools;
 
+// --
+//
+// --
+
+function isRelative( test )
+{
+
+  test.case = 'relative with protocol'; /* */
+
+  var path = 'ext://.';
+  var expected = true;
+  var got = _.uri.isRelative( path );
+  test.identical( got, expected );
+
+  test.case = 'relative with protocol and folder'; /* */
+
+  var path = 'ext://something';
+  var expected = true;
+  var got = _.uri.isRelative( path );
+  test.identical( got, expected );
+
+  test.case = 'relative with protocol and 2 folders'; /* */
+
+  var path = 'ext://something/longer';
+  var expected = true;
+  debugger;
+  var got = _.uri.isRelative( path );
+  debugger;
+  test.identical( got, expected );
+
+  test.case = 'absolute with protocol'; /* */
+
+  var path = 'ext:///';
+  var expected = false;
+  var got = _.uri.isRelative( path );
+  test.identical( got, expected );
+
+}
+
 //
 
 function normalize( test )
 {
-  var got;
 
   test.case = 'dot at end'; /* */
 
@@ -1211,7 +1249,41 @@ function parse( test )
 
   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
 
-  test.case = 'full uri with all components';  /* */
+  /* */
+
+  test.case = 'no protocol';
+
+  var uri = '127.0.0.1:61726/../path';
+
+  var expected =
+  {
+    localPath : '127.0.0.1:61726/../path',
+    longPath : '127.0.0.1:61726/../path',
+    protocols : [],
+    full : '127.0.0.1:61726/../path'
+  }
+  var got = _.uri.parse( uri );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    localPath : '127.0.0.1:61726/../path'
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    longPath : '127.0.0.1:61726/../path'
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'full uri with all components';
 
   var expected =
   {
@@ -1221,6 +1293,7 @@ function parse( test )
     localPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
+    longPath : 'www.site.com:13/path/name',
     protocols : [ 'http' ],
     hostWithPort : 'www.site.com:13',
     origin : 'http://www.site.com:13',
@@ -1238,11 +1311,12 @@ function parse( test )
     host : 'www.site.com',
     port : '13',
     localPath : '/path/name',
+    // longPath : 'www.site.com:13/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
 
-  var got = _.uri.parsePrimitiveOnly( uri1 );
+  var got = _.uri.parseAtomic( uri1 );
   test.identical( got, expected );
 
   test.case = 'reparse with non primitives';
@@ -1256,11 +1330,11 @@ function parse( test )
     query : 'query=here&and=here',
     hash : 'anchor',
 
+    longPath : 'www.site.com:13/path/name',
     protocols : [ 'http' ],
     hostWithPort : 'www.site.com:13',
     origin : 'http://www.site.com:13',
     full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
-
   }
 
   var parsed = got;
@@ -1278,9 +1352,10 @@ function parse( test )
     localPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
+    // longPath : 'www.site.com:13/path/name',
   }
 
-  var got = _.uri.parsePrimitiveOnly( uri1 );
+  var got = _.uri.parseAtomic( uri1 );
   test.identical( got, expected );
 
   test.case = 'uri with zero length protocol'; /* */
@@ -1292,7 +1367,8 @@ function parse( test )
     protocol : '',
     host : 'some.domain.com',
     localPath : '/something/to/add',
-    protocols : [ '' ],
+    longPath : 'some.domain.com/something/to/add',
+    protocols : [],
     hostWithPort : 'some.domain.com',
     origin : '://some.domain.com',
     full : '://some.domain.com/something/to/add',
@@ -1310,6 +1386,7 @@ function parse( test )
     protocol : 'file',
     host : '',
     localPath : '/something/to/add',
+    longPath : '/something/to/add',
     protocols : [ 'file' ],
     hostWithPort : '',
     origin : 'file://',
@@ -1328,6 +1405,7 @@ function parse( test )
     protocol : 'svn+https',
     host : 'user@subversion.com',
     localPath : '/svn/trunk',
+    longPath : 'user@subversion.com/svn/trunk',
     protocols : [ 'svn','https' ],
     hostWithPort : 'user@subversion.com',
     origin : 'svn+https://user@subversion.com',
@@ -1344,6 +1422,7 @@ function parse( test )
   var expected =
   {
     localPath : '/some/file',
+    longPath : '/some/file',
     protocols : [],
     full : '/some/file',
   }
@@ -1351,17 +1430,48 @@ function parse( test )
   var got = _.uri.parse( uri );
   test.identical( got, expected );
 
-  test.case = 'simple path'; /* */
+  test.case = 'without ":"'; /* */
 
   var uri = '//some.domain.com/was';
   var expected =
   {
+    localPath : '//some.domain.com/was',
+    longPath : '//some.domain.com/was',
+    protocols : [],
+    full : '//some.domain.com/was'
+  }
+
+  var got = _.uri.parse( uri );
+  test.identical( got, expected );
+
+  test.case = 'with ":"'; /* */
+
+  var uri = '://some.domain.com/was';
+  var expected =
+  {
+    protocol : '',
     host : 'some.domain.com',
     localPath : '/was',
-    protocols : [],
+    longPath : 'some.domain.com/was',
+    protocols : [ '' ],
     hostWithPort : 'some.domain.com',
-    origin : '//some.domain.com',
-    full : '//some.domain.com/was',
+    origin : '://some.domain.com',
+    full : '://some.domain.com/was'
+  }
+
+  test.case = 'with ":" and protocol'; /* */
+
+  var uri = 'protocol://some.domain.com/was';
+  var expected =
+  {
+    protocol : 'protocol',
+    host : 'some.domain.com',
+    localPath : '/was',
+    longPath : 'some.domain.com/was',
+    protocols : [ 'protocol' ],
+    hostWithPort : 'some.domain.com',
+    origin : 'protocol://some.domain.com',
+    full : 'protocol://some.domain.com/was'
   }
 
   var got = _.uri.parse( uri );
@@ -1372,11 +1482,9 @@ function parse( test )
   var uri = '//';
   var expected =
   {
-    host : '',
-    localPath : '',
+    localPath : '//',
+    longPath : '//',
     protocols : [],
-    hostWithPort : '',
-    origin : '//',
     full : '//'
   }
 
@@ -1386,11 +1494,9 @@ function parse( test )
   var uri = '///';
   var expected =
   {
-    host : '',
-    localPath : '/',
+    localPath : '///',
+    longPath : '///',
     protocols : [],
-    hostWithPort : '',
-    origin : '//',
     full : '///'
   }
 
@@ -1400,11 +1506,9 @@ function parse( test )
   var uri = '///a/b/c';
   var expected =
   {
-    host : '',
-    localPath : '/a/b/c',
+    localPath : '///a/b/c',
+    longPath : '///a/b/c',
     protocols : [],
-    hostWithPort : '',
-    origin : '//',
     full : '///a/b/c'
   }
 
@@ -1417,29 +1521,29 @@ function parse( test )
   {
     protocol : 'complex+protocol',
     host : 'www.site.com',
-    localPath : '/path/name',
     port : '13',
+    localPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
+    longPath : 'www.site.com:13/path/name',
     protocols : [ 'complex', 'protocol' ],
     hostWithPort : 'www.site.com:13',
     origin : 'complex+protocol://www.site.com:13',
-    full : uri
+    full : uri,
   }
 
   var got = _.uri.parse( uri );
   test.identical( got, expected );
 
-
-  test.case = 'complex, parsePrimitiveOnly + str';
+  test.case = 'complex, parseAtomic + str';
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uri.parsePrimitiveOnly( uri );
+  var got = _.uri.parseAtomic( uri );
   var expected =
   {
     protocol : 'complex+protocol',
     host : 'www.site.com',
-    localPath : '/path/name',
     port : '13',
+    localPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1453,27 +1557,39 @@ function parse( test )
   {
     protocol : '',
     host : 'www.site.com',
-    localPath : '/path//name//',
     port : '13',
+    localPath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
-    protocols : [ '' ],
+    longPath : 'www.site.com:13/path//name//',
+    protocols : [],
     hostWithPort : 'www.site.com:13',
     origin : '://www.site.com:13',
-    full : uri
+    full : uri,
   }
   test.identical( got, expected );
 
   var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parsePrimitiveOnly( uri );
+  var got = _.uri.parseAtomic( uri );
   var expected =
   {
     protocol : '',
     host : 'www.site.com',
-    localPath : '/path//name//',
     port : '13',
+    localPath : '/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  }
+  test.identical( got, expected );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
     query : 'query=here&and=here',
     hash : 'anchor',
+    longPath : 'www.site.com:13/path//name//',
   }
   test.identical( got, expected );
 
@@ -1486,15 +1602,16 @@ function parse( test )
     localPath : '/www.site.com:13/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
-    protocols : [ '' ],
+    protocols : [],
     hostWithPort : '',
     origin : '://',
-    full : uri
+    full : uri,
+    longPath : '/www.site.com:13/path//name//',
   }
   test.identical( got, expected );
 
   var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parsePrimitiveOnly( uri );
+  var got = _.uri.parseAtomic( uri );
   var expected =
   {
     protocol : '',
@@ -1505,7 +1622,43 @@ function parse( test )
   }
   test.identical( got, expected );
 
-  if( !Config.debug )  /* */
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : '/www.site.com:13/path//name//'
+  }
+  test.identical( got, expected );
+
+  /* */
+
+  var expected =
+  {
+    localPath : '///some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : '///some.com:99/staging/index.html',
+    protocols : [],
+    full : '///some.com:99/staging/index.html?query=here&and=here#anchor',
+  }
+  var got = _.uri.parse( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    localPath : '///some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+  var got = _.uri.parseAtomic( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* - */
+
+  if( !Config.debug )
   return;
 
   test.case = 'missed arguments';
@@ -1532,6 +1685,7 @@ function parse( test )
 
 function str( test )
 {
+
   var uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var components0 =
   {
@@ -1557,14 +1711,23 @@ function str( test )
     hostWithPort : 'www.site.com:13'
   }
 
-  var expected1 = uri;
+  /* */
 
-  test.case = 'make uri from components uri';  /* */
+  test.case = 'string from string';
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.str( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'make uri from components uri';
+  var expected1 = uri;
   var got = _.uri.str( components0 );
   test.identical( got, expected1 );
 
-  test.case = 'make uri from atomic components'; /* */
+  /* */
 
+  test.case = 'make uri from atomic components';
   var components =
   {
     protocol : 'http',
@@ -1574,7 +1737,6 @@ function str( test )
     query : 'query=here&and=here',
     hash : 'anchor',
   }
-
   var got = _.uri.str( components );
   test.identical( got, expected1 );
 
@@ -1599,7 +1761,6 @@ function str( test )
     host : 'some.domain.com',
     localPath : '/was',
   }
-
   var got = _.uri.str( components );
   test.identical( got, expected );
 
@@ -1613,7 +1774,6 @@ function str( test )
     protocol : 'src',
   }
   var expected = 'src:///some2';
-  debugger;
   var got = _.uri.str( components );
   test.identical( got, expected );
 
@@ -1622,273 +1782,539 @@ function str( test )
     localPath : 'some2',
     protocol : 'src',
   }
-  var expected = 'src:///some2';
+  var expected = 'src://some2';
   var got = _.uri.str( components );
   test.identical( got, expected );
 
-  //
-
-  var uri = '/some/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  debugger;
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//some/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//www.site.com/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '///index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  debugger;
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//www.site.com:/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//www.site.com:13/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//www.site.com:13/index.html?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '///some/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '///some.com:99/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '///some.com:99/staging/index.html?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'file:///some/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'file:///some.com:/staging/index.html?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'http://some.come/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'http://some.come:88/staging/index.html';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'http://some.come:88/staging/?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'svn+https://user@subversion.com/svn/trunk';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'svn+https://user@subversion.com:99/svn/trunk';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'complex+protocol://www.site.com:13/path/name?';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'complex+protocol://www.site.com:13/path/name?#';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = 'protocol://';
-  var parsed = _.uri.parse( uri );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//:99';
-  var parsed = _.uri.parse( uri );
-  test.identical( parsed.port, '99' );
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  test.identical( parsedPrimitive.port, '99' );
-  var fromParsed = _.uri.str( parsed );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsed, uri );
-  test.identical( fromParsedPrimitive, uri );
-
-  var uri = '//?q=1#x';
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var parsed = _.uri.parse( uri );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsedPrimitive, uri );
-  var fromParsed = _.uri.str( parsed );
-  test.identical( fromParsed, uri );
-
-  var uri = '//';
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var parsed = _.uri.parse( uri );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsedPrimitive, uri );
-  var fromParsed = _.uri.str( parsed );
-  test.identical( fromParsed, uri );
-
-  var uri = '//a/b/c';
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var parsed = _.uri.parse( uri );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsedPrimitive, uri );
-  var fromParsed = _.uri.str( parsed );
-  test.identical( fromParsed, uri );
-
-  var uri = '///';
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var parsed = _.uri.parse( uri );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsedPrimitive, uri );
-  var fromParsed = _.uri.str( parsed );
-  test.identical( fromParsed, uri );
-
-  var uri = '///a/b/c';
-  var parsedPrimitive = _.uri.parsePrimitiveOnly( uri );
-  var parsed = _.uri.parse( uri );
-  var fromParsedPrimitive = _.uri.str( parsedPrimitive );
-  test.identical( fromParsedPrimitive, uri );
-  var fromParsed = _.uri.str( parsed );
-  test.identical( fromParsed, uri );
-
-  //
+  /* - */
 
   if( !Config.debug )
   return;
 
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri.str();
-  });
+  test.shouldThrowErrorSync( () => _.uri.str() );
+  test.shouldThrowErrorSync( () => _.uri.str( 'a', 'b' ) );
+  test.shouldThrowErrorSync( () => _.uri.str({ x : 'x' }) );
 
-  test.case = 'argument is not uri component object';
-  test.shouldThrowErrorSync( function()
-  {
-    debugger
-    _.uri.str( uri );
-  });
+}
+
+//
+
+function parseAndStr( test )
+{
+
+  test.open( 'all' );
+
+  /* - */
+
+  test.case = 'no protocol';
+
+  var uri = '127.0.0.1:61726/../path';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  test.case = 'other';
+
+  var uri = '/some/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//some/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:13/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:13/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some.com:99/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some.com:99/staging/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'file:///some/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'file:///some.com:/staging/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come:88/staging/index.html';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come:88/staging/?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'svn+https://user@subversion.com/svn/trunk';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'svn+https://user@subversion.com:99/svn/trunk';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?#';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'protocol://';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//:99';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '://:99';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//?q=1#x';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//a/b/c';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///a/b/c';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  /* - */
+
+  test.close( 'all' );
+  test.open( 'atomic' );
+
+  /* - */
+
+  test.case = 'no protocol';
+
+  var uri = '127.0.0.1:61726/../path';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  test.case = 'other';
+
+  var uri = '/some/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//some/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:13/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:13/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some.com:99/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some.com:99/staging/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'file:///some/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'file:///some.com:/staging/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come:88/staging/index.html';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come:88/staging/?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'svn+https://user@subversion.com/svn/trunk';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'svn+https://user@subversion.com:99/svn/trunk';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?#';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'protocol://';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//:99';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '://:99';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//?q=1#x';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//a/b/c';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///a/b/c';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  /* - */
+
+  test.close( 'atomic' );
+  test.open( 'consecutive' );
+
+  /* - */
+
+  test.case = 'no protocol';
+
+  var uri = '127.0.0.1:61726/../path';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  test.case = 'other';
+
+  var uri = '/some/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//some/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:13/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//www.site.com:13/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some.com:99/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///some.com:99/staging/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'file:///some/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'file:///some.com:/staging/index.html?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come:88/staging/index.html';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'http://some.come:88/staging/?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'svn+https://user@subversion.com/svn/trunk';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'svn+https://user@subversion.com:99/svn/trunk';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?#';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'protocol://';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//:99';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '://:99';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//?q=1#x';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '//a/b/c';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = '///a/b/c';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  /* - */
+
+  test.close( 'consecutive' );
 
 }
 
@@ -2010,113 +2436,109 @@ function dequery( test )
   var got = _.uri.dequery( query3 );
   test.contains( got, expected3 );
 
-  // test.case = 'parse query with similar keys';
-  // var got = _.uri.dequery( query4 );
-  // test.contains( got, expected4 );
-
 }
 
 //
-
-function _uriJoin_body( test )
-{
-
-  var paths1 = [ 'http://www.site.com:13/', 'bar', 'foo', ];
-  var paths2 = [ 'c:\\', 'foo\\', 'bar\\' ];
-  var paths3 = [ '/bar/', '/', 'foo/' ];
-  var paths4 = [ '/bar/', '/baz', 'foo/' ];
-
-  var expected1 = 'http://www.site.com:13/bar/foo';
-  var expected2 = '/c/foo/bar';
-  var expected3 = '/foo';
-  var expected4 = '/bar/baz/foo';
-
-  test.case = 'join URI';
-  var got = _.uri._uriJoin_body
-  ({
-    paths : paths1,
-    reroot : 0,
-    isUri : 1,
-    allowingNull : 1,
-  });
-  test.identical( got, expected1 );
-
-  test.case = 'join windows os paths';
-  var got = _.uri._uriJoin_body
-  ({
-    paths : paths2,
-    reroot : 0,
-    isUri : 0,
-    allowingNull : 1,
-  });
-  test.identical( got, expected2 );
-
-  test.case = 'join unix os paths';
-  var got = _.uri._uriJoin_body
-  ({
-    paths : paths3,
-    reroot : 0,
-    isUri : 0,
-    allowingNull : 1,
-  });
-  test.identical( got, expected3 );
-
-  test.case = 'join unix os paths with reroot';
-  var got = _.uri._uriJoin_body
-  ({
-    paths : paths4,
-    reroot : 1,
-    isUri : 0,
-    allowingNull : 1,
-  });
-  test.identical( got, expected4 );
-
-  test.case = 'join reroot with /';
-  var got = _.uri._uriJoin_body
-  ({
-    paths : [ '/','/a/b' ],
-    reroot : 1,
-    isUri : 0,
-    allowingNull : 1,
-  });
-  test.identical( got, '/a/b' );
-
-  if( !Config.debug )
-  return;
-
-  test.case = 'missed arguments';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri._uriJoin_body();
-  });
-
-  test.case = 'path element is not string';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri._uriJoin_body( _.mapSupplement( { paths : [ 34 , 'foo/' ] },options3 ) );
-  });
-
-  test.case = 'missed options';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri._uriJoin_body( paths1 );
-  });
-
-  test.case = 'options has unexpected parameters';
-  test.shouldThrowErrorSync( function()
-  {
-    debugger;
-    _.uri._uriJoin_body({ paths : paths1, wrongParameter : 1 });
-    debugger;
-  });
-
-  test.case = 'options does not has paths';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri._uriJoin_body({ wrongParameter : 1 });
-  });
-
-}
+//
+// function _uriJoin_body( test )
+// {
+//
+//   var paths1 = [ 'http://www.site.com:13/', 'bar', 'foo', ];
+//   var paths2 = [ 'c:\\', 'foo\\', 'bar\\' ];
+//   var paths3 = [ '/bar/', '/', 'foo/' ];
+//   var paths4 = [ '/bar/', '/baz', 'foo/' ];
+//
+//   var expected1 = 'http://www.site.com:13/bar/foo';
+//   var expected2 = '/c/foo/bar';
+//   var expected3 = '/foo';
+//   var expected4 = '/bar/baz/foo';
+//
+//   test.case = 'join URI';
+//   var got = _.uri._uriJoin_body
+//   ({
+//     paths : paths1,
+//     reroot : 0,
+//     isUri : 1,
+//     allowingNull : 1,
+//   });
+//   test.identical( got, expected1 );
+//
+//   test.case = 'join windows os paths';
+//   var got = _.uri._uriJoin_body
+//   ({
+//     paths : paths2,
+//     reroot : 0,
+//     isUri : 0,
+//     allowingNull : 1,
+//   });
+//   test.identical( got, expected2 );
+//
+//   test.case = 'join unix os paths';
+//   var got = _.uri._uriJoin_body
+//   ({
+//     paths : paths3,
+//     reroot : 0,
+//     isUri : 0,
+//     allowingNull : 1,
+//   });
+//   test.identical( got, expected3 );
+//
+//   test.case = 'join unix os paths with reroot';
+//   var got = _.uri._uriJoin_body
+//   ({
+//     paths : paths4,
+//     reroot : 1,
+//     isUri : 0,
+//     allowingNull : 1,
+//   });
+//   test.identical( got, expected4 );
+//
+//   test.case = 'join reroot with /';
+//   var got = _.uri._uriJoin_body
+//   ({
+//     paths : [ '/','/a/b' ],
+//     reroot : 1,
+//     isUri : 0,
+//     allowingNull : 1,
+//   });
+//   test.identical( got, '/a/b' );
+//
+//   if( !Config.debug )
+//   return;
+//
+//   test.case = 'missed arguments';
+//   test.shouldThrowErrorSync( function()
+//   {
+//     _.uri._uriJoin_body();
+//   });
+//
+//   test.case = 'path element is not string';
+//   test.shouldThrowErrorSync( function()
+//   {
+//     _.uri._uriJoin_body( _.mapSupplement( { paths : [ 34 , 'foo/' ] },options3 ) );
+//   });
+//
+//   test.case = 'missed options';
+//   test.shouldThrowErrorSync( function()
+//   {
+//     _.uri._uriJoin_body( paths1 );
+//   });
+//
+//   test.case = 'options has unexpected parameters';
+//   test.shouldThrowErrorSync( function()
+//   {
+//     debugger;
+//     _.uri._uriJoin_body({ paths : paths1, wrongParameter : 1 });
+//     debugger;
+//   });
+//
+//   test.case = 'options does not has paths';
+//   test.shouldThrowErrorSync( function()
+//   {
+//     _.uri._uriJoin_body({ wrongParameter : 1 });
+//   });
+//
+// }
 
 //
 
@@ -2136,7 +2558,7 @@ function join( test )
   test.case = 'join same protocols';
 
   var got = _.uri.join( 'http://www.site.com:13','a','http:///dir','b' );
-  var expected = 'http://www.site.com:13/dir/b';
+  var expected = 'http:///dir/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http:///www.site.com:13','a','http:///dir','b' );
@@ -2144,25 +2566,25 @@ function join( test )
   test.identical( got, expected );
 
   var got = _.uri.join( 'http://server1','a','http://server2','b' );
-  var expected = 'http://server2/a/b';
+  var expected = 'http://server1/a/server2/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http:///server1','a','http://server2','b' );
-  var expected = 'http://server2/server1/a/b';
+  var expected = 'http:///server1/a/server2/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http://server1','a','http:///server2','b' );
-  var expected = 'http://server1/server2/b';
+  var expected = 'http:///server2/b';
   test.identical( got, expected );
 
   test.case = 'join protocol with protocol-less';
 
   var got = _.uri.join( 'http://www.site.com:13','a',':///dir','b' );
-  var expected = 'http://www.site.com:13/dir/b';
+  var expected = 'http:///dir/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http:///www.site.com:13','a','://dir','b' );
-  var expected = 'http://dir/www.site.com:13/a/b';
+  var expected = 'http:///www.site.com:13/a/dir/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http:///www.site.com:13','a',':///dir','b' );
@@ -2170,29 +2592,29 @@ function join( test )
   test.identical( got, expected );
 
   var got = _.uri.join( 'http://www.site.com:13','a','://dir','b' );
-  var expected = 'http://dir/a/b';
+  var expected = 'http://www.site.com:13/a/dir/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http://dir:13','a','://dir','b' );
-  var expected = 'http://dir:13/a/b';
+  var expected = 'http://dir:13/a/dir/b';
   test.identical( got, expected );
 
   var got = _.uri.join( 'http://www.site.com:13','a','://:14','b' );
-  var expected = 'http://www.site.com:14/a/b';
+  var expected = 'http://www.site.com:13/a/:14/b';
   test.identical( got, expected );
 
   /**/
 
   var got = _.uri.join( 'a','://dir1/x','b','http://dir2/y','c' );
-  var expected = 'http://dir2/y/c';
+  var expected = 'http://a/dir1/x/b/dir2/y/c';
   test.identical( got, expected );
 
   var got = _.uri.join( 'a',':///dir1/x','b','http://dir2/y','c' );
-  var expected = 'http://dir2/y/c';
+  var expected = 'http:///dir1/x/b/dir2/y/c';
   test.identical( got, expected );
 
   var got = _.uri.join( 'a','://dir1/x','b','http:///dir2/y','c' );
-  var expected = 'http://dir1/dir2/y/c';
+  var expected = 'http:///dir2/y/c';
   test.identical( got, expected );
 
   var got = _.uri.join( 'a',':///dir1/x','b','http:///dir2/y','c' );
@@ -2203,19 +2625,19 @@ function join( test )
 
   test.case = 'server join absolute path 1';
   var got = _.uri.join( 'http://www.site.com:13','/x','/y','/z' );
-  test.identical( got, 'http://www.site.com:13/z' );
+  test.identical( got, 'http:///z' );
 
   test.case = 'server join absolute path 2';
   var got = _.uri.join( 'http://www.site.com:13/','x','/y','/z' );
-  test.identical( got, 'http://www.site.com:13/z' );
+  test.identical( got, 'http:///z' );
 
   test.case = 'server join absolute path 2';
   var got = _.uri.join( 'http://www.site.com:13/','x','y','/z' );
-  test.identical( got, 'http://www.site.com:13/z' );
+  test.identical( got, 'http:///z' );
 
   test.case = 'server join absolute path';
   var got = _.uri.join( 'http://www.site.com:13/','x','/y','z' );
-  test.identical( got, 'http://www.site.com:13/y/z' );
+  test.identical( got, 'http:///y/z' );
 
   test.case = 'server join relative path';
   var got = _.uri.join( 'http://www.site.com:13/','x','y','z' );
@@ -2223,11 +2645,11 @@ function join( test )
 
   test.case = 'server with path join absolute path 2';
   var got = _.uri.join( 'http://www.site.com:13/ab','/y','/z' );
-  test.identical( got, 'http://www.site.com:13/z' );
+  test.identical( got, 'http:///z' );
 
   test.case = 'server with path join absolute path 2';
   var got = _.uri.join( 'http://www.site.com:13/ab','/y','z' );
-  test.identical( got, 'http://www.site.com:13/y/z' );
+  test.identical( got, 'http:///y/z' );
 
   test.case = 'server with path join absolute path 2';
   var got = _.uri.join( 'http://www.site.com:13/ab','y','z' );
@@ -2243,9 +2665,9 @@ function join( test )
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( 'https://some.domain.com/was','/something/to/add' );
-  test.identical( got, 'https://some.domain.com/something/to/add' );
+  test.identical( got, 'https:///something/to/add' );
 
-  //
+  /* */
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '//some.domain.com/was','/something/to/add' );
@@ -2253,7 +2675,7 @@ function join( test )
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '://some.domain.com/was','/something/to/add' );
-  test.identical( got, '://some.domain.com/something/to/add' );
+  test.identical( got, ':///something/to/add' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '//some.domain.com/was', 'x', '/something/to/add' );
@@ -2261,7 +2683,7 @@ function join( test )
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '://some.domain.com/was', 'x', '/something/to/add' );
-  test.identical( got, '://some.domain.com/something/to/add' );
+  test.identical( got, ':///something/to/add' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '//some.domain.com/was', '/something/to/add', 'x' );
@@ -2269,7 +2691,7 @@ function join( test )
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '://some.domain.com/was', '/something/to/add', 'x' );
-  test.identical( got, '://some.domain.com/something/to/add/x' );
+  test.identical( got, ':///something/to/add/x' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '//some.domain.com/was', '/something/to/add', '/x' );
@@ -2277,9 +2699,9 @@ function join( test )
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '://some.domain.com/was', '/something/to/add', '/x' );
-  test.identical( got, '://some.domain.com/x' );
+  test.identical( got, ':///x' );
 
-  //
+  /* */
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '/some/staging/index.html','/something/to/add' );
@@ -2297,7 +2719,7 @@ function join( test )
   var got = _.uri.join( '/some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, '/y' );
 
-  //
+  /* */
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( '///some/staging/index.html','/something/to/add' );
@@ -2331,50 +2753,57 @@ function join( test )
   var got = _.uri.join( ':///some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, ':///y' );
 
-  //
+  /* */
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk','/something/to/add' );
-  test.identical( got, 'svn+https://user@subversion.com/something/to/add' );
+  test.identical( got, 'svn+https:///something/to/add' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/to/add' );
-  test.identical( got, 'svn+https://user@subversion.com/something/to/add' );
+  test.identical( got, 'svn+https:///something/to/add' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/to/add', 'y' );
-  test.identical( got, 'svn+https://user@subversion.com/something/to/add/y' );
+  test.identical( got, 'svn+https:///something/to/add/y' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk','/something/to/add', '/y' );
-  test.identical( got, 'svn+https://user@subversion.com/y' );
+  test.identical( got, 'svn+https:///y' );
 
-  //
+  /* */
 
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var parsed = _.uri.parse( uri );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( uri,'/something/to/add' );
-  test.identical( got, parsed.origin + '/something/to/add' + '?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol:///something/to/add?query=here&and=here#anchor' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( uri, 'x', '/something/to/add' );
-  test.identical( got, parsed.origin + '/something/to/add' + '?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol:///something/to/add?query=here&and=here#anchor' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( uri, 'x', '/something/to/add', 'y' );
-  test.identical( got, parsed.origin + '/something/to/add/y' + '?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol:///something/to/add/y?query=here&and=here#anchor' );
 
   test.case = 'add absolute to uri with localPath';
   var got = _.uri.join( uri,'/something/to/add', '/y' );
-  test.identical( got, parsed.origin + '/y' + '?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
 
-  //
+  test.case = 'prased uri at the end';
+  var got = _.uri.join( '/something/to/add', 'y', uri );
+  test.identical( got, 'complex+protocol:///something/to/add/y/www.site.com:13/path/name?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
-  var got = _.uri.join( '://some.domain.com/was','/something/to/add' );
-  test.identical( got, '://some.domain.com/something/to/add' );
+  /* */
+
+  test.case = 'several queries and hashes'
+  var uri1 = '://user:pass@sub.host.com:8080/p/a/t/h?query1=string1#hash1';
+  var uri2 = '://user:pass@sub.host.com:8080/p/a/t/h?query2=string2#hash2';
+  var got = _.uri.join( uri1, uri2, '/x//y//z'  );
+  var expected = ':///x//y//z?query1=string1&query2=string2#hash2';
+  test.identical( got, expected );
 
   var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
   var got = _.uri.join( uri, 'x'  );
@@ -2383,12 +2812,12 @@ function join( test )
 
   var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
   var got = _.uri.join( uri, 'x', '/y'  );
-  var expected = '://user:pass@sub.host.com:8080/y?query=string#hash'
+  var expected = ':///y?query=string#hash';
   test.identical( got, expected );
 
   var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
   var got = _.uri.join( uri, '/x//y//z'  );
-  var expected = '://user:pass@sub.host.com:8080/x//y//z?query=string#hash'
+  var expected = ':///x//y//z?query=string#hash';
   test.identical( got, expected );
 
   var uri = '://user:pass@sub.host.com:8080/p//a//t//h?query=string#hash';
@@ -2420,7 +2849,7 @@ function join( test )
   var got = _.uri.join( 'file:///some/file','/something/to/add' );
   test.identical( got, 'file:///something/to/add' );
 
-  //
+  /* */
 
   test.case = 'add uris';
 
@@ -2431,9 +2860,9 @@ function join( test )
   test.identical( got, 'd://e/f' );
 
   var got = _.uri.join( 'a://b', 'c://d/e', '//f/g' );
-  test.identical( got, 'c://d//f/g' )
+  test.identical( got, 'c:////f/g' )
 
-  //
+  /* */
 
   test.case = 'works like join';
   var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
@@ -2491,11 +2920,11 @@ complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor
 function common( test )
 {
 
-  var got = _.uri.common([ '/a1/b2', '://some/staging/index.html' ]);
-  test.identical( got, '' );
+  var got = _.uri.common([ '://a1/b2', '://some/staging/index.html' ]);
+  test.identical( got, '://.' );
 
-  var got = _.uri.common([ '://some/staging/index.html', '/a1/b2' ]);
-  test.identical( got, '' );
+  var got = _.uri.common([ '://some/staging/index.html', '://a1/b2' ]);
+  test.identical( got, '://.' );
 
   var got = _.uri.common([ '://some/staging/index.html', '://some/staging/' ]);
   test.identical( got, '://some/staging' );
@@ -2503,35 +2932,78 @@ function common( test )
   var got = _.uri.common([ '://some/staging/index.html', '://some/stagi' ]);
   test.identical( got, '://some/' );
 
-  var got = _.uri.common([ 'file:///some/staging/index.html', '/some/stagi' ]);
-  test.identical( got, '' );
+  var got = _.uri.common([ 'file:///some/staging/index.html', ':///some/stagi' ]);
+  test.identical( got, ':///some/' );
 
-  var got = _.uri.common([ 'file:///some/staging/index.html', '://some/stagi' ]);
-  test.identical( got, '' );
+  var got = _.uri.common([ 'file://some/staging/index.html', '://some/stagi' ]);
+  test.identical( got, '://some/' );
+
+  var got = _.uri.common([ 'file:///some/staging/index.html', '/some/stagi' ]);
+  test.identical( got, ':///some/' );
 
   var got = _.uri.common([ 'file:///some/staging/index.html', 'file:///some/staging' ]);
   test.identical( got, 'file:///some/staging' );
 
-  var got = _.uri.common([ 'http://some.come/staging/index.html', '/some/staging' ]);
+  var got = _.uri.common([ 'http://some', 'some/staging' ]);
+  test.identical( got, '://some' );
+
+  var got = _.uri.common([ 'some/staging', 'http://some' ]);
+  test.identical( got, '://some' );
+
+  var got = _.uri.common([ 'http://some.come/staging/index.html', 'some/staging' ]);
+  test.identical( got, '://.' );
+
+  var got = _.uri.common([ 'http:///some.come/staging/index.html', '/some/staging' ]);
+  test.identical( got, ':///' );
+
+  var got = _.uri.common([ 'http://some.come/staging/index.html', 'file://some/staging' ]);
   test.identical( got, '' );
 
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'file:///some/staging' ]);
+  var got = _.uri.common([ 'http:///some.come/staging/index.html', 'file:///some/staging' ]);
   test.identical( got, '' );
 
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ]);
-  test.identical( got, '' );
+  var got = _.uri.common([ 'http:///some.come/staging/index.html', 'http:///some/staging/file.html' ]);
+  test.identical( got, 'http:///' );
 
   var got = _.uri.common([ 'http://some.come/staging/index.html', 'http://some.come/some/staging/file.html' ]);
   test.identical( got, 'http://some.come/' );
 
-  var got = _.uri.common([ 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' ]);
-  test.identical( got, 'complex+protocol://www.site.com:13/path' );
-
-  var got = _.uri.common([ 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' ]);
-  test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
+  // qqq !!! : implement
+  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' ]);
+  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  //
+  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' ]);
+  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  //
+  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' ]);
+  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  //
+  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' ]);
+  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  //
+  // var got = _.uri.common([ 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' ]);
+  // test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
 
   var got = _.uri.common([ '://some/staging/a/b/c', '://some/staging/a/b/c/index.html', '://some/staging/a/x' ]);
-  test.identical( got, '://some/staging/a' );
+  test.identical( got, '://some/staging/a/' );
+
+/*
+  var got = _.uri.common([ 'http://some.come/staging/index.html', 'file:///some/staging' ]);
+  var got = _.uri.common([ 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ]);
+
+*/
+
+  /* */
+
+  if( !Config.debug )
+  return
+
+  test.shouldThrowError( () => _.uri.common([ 'http://some.come/staging/index.html', 'file:///some/staging' ]) );
+  test.shouldThrowError( () => _.uri.common([ 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ]) );
+  test.shouldThrowError( () => _.uri.common([]) );
+  test.shouldThrowError( () => _.uri.common() );
+  test.shouldThrowError( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
+  test.shouldThrowError( () => _.uri.common( 'http:///', 'http:///' ) );
 
 }
 
@@ -2583,27 +3055,19 @@ function commonLocalPaths( test )
   var got = _.uri.common([ '/a', '/x'  ]);
   test.identical( got, '/' );
 
-  test.case = 'absolute-relative'
-
-  var got = _.uri.common([ '/', '..' ]);
-  test.identical( got, '/' );
-
-  var got = _.uri.common([ '/', '.' ]);
-  test.identical( got, '/' );
-
-  var got = _.uri.common([ '/', 'x' ]);
-  test.identical( got, '/' );
-
-  var got = _.uri.common([ '/', '../..' ]);
-  test.identical( got, '/' );
-
-  test.shouldThrowError( () => _.uri.common([ '/a', '..' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ '/a', '.' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ '/a', 'x' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ '/a', '../..' ]) );
+  // test.case = 'absolute-relative'
+  //
+  // var got = _.uri.common([ '/', '..' ]);
+  // test.identical( got, '/' );
+  //
+  // var got = _.uri.common([ '/', '.' ]);
+  // test.identical( got, '/' );
+  //
+  // var got = _.uri.common([ '/', 'x' ]);
+  // test.identical( got, '/' );
+  //
+  // var got = _.uri.common([ '/', '../..' ]);
+  // test.identical( got, '/' );
 
   test.case = 'relative-relative'
 
@@ -2679,7 +3143,7 @@ function commonLocalPaths( test )
   test.identical( got, '/a/b' );
 
   var got = _.uri.common([ '/a/b/c', '/a/b/c', '/a/b1' ]);
-  test.identical( got, '/a' );
+  test.identical( got, '/a/' );
 
   var got = _.uri.common([ '/a/b/c', '/a/b/c', '/a' ]);
   test.identical( got, '/a' );
@@ -2690,16 +3154,6 @@ function commonLocalPaths( test )
   var got = _.uri.common([ '/a/b/c', '/a/b/c', '/' ]);
   test.identical( got, '/' );
 
-  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '/a/b/c', './' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '/a/b/c', '.' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ 'x', '/a/b/c', '/a' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '..', '/a' ]) );
-
-  test.shouldThrowError( () => _.uri.common([ '../..', '../../b/c', '/a' ]) );
-
   test.case = 'several relative paths';
 
   var got = _.uri.common([ 'a/b/c', 'a/b/c', 'a/b/c' ]);
@@ -2709,7 +3163,7 @@ function commonLocalPaths( test )
   test.identical( got, 'a/b' );
 
   var got = _.uri.common([ 'a/b/c', 'a/b/c', 'a/b1' ]);
-  test.identical( got, 'a' );
+  test.identical( got, 'a/' );
 
   var got = _.uri.common([ 'a/b/c', 'a/b/c', '.' ]);
   test.identical( got, '.' );
@@ -2731,6 +3185,23 @@ function commonLocalPaths( test )
 
   var got = _.uri.common([ '.', './../..', '..' ]);
   test.identical( got, '../..' );
+
+  /* */
+
+  if( !Config.debug )
+  return
+
+  test.shouldThrowError( () => _.uri.common([ '/a', '..' ]) );
+  test.shouldThrowError( () => _.uri.common([ '/a', '.' ]) );
+  test.shouldThrowError( () => _.uri.common([ '/a', 'x' ]) );
+  test.shouldThrowError( () => _.uri.common([ '/a', '../..' ]) );
+
+  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '/a/b/c', './' ]) );
+  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '/a/b/c', '.' ]) );
+  test.shouldThrowError( () => _.uri.common([ 'x', '/a/b/c', '/a' ]) );
+  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '..', '/a' ]) );
+  test.shouldThrowError( () => _.uri.common([ '../..', '../../b/c', '/a' ]) );
+
 }
 
 //
@@ -2738,285 +3209,298 @@ function commonLocalPaths( test )
 function resolve( test )
 {
 
+  var originalPath = _.uri.current();
+  _.uri.current( '/' );
   var current = _.strPrependOnce( _.uri.current(), '/' );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a' );
-  test.identical( got, 'http://www.site.com:13/a' );
+  try
+  {
 
-  var got = _.uri.resolve( 'http://www.site.com:13/','a' );
-  test.identical( got, 'http://www.site.com:13/a' );
+    test.open( 'with protocol' );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a', '/b' );
-  test.identical( got, 'http://www.site.com:13/b' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/a' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a', '/b', 'c' );
-  test.identical( got, 'http://www.site.com:13/b/c' );
+    var got = _.uri.resolve( 'http://www.site.com:13/','a' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/a' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','/a/', '/b/', 'c/', '.' );
-  test.identical( got, 'http://www.site.com:13/b/c' );
+    var got = _.uri.resolve( 'http://www.site.com:13/','a','b' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/a/b' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a', '.', 'b' );
-  test.identical( got, 'http://www.site.com:13/a/b' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a', '/b' );
+    test.identical( got, _.uri.join( current, 'http:///b' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13/','a', '.', 'b' );
-  test.identical( got, 'http://www.site.com:13/a/b' );
+    var got = _.uri.resolve( 'http://www.site.com:13/','a','b','.' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/a/b' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a', '..', 'b' );
-  test.identical( got, 'http://www.site.com:13/b' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a', '/b', 'c' );
+    test.identical( got, _.uri.join( current, 'http:///b/c' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a', '..', '..', 'b' );
-  test.identical( got, 'http://www.site.com:13/../b' );
+    var got = _.uri.resolve( 'http://www.site.com:13','/a/', '/b/', 'c/', '.' );
+    test.identical( got, _.uri.join( current, 'http:///b/c' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','.a.', 'b','.c.' );
-  test.identical( got, 'http://www.site.com:13/.a./b/.c.' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a', '.', 'b' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/a/b' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13/','.a.', 'b','.c.' );
-  test.identical( got, 'http://www.site.com:13/.a./b/.c.' );
+    var got = _.uri.resolve( 'http://www.site.com:13/','a', '.', 'b' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/a/b' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13','a/../' );
-  test.identical( got, 'http://www.site.com:13/' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a', '..', 'b' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/b' ) );
 
-  var got = _.uri.resolve( 'http://www.site.com:13/','a/../' );
-  test.identical( got, 'http://www.site.com:13/' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a', '..', '..', 'b' );
+    test.identical( got, _.uri.join( current, 'http://b' ) );
 
-  //
+    var got = _.uri.resolve( 'http://www.site.com:13','.a.', 'b', '.c.' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13/.a./b/.c.' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13','a' );
-  test.identical( got, '://www.site.com:13/a' );
+    var got = _.uri.resolve( 'http://www.site.com:13','a/../' );
+    test.identical( got, _.uri.join( current, 'http://www.site.com:13' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13/','a' );
-  test.identical( got, '://www.site.com:13/a' );
+    test.close( 'with protocol' );
 
-  var got = _.uri.resolve( '://www.site.com:13','a', '/b' );
-  test.identical( got, '://www.site.com:13/b' );
+    /* - */
 
-  var got = _.uri.resolve( '://www.site.com:13','a', '/b', 'c' );
-  test.identical( got, '://www.site.com:13/b/c' );
+    test.open( 'with null protocol' );
 
-  var got = _.uri.resolve( '://www.site.com:13','/a/', '/b/', 'c/', '.' );
-  test.identical( got, '://www.site.com:13/b/c' );
+    var got = _.uri.resolve( '://www.site.com:13','a' );
+    test.identical( got, _.uri.join( current, '://www.site.com:13/a' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13','a', '.', 'b' );
-  test.identical( got, '://www.site.com:13/a/b' );
+    var got = _.uri.resolve( '://www.site.com:13','a', '/b' );
+    test.identical( got, _.uri.join( current, ':///b' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13/','a', '.', 'b' );
-  test.identical( got, '://www.site.com:13/a/b' );
+    var got = _.uri.resolve( '://www.site.com:13','a', '/b', 'c' );
+    test.identical( got, _.uri.join( current, ':///b/c' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13','a', '..', 'b' );
-  test.identical( got, '://www.site.com:13/b' );
+    var got = _.uri.resolve( '://www.site.com:13','/a/', '/b/', 'c/', '.' );
+    test.identical( got, _.uri.join( current, ':///b/c' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13','a', '..', '..', 'b' );
-  test.identical( got, '://www.site.com:13/../b' );
+    var got = _.uri.resolve( '://www.site.com:13','a', '.', 'b' );
+    test.identical( got, _.uri.join( current, '://www.site.com:13/a/b' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13','.a.', 'b','.c.' );
-  test.identical( got, '://www.site.com:13/.a./b/.c.' );
+    var got = _.uri.resolve( '://www.site.com:13','a', '..', 'b' );
+    test.identical( got, _.uri.join( current, '://www.site.com:13/b' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13/','.a.', 'b','.c.' );
-  test.identical( got, '://www.site.com:13/.a./b/.c.' );
+    var got = _.uri.resolve( '://www.site.com:13','a', '..', '..', 'b' );
+    test.identical( got, _.uri.join( current, '://b' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13','a/../' );
-  test.identical( got, '://www.site.com:13/' );
+    var got = _.uri.resolve( '://www.site.com:13','.a.', 'b','.c.' );
+    test.identical( got, _.uri.join( current, '://www.site.com:13/.a./b/.c.' ) );
 
-  var got = _.uri.resolve( '://www.site.com:13/','a/../' );
-  test.identical( got, '://www.site.com:13/' );
+    var got = _.uri.resolve( '://www.site.com:13','a/../' );
+    test.identical( got, _.uri.join( current, '://www.site.com:13' ) );
 
-  //
+    test.close( 'with null protocol' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a' );
-  test.identical( got, ':///www.site.com:13/a' );
+    /* */
 
-  var got = _.uri.resolve( ':///www.site.com:13/','a' );
-  test.identical( got, ':///www.site.com:13/a' );
+    var got = _.uri.resolve( ':///www.site.com:13','a' );
+    test.identical( got, ':///www.site.com:13/a' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a', '/b' );
-  test.identical( got, ':///b' );
+    var got = _.uri.resolve( ':///www.site.com:13/','a' );
+    test.identical( got, ':///www.site.com:13/a' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a', '/b', 'c' );
-  test.identical( got, ':///b/c' );
+    var got = _.uri.resolve( ':///www.site.com:13','a', '/b' );
+    test.identical( got, ':///b' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','/a/', '/b/', 'c/', '.' );
-  test.identical( got, ':///b/c' );
+    var got = _.uri.resolve( ':///www.site.com:13','a', '/b', 'c' );
+    test.identical( got, ':///b/c' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a', '.', 'b' );
-  test.identical( got, ':///www.site.com:13/a/b' );
+    var got = _.uri.resolve( ':///www.site.com:13','/a/', '/b/', 'c/', '.' );
+    test.identical( got, ':///b/c' );
 
-  var got = _.uri.resolve( ':///www.site.com:13/','a', '.', 'b' );
-  test.identical( got, ':///www.site.com:13/a/b' );
+    var got = _.uri.resolve( ':///www.site.com:13','a', '.', 'b' );
+    test.identical( got, ':///www.site.com:13/a/b' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a', '..', 'b' );
-  test.identical( got, ':///www.site.com:13/b' );
+    var got = _.uri.resolve( ':///www.site.com:13/','a', '.', 'b' );
+    test.identical( got, ':///www.site.com:13/a/b' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a', '..', '..', 'b' );
-  test.identical( got, ':///b' );
+    var got = _.uri.resolve( ':///www.site.com:13','a', '..', 'b' );
+    test.identical( got, ':///www.site.com:13/b' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','.a.', 'b','.c.' );
-  test.identical( got, ':///www.site.com:13/.a./b/.c.' );
+    var got = _.uri.resolve( ':///www.site.com:13','a', '..', '..', 'b' );
+    test.identical( got, ':///b' );
 
-  var got = _.uri.resolve( ':///www.site.com:13/','.a.', 'b','.c.' );
-  test.identical( got, ':///www.site.com:13/.a./b/.c.' );
+    var got = _.uri.resolve( ':///www.site.com:13','.a.', 'b','.c.' );
+    test.identical( got, ':///www.site.com:13/.a./b/.c.' );
 
-  var got = _.uri.resolve( ':///www.site.com:13','a/../' );
-  test.identical( got, ':///www.site.com:13' );
+    var got = _.uri.resolve( ':///www.site.com:13/','.a.', 'b','.c.' );
+    test.identical( got, ':///www.site.com:13/.a./b/.c.' );
 
-  var got = _.uri.resolve( ':///www.site.com:13/','a/../' );
-  test.identical( got, ':///www.site.com:13' );
+    var got = _.uri.resolve( ':///www.site.com:13','a/../' );
+    test.identical( got, ':///www.site.com:13' );
 
-  //
+    var got = _.uri.resolve( ':///www.site.com:13/','a/../' );
+    test.identical( got, ':///www.site.com:13' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a' );
-  test.identical( got, '/some/staging/index.html/a' );
+    /* */
 
-  var got = _.uri.resolve( '/some/staging/index.html','.' );
-  test.identical( got, '/some/staging/index.html' );
+    var got = _.uri.resolve( '/some/staging/index.html','a' );
+    test.identical( got, '/some/staging/index.html/a' );
 
-  var got = _.uri.resolve( '/some/staging/index.html/','a' );
-  test.identical( got, '/some/staging/index.html/a' );
+    var got = _.uri.resolve( '/some/staging/index.html','.' );
+    test.identical( got, '/some/staging/index.html' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a', '/b' );
-  test.identical( got, '/b' );
+    var got = _.uri.resolve( '/some/staging/index.html/','a' );
+    test.identical( got, '/some/staging/index.html/a' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a', '/b', 'c' );
-  test.identical( got, '/b/c' );
+    var got = _.uri.resolve( '/some/staging/index.html','a', '/b' );
+    test.identical( got, '/b' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','/a/', '/b/', 'c/', '.' );
-  test.identical( got, '/b/c' );
+    var got = _.uri.resolve( '/some/staging/index.html','a', '/b', 'c' );
+    test.identical( got, '/b/c' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a', '.', 'b' );
-  test.identical( got, '/some/staging/index.html/a/b' );
+    var got = _.uri.resolve( '/some/staging/index.html','/a/', '/b/', 'c/', '.' );
+    test.identical( got, '/b/c' );
 
-  var got = _.uri.resolve( '/some/staging/index.html/','a', '.', 'b' );
-  test.identical( got, '/some/staging/index.html/a/b' );
+    var got = _.uri.resolve( '/some/staging/index.html','a', '.', 'b' );
+    test.identical( got, '/some/staging/index.html/a/b' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a', '..', 'b' );
-  test.identical( got, '/some/staging/index.html/b' );
+    var got = _.uri.resolve( '/some/staging/index.html/','a', '.', 'b' );
+    test.identical( got, '/some/staging/index.html/a/b' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a', '..', '..', 'b' );
-  test.identical( got, '/some/staging/b' );
+    var got = _.uri.resolve( '/some/staging/index.html','a', '..', 'b' );
+    test.identical( got, '/some/staging/index.html/b' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','.a.', 'b','.c.' );
-  test.identical( got, '/some/staging/index.html/.a./b/.c.' );
+    var got = _.uri.resolve( '/some/staging/index.html','a', '..', '..', 'b' );
+    test.identical( got, '/some/staging/b' );
 
-  var got = _.uri.resolve( '/some/staging/index.html/','.a.', 'b','.c.' );
-  test.identical( got, '/some/staging/index.html/.a./b/.c.' );
+    var got = _.uri.resolve( '/some/staging/index.html','.a.', 'b','.c.' );
+    test.identical( got, '/some/staging/index.html/.a./b/.c.' );
 
-  var got = _.uri.resolve( '/some/staging/index.html','a/../' );
-  test.identical( got, '/some/staging/index.html' );
+    var got = _.uri.resolve( '/some/staging/index.html/','.a.', 'b','.c.' );
+    test.identical( got, '/some/staging/index.html/.a./b/.c.' );
 
-  var got = _.uri.resolve( '/some/staging/index.html/','a/../' );
-  test.identical( got, '/some/staging/index.html' );
+    var got = _.uri.resolve( '/some/staging/index.html','a/../' );
+    test.identical( got, '/some/staging/index.html' );
 
-  var got = _.uri.resolve( '//some/staging/index.html', '.', 'a' );
-  test.identical( got, '//some/staging/index.html/a' )
+    var got = _.uri.resolve( '/some/staging/index.html/','a/../' );
+    test.identical( got, '/some/staging/index.html' );
 
-  var got = _.uri.resolve( '///some/staging/index.html', 'a', '.', 'b', '..' );
-  test.identical( got, '///some/staging/index.html/a' )
+    var got = _.uri.resolve( '//some/staging/index.html', '.', 'a' );
+    test.identical( got, '//some/staging/index.html/a' )
 
-  var got = _.uri.resolve( 'file:///some/staging/index.html', '../..' );
-  test.identical( got, 'file:///some' )
+    var got = _.uri.resolve( '///some/staging/index.html', 'a', '.', 'b', '..' );
+    test.identical( got, '///some/staging/index.html/a' )
 
-  var got = _.uri.resolve( 'svn+https://user@subversion.com/svn/trunk', '../a', 'b', '../c' );
-  test.identical( got, 'svn+https://user@subversion.com/svn/a/c' );
+    var got = _.uri.resolve( 'file:///some/staging/index.html', '../..' );
+    test.identical( got, 'file:///some' )
 
-  var got = _.uri.resolve( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', '../../path/name' );
-  test.identical( got, 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' )
+    var got = _.uri.resolve( 'svn+https://user@subversion.com/svn/trunk', '../a', 'b', '../c' );
+    test.identical( got, _.uri.join( current, 'svn+https://user@subversion.com/svn/a/c' ) );
 
-  var got = _.uri.resolve( 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking', '../../../a.com' );
-  test.identical( got, 'https://web.archive.org/web/*\/http://a.com' )
+    var got = _.uri.resolve( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', '../../path/name' );
+    test.identical( got, _.uri.join( current, 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' ) );
 
-  var got = _.uri.resolve( '127.0.0.1:61726', '../path'  );
-  test.identical( got, _.uri.join( _.uri.current(),'path' ) )
+    var got = _.uri.resolve( 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking', '../../../a.com' );
+    test.identical( got, _.uri.join( current, 'https://web.archive.org/web/*\/http://a.com' ) );
 
-  var got = _.uri.resolve( 'http://127.0.0.1:61726', '../path'  );
-  test.identical( got, 'http://127.0.0.1:61726/../path' )
+    var got = _.uri.resolve( '127.0.0.1:61726', '../path'  );
+    test.identical( got, _.uri.join( _.uri.current(),'path' ) )
 
-  //
+    var got = _.uri.resolve( 'http://127.0.0.1:61726', '../path'  );
+    test.identical( got, _.uri.join( current, 'http://path' ) );
 
-  test.case = 'works like resolve';
+    /* */
 
-  var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
-  var expected = '/c/foo/bar';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    test.case = 'works like resolve';
 
-  var paths = [ '/bar/', '/baz', 'foo/', '.' ];
-  var expected = '/baz/foo';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
+    var expected = '/c/foo/bar';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  'aa','.','cc' ];
-  var expected = _.uri.join( _.uri.current(),'aa/cc' );
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [ '/bar/', '/baz', 'foo/', '.' ];
+    var expected = '/baz/foo';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  'aa','cc','.' ];
-  var expected = _.uri.join( _.uri.current(),'aa/cc' )
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  'aa','.','cc' ];
+    var expected = _.uri.join( _.uri.current(),'aa/cc' );
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '.','aa','cc' ];
-  var expected = _.uri.join( _.uri.current(),'aa/cc' )
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  'aa','cc','.' ];
+    var expected = _.uri.join( _.uri.current(),'aa/cc' )
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '.','aa','cc','..' ];
-  var expected = _.uri.join( _.uri.current(),'aa' )
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '.','aa','cc' ];
+    var expected = _.uri.join( _.uri.current(),'aa/cc' )
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '.','aa','cc','..','..' ];
-  var expected = _.uri.current();
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '.','aa','cc','..' ];
+    var expected = _.uri.join( _.uri.current(),'aa' )
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  'aa','cc','..','..','..' ];
-  var expected = _.uri.resolve( _.uri.current(),'..' );
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '.','aa','cc','..','..' ];
+    var expected = _.uri.current();
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '.x.','aa','bb','.x.' ];
-  var expected = _.uri.join( _.uri.current(),'.x./aa/bb/.x.' );
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  'aa','cc','..','..','..' ];
+    var expected = _.uri.resolve( _.uri.current(),'..' );
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '..x..','aa','bb','..x..' ];
-  var expected = _.uri.join( _.uri.current(),'..x../aa/bb/..x..' );
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '.x.','aa','bb','.x.' ];
+    var expected = _.uri.join( _.uri.current(),'.x./aa/bb/.x.' );
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','./../a/b' ];
-  var expected = '/a/b';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '..x..','aa','bb','..x..' ];
+    var expected = _.uri.join( _.uri.current(),'..x../aa/bb/..x..' );
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','a/.././a/b' ];
-  var expected = '/abc/a/b';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '/abc','./../a/b' ];
+    var expected = '/a/b';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','.././a/b' ];
-  var expected = '/a/b';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '/abc','a/.././a/b' ];
+    var expected = '/abc/a/b';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','./.././a/b' ];
-  var expected = '/a/b';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '/abc','.././a/b' ];
+    var expected = '/a/b';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','./../.' ];
-  var expected = '/';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '/abc','./.././a/b' ];
+    var expected = '/a/b';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','./../../.' ];
-  var expected = '/..';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '/abc','./../.' ];
+    var expected = '/';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
 
-  var paths = [  '/abc','./../.' ];
-  var expected = '/';
-  var got = _.uri.resolve.apply( _.uri, paths );
-  test.identical( got, expected );
+    var paths = [  '/abc','./../../.' ];
+    var expected = '/..';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
+
+    var paths = [  '/abc','./../.' ];
+    var expected = '/';
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
+
+    /* - */
+
+    _.uri.current( originalPath );
+
+  }
+  catch( err )
+  {
+    _.uri.current( originalPath );
+    throw err;
+  }
+
 }
 
 //
@@ -3024,23 +3508,21 @@ function resolve( test )
 function rebase( test )
 {
 
-  test.case = 'replace by empty protocol';
+  test.case = 'replacing by empty protocol';
 
   var expected = ':///some2/file'; /* not src:///some2/file */
-  debugger;
   var got = _.uri.rebase( 'src:///some/file', '/some', ':///some2' );
-  debugger;
-  test.identical( got,expected );
+  test.identical( got, expected );
 
-  test.case = 'remove protocol';
+  test.case = 'removing protocol';
 
   var expected = '/some2/file';
   var got = _.uri.rebase( 'src:///some/file', 'src:///some', '/some2' );
-  test.identical( got,expected );
+  test.identical( got, expected );
 
-  var expected = 'src:///some2/file';
+  var expected = '/some2/file';
   var got = _.uri.rebase( 'src:///some/file', 'dst:///some', '/some2' );
-  test.identical( got,expected );
+  test.identical( got, expected );
 
 }
 
@@ -3050,7 +3532,7 @@ function name( test )
 {
   var paths =
   [
-    // '',
+    /* */ '',
     'some.txt',
     '/foo/bar/baz.asdf',
     '/foo/bar/.baz',
@@ -3069,7 +3551,7 @@ function name( test )
 
   var expectedExt =
   [
-    // '',
+    /* */ '',
     'some.txt',
     'baz.asdf',
     '.baz',
@@ -3088,7 +3570,7 @@ function name( test )
 
   var expectedNoExt =
   [
-    // '',
+    /* */ '',
     'some',
     'baz',
     '',
@@ -3105,20 +3587,7 @@ function name( test )
     'name',
   ]
 
-  test.case = 'name works like name'
-  paths.forEach( ( path, i ) =>
-  {
-    var got = _.uri.name( path );
-    var exp = expectedNoExt[ i ];
-    test.identical( got, exp );
-
-    var o = { path : path, withExtension : 1 };
-    var got = _.uri.name( o );
-    var exp = expectedExt[ i ];
-    test.identical( got, exp );
-  })
-
-  //
+  /* */
 
   test.case = 'uri to file';
   var uri = 'http://www.site.com:13/path/name.txt'
@@ -3138,6 +3607,23 @@ function name( test )
   var expected = 'name';
   test.identical( got, expected );
 
+  /* - */
+
+  test.case = 'name works like name'
+  paths.forEach( ( path, i ) =>
+  {
+    var got = _.uri.name( path );
+    var exp = expectedNoExt[ i ];
+    test.identical( got, exp );
+
+    var o = { path : path, withExtension : 1 };
+    var got = _.uri.name( o );
+    var exp = expectedExt[ i ];
+    test.identical( got, exp );
+  })
+
+  /* - */
+
   if( !Config.debug )
   return;
 
@@ -3156,7 +3642,7 @@ function ext( test )
 {
   var paths =
   [
-    // '',
+    /* */ '',
     'some.txt',
     '/foo/bar/baz.asdf',
     '/foo/bar/.baz',
@@ -3175,7 +3661,7 @@ function ext( test )
 
   var expected =
   [
-    // '',
+    /* */ '',
     'txt',
     'asdf',
     '',
@@ -3355,11 +3841,14 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 var Self =
 {
 
-  name : 'Tools/base/layer4/UrlFundamentals',
+  name : 'Tools/base/layer4/UriFundamentals',
   silencing : 1,
 
   tests :
   {
+
+    isRelative : isRelative,
+
     normalize : normalize,
     normalizeLocalPaths : normalizeLocalPaths,
     normalizeTolerant : normalizeTolerant,
@@ -3369,6 +3858,7 @@ var Self =
     urisRefine : urisRefine,
     parse : parse,
     str : str,
+    parseAndStr : parseAndStr,
     // from : from,
     documentGet : documentGet,
     server : server,
@@ -3376,7 +3866,7 @@ var Self =
     dequery : dequery,
     resolve : resolve,
 
-    _uriJoin_body : _uriJoin_body,
+    // _uriJoin_body : _uriJoin_body,
     join : join,
 
     commonLocalPaths : commonLocalPaths,
