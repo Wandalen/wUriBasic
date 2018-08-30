@@ -71,7 +71,7 @@ function _filterNoInnerArray( arr )
 // uri checker
 // --
 
-  // '^(https?:\\/\\/)?'                                     // define classcol
+  // '^(https?:\\/\\/)?'                                     // protocol
   // + '(\\/)?'                                              // relative
   // + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
   // + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
@@ -81,7 +81,7 @@ function _filterNoInnerArray( arr )
   // + '(\\#[-a-z\\d_]*)?$';                                 // anchor
 
 let isRegExpString =
-  '^([\w\d]*:\\/\\/)?'                                    // define classcol
+  '^([\w\d]*:\\/\\/)?'                                    // protocol
   + '(\\/)?'                                              // relative
   + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
   + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
@@ -90,7 +90,7 @@ let isRegExpString =
   + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
   + '(\\#[-a-z\\d_]*)?$';                                 // anchor
 
-let isRegExp = new RegExp( isRegExpString,'i' );
+let isRegExp = new RegExp( isRegExpString, 'i' );
 function is( path )
 {
   _.assert( arguments.length === 1, 'expects single argument' );
@@ -102,20 +102,20 @@ function is( path )
 function isGlobal( path )
 {
   _.assert( _.strIs( path ) );
-  return _.strHas( path,'://' );
+  return _.strHas( path, '://' );
 }
 
 //
 
 function isSafe( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
 
   if( this.isGlobal( path ) )
-  path = this.parse( path ).localPath;
+  path = this.parseConsecutive( path ).longPath;
 
   return parent.isSafe( path );
 }
@@ -133,13 +133,13 @@ function isNormalized( path )
 
 function isAbsolute( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
 
   if( this.isGlobal( path ) )
-  path = this.parse( path ).localPath;
+  path = this.parseConsecutive( path ).longPath;
 
   return parent.isAbsolute( path );
 }
@@ -165,10 +165,10 @@ function isAbsolute( path )
  * @private
  */
 
-let _uriComponents =
+let UriComponents =
 {
 
-  /* primitive */
+  /* atomic */
 
   protocol : null, /* 'svn+http' */
   host : null, /* 'www.site.com' */
@@ -179,6 +179,9 @@ let _uriComponents =
 
   /* composite */
 
+  // qqq !!! : implement queries
+  // queries : null, /* { query : here, and : here } */
+  longPath : null, /* www.site.com:13/path/name */
   protocols : null, /* [ 'svn','http' ] */
   hostWithPort : null, /* 'www.site.com:13' */
   origin : null, /* 'svn+http://www.site.com:13' */
@@ -197,28 +200,62 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
 8 - hash
 */
 
+// let _uriParseRegexpStr = '^';
+// _uriParseRegexpStr += '(?:([^:/\\?#]*):)?'; /* protocol */
+// _uriParseRegexpStr += '(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?'; /* host and port */
+// _uriParseRegexpStr += '([^\\?#]*)'; /* local path */
+// _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+// _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
+// _uriParseRegexpStr += '$';
+
+let _uriParseRegexpStr = '^';
+
+let _uriParseRegexpProtocolStr = '([^:/\\?#]*):'; /* protocol */
+let _uriParseRegexpHostAndPortStr = '\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
+
+_uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
+
+_uriParseRegexpStr += '([^\\?#]*)'; /* local path */
+_uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+_uriParseRegexpStr += '(?:#(.*))?'; /* hash */
+_uriParseRegexpStr += '$';
+
+let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
+
+// '^'
+// '(?:([^:/\\?#]*):)?'
+// '(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?'
+// '([^\\?#]*)'
+// '(?:\\?([^#]*))?'
+// '(?:#(.*))?$'
+
+// let _uriParseRegexp = new RegExp( '^(?:([^:/\\?#]*):)?(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?([^\\?#]*)(?:\\?([^#]*))?(?:#(.*))?$' );
+
 function _uriParse( o )
 {
   let result = Object.create( null );
-  let parse = new RegExp( '^(?:([^:/\\?#]*):)?(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?([^\\?#]*)(?:\\?([^#]*))?(?:#(.*))?$' );
+
+  _.routineOptions( this._uriParse, o );
+  _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
+  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( _.arrayHas( _uriParse.Kind, o.kind ) );
 
   if( _.mapIs( o.srcPath ) )
   {
-    _.assertMapHasOnly( o.srcPath, this._uriComponents );
+    _.assertMapHasOnly( o.srcPath, this.UriComponents );
     if( o.srcPath.protocols )
-    return o.srcPath;
+    {
+      debugger;
+      return o.srcPath;
+    }
     else if( o.srcPath.full )
     o.srcPath = o.srcPath.full;
     else
     o.srcPath = this.str( o.srcPath );
   }
 
-  _.assert( _.strIs( o.srcPath ) );
-  _.assert( arguments.length === 1, 'expects single argument' );
-  _.routineOptions( this._uriParse, o );
-
-  let e = parse.exec( o.srcPath );
-  _.assert( !!e, 'cant parse :',o.srcPath );
+  let e = _uriParseRegexp.exec( o.srcPath );
+  _.sure( !!e, 'Cant parse :',o.srcPath );
 
   if( _.strIs( e[ 1 ] ) )
   result.protocol = e[ 1 ];
@@ -233,9 +270,13 @@ function _uriParse( o )
   if( _.strIs( e[ 7 ] ) )
   result.hash = e[ 7 ];
 
-  if( !o.primitiveOnly )
+  /**/
+
+  if( o.kind === 'all' )
   {
-    if( _.strIs( result.protocol ) )
+    let hostWithPort = e[ 2 ] || '';
+    result.longPath = hostWithPort + result.localPath;
+    if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
     result.protocols = [];
@@ -243,7 +284,16 @@ function _uriParse( o )
     result.hostWithPort = e[ 2 ];
     if( _.strIs( result.protocol ) || _.strIs( result.hostWithPort ) )
     result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostWithPort;
-    result.full = this.str( result );
+    result.full = o.srcPath;
+    // result.full = this.str( result ); // xxx
+  }
+  else if( o.kind === 'consecutive' )
+  {
+    let hostWithPort = e[ 2 ] || '';
+    result.longPath = hostWithPort + result.localPath;
+    delete result.host;
+    delete result.port;
+    delete result.localPath;
   }
 
   return result;
@@ -252,10 +302,12 @@ function _uriParse( o )
 _uriParse.defaults =
 {
   srcPath : null,
-  primitiveOnly : 0,
+  kind : 'all',
 }
 
-_uriParse.components = _uriComponents;
+_uriParse.components = UriComponents;
+
+_uriParse.Kind = [ 'all', 'atomic', 'consecutive' ];
 
 //
 
@@ -280,12 +332,11 @@ _uriParse.components = _uriComponents;
 
  * @param {string} path Url to parse
  * @param {Object} o - parse parameters
- * @param {boolean} o.primitiveOnly - If this parameter set to true, the `hostWithPort` and `origin` will not be
     included into result
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
  * @method parse
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function parse( srcPath )
@@ -294,7 +345,7 @@ function parse( srcPath )
   let result = this._uriParse
   ({
     srcPath : srcPath,
-    primitiveOnly : 0,
+    kind : 'all',
   });
 
   _.assert( arguments.length === 1, 'expects single argument' );
@@ -302,16 +353,16 @@ function parse( srcPath )
   return result;
 }
 
-parse.components = _uriComponents;
+parse.components = UriComponents;
 
 //
 
-function parsePrimitiveOnly( srcPath )
+function parseAtomic( srcPath )
 {
   let result = this._uriParse
   ({
     srcPath : srcPath,
-    primitiveOnly : 1,
+    kind : 'atomic',
   });
 
   _.assert( arguments.length === 1, 'expects single argument' );
@@ -319,7 +370,22 @@ function parsePrimitiveOnly( srcPath )
   return result;
 }
 
-parsePrimitiveOnly.components = _uriComponents;
+parseAtomic.components = UriComponents;
+
+//
+
+function parseConsecutive( srcPath )
+{
+  let result = this._uriParse
+  ({
+    srcPath : srcPath,
+    kind : 'consecutive',
+  });
+
+  _.assert( arguments.length === 1, 'expects single argument' );
+
+  return result;
+}
 
 //
 
@@ -344,91 +410,374 @@ parsePrimitiveOnly.components = _uriComponents;
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
  * @method str
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
-function str( components )
+function str( c )
 {
+  let self = this;
   let result = '';
 
-  _.assert( _.strIs( components ) || _.mapIs( components ) );
+  _.assert( c.longPath === undefined || c.longPath === null || longPathHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
+  _.assert( c.protocols === undefined || c.protocols === null || protocolsHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
+  _.assert( c.hostWithPort === undefined || c.hostWithPort === null || hostWithPortHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostWithPort-}' );
+  _.assert( c.origin === undefined || c.origin === null || originHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
+  _.assert( c.full === undefined || c.full === null || fullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
+
+  _.assert( _.strIs( c ) || _.mapIs( c ) );
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assertMapHasOnly( components, this._uriComponents );
-  _.assert( components.uri === undefined );
 
-  if( components.full )
+  if( _.strIs( c ) )
+  return c;
+
+  _.assertMapHasOnly( c, this.UriComponents );
+  // _.assert( _.strIs( c.longPath ) );
+
+  if( c.full )
   {
-    _.assert( _.strIs( components.full ) && components.full );
-    return components.full;
+    _.assert( _.strIsNotEmpty( c.full ) );
+    return c.full;
   }
 
-  if( _.strIs( components ) )
-  return components;
+  var protocol = c.protocol;
+  var host = c.host;
+  var port = c.port;
 
-  /* */
-
-  if( components.origin )
+  if( c.origin && ( protocol === null || protocol === undefined ) )
+  if( _.strHas( c.origin, '://' ) )
   {
-    result += components.origin;
-  }
-  else
-  {
-
-    let hostWithPort;
-    if( components.hostWithPort )
-    {
-      hostWithPort = components.hostWithPort;
-    }
-    else
-    {
-      if( components.host !== undefined )
-      hostWithPort = components.host;
-      if( components.port !== undefined && components.port !== null )
-      if( hostWithPort )
-      hostWithPort += ':' + components.port;
-      else
-      hostWithPort = ':' + components.port;
-    }
-
-    if( _.strIs( components.protocol ) && !hostWithPort )
-    hostWithPort = '';
-
-    if( _.strIs( components.protocol ) || _.strIs( hostWithPort ) )
-    // if( _.strIs( components.protocol ) || _.strIsNotEmpty( hostWithPort ) )
-    result += ( _.strIs( components.protocol ) ? components.protocol + '://' : '//' ) + hostWithPort;
-
+    protocol = _.strIsolateBeginOrNone( c.origin, '://' )[ 0 ];
   }
 
-  /* */
+  if( c.origin && ( host === null || host === undefined ) )
+  {
+    host = _.strIsolateInsideOrAll( c.origin, '://', ':' )[ 2 ];
+  }
 
-  if( components.localPath )
-  result += _.strPrependOnce( components.localPath, this._upStr );
+  if( c.origin && ( port === null || port === undefined ) )
+  if( _.strHas( c.origin, ':' ) )
+  {
+    port = _.strIsolateEndOrNone( c.origin, ':' )[ 2 ];
+  }
 
-  _.assert( !components.query || _.strIs( components.query ) );
+  // if( c.origin && ( c.protocol === null || c.protocol === undefined ) )
+  // if( _.strHas( c.origin, '://' ) )
+  // {
+  //   c.protocol = _.strIsolateBeginOrNone( c.origin, '://' )[ 0 ];
+  // }
+  //
+  // if( c.origin && ( c.host === null || c.host === undefined ) )
+  // {
+  //   c.host = _.strIsolateInsideOrAll( c.origin, '://', ':' )[ 2 ];
+  // }
+  //
+  // if( c.origin && ( c.port === null || c.port === undefined ) )
+  // if( _.strHas( c.origin, ':' ) )
+  // {
+  //   c.port = _.strIsolateEndOrNone( c.origin, ':' )[ 2 ];
+  // }
 
-  if( components.query !== undefined )
-  result += '?' + components.query;
-
-  if( components.hash !== undefined )
-  result += '#' + components.hash;
-
-  return result;
-}
-
-str.components = _uriComponents;
-
-  // define classcol : null, /* 'svn+http' */
+  // /* atomic */
+  //
+  // protocol : null, /* 'svn+http' */
   // host : null, /* 'www.site.com' */
   // port : null, /* '13' */
   // localPath : null, /* '/path/name' */
   // query : null, /* 'query=here&and=here' */
   // hash : null, /* 'anchor' */
   //
+  // /* composite */
   //
-  // define classcols : null, /* [ 'svn','http' ] */
+  // longPath : null, /* www.site.com:13/path/name */
+  // protocols : null, /* [ 'svn','http' ] */
   // hostWithPort : null, /* 'www.site.com:13' */
   // origin : null, /* 'svn+http://www.site.com:13' */
   // full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
+
+  return fullFrom( c );
+
+  /* */
+
+  return result;
+
+  /**/
+
+  function longPathFrom( c )
+  {
+
+    let hostWithPort = c.hostWithPort;
+    if( !_.strIs( hostWithPort ) )
+    hostWithPort = hostWithPortFrom( c );
+
+    if( _.strIs( c.localPath ) )
+    {
+      if( c.localPath && hostWithPort && !_.strBegins( c.localPath, self._upStr ) )
+      return hostWithPort + self._upStr + c.localPath;
+      else
+      return hostWithPort + c.localPath;
+    }
+    else
+    {
+      debugger;
+      _.assert( _.strBegins( c.longPath, hostWithPort ) );
+      return c.longPath;
+    }
+
+  }
+
+  /* */
+
+  function longPathHas( c )
+  {
+
+    if( c.host )
+    if( !_.strBegins( c.longPath, c.host ) )
+    return false;
+
+    if( c.port !== undefined && c.port !== null )
+    if( !_.strHas( c.longPath, String( c.port ) ) )
+    return false;
+
+    if( c.localPath )
+    if( !_.strEnds( c.longPath, c.localPath ) )
+    return false;
+
+    return true;
+  }
+
+  /* */
+
+  function protocolsFrom( c )
+  {
+    return protocol.split( '+' );
+  }
+
+  /* */
+
+  function protocolsHas( c )
+  {
+    if( c.protocol !== null && c.protocol !== undefined )
+    if( c.protocols.join( '+' ) !== c.protocol )
+    return false;
+    return true;
+  }
+
+  /* */
+
+  function hostWithPortFrom( c )
+  {
+
+    // if( host === undefined || host === null )
+    // return c.hostWithPort;
+
+    let hostWithPort = '';
+    if( _.strIs( host ) )
+    hostWithPort = host;
+    if( port !== undefined && port !== null )
+    if( hostWithPort )
+    hostWithPort += ':' + port;
+    else
+    hostWithPort = ':' + port;
+    return hostWithPort;
+  }
+
+  /* */
+
+  function hostWithPortHas( c )
+  {
+
+    if( c.host )
+    if( !_.strBegins( c.hostWithPort, c.host ) )
+    return false;
+
+    if( c.port !== null && c.port !== undefined )
+    if( !_.strHas( c.hostWithPort, String( c.port ) ) )
+    return false;
+
+    return true;
+  }
+
+  /* */
+
+  function originFrom( c )
+  {
+    let result = '';
+    let hostWithPort;
+
+    if( c.hostWithPort )
+    {
+      hostWithPort = c.hostWithPort;
+    }
+    else
+    {
+      hostWithPort = hostWithPortFrom( c );
+    }
+
+    if( _.strIs( protocol ) && !hostWithPort )
+    hostWithPort = '';
+
+    if( _.strIs( protocol ) || _.strIs( hostWithPort ) )
+    result += ( _.strIs( protocol ) ? protocol + '://' : '//' ) + hostWithPort;
+
+    return result;
+  }
+
+  /* */
+
+  function originHas( c )
+  {
+
+    if( c.protocol )
+    if( !_.strBegins( c.origin, c.protocol ) )
+    return false;
+
+    if( c.host )
+    if( !_.strHas( c.origin, c.host ) )
+    return false;
+
+    if( c.port !== null && c.port !== undefined )
+    if( !_.strHas( c.origin, String( c.port ) ) )
+    return false;
+
+    return true;
+  }
+
+  /* */
+
+  function fullFrom( c )
+  {
+
+    if( _.strIs( protocol ) || _.strIs( c.hostWithPort ) || _.strIs( host ) )
+    result += _.strIs( protocol ) ? protocol + '://' : '//';
+
+    if( c.longPath )
+    {
+      result += c.longPath;
+    }
+    else
+    {
+      result += longPathFrom( c );
+    }
+
+    /**/
+
+    _.assert( !c.query || _.strIs( c.query ) );
+
+    if( c.query !== undefined )
+    result += '?' + c.query;
+
+    if( c.hash !== undefined )
+    result += '#' + c.hash;
+
+    return result;
+  }
+
+  /* */
+
+  function fullHas( c )
+  {
+    if( c.protocol )
+    if( !_.strBegins( c.full, c.protocol ) )
+    return false;
+
+    if( c.host )
+    if( !_.strHas( c.full, c.host ) )
+    return false;
+
+    if( c.port !== null && c.port !== undefined )
+    if( !_.strHas( c.full, String( c.host ) ) )
+    return false;
+
+    if( c.localPath )
+    if( !_.strHas( c.full, String( c.localPath ) ) )
+    return false;
+
+    if( c.query )
+    if( !_.strHas( c.full, String( c.query ) ) )
+    return false;
+
+    if( c.hash )
+    if( !_.strHas( c.full, String( c.hash ) ) )
+    return false;
+
+    if( c.longPath )
+    if( !_.strHas( c.full, String( c.longPath ) ) )
+    return false;
+
+    return true;
+  }
+
+}
+
+str.components = UriComponents;
+
+// function str( components )
+// {
+//   let result = '';
+//
+//   _.assert( _.strIs( components ) || _.mapIs( components ) );
+//   _.assert( arguments.length === 1, 'expects single argument' );
+//   _.assertMapHasOnly( components, this.UriComponents );
+//   _.assert( components.uri === undefined );
+//
+//   if( components.full )
+//   {
+//     _.assert( _.strIsNotEmpty( components.full ) );
+//     return components.full;
+//   }
+//
+//   if( _.strIs( components ) )
+//   return components;
+//
+//   /* */
+//
+//   if( components.origin )
+//   {
+//     result += components.origin;
+//   }
+//   else
+//   {
+//
+//     let hostWithPort;
+//     if( components.hostWithPort )
+//     {
+//       hostWithPort = components.hostWithPort;
+//     }
+//     else
+//     {
+//       if( components.host !== undefined )
+//       hostWithPort = components.host;
+//       if( components.port !== undefined && components.port !== null )
+//       if( hostWithPort )
+//       hostWithPort += ':' + components.port;
+//       else
+//       hostWithPort = ':' + components.port;
+//     }
+//
+//     if( _.strIs( components.protocol ) && !hostWithPort )
+//     hostWithPort = '';
+//
+//     if( _.strIs( components.protocol ) || _.strIs( hostWithPort ) )
+//     // if( _.strIs( components.protocol ) || _.strIsNotEmpty( hostWithPort ) )
+//     result += ( _.strIs( components.protocol ) ? components.protocol + '://' : '//' ) + hostWithPort;
+//
+//   }
+//
+//   /* */
+//
+//   if( components.localPath )
+//   result += _.strPrependOnce( components.localPath, this._upStr );
+//
+//   _.assert( !components.query || _.strIs( components.query ) );
+//
+//   if( components.query !== undefined )
+//   result += '?' + components.query;
+//
+//   if( components.hash !== undefined )
+//   result += '#' + components.hash;
+//
+//   return result;
+// }
 
 //
 //
@@ -449,7 +798,7 @@ str.components = _uriComponents;
 //  *
 //  * @returns {string} composed uri
 //  * @method from
-//  * @memberof wTools
+//  * @memberof wTools.uri
 //  */
 //
 // function from( o )
@@ -457,13 +806,13 @@ str.components = _uriComponents;
 //
 //   _.assert( arguments.length === 1 );
 //   _.assert( _.mapIs( o ) );
-//   _.assertMapHasOnly( o, this._uriComponents );
+//   _.assertMapHasOnly( o, this.UriComponents );
 //
 //   if( o.full )
 //   return this.str( o );
 //
 //   let currentUri = this.server();
-//   let carentParsed = this.parsePrimitiveOnly( currentUri );
+//   let carentParsed = this.parseAtomic( currentUri );
 //
 //   _.mapExtend( carentParsed, o );
 //
@@ -472,20 +821,66 @@ str.components = _uriComponents;
 
 //
 
+/**
+ * Complements current window uri origin by components passed in o.
+ * All components of current origin is replaced by appropriates components from o if they exist.
+ * If { o.full } exists and valid, method returns it.
+ * @example
+ * // current uri http://www.site.com:13/foo/baz
+   let components =
+   {
+     localPath : '/path/name',
+     query : 'query=here&and=here',
+     hash : 'anchor',
+   };
+   let res = wTools.uri.full( o );
+   // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+ *
+ * @returns {string} composed uri
+ * @method full
+ * @memberof wTools.uri
+ */
+
+function full( o )
+{
+
+  _.assert( arguments.length === 1 );
+  _.assert( this.is( o ) || _.mapIs( o ) );
+
+  if( _.strIs( o ) )
+  o = this.parseAtomic( o )
+
+  _.assertMapHasOnly( o, this.UriComponents );
+
+  // if( o.full )
+  // return this.str( o );
+
+  let serverUri = this.server();
+  let serverParsed = this.parseAtomic( serverUri );
+
+  _.mapExtend( serverParsed, o );
+
+  return this.str( serverParsed );
+}
+
+//
+
 function refine( fileUri )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( fileUri ) );
 
   if( this.isGlobal( fileUri ) )
-  fileUri = this.parsePrimitiveOnly( fileUri );
+  fileUri = this.parseConsecutive( fileUri );
   else
   return parent.refine( fileUri );
 
-  if( _.strIsNotEmpty( fileUri.localPath ) )
-  fileUri.localPath = parent.refine( fileUri.localPath );
+  // fileUri.localPath = null; xxx
+
+  if( _.strIsNotEmpty( fileUri.longPath ) )
+  fileUri.longPath = parent.refine( fileUri.longPath );
 
   return this.str( fileUri );
 }
@@ -511,16 +906,17 @@ let urisOnlyRefine = _.routineVectorize_functor
 
 function normalize( fileUri )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   if( _.strIs( fileUri ) )
   {
     if( this.isGlobal( fileUri ) )
-    fileUri = this.parsePrimitiveOnly( fileUri );
+    fileUri = this.parseConsecutive( fileUri );
     else
     return parent.normalize( fileUri );
   }
   _.assert( !!fileUri );
-  fileUri.localPath = parent.normalize( fileUri.localPath );
+  // fileUri.localPath = null; xxx
+  fileUri.longPath = parent.normalize( fileUri.longPath );
   return this.str( fileUri );
 }
 
@@ -547,230 +943,368 @@ let urisOnlyNormalize = _.routineVectorize_functor
 
 function normalizeTolerant( fileUri )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   if( _.strIs( fileUri ) )
   {
     if( this.isGlobal( fileUri ) )
-    fileUri = this.parsePrimitiveOnly( fileUri );
+    fileUri = this.parseConsecutive( fileUri );
     else
     return parent.normalizeTolerant( fileUri );
   }
   _.assert( !!fileUri );
-  fileUri.localPath = parent.normalizeTolerant( fileUri.localPath );
+  // fileUri.localPath = null;
+  fileUri.longPath = parent.normalizeTolerant( fileUri.longPath );
   return this.str( fileUri );
 }
 
 //
+//
+// /**
+//  * Joins filesystem paths fragments or uris fragment into one path/URI. Uses '/' level delimeter.
+//  * @param {Object} o join o.
+//  * @param {String[]} p.paths - Array with paths to join.
+//  * @param {boolean} [o.isUri=false] If true, method returns URI which consists from joined fragments, beginning
+//  * from element that contains '//' characters. Else method will join elements in `paths` array as os path names.
+//  * @param {boolean} [o.reroot=false] If this parameter set to false (by default), method joins all elements in
+//  * `paths` array, starting from element that begins from '/' character, or '* :', where '*' is any drive name. If it
+//  * is set to true, method will join all elements in array. Result
+//  * @returns {string}
+//  * @private
+//  * @throws {Error} If missed arguments.
+//  * @throws {Error} If elements of `paths` are not strings
+//  * @throws {Error} If o has extra parameters.
+//  * @method _uriJoin_body
+//  * @memberof wTools.uri
+//  */
+//
+// function _uriJoin_body( o )
+// {
+//   let self = this;
+//   let result = null;
+//   let prepending = true;
+//
+//   /* */
+//
+//   debugger;
+//   _.assert( Object.keys( o ).length === 4 );
+//   _.assert( o.paths.length > 0 );
+//   _.assert( _.boolLike( o.reroot ) );
+//
+//   /* */
+//
+//   for( let a = o.paths.length-1 ; a >= 0 ; a-- )
+//   {
+//     let src = o.paths[ a ];
+//     _.sure( _.strIs( src ) || src === null, () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+//   }
+//
+//   /* */
+//
+//   for( let a = o.paths.length-1 ; a >= 0 ; a-- )
+//   {
+//     let src = o.paths[ a ];
+//
+//     if( o.allowingNull )
+//     if( src === null )
+//     break;
+//
+//     if( result === null )
+//     result = '';
+//
+//     // _.assert( _.strIs( src ), () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+//
+//     prepending = prepend( src );
+//     if( prepending === false && !o.isUri )
+//     break;
+//
+//   }
+//
+//   /* */
+//
+//   if( result === '' )
+//   return '.';
+//
+//   return result;
+//
+//   /* */
+//
+//   function prepend( src )
+//   {
+//
+//     if( o.isUri )
+//     src = self.refine( src );
+//     else
+//     src = self.refine( src );
+//
+//     if( !src )
+//     return prepending;
+//
+//     let doPrepend = prepending;
+//     if( !doPrepend && o.isUri )
+//     {
+//       if( src.indexOf( '//' ) !== -1 )
+//       {
+//         let i = src.indexOf( '//' );
+//         i = src.indexOf( '/', i+2 );
+//         if( i >= 0 )
+//         {
+//           src = src.substr( 0,i );
+//         }
+//         doPrepend = 1;
+//       }
+//     }
+//
+//     if( doPrepend )
+//     {
+//
+//       if( !o.isUri )
+//       src = src.replace( /\\/g,'/' );
+//
+//       if( result && src[ src.length-1 ] === '/' && !_.strEnds( src, '//' ) )
+//       if( src.length > 1 || result[ 0 ] === '/' )
+//       src = src.substr( 0,src.length-1 );
+//
+//       if( src && src[ src.length-1 ] !== '/' && result && result[ 0 ] !== '/' )
+//       result = '/' + result;
+//
+//       result = src + result;
+//
+//     }
+//
+//     if( o.isUri )
+//     {
+//       if( src.indexOf( '//' ) !== -1 )
+//       {
+//         return false;
+//       }
+//     }
+//
+//     if( !o.reroot )
+//     {
+//       if( src[ 0 ] === '/' )
+//       return false;
+//       // if( src[ 1 ] === ':' )
+//       // console.warn( 'WARNING : Path could be native for windows, but should not',src );
+//       // if( src[ 1 ] === ':' )
+//       // debugger;
+//       // if( src[ 1 ] === ':' )
+//       // if( src[ 2 ] !== '/' || src[ 3 ] !== '/' )
+//       // return false;
+//     }
+//
+//     return prepending;
+//   }
+//
+// }
+//
+// _uriJoin_body.defaults =
+// {
+//   paths : null,
+//   reroot : 0,
+//   isUri : 0,
+//   allowingNull : 1,
+// }
 
-/**
- * Joins filesystem paths fragments or uris fragment into one path/URI. Uses '/' level delimeter.
- * @param {Object} o join o.
- * @param {String[]} p.paths - Array with paths to join.
- * @param {boolean} [o.isUri=false] If true, method returns URI which consists from joined fragments, beginning
- * from element that contains '//' characters. Else method will join elements in `paths` array as os path names.
- * @param {boolean} [o.reroot=false] If this parameter set to false (by default), method joins all elements in
- * `paths` array, starting from element that begins from '/' character, or '* :', where '*' is any drive name. If it
- * is set to true, method will join all elements in array. Result
- * @returns {string}
- * @private
- * @throws {Error} If missed arguments.
- * @throws {Error} If elements of `paths` are not strings
- * @throws {Error} If o has extra parameters.
- * @method _uriJoin_body
- * @memberof wTools
- */
+//
 
-function _uriJoin_body( o )
+function _joining_functor( gen )
 {
-  let self = this;
-  let result = null;
-  let prepending = true;
 
-  /* */
+  if( arguments.length === 2 )
+  gen = { routineName : arguments[ 0 ], web : arguments[ 1 ] }
 
-  debugger;
-  _.assert( Object.keys( o ).length === 4 );
-  _.assert( o.paths.length > 0 );
-  _.assert( _.boolLike( o.reroot ) );
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.routineOptions( _joining_functor, gen );
 
-  /* */
+  let routineName = gen.routineName;
+  let web = gen.web;
 
-  for( let a = o.paths.length-1 ; a >= 0 ; a-- )
-  {
-    let src = o.paths[ a ];
-
-    if( o.allowingNull )
-    if( src === null )
-    break;
-
-    if( result === null )
-    result = '';
-
-    _.assert( _.strIs( src ), () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
-
-    prepending = prepend( src );
-    if( prepending === false && !o.isUri )
-    break;
-
-  }
-
-  /* */
-
-  if( result === '' )
-  return '.';
-
-  return result;
-
-  /* */
-
-  function prepend( src )
+  return function joining()
   {
 
-    if( o.isUri )
-    src = self.refine( src );
-    else
-    src = self.refine( src );
+    let parent = this.path;
+    let result = Object.create( null );
+    let srcs = [];
+    let parsed = false;
 
-    if( !src )
-    return prepending;
+    /* */
 
-    let doPrepend = prepending;
-    if( !doPrepend && o.isUri )
+    if( web )
     {
-      if( src.indexOf( '//' ) !== -1 )
+
+      for( let s = 0 ; s < arguments.length ; s++ )
       {
-        let i = src.indexOf( '//' );
-        i = src.indexOf( '/', i+2 );
-        if( i >= 0 )
+        if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
         {
-          src = src.substr( 0,i );
+          parsed = true;
+          srcs[ s ] = this.parseAtomic( arguments[ s ] );
         }
-        doPrepend = 1;
+        else
+        {
+          srcs[ s ] = { localPath : arguments[ s ] };
+        }
       }
-    }
-
-    if( doPrepend )
-    {
-
-      if( !o.isUri )
-      src = src.replace( /\\/g,'/' );
-
-      if( result && src[ src.length-1 ] === '/' && !_.strEnds( src, '//' ) )
-      if( src.length > 1 || result[ 0 ] === '/' )
-      src = src.substr( 0,src.length-1 );
-
-      if( src && src[ src.length-1 ] !== '/' && result && result[ 0 ] !== '/' )
-      result = '/' + result;
-
-      result = src + result;
 
     }
-
-    if( o.isUri )
+    else
     {
-      if( src.indexOf( '//' ) !== -1 )
+
+      for( let s = 0 ; s < arguments.length ; s++ )
       {
-        return false;
+        if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
+        {
+          parsed = true;
+          srcs[ s ] = this.parseConsecutive( arguments[ s ] );
+        }
+        else
+        {
+          srcs[ s ] = { longPath : arguments[ s ] };
+        }
       }
-    }
 
-    if( !o.reroot )
+    }
+    /* */
+
+    for( let s = srcs.length-1 ; s >= 0 ; s-- )
     {
-      if( src[ 0 ] === '/' )
-      return false;
-      // if( src[ 1 ] === ':' )
-      // console.warn( 'WARNING : Path could be native for windows, but should not',src );
-      // if( src[ 1 ] === ':' )
-      // debugger;
-      // if( src[ 1 ] === ':' )
-      // if( src[ 2 ] !== '/' || src[ 3 ] !== '/' )
-      // return false;
+      let src = srcs[ s ];
+
+      if( result.protocol && src.protocol )
+      if( result.protocol !== src.protocol )
+      continue;
+
+      if( !result.protocol && src.protocol !== undefined )
+      result.protocol = src.protocol;
+
+      if( web )
+      {
+
+        let hostWas = result.host;
+        if( !result.host && src.host !== undefined )
+        result.host = src.host;
+
+        if( !result.port && src.port !== undefined )
+        if( !hostWas || !src.host || hostWas === src.host )
+        result.port = src.port;
+
+        if( !result.localPath && src.localPath !== undefined )
+        result.localPath = src.localPath;
+        else if( src.localPath )
+        result.localPath = parent[ routineName ]( src.localPath, result.localPath );
+
+      }
+      else
+      {
+
+        if( !result.longPath && src.longPath !== undefined )
+        result.longPath = src.longPath;
+        else if( src.longPath )
+        result.longPath = parent[ routineName ]( src.longPath, result.longPath );
+
+      }
+
+      if( src.query !== undefined )
+      if( !result.query )
+      result.query = src.query;
+      else
+      result.query = src.query + '&' + result.query;
+
+      if( !result.hash && src.hash !==undefined )
+      result.hash = src.hash;
+
     }
 
-    return prepending;
+    /* */
+
+    if( !parsed )
+    {
+      if( web )
+      return result.localPath;
+      else
+      return result.longPath;
+    }
+
+    return this.str( result );
   }
 
 }
 
-_uriJoin_body.defaults =
+_joining_functor.defaults =
 {
-  paths : null,
-  reroot : 0,
-  isUri : 0,
-  allowingNull : 1,
+  routineName : null,
+  web : 0,
 }
 
 //
 
-function join()
-{
-  let parent = Object.getPrototypeOf( this );
-  let result = Object.create( null );
-  let srcs = [];
+let join = _joining_functor( 'join', 0 );
 
-  let parsed = false;
-
-  for( let s = 0 ; s < arguments.length ; s++ )
-  {
-    if( !arguments[ s ] )
-    {
-      srcs[ s ] = null;
-    }
-    else if( this.isGlobal( arguments[ s ] ) )
-    {
-      parsed = true;
-      srcs[ s ] = this.parsePrimitiveOnly( arguments[ s ] );
-    }
-    else
-    {
-      srcs[ s ] = { localPath : arguments[ s ] };
-    }
-  }
-
-  for( let s = srcs.length-1 ; s >= 0 ; s-- )
-  {
-    let src = srcs[ s ];
-
-    if( src === null )
-    break;
-
-    if( result.protocol && src.protocol )
-    if( result.protocol !== src.protocol )
-    continue;
-
-    if( !result.protocol && src.protocol !== undefined )
-    result.protocol = src.protocol;
-
-    let hostWas = result.host;
-    if( !result.host && src.host !== undefined )
-    // if( !result.port || !src.port || result.port === src.port )
-    result.host = src.host;
-
-    if( !result.port && src.port !== undefined )
-    if( !hostWas || !src.host || hostWas === src.host )
-    result.port = src.port;
-
-    if( !result.localPath && src.localPath !== undefined )
-    result.localPath = src.localPath;
-    else if( src.localPath )
-    result.localPath = parent.join( src.localPath, result.localPath );
-
-    if( src.query !== undefined )
-    if( !result.query )
-    result.query = src.query;
-    else
-    result.query += '&' + src.query;
-
-    if( !result.hash && src.hash !==undefined )
-    result.hash = src.hash;
-
-  }
-
-  if( !parsed )
-  return result.localPath;
-
-  return this.str( result );
-}
+// function join()
+// {
+//   let parent = this.path;
+//   let result = Object.create( null );
+//   let srcs = [];
+//   let parsed = false;
+//
+//   /* */
+//
+//   for( let s = 0 ; s < arguments.length ; s++ )
+//   {
+//     if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
+//     {
+//       parsed = true;
+//       srcs[ s ] = this.parseConsecutive( arguments[ s ] );
+//     }
+//     else
+//     {
+//       srcs[ s ] = { longPath : arguments[ s ] };
+//     }
+//   }
+//
+//   /* */
+//
+//   for( let s = srcs.length-1 ; s >= 0 ; s-- )
+//   {
+//     let src = srcs[ s ];
+//
+//     if( result.protocol && src.protocol )
+//     if( result.protocol !== src.protocol )
+//     continue;
+//
+//     if( !result.protocol && src.protocol !== undefined )
+//     result.protocol = src.protocol;
+//
+//     // let hostWas = result.host;
+//     // if( !result.host && src.host !== undefined )
+//     // result.host = src.host;
+//     //
+//     // if( !result.port && src.port !== undefined )
+//     // if( !hostWas || !src.host || hostWas === src.host )
+//     // result.port = src.port;
+//
+//     if( !result.longPath && src.longPath !== undefined )
+//     result.longPath = src.longPath;
+//     else if( src.longPath )
+//     result.longPath = parent.join( src.longPath, result.longPath );
+//
+//     if( src.query !== undefined )
+//     if( !result.query )
+//     result.query = src.query;
+//     else
+//     result.query = src.query + '&' + result.query;
+//
+//     if( !result.hash && src.hash !==undefined )
+//     result.hash = src.hash;
+//
+//   }
+//
+//   /* */
+//
+//   if( !parsed )
+//   return result.longPath;
+//
+//   return this.str( result );
+// }
 
 //
 
@@ -780,74 +1314,175 @@ let urisJoin = _.path._pathMultiplicator_functor
 });
 
 //
+//
+// function webJoin()
+// {
+//   let parent = this.path;
+//   let result = Object.create( null );
+//   let srcs = [];
+//   let parsed = false;
+//
+//   /* */
+//
+//   for( let s = 0 ; s < arguments.length ; s++ )
+//   {
+//     if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
+//     {
+//       parsed = true;
+//       srcs[ s ] = this.parseAtomic( arguments[ s ] );
+//     }
+//     else
+//     {
+//       srcs[ s ] = { localPath : arguments[ s ] };
+//     }
+//   }
+//
+//   /* */
+//
+//   for( let s = srcs.length-1 ; s >= 0 ; s-- )
+//   {
+//     let src = srcs[ s ];
+//
+//     if( result.protocol && src.protocol )
+//     if( result.protocol !== src.protocol )
+//     continue;
+//
+//     if( !result.protocol && src.protocol !== undefined )
+//     result.protocol = src.protocol;
+//
+//     let hostWas = result.host;
+//     if( !result.host && src.host !== undefined )
+//     result.host = src.host;
+//
+//     if( !result.port && src.port !== undefined )
+//     if( !hostWas || !src.host || hostWas === src.host )
+//     result.port = src.port;
+//
+//     if( !result.localPath && src.localPath !== undefined )
+//     result.localPath = src.localPath;
+//     else if( src.localPath )
+//     result.localPath = parent.join( src.localPath, result.localPath );
+//
+//     if( src.query !== undefined )
+//     if( !result.query )
+//     result.query = src.query;
+//     else
+//     result.query = src.query + '&' + result.query;
+//
+//     if( !result.hash && src.hash !==undefined )
+//     result.hash = src.hash;
+//
+//   }
+//
+//   /* */
+//
+//   if( !parsed )
+//   return result.localPath;
+//
+//   return this.str( result );
+// }
+//
+// let webJoin = _joining_functor( 'join', 1 );
+//
+// //
+//
+// let urisWebJoin = _.path._pathMultiplicator_functor
+// ({
+//   routine : webJoin,
+// });
+//
+//
+//
+// function resolve()
+// {
+//   let parent = this.path;
+//   let result = Object.create( null );
+//   let srcs = [];
+//   let parsed = false;
+//
+//   for( let s = 0 ; s < arguments.length ; s++ )
+//   {
+//     if( this.isGlobal( arguments[ s ] ) )
+//     {
+//       parsed = true;
+//       srcs[ s ] = this.parseConsecutive( arguments[ s ] );
+//     }
+//     else
+//     {
+//       srcs[ s ] = { longPath : arguments[ s ] };
+//     }
+//   }
+//
+//   for( let s = 0 ; s < srcs.length ; s++ )
+//   {
+//     let src = srcs[ s ];
+//
+//     if( !result.protocol && src.protocol !== undefined )
+//     result.protocol = src.protocol;
+//
+//     // if( !result.host && src.host !== undefined )
+//     // result.host = src.host;
+//     //
+//     // if( !result.port && src.port !== undefined )
+//     // result.port = src.port;
+//
+//     if( !result.longPath && src.longPath !== undefined )
+//     {
+//       if( !_.strIsNotEmpty( src.longPath ) )
+//       src.longPath = this._rootStr;
+//
+//       result.longPath = src.longPath;
+//     }
+//     else
+//     {
+//       result.longPath = parent.resolve( result.longPath, src.longPath );
+//     }
+//
+//     if( src.query !== undefined )
+//     if( !result.query )
+//     result.query = src.query;
+//     else
+//     result.query = src.query + '&' + result.query;
+//
+//     if( !result.hash && src.hash !==undefined )
+//     result.hash = src.hash;
+//
+//   }
+//
+//   if( !parsed )
+//   return result.longPath;
+//
+//   return this.str( result );
+// }
 
 function resolve()
 {
-  let parent = Object.getPrototypeOf( this );
-  let result = Object.create( null );
-  let srcs = [];
-  let parsed = false;
-
-  for( let s = 0 ; s < arguments.length ; s++ )
-  {
-    if( this.isGlobal( arguments[ s ] ) )
-    {
-      parsed = true;
-      srcs[ s ] = this.parsePrimitiveOnly( arguments[ s ] );
-    }
-    else
-    {
-      srcs[ s ] = { localPath : arguments[ s ] };
-    }
-  }
-
-  for( let s = 0 ; s < srcs.length ; s++ )
-  {
-    let src = srcs[ s ];
-
-    if( !result.protocol && src.protocol !== undefined )
-    result.protocol = src.protocol;
-
-    if( !result.host && src.host !== undefined )
-    result.host = src.host;
-
-    if( !result.port && src.port !== undefined )
-    result.port = src.port;
-
-    if( !result.localPath && src.localPath !== undefined )
-    {
-      if( !_.strIsNotEmpty( src.localPath ) )
-      src.localPath = this._rootStr;
-
-      result.localPath = src.localPath;
-    }
-    else
-    {
-      result.localPath = parent.resolve( result.localPath, src.localPath );
-    }
-
-    if( src.query !== undefined )
-    if( !result.query )
-    result.query = src.query;
-    else
-    result.query += '&' + src.query;
-
-    if( !result.hash && src.hash !==undefined )
-    result.hash = src.hash;
-
-  }
-
-  if( !parsed )
-  return result.localPath;
-
-  return this.str( result );
+  let parent = this.path;
+  let joined = this.join.apply( this, arguments );
+  let parsed = this.parseConsecutive( joined );
+  parsed.longPath = parent.resolve( parsed.longPath );
+  return this.str( parsed );
 }
+
+//
+//
+// function webResolve()
+// {
+//   let parent = this.path;
+//   let joined = this.webJoin.apply( this, arguments );
+//   let parsed = this.parseAtomic( joined );
+//   parsed.localPath = parent.resolve( parsed.localPath );
+//   return this.str( parsed );
+// }
+//
+// // let resolve = _joining_functor( 'resolve', 0 );
+// // let webResolve = _joining_functor( 'resolve', 1 );
 
 //
 
 function relative( o )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   if( arguments[ 1 ] !== undefined )
   {
@@ -860,14 +1495,15 @@ function relative( o )
   if( !this.isGlobal( o.relative ) && !this.isGlobal( o.path ) )
   return this._relative( o );
 
-  let relative = this.parsePrimitiveOnly( o.relative );
-  let path = this.parsePrimitiveOnly( o.path );
+  let relative = this.parseConsecutive( o.relative );
+  let path = this.parseConsecutive( o.path );
 
-  let optionsForPath = _.mapExtend( null,o );
-  optionsForPath.relative = relative.localPath;
-  optionsForPath.path = path.localPath;
+  let o2 = _.mapExtend( null,o );
+  o2.relative = relative.longPath;
+  o2.path = path.longPath;
 
-  relative.localPath = this._relative( optionsForPath );
+  // relative.localPath = null;
+  relative.longPath = this._relative( o2 );
 
   return this.str( relative );
 }
@@ -876,9 +1512,13 @@ relative.defaults = Object.create( _.path._relative.defaults );
 
 //
 
+/*
+qqq : teach it to work with uri maps
+*/
+
 function common( uris )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   let self = this;
 
   _.assert( arguments.length === 1, 'expects single argument' );
@@ -886,30 +1526,86 @@ function common( uris )
 
   let _uris = uris.slice();
 
-  _uris.sort( function( a, b )
+  /* */
+
+  let isRelative = null;
+  for( let i = 0, len = _uris.length; i < len; i++ )
   {
-    return b.length - a.length;
-  });
+    _uris[ i ] = parse( _uris[ i ] );
+    let isThisRelative = parent.isRelative( _uris[ i ].longPath );
+    _.assert( isRelative === isThisRelative || isRelative === null, 'Attempt to combine relative with absolutue paths' );
+    isRelative = isThisRelative;
+  }
 
-  let onlyLocals = true;
+  // _uris.sort( function( a, b )
+  // {
+  //   return b.length - a.length;
+  // });
 
-  let result = parse( _uris.pop() );
+  /* */
+
+  let result = _uris[ 0 ];
+  let protocol = null;
+  let withoutProtocol = 0;
+
+  /* */
 
   for( let i = 0, len = _uris.length; i < len; i++ )
   {
-    let currentUrl = parse( _uris[ i ] );
+    let uri = _uris[ i ];
 
-    if( result.protocol !== currentUrl.protocol || result.port !== currentUrl.port || result.host !== currentUrl.host )
+    // if( _.strIs( uri.protocol ) )
     {
-      result = '';
-      return result;
+      let protocol2 = uri.protocol || '';
+
+      if( protocol === null )
+      {
+        protocol = uri.protocol;
+        continue;
+      }
+
+      if( uri.protocol === protocol )
+      continue;
+
+      if( uri.protocol && protocol )
+      return '';
+
+      withoutProtocol = 1;
     }
 
-    result.localPath = this._common( currentUrl.localPath, result.localPath );
   }
 
-  if( onlyLocals )
-  return result.localPath;
+  if( withoutProtocol )
+  protocol = '';
+  result.protocol = protocol;
+
+  /* */
+
+  for( let i = 1, len = _uris.length; i < len; i++ )
+  {
+    let uri = _uris[ i ];
+
+    // let uri = parse( _uris[ i ] );
+    // if( result.protocol !== uri.protocol || result.port !== uri.port || result.host !== uri.host )
+    // {
+    //   result = '';
+    //   return result;
+    // }
+
+    // if( result.protocol && !uri.protocol || !result.protocol && uri.protocol )
+    // result.protocol = '';
+    //
+    // if( _.strIs( result.protocol ) && _.strIs( uri.protocol ) )
+    // if( result.protocol !== uri.protocol )
+    // {
+    //   result = '';
+    //   return result;
+    // }
+
+    result.longPath = parent._common( uri.longPath, result.longPath );
+  }
+
+  /* */
 
   return this.str( result );
 
@@ -919,14 +1615,14 @@ function common( uris )
   {
     let result;
 
+    if( _.strIs( uri ) )
     if( self.isGlobal( uri ) )
     {
-      result = self.parsePrimitiveOnly( uri );
-      onlyLocals = false;
+      result = self.parseConsecutive( uri );
     }
     else
     {
-      result = { localPath : uri };
+      result = { longPath : uri };
     }
 
     return result;
@@ -938,28 +1634,29 @@ function common( uris )
 
 function rebase( srcPath, oldPath, newPath )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   _.assert( arguments.length === 3, 'expects exactly three argument' );
 
-  srcPath = this.parsePrimitiveOnly( srcPath );
-  oldPath = this.parsePrimitiveOnly( oldPath );
-  newPath = this.parsePrimitiveOnly( newPath );
+  srcPath = this.parseConsecutive( srcPath );
+  oldPath = this.parseConsecutive( oldPath );
+  newPath = this.parseConsecutive( newPath );
 
-  let dstPath = _.mapExtend( null,srcPath,newPath );
+  let dstPath = _.mapExtend( null, srcPath, _.mapSelect( newPath, _.mapKeys( srcPath ) ) );
 
-  if( srcPath.protocol !== undefined && oldPath.protocol !== undefined )
-  {
-    if( srcPath.protocol === oldPath.protocol && newPath.protocol === undefined )
-    delete dstPath.protocol;
-  }
+  // if( srcPath.protocol !== undefined && oldPath.protocol !== undefined )
+  // {
+  //   if( srcPath.protocol === oldPath.protocol && newPath.protocol === undefined )
+  //   delete dstPath.protocol;
+  // }
+  //
+  // if( srcPath.host !== undefined && oldPath.host !== undefined )
+  // {
+  //   if( srcPath.host === oldPath.host && newPath.host === undefined )
+  //   delete dstPath.host;
+  // }
 
-  if( srcPath.host !== undefined && oldPath.host !== undefined )
-  {
-    if( srcPath.host === oldPath.host && newPath.host === undefined )
-    delete dstPath.host;
-  }
-
-  dstPath.localPath = parent.rebase( srcPath.localPath, oldPath.localPath, newPath.localPath );
+  // dstPath.localPath = null; xxx
+  dstPath.longPath = parent.rebase( srcPath.longPath, oldPath.longPath, newPath.longPath );
 
   return this.str( dstPath );
 }
@@ -968,22 +1665,22 @@ function rebase( srcPath, oldPath, newPath )
 
 function name( o )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
   if( _.strIs( o ) )
   o = { path : o }
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( o.path ) );
+  _.assert( _.strIs( o.path ) );
   _.routineOptions( name, o );
 
   if( !this.isGlobal( o.path ) )
   return parent.name( o );
 
-  let path = this.parse( o.path );
+  let path = this.parseConsecutive( o.path );
 
-  let optionsForName = _.mapExtend( null,o );
-  optionsForName.path = path.localPath;
-  return parent.name( optionsForName );
+  let o2 = _.mapExtend( null,o );
+  o2.path = path.longPath;
+  return parent.name( o2 );
 }
 
 name.defaults = Object.create( _.path.name.defaults );
@@ -992,13 +1689,13 @@ name.defaults = Object.create( _.path.name.defaults );
 
 function ext( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
+  _.assert( _.strIs( path ) );
 
   if( this.isGlobal( path ) )
-  path = this.parse( path ).localPath;
+  path = this.parseConsecutive( path ).longPath;
 
   return parent.ext( path );
 }
@@ -1007,13 +1704,13 @@ function ext( path )
 
 function exts( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
 
   if( this.isGlobal( path ) )
-  path = this.parse( path ).localPath;
+  path = this.parseConsecutive( path ).longPath;
 
   return parent.exts( path );
 }
@@ -1022,7 +1719,7 @@ function exts( path )
 
 function changeExt( path, ext )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -1031,11 +1728,12 @@ function changeExt( path, ext )
   if( !this.isGlobal( path ) )
   return parent.changeExt( path, ext );
 
-  path = this.parse( path );
-  path.localPath = this.changeExt( path.localPath, ext );
+  path = this.parseConsecutive( path );
 
-  path.full = null;
-  path.origin = null;
+  // path.localPath = null;
+  path.longPath = this.changeExt( path.longPath, ext );
+  // path.full = null;
+  // path.origin = null;
 
   return this.str( path );
 }
@@ -1044,7 +1742,7 @@ function changeExt( path, ext )
 
 function dir( path )
 {
-  let parent = Object.getPrototypeOf( this );
+  let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
   _.assert( _.strIsNotEmpty( path ) );
@@ -1052,11 +1750,12 @@ function dir( path )
   if( !this.isGlobal( path ) )
   return parent.dir( path );
 
-  path = this.parse( path );
-  path.localPath = this.dir( path.localPath );
+  path = this.parseConsecutive( path );
+  // path.localPath = null;
+  path.longPath = this.dir( path.longPath );
 
-  path.full = null;
-  path.origin = null;
+  // path.full = null;
+  // path.origin = null;
 
   return this.str( path );
 }
@@ -1076,7 +1775,7 @@ function dir( path )
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
  * @method documentGet
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function documentGet( path, o )
@@ -1130,7 +1829,7 @@ documentGet.defaults =
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
  * @method server
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function server( path )
@@ -1166,7 +1865,7 @@ function server( path )
  * @param {string } [path] uri
  * @returns {string}
  * @method query
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function query( path )
@@ -1198,7 +1897,7 @@ function query( path )
  * @param {string} query query string
  * @returns {Object}
  * @method dequery
- * @memberof wTools
+ * @memberof wTools.uri
  */
 
 function dequery( query )
@@ -1246,7 +1945,7 @@ function dequery( query )
 let Fields =
 {
 
-  _uriComponents : _uriComponents,
+  UriComponents : UriComponents,
 
 }
 
@@ -1274,9 +1973,11 @@ let Routines =
 
   _uriParse : _uriParse,
   parse : parse,
-  parsePrimitiveOnly : parsePrimitiveOnly,
+  parseAtomic : parseAtomic,
+  parseConsecutive : parseConsecutive,
 
   str : str,
+  full : full,
   // from : from,
 
   refine : refine,
@@ -1289,11 +1990,13 @@ let Routines =
 
   normalizeTolerant : normalizeTolerant,
 
-  _uriJoin_body : _uriJoin_body,
+  // _uriJoin_body : _uriJoin_body,
+  _joining_functor : _joining_functor,
+
   join : join,
   urisJoin : urisJoin,
-
   resolve : resolve,
+
   relative : relative,
   common : common,
   rebase : rebase,
