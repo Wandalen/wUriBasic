@@ -2862,21 +2862,54 @@ function join( test )
   var got = _.uri.join( 'a://b', 'c://d/e', '//f/g' );
   test.identical( got, 'c:////f/g' )
 
-  /* */
+  /* - */
 
-  test.case = 'works like join';
+  test.case = 'not global, windows path';
   var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
   var expected = '/c/foo/bar';
   var got = _.uri.join.apply( _.uri, paths );
   test.identical( got, expected );
 
-  test.case = 'join unix os paths';
+  test.case = 'not global';
   var paths = [ '/bar/', '/baz', 'foo/', '.' ];
   var expected = '/baz/foo/.';
   var got = _.uri.join.apply( _.uri, paths );
   test.identical( got, expected );
 
-  test.case = 'more complicated cases'; /* */
+  /* - */
+
+  test.open( 'with nulls' );
+
+  var paths = [ 'a', null ];
+  var expected = null;
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/', null ];
+  var expected = null;
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'a', null, 'b' ];
+  var expected = 'b';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/a', null, 'b' ];
+  var expected = 'b';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/a', null, '/b' ];
+  var expected = '/b';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  test.close( 'with nulls' );
+
+  /* - */
+
+  test.case = 'other special cases';
 
   /* qqq */
 
