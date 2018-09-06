@@ -2545,6 +2545,18 @@ function dequery( test )
 function join( test )
 {
 
+  test.case = 'join with empty';
+  var paths = [ '', 'a/b', '', 'c', '' ];
+  var expected = 'a/b/c';
+  var got = _.path.join.apply( _.path, paths );
+  test.identical( got, expected );
+
+  test.case = 'replace protocol';
+
+  var got = _.uri.join( 'src:///in', 'fmap://' );
+  var expected = 'fmap:///in/.';
+  test.identical( got, expected );
+
   test.case = 'join different protocols';
 
   var got = _.uri.join( 'file://www.site.com:13','a','http:///dir','b' );
@@ -2857,7 +2869,8 @@ function join( test )
   test.identical( got, '//b/c' )
 
   var got = _.uri.join( 'b://c', 'd://e', 'f' );
-  test.identical( got, 'd://e/f' );
+  test.identical( got, 'd://c/e/f' );
+  // test.identical( got, 'd://e/f' );
 
   var got = _.uri.join( 'a://b', 'c://d/e', '//f/g' );
   test.identical( got, 'c:////f/g' )

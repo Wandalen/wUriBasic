@@ -778,7 +778,7 @@ str.components = UriComponents;
 //
 //   return result;
 // }
-
+//
 //
 //
 // /**
@@ -818,7 +818,7 @@ str.components = UriComponents;
 //
 //   return this.str( carentParsed );
 // }
-
+//
 //
 
 /**
@@ -870,7 +870,7 @@ function refine( fileUri )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( fileUri ) );
+  _.assert( _.strIs( fileUri ) );
 
   if( this.isGlobal( fileUri ) )
   fileUri = this.parseConsecutive( fileUri );
@@ -1181,6 +1181,7 @@ function _joining_functor( gen )
     {
       let src = srcs[ s ];
 
+      if( web )
       if( result.protocol && src.protocol )
       if( result.protocol !== src.protocol )
       continue;
