@@ -778,7 +778,7 @@ str.components = UriComponents;
 //
 //   return result;
 // }
-
+//
 //
 //
 // /**
@@ -818,7 +818,7 @@ str.components = UriComponents;
 //
 //   return this.str( carentParsed );
 // }
-
+//
 //
 
 /**
@@ -870,7 +870,7 @@ function refine( fileUri )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( fileUri ) );
+  _.assert( _.strIs( fileUri ) );
 
   if( this.isGlobal( fileUri ) )
   fileUri = this.parseConsecutive( fileUri );
@@ -1163,12 +1163,25 @@ function _joining_functor( gen )
       }
 
     }
+
+    /* */
+
+    if( web )
+    {
+      result.localPath = undefined;
+    }
+    else
+    {
+      result.longPath = undefined;
+    }
+
     /* */
 
     for( let s = srcs.length-1 ; s >= 0 ; s-- )
     {
       let src = srcs[ s ];
 
+      if( web )
       if( result.protocol && src.protocol )
       if( result.protocol !== src.protocol )
       continue;
@@ -1192,14 +1205,20 @@ function _joining_functor( gen )
         else if( src.localPath )
         result.localPath = parent[ routineName ]( src.localPath, result.localPath );
 
+        if( src.localPath === null )
+        break;
+
       }
       else
       {
 
-        if( !result.longPath && src.longPath !== undefined )
+        if( result.longPath === undefined && src.longPath !== undefined )
         result.longPath = src.longPath;
         else if( src.longPath )
         result.longPath = parent[ routineName ]( src.longPath, result.longPath );
+
+        if( src.longPath === null )
+        break;
 
       }
 
@@ -1239,73 +1258,6 @@ _joining_functor.defaults =
 
 let join = _joining_functor( 'join', 0 );
 
-// function join()
-// {
-//   let parent = this.path;
-//   let result = Object.create( null );
-//   let srcs = [];
-//   let parsed = false;
-//
-//   /* */
-//
-//   for( let s = 0 ; s < arguments.length ; s++ )
-//   {
-//     if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
-//     {
-//       parsed = true;
-//       srcs[ s ] = this.parseConsecutive( arguments[ s ] );
-//     }
-//     else
-//     {
-//       srcs[ s ] = { longPath : arguments[ s ] };
-//     }
-//   }
-//
-//   /* */
-//
-//   for( let s = srcs.length-1 ; s >= 0 ; s-- )
-//   {
-//     let src = srcs[ s ];
-//
-//     if( result.protocol && src.protocol )
-//     if( result.protocol !== src.protocol )
-//     continue;
-//
-//     if( !result.protocol && src.protocol !== undefined )
-//     result.protocol = src.protocol;
-//
-//     // let hostWas = result.host;
-//     // if( !result.host && src.host !== undefined )
-//     // result.host = src.host;
-//     //
-//     // if( !result.port && src.port !== undefined )
-//     // if( !hostWas || !src.host || hostWas === src.host )
-//     // result.port = src.port;
-//
-//     if( !result.longPath && src.longPath !== undefined )
-//     result.longPath = src.longPath;
-//     else if( src.longPath )
-//     result.longPath = parent.join( src.longPath, result.longPath );
-//
-//     if( src.query !== undefined )
-//     if( !result.query )
-//     result.query = src.query;
-//     else
-//     result.query = src.query + '&' + result.query;
-//
-//     if( !result.hash && src.hash !==undefined )
-//     result.hash = src.hash;
-//
-//   }
-//
-//   /* */
-//
-//   if( !parsed )
-//   return result.longPath;
-//
-//   return this.str( result );
-// }
-
 //
 
 let urisJoin = _.path._pathMultiplicator_functor
@@ -1314,146 +1266,6 @@ let urisJoin = _.path._pathMultiplicator_functor
 });
 
 //
-//
-// function webJoin()
-// {
-//   let parent = this.path;
-//   let result = Object.create( null );
-//   let srcs = [];
-//   let parsed = false;
-//
-//   /* */
-//
-//   for( let s = 0 ; s < arguments.length ; s++ )
-//   {
-//     if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
-//     {
-//       parsed = true;
-//       srcs[ s ] = this.parseAtomic( arguments[ s ] );
-//     }
-//     else
-//     {
-//       srcs[ s ] = { localPath : arguments[ s ] };
-//     }
-//   }
-//
-//   /* */
-//
-//   for( let s = srcs.length-1 ; s >= 0 ; s-- )
-//   {
-//     let src = srcs[ s ];
-//
-//     if( result.protocol && src.protocol )
-//     if( result.protocol !== src.protocol )
-//     continue;
-//
-//     if( !result.protocol && src.protocol !== undefined )
-//     result.protocol = src.protocol;
-//
-//     let hostWas = result.host;
-//     if( !result.host && src.host !== undefined )
-//     result.host = src.host;
-//
-//     if( !result.port && src.port !== undefined )
-//     if( !hostWas || !src.host || hostWas === src.host )
-//     result.port = src.port;
-//
-//     if( !result.localPath && src.localPath !== undefined )
-//     result.localPath = src.localPath;
-//     else if( src.localPath )
-//     result.localPath = parent.join( src.localPath, result.localPath );
-//
-//     if( src.query !== undefined )
-//     if( !result.query )
-//     result.query = src.query;
-//     else
-//     result.query = src.query + '&' + result.query;
-//
-//     if( !result.hash && src.hash !==undefined )
-//     result.hash = src.hash;
-//
-//   }
-//
-//   /* */
-//
-//   if( !parsed )
-//   return result.localPath;
-//
-//   return this.str( result );
-// }
-//
-// let webJoin = _joining_functor( 'join', 1 );
-//
-// //
-//
-// let urisWebJoin = _.path._pathMultiplicator_functor
-// ({
-//   routine : webJoin,
-// });
-//
-//
-//
-// function resolve()
-// {
-//   let parent = this.path;
-//   let result = Object.create( null );
-//   let srcs = [];
-//   let parsed = false;
-//
-//   for( let s = 0 ; s < arguments.length ; s++ )
-//   {
-//     if( this.isGlobal( arguments[ s ] ) )
-//     {
-//       parsed = true;
-//       srcs[ s ] = this.parseConsecutive( arguments[ s ] );
-//     }
-//     else
-//     {
-//       srcs[ s ] = { longPath : arguments[ s ] };
-//     }
-//   }
-//
-//   for( let s = 0 ; s < srcs.length ; s++ )
-//   {
-//     let src = srcs[ s ];
-//
-//     if( !result.protocol && src.protocol !== undefined )
-//     result.protocol = src.protocol;
-//
-//     // if( !result.host && src.host !== undefined )
-//     // result.host = src.host;
-//     //
-//     // if( !result.port && src.port !== undefined )
-//     // result.port = src.port;
-//
-//     if( !result.longPath && src.longPath !== undefined )
-//     {
-//       if( !_.strIsNotEmpty( src.longPath ) )
-//       src.longPath = this._rootStr;
-//
-//       result.longPath = src.longPath;
-//     }
-//     else
-//     {
-//       result.longPath = parent.resolve( result.longPath, src.longPath );
-//     }
-//
-//     if( src.query !== undefined )
-//     if( !result.query )
-//     result.query = src.query;
-//     else
-//     result.query = src.query + '&' + result.query;
-//
-//     if( !result.hash && src.hash !==undefined )
-//     result.hash = src.hash;
-//
-//   }
-//
-//   if( !parsed )
-//   return result.longPath;
-//
-//   return this.str( result );
-// }
 
 function resolve()
 {
@@ -1463,20 +1275,6 @@ function resolve()
   parsed.longPath = parent.resolve( parsed.longPath );
   return this.str( parsed );
 }
-
-//
-//
-// function webResolve()
-// {
-//   let parent = this.path;
-//   let joined = this.webJoin.apply( this, arguments );
-//   let parsed = this.parseAtomic( joined );
-//   parsed.localPath = parent.resolve( parsed.localPath );
-//   return this.str( parsed );
-// }
-//
-// // let resolve = _joining_functor( 'resolve', 0 );
-// // let webResolve = _joining_functor( 'resolve', 1 );
 
 //
 
@@ -1502,7 +1300,6 @@ function relative( o )
   o2.relative = relative.longPath;
   o2.path = path.longPath;
 
-  // relative.localPath = null;
   relative.longPath = this._relative( o2 );
 
   return this.str( relative );
