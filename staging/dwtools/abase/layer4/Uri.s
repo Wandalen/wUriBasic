@@ -1313,62 +1313,52 @@ relative.defaults = Object.create( _.path._relative.defaults );
 qqq : teach it to work with uri maps
 */
 
-function common( uris )
+function common()
 {
   let parent = this.path;
   let self = this;
+  let uris = _.longSlice( arguments );
 
-  _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.longIs( uris ) );
-
-  let _uris = uris.slice();
+  _.assert( _.strsAre( arguments ) );
 
   /* */
 
   let isRelative = null;
-  for( let i = 0, len = _uris.length; i < len; i++ )
+  for( let i = 0, len = uris.length; i < len; i++ )
   {
-    _uris[ i ] = parse( _uris[ i ] );
-    let isThisRelative = parent.isRelative( _uris[ i ].longPath );
+    uris[ i ] = parse( uris[ i ] );
+    let isThisRelative = parent.isRelative( uris[ i ].longPath );
     _.assert( isRelative === isThisRelative || isRelative === null, 'Attempt to combine relative with absolutue paths' );
     isRelative = isThisRelative;
   }
 
-  // _uris.sort( function( a, b )
-  // {
-  //   return b.length - a.length;
-  // });
-
   /* */
 
-  let result = _uris[ 0 ];
+  let result = uris[ 0 ];
   let protocol = null;
   let withoutProtocol = 0;
 
   /* */
 
-  for( let i = 0, len = _uris.length; i < len; i++ )
+  for( let i = 0, len = uris.length; i < len; i++ )
   {
-    let uri = _uris[ i ];
+    let uri = uris[ i ];
 
-    // if( _.strIs( uri.protocol ) )
+    let protocol2 = uri.protocol || '';
+
+    if( protocol === null )
     {
-      let protocol2 = uri.protocol || '';
-
-      if( protocol === null )
-      {
-        protocol = uri.protocol;
-        continue;
-      }
-
-      if( uri.protocol === protocol )
+      protocol = uri.protocol;
       continue;
-
-      if( uri.protocol && protocol )
-      return '';
-
-      withoutProtocol = 1;
     }
+
+    if( uri.protocol === protocol )
+    continue;
+
+    if( uri.protocol && protocol )
+    return '';
+
+    withoutProtocol = 1;
 
   }
 
@@ -1378,27 +1368,9 @@ function common( uris )
 
   /* */
 
-  for( let i = 1, len = _uris.length; i < len; i++ )
+  for( let i = 1, len = uris.length; i < len; i++ )
   {
-    let uri = _uris[ i ];
-
-    // let uri = parse( _uris[ i ] );
-    // if( result.protocol !== uri.protocol || result.port !== uri.port || result.host !== uri.host )
-    // {
-    //   result = '';
-    //   return result;
-    // }
-
-    // if( result.protocol && !uri.protocol || !result.protocol && uri.protocol )
-    // result.protocol = '';
-    //
-    // if( _.strIs( result.protocol ) && _.strIs( uri.protocol ) )
-    // if( result.protocol !== uri.protocol )
-    // {
-    //   result = '';
-    //   return result;
-    // }
-
+    let uri = uris[ i ];
     result.longPath = parent._common( uri.longPath, result.longPath );
   }
 
