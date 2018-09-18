@@ -1084,7 +1084,7 @@ function refine( test )
 
   var cases =
   [
-    { src : '', error : true },
+    { src : '', expected : '.' },
 
     { src : 'a/', expected : 'a' },
     { src : 'a//', expected : 'a//' },
@@ -2554,7 +2554,7 @@ function join( test )
   test.case = 'replace protocol';
 
   var got = _.uri.join( 'src:///in', 'fmap://' );
-  var expected = 'fmap:///in/.';
+  var expected = 'fmap:///in';
   test.identical( got, expected );
 
   test.case = 'join different protocols';
@@ -3033,6 +3033,9 @@ function common( test )
   var got = _.uri.common( '://some/staging/a/b/c', '://some/staging/a/b/c/index.html', '://some/staging/a/x' );
   test.identical( got, '://some/staging/a/' );
 
+  var got = _.uri.common( 'http:///', 'http:///' );
+  test.identical( got, 'http:///' );
+
 /*
   var got = _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' );
   var got = _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' );
@@ -3049,7 +3052,7 @@ function common( test )
   test.shouldThrowError( () => _.uri.common([]) );
   test.shouldThrowError( () => _.uri.common() );
   test.shouldThrowError( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
-  test.shouldThrowError( () => _.uri.common( 'http:///', 'http:///' ) );
+  test.shouldThrowError( () => _.uri.common( [ 'http:///' ], 'http:///' ) );
 
 }
 
