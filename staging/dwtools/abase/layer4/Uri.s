@@ -1149,6 +1149,7 @@ function _joining_functor( gen )
     else
     {
 
+      debugger;
       for( let s = 0 ; s < arguments.length ; s++ )
       {
         if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
@@ -1639,10 +1640,8 @@ function server( path )
 
 function query( path )
 {
-
   if( path === undefined )
   path = _realGlobal_.location.href;
-
   if( path.indexOf( '?' ) === -1 ) return '';
   return path.split( '?' )[ 1 ];
 }
@@ -1714,6 +1713,7 @@ function dequery( query )
 let Fields =
 {
 
+  single : Self,
   UriComponents : UriComponents,
 
 }
@@ -1785,6 +1785,8 @@ let Routines =
 
 _.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Routines );
+
+Self.Init();
 
 // --
 // export
