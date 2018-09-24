@@ -1149,7 +1149,6 @@ function _joining_functor( gen )
     else
     {
 
-      debugger;
       for( let s = 0 ; s < arguments.length ; s++ )
       {
         if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
