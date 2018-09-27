@@ -1683,6 +1683,667 @@ function parse( test )
 
 //
 
+function parseGlob( test )
+{
+  test.open( 'local path' );
+
+  var src = '!a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/!a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/!a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/^a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/+a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/!';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/^';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/+';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '?';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '*';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '**';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '?c.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '*.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '**/a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir?c/a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/*.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/**.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/**/a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/dir?c/a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/dir/*.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/dir/**.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/dir/**/a.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '[a-c]';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '{a,c}';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '(a|b)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '(ab)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '@(ab)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '!(ab)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '?(ab)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '*(ab)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '+(ab)';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/[a-c].js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/{a,c}.js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/(a|b).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/(ab).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/@(ab).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/!(ab).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/?(ab).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/*(ab).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = 'dir/+(ab).js';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  var src = '/index/**';
+  var got = _.uri.parse( src );
+  var expected = { localPath : src };
+  test.contains( got, expected );
+
+  test.close( 'local path' );
+
+  //
+
+  test.open( 'complex uri' );
+
+  var src = '/!a.js?';
+  var uri = 'complex+protocol://www.site.com:13/!a.js??query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/a/!a.js';
+  var uri = 'complex+protocol://www.site.com:13/a/!a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/a/^a.js';
+  var uri = 'complex+protocol://www.site.com:13/a/^a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/a/+a.js';
+  var uri = 'complex+protocol://www.site.com:13/a/+a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/a/!';
+  var uri = 'complex+protocol://www.site.com:13/a/!?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/a/^';
+  var uri = 'complex+protocol://www.site.com:13/a/^?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/a/+';
+  var uri = 'complex+protocol://www.site.com:13/a/+?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/?';
+  var uri = 'complex+protocol://www.site.com:13/??query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/*';
+  var uri = 'complex+protocol://www.site.com:13/*?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/**';
+  var uri = 'complex+protocol://www.site.com:13/**?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/?c.js';
+  var uri = 'complex+protocol://www.site.com:13/?c.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/*.js';
+  var uri = 'complex+protocol://www.site.com:13/*.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/**/a.js';
+  var uri = 'complex+protocol://www.site.com:13/**/a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir?c/a.js';
+  var uri = 'complex+protocol://www.site.com:13/dir?c/a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/*.js';
+  var uri = 'complex+protocol://www.site.com:13/dir/*.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/**.js';
+  var uri = 'complex+protocol://www.site.com:13/dir/**.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/**/a.js';
+  var uri = 'complex+protocol://www.site.com:13/dir/**/a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir?c/a.js';
+  var uri = 'complex+protocol://www.site.com:13/dir?c/a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/*.js';
+  var uri = 'complex+protocol://www.site.com:13/dir/*.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/**/a.js';
+  var uri = 'complex+protocol://www.site.com:13/dir/**/a.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/[a-c]';
+  var uri = 'complex+protocol://www.site.com:13/[a-c]?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/{a-c}';
+  var uri = 'complex+protocol://www.site.com:13/{a-c}?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/(a|b)';
+  var uri = 'complex+protocol://www.site.com:13/(a|b)?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/@(ab)';
+  var uri = 'complex+protocol://www.site.com:13/@(ab)?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/!(ab)';
+  var uri = 'complex+protocol://www.site.com:13/!(ab)?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/?(ab)';
+  var uri = 'complex+protocol://www.site.com:13/?(ab)?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/*(ab)';
+  var uri = 'complex+protocol://www.site.com:13/*(ab)?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/+(ab)';
+  var uri = 'complex+protocol://www.site.com:13/+(ab)?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/[a-c].js';
+  var uri = 'complex+protocol://www.site.com:13/dir/[a-c].js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/{a,c}.js';
+  var uri = 'complex+protocol://www.site.com:13/dir/{a,c}.js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/(a|b).js';
+  var uri = 'complex+protocol://www.site.com:13/dir/(a|b).js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/(ab).js';
+  var uri = 'complex+protocol://www.site.com:13/dir/(ab).js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/@(ab).js';
+  var uri = 'complex+protocol://www.site.com:13/dir/@(ab).js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/?(ab).js';
+  var uri = 'complex+protocol://www.site.com:13/dir/?(ab).js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/*(ab).js';
+  var uri = 'complex+protocol://www.site.com:13/dir/*(ab).js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/dir/+(ab).js';
+  var uri = 'complex+protocol://www.site.com:13/dir/+(ab).js?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  var src = '/index/**';
+  var uri = 'complex+protocol://www.site.com:13/index/**?query=here&and=here#anchor';
+  var got = _.uri.parse( uri );
+  var expected =
+  {
+    localPath : src,
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  };
+  test.contains( got, expected );
+
+  test.close( 'complex uri' );
+
+  // '?';
+  // '*';
+  // '**';
+  // '?c.js';
+  // '*.js';
+  // '**/a.js';
+  // 'dir?c/a.js';
+  // 'dir/*.js';
+  // 'dir/**.js';
+  // 'dir/**/a.js';
+  // '/dir?c/a.js';
+  // '/dir/*.js';
+  // '/dir/**.js';
+  // '/dir/**/a.js';
+  // '[a-c]';
+  // '{a,c}';
+  // '(a|b)';
+  // '(ab)';
+  // '@(ab)';
+  // '!(ab)';
+  // '?(ab)';
+  // '*(ab)';
+  // '+(ab)';
+  // 'dir/[a-c].js';
+  // 'dir/{a,c}.js';
+  // 'dir/(a|b).js';
+  // 'dir/(ab).js';
+  // 'dir/@(ab).js';
+  // 'dir/!(ab).js';
+  // 'dir/?(ab).js';
+  // 'dir/*(ab).js';
+  // 'dir/+(ab).js';
+  // '/index/**';
+}
+
+//
+
 function str( test )
 {
 
@@ -3919,6 +4580,7 @@ var Self =
     refine : refine,
     urisRefine : urisRefine,
     parse : parse,
+    parseGlob : parseGlob,
     str : str,
     parseAndStr : parseAndStr,
     // from : from,

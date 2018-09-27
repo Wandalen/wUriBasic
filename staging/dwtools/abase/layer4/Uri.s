@@ -215,7 +215,7 @@ let _uriParseRegexpHostAndPortStr = '\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* ho
 
 _uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
 
-_uriParseRegexpStr += '([^\\?#]*)'; /* local path */
+_uriParseRegexpStr += '([^#]*\\?[^=#]*|[^\\?#]*)'; /* local path */
 _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
 _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
 _uriParseRegexpStr += '$';
