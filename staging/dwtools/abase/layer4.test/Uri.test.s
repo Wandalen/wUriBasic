@@ -1084,7 +1084,7 @@ function refine( test )
 
   var cases =
   [
-    { src : '', error : true },
+    { src : '', expected : '.' },
 
     { src : 'a/', expected : 'a' },
     { src : 'a//', expected : 'a//' },
@@ -2554,7 +2554,7 @@ function join( test )
   test.case = 'replace protocol';
 
   var got = _.uri.join( 'src:///in', 'fmap://' );
-  var expected = 'fmap:///in/.';
+  var expected = 'fmap:///in';
   test.identical( got, expected );
 
   test.case = 'join different protocols';
@@ -2966,76 +2966,79 @@ complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor
 function common( test )
 {
 
-  var got = _.uri.common([ '://a1/b2', '://some/staging/index.html' ]);
+  var got = _.uri.common( '://a1/b2', '://some/staging/index.html' );
   test.identical( got, '://.' );
 
-  var got = _.uri.common([ '://some/staging/index.html', '://a1/b2' ]);
+  var got = _.uri.common( '://some/staging/index.html', '://a1/b2' );
   test.identical( got, '://.' );
 
-  var got = _.uri.common([ '://some/staging/index.html', '://some/staging/' ]);
+  var got = _.uri.common( '://some/staging/index.html', '://some/staging/' );
   test.identical( got, '://some/staging' );
 
-  var got = _.uri.common([ '://some/staging/index.html', '://some/stagi' ]);
+  var got = _.uri.common( '://some/staging/index.html', '://some/stagi' );
   test.identical( got, '://some/' );
 
-  var got = _.uri.common([ 'file:///some/staging/index.html', ':///some/stagi' ]);
+  var got = _.uri.common( 'file:///some/staging/index.html', ':///some/stagi' );
   test.identical( got, ':///some/' );
 
-  var got = _.uri.common([ 'file://some/staging/index.html', '://some/stagi' ]);
+  var got = _.uri.common( 'file://some/staging/index.html', '://some/stagi' );
   test.identical( got, '://some/' );
 
-  var got = _.uri.common([ 'file:///some/staging/index.html', '/some/stagi' ]);
+  var got = _.uri.common( 'file:///some/staging/index.html', '/some/stagi' );
   test.identical( got, ':///some/' );
 
-  var got = _.uri.common([ 'file:///some/staging/index.html', 'file:///some/staging' ]);
+  var got = _.uri.common( 'file:///some/staging/index.html', 'file:///some/staging' );
   test.identical( got, 'file:///some/staging' );
 
-  var got = _.uri.common([ 'http://some', 'some/staging' ]);
+  var got = _.uri.common( 'http://some', 'some/staging' );
   test.identical( got, '://some' );
 
-  var got = _.uri.common([ 'some/staging', 'http://some' ]);
+  var got = _.uri.common( 'some/staging', 'http://some' );
   test.identical( got, '://some' );
 
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'some/staging' ]);
+  var got = _.uri.common( 'http://some.come/staging/index.html', 'some/staging' );
   test.identical( got, '://.' );
 
-  var got = _.uri.common([ 'http:///some.come/staging/index.html', '/some/staging' ]);
+  var got = _.uri.common( 'http:///some.come/staging/index.html', '/some/staging' );
   test.identical( got, ':///' );
 
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'file://some/staging' ]);
+  var got = _.uri.common( 'http://some.come/staging/index.html', 'file://some/staging' );
   test.identical( got, '' );
 
-  var got = _.uri.common([ 'http:///some.come/staging/index.html', 'file:///some/staging' ]);
+  var got = _.uri.common( 'http:///some.come/staging/index.html', 'file:///some/staging' );
   test.identical( got, '' );
 
-  var got = _.uri.common([ 'http:///some.come/staging/index.html', 'http:///some/staging/file.html' ]);
+  var got = _.uri.common( 'http:///some.come/staging/index.html', 'http:///some/staging/file.html' );
   test.identical( got, 'http:///' );
 
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'http://some.come/some/staging/file.html' ]);
+  var got = _.uri.common( 'http://some.come/staging/index.html', 'http://some.come/some/staging/file.html' );
   test.identical( got, 'http://some.come/' );
 
   // qqq !!! : implement
-  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' ]);
+  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
   // test.identical( got, 'complex+protocol://www.site.com:13/path' );
   //
-  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' ]);
+  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
   // test.identical( got, 'complex+protocol://www.site.com:13/path' );
   //
-  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' ]);
+  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' );
   // test.identical( got, 'complex+protocol://www.site.com:13/path' );
   //
-  // var got = _.uri.common([ 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' ]);
+  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
   // test.identical( got, 'complex+protocol://www.site.com:13/path' );
   //
-  // var got = _.uri.common([ 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' ]);
+  // var got = _.uri.common( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' );
   // test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
 
-  var got = _.uri.common([ '://some/staging/a/b/c', '://some/staging/a/b/c/index.html', '://some/staging/a/x' ]);
+  var got = _.uri.common( '://some/staging/a/b/c', '://some/staging/a/b/c/index.html', '://some/staging/a/x' );
   test.identical( got, '://some/staging/a/' );
 
+  var got = _.uri.common( 'http:///', 'http:///' );
+  test.identical( got, 'http:///' );
+
 /*
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'file:///some/staging' ]);
-  var got = _.uri.common([ 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ]);
+  var got = _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' );
+  var got = _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' );
 
 */
 
@@ -3044,12 +3047,12 @@ function common( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => _.uri.common([ 'http://some.come/staging/index.html', 'file:///some/staging' ]) );
-  test.shouldThrowError( () => _.uri.common([ 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ]) );
+  test.shouldThrowError( () => _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' ) );
+  test.shouldThrowError( () => _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
   test.shouldThrowError( () => _.uri.common([]) );
   test.shouldThrowError( () => _.uri.common() );
   test.shouldThrowError( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
-  test.shouldThrowError( () => _.uri.common( 'http:///', 'http:///' ) );
+  test.shouldThrowError( () => _.uri.common( [ 'http:///' ], 'http:///' ) );
 
 }
 
@@ -3059,177 +3062,177 @@ function commonLocalPaths( test )
 {
   test.case = 'absolute-absolute'
 
-  var got = _.uri.common([ '/a1/b2', '/a1/b' ]);
+  var got = _.uri.common( '/a1/b2', '/a1/b' );
   test.identical( got, '/a1/' );
 
-  var got = _.uri.common([ '/a1/b2', '/a1/b1' ]);
+  var got = _.uri.common( '/a1/b2', '/a1/b1' );
   test.identical( got, '/a1/' );
 
-  var got = _.uri.common([ '/a1/x/../b1', '/a1/b1' ]);
+  var got = _.uri.common( '/a1/x/../b1', '/a1/b1' );
   test.identical( got, '/a1/b1' );
 
-  var got = _.uri.common([ '/a1/b1/c1', '/a1/b1/c' ]);
+  var got = _.uri.common( '/a1/b1/c1', '/a1/b1/c' );
   test.identical( got, '/a1/b1/' );
 
-  var got = _.uri.common([ '/a1/../../b1/c1', '/a1/b1/c1' ]);
+  var got = _.uri.common( '/a1/../../b1/c1', '/a1/b1/c1' );
   test.identical( got, '/' );
 
-  var got = _.uri.common([ '/abcd', '/ab' ]);
+  var got = _.uri.common( '/abcd', '/ab' );
   test.identical( got, '/' );
 
-  var got = _.uri.common([ '/.a./.b./.c.', '/.a./.b./.c' ]);
+  var got = _.uri.common( '/.a./.b./.c.', '/.a./.b./.c' );
   test.identical( got, '/.a./.b./' );
 
-  var got = _.uri.common([ '//a//b//c', '/a/b' ]);
+  var got = _.uri.common( '//a//b//c', '/a/b' );
   test.identical( got, '/' );
 
-  var got = _.uri.common([ '/a//b', '/a//b' ]);
+  var got = _.uri.common( '/a//b', '/a//b' );
   test.identical( got, '/a//b' );
 
-  var got = _.uri.common([ '/a//', '/a//' ]);
+  var got = _.uri.common( '/a//', '/a//' );
   test.identical( got, '/a//' );
 
-  var got = _.uri.common([ '/./a/./b/./c', '/a/b' ]);
+  var got = _.uri.common( '/./a/./b/./c', '/a/b' );
   test.identical( got, '/a/b' );
 
-  var got = _.uri.common([ '/A/b/c', '/a/b/c' ]);
+  var got = _.uri.common( '/A/b/c', '/a/b/c' );
   test.identical( got, '/' );
 
-  var got = _.uri.common([ '/', '/x' ]);
+  var got = _.uri.common( '/', '/x' );
   test.identical( got, '/' );
 
-  var got = _.uri.common([ '/a', '/x'  ]);
+  var got = _.uri.common( '/a', '/x'  );
   test.identical( got, '/' );
 
   // test.case = 'absolute-relative'
   //
-  // var got = _.uri.common([ '/', '..' ]);
+  // var got = _.uri.common( '/', '..' );
   // test.identical( got, '/' );
   //
-  // var got = _.uri.common([ '/', '.' ]);
+  // var got = _.uri.common( '/', '.' );
   // test.identical( got, '/' );
   //
-  // var got = _.uri.common([ '/', 'x' ]);
+  // var got = _.uri.common( '/', 'x' );
   // test.identical( got, '/' );
   //
-  // var got = _.uri.common([ '/', '../..' ]);
+  // var got = _.uri.common( '/', '../..' );
   // test.identical( got, '/' );
 
   test.case = 'relative-relative'
 
-  var got = _.uri.common([ 'a1/b2', 'a1/b' ]);
+  var got = _.uri.common( 'a1/b2', 'a1/b' );
   test.identical( got, 'a1/' );
 
-  var got = _.uri.common([ 'a1/b2', 'a1/b1' ]);
+  var got = _.uri.common( 'a1/b2', 'a1/b1' );
   test.identical( got, 'a1/' );
 
-  var got = _.uri.common([ 'a1/x/../b1', 'a1/b1' ]);
+  var got = _.uri.common( 'a1/x/../b1', 'a1/b1' );
   test.identical( got, 'a1/b1' );
 
-  var got = _.uri.common([ './a1/x/../b1', 'a1/b1' ]);
+  var got = _.uri.common( './a1/x/../b1', 'a1/b1' );
   test.identical( got,'a1/b1' );
 
-  var got = _.uri.common([ './a1/x/../b1', './a1/b1' ]);
+  var got = _.uri.common( './a1/x/../b1', './a1/b1' );
   test.identical( got, 'a1/b1');
 
-  var got = _.uri.common([ './a1/x/../b1', '../a1/b1' ]);
+  var got = _.uri.common( './a1/x/../b1', '../a1/b1' );
   test.identical( got, '..');
 
-  var got = _.uri.common([ '.', '..' ]);
+  var got = _.uri.common( '.', '..' );
   test.identical( got, '..' );
 
-  var got = _.uri.common([ './b/c', './x' ]);
+  var got = _.uri.common( './b/c', './x' );
   test.identical( got, '.' );
 
-  var got = _.uri.common([ './././a', './a/b' ]);
+  var got = _.uri.common( './././a', './a/b' );
   test.identical( got, 'a' );
 
-  var got = _.uri.common([ './a/./b', './a/b' ]);
+  var got = _.uri.common( './a/./b', './a/b' );
   test.identical( got, 'a/b' );
 
-  var got = _.uri.common([ './a/./b', './a/c/../b' ]);
+  var got = _.uri.common( './a/./b', './a/c/../b' );
   test.identical( got, 'a/b' );
 
-  var got = _.uri.common([ '../b/c', './x' ]);
+  var got = _.uri.common( '../b/c', './x' );
   test.identical( got, '..' );
 
-  var got = _.uri.common([ '../../b/c', '../b' ]);
+  var got = _.uri.common( '../../b/c', '../b' );
   test.identical( got, '../..' );
 
-  var got = _.uri.common([ '../../b/c', '../../../x' ]);
+  var got = _.uri.common( '../../b/c', '../../../x' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ '../../b/c/../../x', '../../../x' ]);
+  var got = _.uri.common( '../../b/c/../../x', '../../../x' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ './../../b/c/../../x', './../../../x' ]);
+  var got = _.uri.common( './../../b/c/../../x', './../../../x' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ '../../..', './../../..' ]);
+  var got = _.uri.common( '../../..', './../../..' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ './../../..', './../../..' ]);
+  var got = _.uri.common( './../../..', './../../..' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ '../../..', '../../..' ]);
+  var got = _.uri.common( '../../..', '../../..' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ '../b', '../b' ]);
+  var got = _.uri.common( '../b', '../b' );
   test.identical( got, '../b' );
 
-  var got = _.uri.common([ '../b', './../b' ]);
+  var got = _.uri.common( '../b', './../b' );
   test.identical( got, '../b' );
 
   test.case = 'several absolute paths'
 
-  var got = _.uri.common([ '/a/b/c', '/a/b/c', '/a/b/c' ]);
+  var got = _.uri.common( '/a/b/c', '/a/b/c', '/a/b/c' );
   test.identical( got, '/a/b/c' );
 
-  var got = _.uri.common([ '/a/b/c', '/a/b/c', '/a/b' ]);
+  var got = _.uri.common( '/a/b/c', '/a/b/c', '/a/b' );
   test.identical( got, '/a/b' );
 
-  var got = _.uri.common([ '/a/b/c', '/a/b/c', '/a/b1' ]);
+  var got = _.uri.common( '/a/b/c', '/a/b/c', '/a/b1' );
   test.identical( got, '/a/' );
 
-  var got = _.uri.common([ '/a/b/c', '/a/b/c', '/a' ]);
+  var got = _.uri.common( '/a/b/c', '/a/b/c', '/a' );
   test.identical( got, '/a' );
 
-  var got = _.uri.common([ '/a/b/c', '/a/b/c', '/x' ]);
+  var got = _.uri.common( '/a/b/c', '/a/b/c', '/x' );
   test.identical( got, '/' );
 
-  var got = _.uri.common([ '/a/b/c', '/a/b/c', '/' ]);
+  var got = _.uri.common( '/a/b/c', '/a/b/c', '/' );
   test.identical( got, '/' );
 
   test.case = 'several relative paths';
 
-  var got = _.uri.common([ 'a/b/c', 'a/b/c', 'a/b/c' ]);
+  var got = _.uri.common( 'a/b/c', 'a/b/c', 'a/b/c' );
   test.identical( got, 'a/b/c' );
 
-  var got = _.uri.common([ 'a/b/c', 'a/b/c', 'a/b' ]);
+  var got = _.uri.common( 'a/b/c', 'a/b/c', 'a/b' );
   test.identical( got, 'a/b' );
 
-  var got = _.uri.common([ 'a/b/c', 'a/b/c', 'a/b1' ]);
+  var got = _.uri.common( 'a/b/c', 'a/b/c', 'a/b1' );
   test.identical( got, 'a/' );
 
-  var got = _.uri.common([ 'a/b/c', 'a/b/c', '.' ]);
+  var got = _.uri.common( 'a/b/c', 'a/b/c', '.' );
   test.identical( got, '.' );
 
-  var got = _.uri.common([ 'a/b/c', 'a/b/c', 'x' ]);
+  var got = _.uri.common( 'a/b/c', 'a/b/c', 'x' );
   test.identical( got, '.' );
 
-  var got = _.uri.common([ 'a/b/c', 'a/b/c', './' ]);
+  var got = _.uri.common( 'a/b/c', 'a/b/c', './' );
   test.identical( got, '.' );
 
-  var got = _.uri.common([ '../a/b/c', 'a/../b/c', 'a/b/../c' ]);
+  var got = _.uri.common( '../a/b/c', 'a/../b/c', 'a/b/../c' );
   test.identical( got, '..' );
 
-  var got = _.uri.common([ './a/b/c', '../../a/b/c', '../../../a/b' ]);
+  var got = _.uri.common( './a/b/c', '../../a/b/c', '../../../a/b' );
   test.identical( got, '../../..' );
 
-  var got = _.uri.common([ '.', './', '..' ]);
+  var got = _.uri.common( '.', './', '..' );
   test.identical( got, '..' );
 
-  var got = _.uri.common([ '.', './../..', '..' ]);
+  var got = _.uri.common( '.', './../..', '..' );
   test.identical( got, '../..' );
 
   /* */
@@ -3237,16 +3240,16 @@ function commonLocalPaths( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => _.uri.common([ '/a', '..' ]) );
-  test.shouldThrowError( () => _.uri.common([ '/a', '.' ]) );
-  test.shouldThrowError( () => _.uri.common([ '/a', 'x' ]) );
-  test.shouldThrowError( () => _.uri.common([ '/a', '../..' ]) );
+  test.shouldThrowError( () => _.uri.common( '/a', '..' ) );
+  test.shouldThrowError( () => _.uri.common( '/a', '.' ) );
+  test.shouldThrowError( () => _.uri.common( '/a', 'x' ) );
+  test.shouldThrowError( () => _.uri.common( '/a', '../..' ) );
 
-  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '/a/b/c', './' ]) );
-  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '/a/b/c', '.' ]) );
-  test.shouldThrowError( () => _.uri.common([ 'x', '/a/b/c', '/a' ]) );
-  test.shouldThrowError( () => _.uri.common([ '/a/b/c', '..', '/a' ]) );
-  test.shouldThrowError( () => _.uri.common([ '../..', '../../b/c', '/a' ]) );
+  test.shouldThrowError( () => _.uri.common( '/a/b/c', '/a/b/c', './' ) );
+  test.shouldThrowError( () => _.uri.common( '/a/b/c', '/a/b/c', '.' ) );
+  test.shouldThrowError( () => _.uri.common( 'x', '/a/b/c', '/a' ) );
+  test.shouldThrowError( () => _.uri.common( '/a/b/c', '..', '/a' ) );
+  test.shouldThrowError( () => _.uri.common( '../..', '../../b/c', '/a' ) );
 
 }
 
