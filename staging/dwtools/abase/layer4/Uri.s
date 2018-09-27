@@ -1271,7 +1271,9 @@ function resolve()
 {
   let parent = this.path;
   let joined = this.join.apply( this, arguments );
-  let parsed = this.parseConsecutive( joined );
+  let parsed = { longPath : joined };
+  if( joined !== null )
+  parsed = this.parseConsecutive( joined );
   parsed.longPath = parent.resolve( parsed.longPath );
   return this.str( parsed );
 }

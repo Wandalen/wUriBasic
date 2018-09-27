@@ -3544,6 +3544,11 @@ function resolve( test )
     var got = _.uri.resolve.apply( _.uri, paths );
     test.identical( got, expected );
 
+    var paths = [  null ];
+    var expected = _.uri.current();
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
+
     /* - */
 
     if( _.fileProvider )
