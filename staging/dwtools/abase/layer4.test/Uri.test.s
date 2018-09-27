@@ -3258,9 +3258,14 @@ function commonLocalPaths( test )
 function resolve( test )
 {
 
-  var originalPath = _.uri.current();
-  _.uri.current( '/' );
-  var current = _.strPrependOnce( _.uri.current(), '/' );
+  var originalPath = _.path.current();
+  var current = originalPath;
+
+  if( _.fileProvider )
+  {
+    _.path.current( '/' );
+    current = _.strPrependOnce( _.uri.current(), '/' );
+  }
 
   try
   {
@@ -3539,13 +3544,21 @@ function resolve( test )
     var got = _.uri.resolve.apply( _.uri, paths );
     test.identical( got, expected );
 
+    var paths = [  null ];
+    var expected = _.uri.current();
+    var got = _.uri.resolve.apply( _.uri, paths );
+    test.identical( got, expected );
+
     /* - */
 
+    if( _.fileProvider )
     _.uri.current( originalPath );
 
   }
   catch( err )
   {
+
+    if( _.fileProvider )
     _.uri.current( originalPath );
     throw err;
   }
