@@ -117,7 +117,7 @@ function isSafe( path )
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
 
-  return parent.isSafe( path );
+  return parent.isSafe.call( this, path );
 }
 
 //
@@ -141,7 +141,7 @@ function isAbsolute( path )
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
 
-  return parent.isAbsolute( path );
+  return parent.isAbsolute.call( this, path );
 }
 
 // --
@@ -875,12 +875,12 @@ function refine( fileUri )
   if( this.isGlobal( fileUri ) )
   fileUri = this.parseConsecutive( fileUri );
   else
-  return parent.refine( fileUri );
+  return parent.refine.call( this, fileUri );
 
   // fileUri.localPath = null; xxx
 
   if( _.strIsNotEmpty( fileUri.longPath ) )
-  fileUri.longPath = parent.refine( fileUri.longPath );
+  fileUri.longPath = parent.refine.call( this, fileUri.longPath );
 
   return this.str( fileUri );
 }
@@ -912,11 +912,11 @@ function normalize( fileUri )
     if( this.isGlobal( fileUri ) )
     fileUri = this.parseConsecutive( fileUri );
     else
-    return parent.normalize( fileUri );
+    return parent.normalize.call( this, fileUri );
   }
   _.assert( !!fileUri );
   // fileUri.localPath = null; xxx
-  fileUri.longPath = parent.normalize( fileUri.longPath );
+  fileUri.longPath = parent.normalize.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
 
@@ -949,11 +949,11 @@ function normalizeTolerant( fileUri )
     if( this.isGlobal( fileUri ) )
     fileUri = this.parseConsecutive( fileUri );
     else
-    return parent.normalizeTolerant( fileUri );
+    return parent.normalizeTolerant.call( this, fileUri );
   }
   _.assert( !!fileUri );
   // fileUri.localPath = null;
-  fileUri.longPath = parent.normalizeTolerant( fileUri.longPath );
+  fileUri.longPath = parent.normalizeTolerant.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
 
@@ -1274,7 +1274,7 @@ function resolve()
   let parsed = { longPath : joined };
   if( joined !== null )
   parsed = this.parseConsecutive( joined );
-  parsed.longPath = parent.resolve( parsed.longPath );
+  parsed.longPath = parent.resolve.call( this, parsed.longPath );
   return this.str( parsed );
 }
 
@@ -1329,7 +1329,7 @@ function common()
   for( let i = 0, len = uris.length; i < len; i++ )
   {
     uris[ i ] = parse( uris[ i ] );
-    let isThisRelative = parent.isRelative( uris[ i ].longPath );
+    let isThisRelative = parent.isRelative.call( this, uris[ i ].longPath );
     _.assert( isRelative === isThisRelative || isRelative === null, 'Attempt to combine relative with absolutue paths' );
     isRelative = isThisRelative;
   }
@@ -1373,7 +1373,7 @@ function common()
   for( let i = 1, len = uris.length; i < len; i++ )
   {
     let uri = uris[ i ];
-    result.longPath = parent._common( uri.longPath, result.longPath );
+    result.longPath = parent._common.call( this, uri.longPath, result.longPath );
   }
 
   /* */
@@ -1427,7 +1427,7 @@ function rebase( srcPath, oldPath, newPath )
   // }
 
   // dstPath.localPath = null; xxx
-  dstPath.longPath = parent.rebase( srcPath.longPath, oldPath.longPath, newPath.longPath );
+  dstPath.longPath = parent.rebase.call( this, srcPath.longPath, oldPath.longPath, newPath.longPath );
 
   return this.str( dstPath );
 }
@@ -1445,13 +1445,13 @@ function name( o )
   _.routineOptions( name, o );
 
   if( !this.isGlobal( o.path ) )
-  return parent.name( o );
+  return parent.name.call( this, o );
 
   let path = this.parseConsecutive( o.path );
 
   let o2 = _.mapExtend( null,o );
   o2.path = path.longPath;
-  return parent.name( o2 );
+  return parent.name.call( this, o2 );
 }
 
 name.defaults = Object.create( _.path.name.defaults );
@@ -1468,7 +1468,7 @@ function ext( path )
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
 
-  return parent.ext( path );
+  return parent.ext.call( this, path );
 }
 
 //
@@ -1483,7 +1483,7 @@ function exts( path )
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
 
-  return parent.exts( path );
+  return parent.exts.call( this, path );
 }
 
 //
@@ -1497,7 +1497,7 @@ function changeExt( path, ext )
   _.assert( _.strIs( ext ) );
 
   if( !this.isGlobal( path ) )
-  return parent.changeExt( path, ext );
+  return parent.changeExt.call( this, path, ext );
 
   path = this.parseConsecutive( path );
 
@@ -1519,7 +1519,7 @@ function dir( path )
   _.assert( _.strIsNotEmpty( path ) );
 
   if( !this.isGlobal( path ) )
-  return parent.dir( path );
+  return parent.dir.call( this, path );
 
   path = this.parseConsecutive( path );
   // path.localPath = null;
