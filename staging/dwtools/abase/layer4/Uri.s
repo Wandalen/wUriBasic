@@ -112,7 +112,7 @@ function isSafe( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
+  _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
@@ -136,7 +136,7 @@ function isAbsolute( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
+  _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
@@ -435,7 +435,7 @@ function str( c )
 
   if( c.full )
   {
-    _.assert( _.strIsNotEmpty( c.full ) );
+    _.assert( _.strDefined( c.full ) );
     return c.full;
   }
 
@@ -722,7 +722,7 @@ str.components = UriComponents;
 //
 //   if( components.full )
 //   {
-//     _.assert( _.strIsNotEmpty( components.full ) );
+//     _.assert( _.strDefined( components.full ) );
 //     return components.full;
 //   }
 //
@@ -758,7 +758,7 @@ str.components = UriComponents;
 //     hostWithPort = '';
 //
 //     if( _.strIs( components.protocol ) || _.strIs( hostWithPort ) )
-//     // if( _.strIs( components.protocol ) || _.strIsNotEmpty( hostWithPort ) )
+//     // if( _.strIs( components.protocol ) || _.strDefined( hostWithPort ) )
 //     result += ( _.strIs( components.protocol ) ? components.protocol + '://' : '//' ) + hostWithPort;
 //
 //   }
@@ -879,7 +879,7 @@ function refine( fileUri )
 
   // fileUri.localPath = null; xxx
 
-  if( _.strIsNotEmpty( fileUri.longPath ) )
+  if( _.strDefined( fileUri.longPath ) )
   fileUri.longPath = parent.refine.call( this, fileUri.longPath );
 
   return this.str( fileUri );
@@ -1478,7 +1478,7 @@ function exts( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
+  _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
@@ -1493,7 +1493,7 @@ function changeExt( path, ext )
   let parent = this.path;
 
   _.assert( arguments.length === 2, 'expects exactly two arguments' );
-  _.assert( _.strIsNotEmpty( path ) );
+  _.assert( _.strDefined( path ) );
   _.assert( _.strIs( ext ) );
 
   if( !this.isGlobal( path ) )
@@ -1516,7 +1516,7 @@ function dir( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'expects single argument' );
-  _.assert( _.strIsNotEmpty( path ) );
+  _.assert( _.strDefined( path ) );
 
   if( !this.isGlobal( path ) )
   return parent.dir.call( this, path );
