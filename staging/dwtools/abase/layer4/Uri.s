@@ -1141,6 +1141,7 @@ function _joining_functor( gen )
         }
         else
         {
+          parsed = arguments[ s ] !== null;
           srcs[ s ] = { localPath : arguments[ s ] };
         }
       }
@@ -1158,6 +1159,7 @@ function _joining_functor( gen )
         }
         else
         {
+          parsed = arguments[ s ] !== null;
           srcs[ s ] = { longPath : arguments[ s ] };
         }
       }
@@ -1271,9 +1273,9 @@ function resolve()
 {
   let parent = this.path;
   let joined = this.join.apply( this, arguments );
-  let parsed = { longPath : joined };
-  if( joined !== null )
-  parsed = this.parseConsecutive( joined );
+  if( joined === null )
+  return joined;
+  let parsed = this.parseConsecutive( joined );
   parsed.longPath = parent.resolve.call( this, parsed.longPath );
   return this.str( parsed );
 }
