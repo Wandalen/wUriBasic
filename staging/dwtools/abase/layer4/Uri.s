@@ -99,14 +99,6 @@ function is( path )
 
 //
 
-function isGlobal( path )
-{
-  _.assert( _.strIs( path ) );
-  return _.strHas( path, '://' );
-}
-
-//
-
 function isSafe( path )
 {
   let parent = this.path;
@@ -1736,7 +1728,7 @@ let Routines =
   // uri checker
 
   is : is,
-  isGlobal : isGlobal,
+  // isGlobal : isGlobal,
   isSafe : isSafe,
   isNormalized : isNormalized,
   isAbsolute : isAbsolute,
