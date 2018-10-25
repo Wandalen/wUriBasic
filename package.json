@@ -18,6 +18,7 @@
   "main": "staging/dwtools/abase/layer4/Uri.s",
   "files": [
     "staging/dwtools/abase/layer4",
+    "staging/dwtools/abase/layer5",
     "production"
   ],
   "scripts": {

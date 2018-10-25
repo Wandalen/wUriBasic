@@ -218,6 +218,8 @@ let Routines =
 
   // uri checker
 
+  /* qqq : reqlly required? */
+
   are : vectorizeAsArray( 'is' ),
   areSafe : vectorizeAsArray( 'isSafe' ),
   areNormalized : vectorizeAsArray( 'isNormalized' ),
@@ -238,7 +240,7 @@ let Routines =
   noneAreNormalized : vectorizeNone( 'isNormalized' ),
   noneAreAbsolute : vectorizeNone( 'isAbsolute' ),
 
-  // uri
+  //
 
   parse : vectorize( 'parse' ),
   parseAtomic : vectorize( 'parseAtomic' ),
