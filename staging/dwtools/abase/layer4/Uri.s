@@ -1728,7 +1728,6 @@ let Routines =
   // uri checker
 
   is : is,
-  // isGlobal : isGlobal,
   isSafe : isSafe,
   isNormalized : isNormalized,
   isAbsolute : isAbsolute,
@@ -1742,7 +1741,6 @@ let Routines =
 
   str : str,
   full : full,
-  // from : from,
 
   refine : refine,
   urisRefine : urisRefine,
