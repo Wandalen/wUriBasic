@@ -1792,4 +1792,9 @@ delete require.cache[ module.id ];
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
 
+if( typeof module !== 'undefined' )
+{
+  require( '../layer5/Uris.s' );
+}
+
 })();
