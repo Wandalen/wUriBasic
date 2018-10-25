@@ -283,11 +283,13 @@ let Routines =
 
 }
 
+_.mapSupplementOwn( Self, _.path.s );
 _.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Routines );
 
 // _.assert( _.uri.s === null );
 _.uri.s = Self;
+
 
 // --
 // export
