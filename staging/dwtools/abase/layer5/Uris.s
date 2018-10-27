@@ -32,10 +32,9 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.uri;
-let Self = _.uris = _.uris || Object.create( Parent );
+let Self = _.uri.s = _.uri.s || Object.create( Parent );
 
 // --
 //
@@ -81,92 +80,6 @@ function vectorize( routine, select )
 
 //
 
-function vectorizeAsArray( routine, select )
-{
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.strIs( routine ) );
-  select = select || 1;
-
-  let after = _.routineVectorize_functor
-  ({
-    routine : [ 'single', routine ],
-    vectorizingArray : 1,
-    vectorizingMap : 0,
-    vectorizingKeys : 0,
-    select : select,
-  });
-
-  return wrap;
-
-  function wrap( srcs )
-  {
-    _.assert( arguments.length === 1 );
-    if( _.mapIs( srcs ) )
-    srcs = _.mapKeys( srcs );
-    return after.call( this, srcs );
-  }
-
-}
-
-//
-
-function vectorizeAll( routine, select )
-{
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.strIs( routine ) );
-
-  let routine2 = vectorizeAsArray( routine, select );
-
-  return all;
-
-  function all()
-  {
-    let result = routine2.apply( this, arguments );
-    return _.all( result );
-  }
-
-}
-
-//
-
-function vectorizeAny( routine, select )
-{
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.strIs( routine ) );
-
-  let routine2 = vectorizeAsArray( routine, select );
-
-  return any;
-
-  function any()
-  {
-    let result = routine2.apply( this, arguments );
-    return _.any( result );
-  }
-
-}
-
-//
-
-function vectorizeNone( routine, select )
-{
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.strIs( routine ) );
-
-  let routine2 = vectorizeAsArray( routine, select );
-
-  return none;
-
-  function none()
-  {
-    let result = routine2.apply( this, arguments );
-    return _.none( result );
-  }
-
-}
-
-//
-
 function vectorizeOnly( routine )
 {
   _.assert( arguments.length === 1 );
@@ -178,23 +91,6 @@ function vectorizeOnly( routine )
     vectorizingArray : 1,
     vectorizingMap : 1,
   });
-}
-
-// --
-// meta
-// --
-
-let OriginalInit = Parent.Init;
-Parent.Init = function Init()
-{
-  let result = OriginalInit.apply( this, arguments );
-
-  _.assert( _.objectIs( this.s ) );
-  _.assert( this.s.single !== undefined );
-  this.s = Object.create( this.s );
-  this.s.single = this;
-
-  return result;
 }
 
 // --
@@ -216,31 +112,7 @@ let Routines =
   _keyEndsUriFilter : _keyEndsUriFilter,
   _isUriFilter : _isUriFilter,
 
-  // uri checker
-
-  /* qqq : reqlly required? */
-
-  are : vectorizeAsArray( 'is' ),
-  areSafe : vectorizeAsArray( 'isSafe' ),
-  areNormalized : vectorizeAsArray( 'isNormalized' ),
-  areAbsolute : vectorizeAsArray( 'isAbsolute' ),
-
-  all : vectorizeAll( 'is' ),
-  allSafe : vectorizeAll( 'isSafe' ),
-  allNormalized : vectorizeAll( 'isNormalized' ),
-  allAbsolute : vectorizeAll( 'isAbsolute' ),
-
-  anyAre : vectorizeAny( 'is' ),
-  anyAreSafe : vectorizeAny( 'isSafe' ),
-  anyAreNormalized : vectorizeAny( 'isNormalized' ),
-  anyAreAbsolute : vectorizeAny( 'isAbsolute' ),
-
-  noneAre : vectorizeNone( 'is' ),
-  noneAreSafe : vectorizeNone( 'isSafe' ),
-  noneAreNormalized : vectorizeNone( 'isNormalized' ),
-  noneAreAbsolute : vectorizeNone( 'isAbsolute' ),
-
-  //
+  // uri
 
   parse : vectorize( 'parse' ),
   parseAtomic : vectorize( 'parseAtomic' ),
@@ -253,30 +125,11 @@ let Routines =
   str : vectorize( 'str' ),
   full : vectorize( 'full' ),
 
-  refine : vectorize( 'refine' ),
-  normalize : vectorize( 'normalize' ),
   normalizeTolerant : vectorize( 'normalizeTolerant' ),
 
-  onlyRefine : vectorizeOnly( 'refine' ),
-  onlyNormalize : vectorizeOnly( 'normalize' ),
   onlyTormalizeTolerant : vectorizeOnly( 'normalizeTolerant' ),
 
-  join : vectorize( 'join', Infinity ),
-  resolve : vectorize( 'resolve', Infinity ),
-
-  relative : vectorize( 'relative', 2 ),
-  common : vectorize( 'common', Infinity ),
   rebase : vectorize( 'rebase', 3 ),
-
-  dir : vectorize( 'dir' ),
-  name : vectorize( 'name' ),
-  ext : vectorize( 'ext' ),
-  exts : vectorize( 'exts' ),
-  changeExt : vectorize( 'changeExt', 2 ),
-
-  onlyDir : vectorizeOnly( 'dir' ),
-  onlyName : vectorizeOnly( 'name' ),
-  onlyExt : vectorizeOnly( 'ext' ),
 
   documentGet : vectorize( 'documentGet', 2 ),
   server : vectorize( 'server' ),
@@ -287,10 +140,6 @@ let Routines =
 
 _.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Routines );
-_.mapSupplementOwn( Self, _.path.s );
-
-// _.assert( _.uri.s === null );
-_.uri.s = Self;
 
 // --
 // export
