@@ -2447,6 +2447,21 @@ function str( test )
   var got = _.uri.str( components );
   test.identical( got, expected );
 
+  /* */
+
+  test.case = 'hash and protocol null, but protocols presents'
+
+  var components =
+  {
+    protocol : null,
+    hash : null,
+    longPath : '/github.com/user/repo.git',
+    protocols : [ 'git' ]
+  }
+  var expected = 'git:///github.com/user/repo.git';
+  var got = _.uri.str( components );
+  test.identical( got, expected );
+
   /* - */
 
   if( !Config.debug )
@@ -2802,6 +2817,11 @@ function parseAndStr( test )
   var got = _.uri.str( parsed );
   test.identical( got, uri );
 
+  var uri = 'git:///github.com/user/repo.git';
+  var parsed = _.uri.parseAtomic( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
   /* - */
 
   test.close( 'atomic' );
@@ -2969,6 +2989,11 @@ function parseAndStr( test )
   test.identical( got, uri );
 
   var uri = '///a/b/c';
+  var parsed = _.uri.parseConsecutive( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+
+  var uri = 'git:///github.com/user/repo.git';
   var parsed = _.uri.parseConsecutive( uri );
   var got = _.uri.str( parsed );
   test.identical( got, uri );

@@ -441,6 +441,9 @@ function str( c )
     protocol = _.strIsolateBeginOrNone( c.origin, '://' )[ 0 ];
   }
 
+  if( ( protocol === null || protocol === undefined ) && c.protocols && c.protocols.length )
+  protocol = c.protocols.join( '+' );
+
   if( c.origin && ( host === null || host === undefined ) )
   {
     host = _.strIsolateInsideOrAll( c.origin, '://', ':' )[ 2 ];
@@ -655,10 +658,10 @@ function str( c )
 
     _.assert( !c.query || _.strIs( c.query ) );
 
-    if( c.query !== undefined )
+    if( c.query !== undefined && c.query !== undefined )
     result += '?' + c.query;
 
-    if( c.hash !== undefined )
+    if( c.hash !== undefined && c.hash !== null )
     result += '#' + c.hash;
 
     return result;
