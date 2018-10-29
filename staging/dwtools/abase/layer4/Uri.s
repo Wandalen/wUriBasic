@@ -1403,7 +1403,7 @@ function common()
 function rebase( srcPath, oldPath, newPath )
 {
   let parent = this.path;
-  _.assert( arguments.length === 3, 'expects exactly three argument' );
+  _.assert( arguments.length === 3, 'Expects exactly three argument' );
 
   srcPath = this.parseConsecutive( srcPath );
   oldPath = this.parseConsecutive( oldPath );
@@ -1489,7 +1489,7 @@ function changeExt( path, ext )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 2, 'expects exactly two arguments' );
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
   _.assert( _.strDefined( path ) );
   _.assert( _.strIs( ext ) );
 
