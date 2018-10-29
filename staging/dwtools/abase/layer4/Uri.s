@@ -93,7 +93,7 @@ let isRegExpString =
 let isRegExp = new RegExp( isRegExpString, 'i' );
 function is( path )
 {
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   return _.strIs( path );
 }
 
@@ -103,7 +103,7 @@ function isSafe( path )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
@@ -116,7 +116,7 @@ function isSafe( path )
 
 function isNormalized( path )
 {
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strIs( path ) );
   return this.normalize( path ) === path;
 }
@@ -127,7 +127,7 @@ function isAbsolute( path )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
@@ -229,7 +229,7 @@ function _uriParse( o )
 
   _.routineOptions( this._uriParse, o );
   _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.arrayHas( _uriParse.Kind, o.kind ) );
 
   if( _.mapIs( o.srcPath ) )
@@ -340,7 +340,7 @@ function parse( srcPath )
     kind : 'all',
   });
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   return result;
 }
@@ -357,7 +357,7 @@ function parseAtomic( srcPath )
     kind : 'atomic',
   });
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   return result;
 }
@@ -374,7 +374,7 @@ function parseConsecutive( srcPath )
     kind : 'consecutive',
   });
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   return result;
 }
@@ -417,7 +417,7 @@ function str( c )
   _.assert( c.full === undefined || c.full === null || fullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
 
   _.assert( _.strIs( c ) || _.mapIs( c ) );
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( _.strIs( c ) )
   return c;
@@ -711,7 +711,7 @@ str.components = UriComponents;
 //   let result = '';
 //
 //   _.assert( _.strIs( components ) || _.mapIs( components ) );
-//   _.assert( arguments.length === 1, 'expects single argument' );
+//   _.assert( arguments.length === 1, 'Expects single argument' );
 //   _.assertMapHasOnly( components, this.UriComponents );
 //   _.assert( components.uri === undefined );
 //
@@ -864,7 +864,7 @@ function refine( fileUri )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strIs( fileUri ) );
 
   if( this.isGlobal( fileUri ) )
@@ -990,7 +990,7 @@ function normalizeTolerant( fileUri )
 //   for( let a = o.paths.length-1 ; a >= 0 ; a-- )
 //   {
 //     let src = o.paths[ a ];
-//     _.sure( _.strIs( src ) || src === null, () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+//     _.sure( _.strIs( src ) || src === null, () => 'Expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
 //   }
 //
 //   /* */
@@ -1006,7 +1006,7 @@ function normalizeTolerant( fileUri )
 //     if( result === null )
 //     result = '';
 //
-//     // _.assert( _.strIs( src ), () => 'expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+//     // _.assert( _.strIs( src ), () => 'Expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
 //
 //     prepending = prepend( src );
 //     if( prepending === false && !o.isUri )
@@ -1437,7 +1437,7 @@ function name( o )
   if( _.strIs( o ) )
   o = { path : o }
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strIs( o.path ) );
   _.routineOptions( name, o );
 
@@ -1459,7 +1459,7 @@ function ext( path )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strIs( path ) );
 
   if( this.isGlobal( path ) )
@@ -1474,7 +1474,7 @@ function exts( path )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
@@ -1512,7 +1512,7 @@ function dir( path )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strDefined( path ) );
 
   if( !this.isGlobal( path ) )
