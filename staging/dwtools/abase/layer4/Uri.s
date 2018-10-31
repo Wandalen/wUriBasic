@@ -513,7 +513,6 @@ function str( c )
     }
     else
     {
-      debugger;
       _.assert( _.strBegins( c.longPath, hostWithPort ) );
       return c.longPath;
     }
