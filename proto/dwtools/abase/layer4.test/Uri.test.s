@@ -25,7 +25,7 @@ if( typeof module !== 'undefined' )
   var _ = _global_.wTools;
 
   _.include( 'wTesting' );
-  require( '../layer4/Uri.s' );
+  require( '../l4/Uri.s' );
 
 }
 
@@ -4590,7 +4590,7 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 var Self =
 {
 
-  name : 'Tools/base/layer4/UriFundamentals',
+  name : 'Tools/base/l4/UriFundamentals',
   silencing : 1,
 
   tests :
@@ -4636,6 +4636,6 @@ var Self =
 Self = wTestSuite( Self );
 
 if( typeof module !== 'undefined' && !module.parent )
-_.Tester.test( Self );
+/*_.*/wTester.test( Self );
 
 })();

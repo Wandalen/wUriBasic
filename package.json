@@ -15,14 +15,14 @@
       "email": "volodymyr.migdal@gmail.com"
     }
   ],
-  "main": "staging/dwtools/abase/layer4/Uri.s",
+  "main": "proto/dwtools/abase/l4/Uri.s",
   "files": [
-    "staging/dwtools/abase/layer4",
-    "staging/dwtools/abase/layer5",
+    "proto/dwtools/abase/l4",
+    "proto/dwtools/abase/l5",
     "production"
   ],
   "scripts": {
-    "test": "wtest staging",
+    "test": "wtest proto",
     "make_doc": "./doc.sh"
   },
   "repository": {

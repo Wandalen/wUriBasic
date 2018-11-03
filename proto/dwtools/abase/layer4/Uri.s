@@ -1796,7 +1796,7 @@ module[ 'exports' ] = Self;
 
 if( typeof module !== 'undefined' )
 {
-  require( '../layer5/Uris.s' );
+  require( '../l5/Uris.s' );
 }
 
 })();

@@ -25,7 +25,7 @@ if( typeof module !== 'undefined' )
   var _ = _global_.wTools;
 
   _.include( 'wTesting' );
-  require( '../layer4/Uri.s' );
+  require( '../l4/Uri.s' );
 
 }
 
@@ -96,7 +96,7 @@ function refine( test )
 var Self =
 {
 
-  name : 'Tools/base/layer4/Uri/S',
+  name : 'Tools/base/l4/Uri/S',
   silencing : 1,
 
   tests :
@@ -109,6 +109,6 @@ var Self =
 Self = wTestSuite( Self );
 
 if( typeof module !== 'undefined' && !module.parent )
-_.Tester.test( Self );
+/*_.*/wTester.test( Self );
 
 })();
