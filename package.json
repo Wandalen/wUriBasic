@@ -19,7 +19,7 @@
   "files": [
     "proto/dwtools/abase/l4",
     "proto/dwtools/abase/l5",
-    "production"
+    "proto/dwtools/Tools.s", "production"
   ],
   "scripts": {
     "test": "wtest proto",
