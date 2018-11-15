@@ -99,17 +99,17 @@ function is( path )
 
 //
 
-function isSafe( path )
+function isSafe( path, level )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( arguments.length === 1 || arguments.length === 2, 'Expects single argument' );
   _.assert( _.strDefined( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
 
-  return parent.isSafe.call( this, path );
+  return parent.isSafe.call( this, path, level );
 }
 
 //
@@ -1369,7 +1369,7 @@ function common()
   for( let i = 1, len = uris.length; i < len; i++ )
   {
     let uri = uris[ i ];
-    result.longPath = parent._common.call( this, uri.longPath, result.longPath );
+    result.longPath = parent._commonSingle.call( this, uri.longPath, result.longPath );
   }
 
   /* */
