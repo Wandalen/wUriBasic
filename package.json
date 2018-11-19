@@ -20,6 +20,7 @@
     "proto/dwtools/abase/l4",
     "proto/dwtools/abase/l5",
     "proto/dwtools/Tools.s",
+    "out",
     "production"
   ],
   "scripts": {
