@@ -1317,6 +1317,7 @@ function common()
   let self = this;
   let uris = _.longSlice( arguments );
 
+  _.assert( uris.length > 1, 'Expects at least two arguments' );
   _.assert( _.strsAre( arguments ), 'Expects only strings as arguments' );
 
   /* */
