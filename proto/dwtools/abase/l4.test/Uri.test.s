@@ -3722,6 +3722,8 @@ function common( test )
   var got = _.uri.common( 'http:///', 'http:///' );
   test.identical( got, 'http:///' );
 
+  var got = _.uri.common( '/some/staging/a/b/c' );
+  test.identical( got, '/some/staging/a/b/c' );
 /*
   var got = _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' );
   var got = _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' );
