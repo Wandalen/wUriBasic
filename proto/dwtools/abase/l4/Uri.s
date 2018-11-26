@@ -117,7 +117,7 @@ function isSafe( path, level )
 function isNormalized( path )
 {
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( path ) );
+  _.assert( _.strIs( path ), 'Expects string' );
   return this.normalize( path ) === path;
 }
 
@@ -128,7 +128,7 @@ function isAbsolute( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strDefined( path ) );
+  _.assert( _.strDefined( path ), () => 'Expects string {-path-}, but got ' + _.strType( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
@@ -989,7 +989,7 @@ function normalizeTolerant( fileUri )
 //   for( let a = o.paths.length-1 ; a >= 0 ; a-- )
 //   {
 //     let src = o.paths[ a ];
-//     _.sure( _.strIs( src ) || src === null, () => 'Expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+//     _.sure( _.strIs( src ) || src === null, () => 'Expects strings as path arguments, but #' + a + ' argument is ' + _.strType( src ) );
 //   }
 //
 //   /* */
@@ -1005,7 +1005,7 @@ function normalizeTolerant( fileUri )
 //     if( result === null )
 //     result = '';
 //
-//     // _.assert( _.strIs( src ), () => 'Expects strings as path arguments, but #' + a + ' argument is ' + _.strTypeOf( src ) );
+//     // _.assert( _.strIs( src ), () => 'Expects strings as path arguments, but #' + a + ' argument is ' + _.strType( src ) );
 //
 //     prepending = prepend( src );
 //     if( prepending === false && !o.isUri )
@@ -1460,7 +1460,7 @@ function ext( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( path ) );
+  _.assert( _.strIs( path ), 'Expects string' );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
