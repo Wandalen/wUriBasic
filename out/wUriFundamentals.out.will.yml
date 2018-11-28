@@ -172,8 +172,8 @@ reflector:
       ./dwtools/abase/l5/Uris.s: true
       ./dwtools/abase/l5.test/Uris.test.s: true
     srcFilter:
-      basePath: ./proto
-      prefixPath: .
+      basePath: .
+      prefixPath: proto
     dstFilter:
       basePath: .
       prefixPath: .
