@@ -1,6 +1,6 @@
 {
   "name": "wurifundamentals",
-  "version": "0.6.61",
+  "version": "0.6.62",
   "engine": "node >= 6.0.0",
   "description": "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
   "license": "MIT",
