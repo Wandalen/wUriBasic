@@ -1264,7 +1264,7 @@ function common()
 function rebase( srcPath, oldPath, newPath )
 {
   let parent = this.path;
-  _.assert( arguments.length === 3, 'Expects exactly three argument' );
+  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
 
   srcPath = this.parseConsecutive( srcPath );
   oldPath = this.parseConsecutive( oldPath );
