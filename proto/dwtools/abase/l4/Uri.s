@@ -863,27 +863,28 @@ function refine( fileUri )
 }
 
 //
-
-let urisRefine = _.routineVectorize_functor
-({
-  routine : refine,
-  vectorizingArray : 1,
-  vectorizingMap : 1,
-});
-
-let urisOnlyRefine = _.routineVectorize_functor
-({
-  routine : refine,
-  fieldFilter : _filterOnlyUrl,
-  vectorizingArray : 1,
-  vectorizingMap : 1,
-});
-
+//
+// let urisRefine = _.routineVectorize_functor
+// ({
+//   routine : refine,
+//   vectorizingArray : 1,
+//   vectorizingMap : 1,
+// });
+//
+// let urisOnlyRefine = _.routineVectorize_functor
+// ({
+//   routine : refine,
+//   fieldFilter : _filterOnlyUrl,
+//   vectorizingArray : 1,
+//   vectorizingMap : 1,
+// });
+//
 //
 
 function normalize( fileUri )
 {
   let parent = this.path;
+  _.assert( _.strIs( fileUri ), 'Expects string {-fileUri-}' );
   if( _.strIs( fileUri ) )
   {
     if( this.isGlobal( fileUri ) )
@@ -899,22 +900,22 @@ function normalize( fileUri )
 
 //
 
-let urisNormalize = _.routineVectorize_functor
-({
-  routine : normalize,
-  vectorizingArray : 1,
-  vectorizingMap : 1,
-});
-
+// let urisNormalize = _.routineVectorize_functor
+// ({
+//   routine : normalize,
+//   vectorizingArray : 1,
+//   vectorizingMap : 1,
+// });
 //
-
-let urisOnlyNormalize = _.routineVectorize_functor
-({
-  routine : normalize,
-  fieldFilter : _._filterOnlyPath,
-  vectorizingArray : 1,
-  vectorizingMap : 1,
-});
+// //
+//
+// let urisOnlyNormalize = _.routineVectorize_functor
+// ({
+//   routine : normalize,
+//   fieldFilter : _._filterOnlyPath,
+//   vectorizingArray : 1,
+//   vectorizingMap : 1,
+// });
 
 //
 
@@ -1607,12 +1608,12 @@ let Routines =
   full,
 
   refine,
-  urisRefine,
-  urisOnlyRefine,
+  // urisRefine,
+  // urisOnlyRefine,
 
   normalize,
-  urisNormalize,
-  urisOnlyNormalize,
+  // urisNormalize,
+  // urisOnlyNormalize,
 
   normalizeTolerant,
 
