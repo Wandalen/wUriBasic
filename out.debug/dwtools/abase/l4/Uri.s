@@ -51,7 +51,7 @@ function _filterNoInnerArray( arr )
 }
 
 // --
-// uri checker
+// checker
 // --
 
   // '^(https?:\\/\\/)?'                                     // protocol
@@ -111,12 +111,26 @@ function isAbsolute( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strDefined( path ), () => 'Expects string {-path-}, but got ' + _.strType( path ) );
+  _.assert( _.strIs( path ), () => 'Expects string {-path-}, but got ' + _.strType( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
 
   return parent.isAbsolute.call( this, path );
+}
+
+//
+
+function isRoot( path )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  if( this.isGlobal( path ) )
+  path = this.parseConsecutive( path ).longPath;
+
+  return parent.isRoot.call( this, path );
 }
 
 // --
@@ -963,14 +977,14 @@ function detrail( srcPath )
 // joiner
 // --
 
-function _joining_functor( gen )
+function join_functor( gen )
 {
 
   if( arguments.length === 2 )
   gen = { routineName : arguments[ 0 ], web : arguments[ 1 ] }
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( _joining_functor, gen );
+  _.routineOptions( join_functor, gen );
 
   let routineName = gen.routineName;
   let web = gen.web;
@@ -1106,7 +1120,7 @@ function _joining_functor( gen )
 
 }
 
-_joining_functor.defaults =
+join_functor.defaults =
 {
   routineName : null,
   web : 0,
@@ -1114,14 +1128,15 @@ _joining_functor.defaults =
 
 //
 
-let join = _joining_functor( 'join', 0 );
+let join = join_functor( 'join', 0 );
+let joinRaw = join_functor( 'joinRaw', 0 );
 
 //
-
-let urisJoin = _.path._pathMultiplicator_functor
-({
-  routine : join
-});
+//
+// let urisJoin = _.path._pathMultiplicator_functor
+// ({
+//   routine : join
+// });
 
 //
 
@@ -1590,12 +1605,13 @@ let Routines =
   _filterOnlyUrl,
   _filterNoInnerArray,
 
-  // uri checker
+  // checker
 
   is,
   isSafe,
   isNormalized,
   isAbsolute,
+  isRoot,
 
   // transformer
 
@@ -1622,10 +1638,11 @@ let Routines =
 
   // joiner
 
-  _joining_functor,
+  join_functor,
 
   join,
-  urisJoin,
+  joinRaw,
+  // urisJoin,
   resolve,
 
   relative,
