@@ -63,6 +63,8 @@ path:
       - ./dwtools/abase/l5/Uris.s
       - ./dwtools/abase/l5.test
       - ./dwtools/abase/l5.test/Uris.test.s
+      - ./dwtools/amid
+      - ./dwtools/atop
     criterion:
       default: 1
       debug: 1
