@@ -1195,13 +1195,19 @@ function common()
   let self = this;
   let uris = _.longSlice( arguments );
 
+  for( let s = uris.length-1 ; s >= 0 ; s-- )
+  {
+    if( _.mapIs( uris[ s ] ) )
+    _.arrayCutin( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
+  }
+
   _.assert( uris.length, 'Expects at least one argument' );
-  _.assert( _.strsAre( arguments ), 'Expects only strings as arguments' );
+  _.assert( _.strsAre( uris ), 'Expects only strings as arguments' );
 
   /* */
 
   let isRelative = null;
-  for( let i = 0, len = uris.length; i < len; i++ )
+  for( let i = 0, len = uris.length ; i < len ; i++ )
   {
     uris[ i ] = parse( uris[ i ] );
     let isThisRelative = parent.isRelative.call( this, uris[ i ].longPath );
@@ -1248,7 +1254,7 @@ function common()
   for( let i = 1, len = uris.length; i < len; i++ )
   {
     let uri = uris[ i ];
-    result.longPath = parent._commonSingle.call( this, uri.longPath, result.longPath );
+    result.longPath = parent._commonPair.call( this, uri.longPath, result.longPath );
   }
 
   /* */
