@@ -1186,7 +1186,7 @@ relative.defaults = Object.create( _.path._relative.defaults );
 //
 
 /*
-qqq : teach it to work with uri maps
+qqq : teach common to work with uri maps and cover it by tests
 */
 
 function common()
