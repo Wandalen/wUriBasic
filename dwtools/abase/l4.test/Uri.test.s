@@ -4094,7 +4094,7 @@ function common( test )
   test.identical( got, '://.' );
 
   var got = _.uri.common( '://some/staging/index.html', '://some/staging/' );
-  test.identical( got, '://some/staging' );
+  test.identical( got, '://some/staging/' );
 
   var got = _.uri.common( '://some/staging/index.html', '://some/stagi' );
   test.identical( got, '://some/' );
@@ -4207,13 +4207,13 @@ function commonLocalPaths( test )
   test.identical( got, '/.a./.b./' );
 
   var got = _.uri.common( '//a//b//c', '/a/b' );
-  test.identical( got, '/' );
+  test.identical( got, '/a/b' );
 
   var got = _.uri.common( '/a//b', '/a//b' );
-  test.identical( got, '/a//b' );
+  test.identical( got, '/a/b' );
 
   var got = _.uri.common( '/a//', '/a//' );
-  test.identical( got, '/a//' );
+  test.identical( got, '/a/' );
 
   var got = _.uri.common( '/./a/./b/./c', '/a/b' );
   test.identical( got, '/a/b' );
