@@ -3,7 +3,7 @@ about :
 
   name : "wUriFundamentals"
   description : "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms."
-  version : "0.6.61"
+  version : "0.6.72"
   enabled : 1
   interpreters :
   - nodejs >= 6.0.0
@@ -26,7 +26,7 @@ path :
 step :
 
   export.proto :
-    inherit : export
+    inherit : predefined.export
     export : path::proto
     tar : 0
     criterion :
