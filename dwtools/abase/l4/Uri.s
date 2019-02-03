@@ -1202,7 +1202,7 @@ function common()
   }
 
   _.assert( uris.length, 'Expects at least one argument' );
-  _.assert( _.strsAre( uris ), 'Expects only strings as arguments' );
+  _.assert( _.strsAreAll( uris ), 'Expects only strings as arguments' );
 
   /* */
 
