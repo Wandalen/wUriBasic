@@ -6,7 +6,7 @@ about:
     UriFundamentals leverages parsing, joining, extracting, normalizing,
     nativizing, resolving URI(s). Use the module to get uniform experience from
     playing with URI(s) on different platforms.
-  version: 0.6.74
+  version: 0.6.76
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -294,7 +294,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.6.74
+    version: 0.6.76
     criterion:
       default: 1
       debug: 1
