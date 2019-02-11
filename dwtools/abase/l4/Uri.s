@@ -1193,7 +1193,9 @@ function common()
 {
   let parent = this.path;
   let self = this;
-  let uris = _.longSlice( arguments );
+
+  let uris = _.arrayFlatten( null, arguments );
+  // let uris = _.longSlice( arguments );
 
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
