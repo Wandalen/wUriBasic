@@ -883,7 +883,7 @@ function refine( fileUri )
 // ({
 //   routine : refine,
 //   vectorizingArray : 1,
-//   vectorizingMap : 1,
+//   vectorizingMapVals : 1,
 // });
 //
 // let urisOnlyRefine = _.routineVectorize_functor
@@ -891,7 +891,7 @@ function refine( fileUri )
 //   routine : refine,
 //   fieldFilter : _filterOnlyUrl,
 //   vectorizingArray : 1,
-//   vectorizingMap : 1,
+//   vectorizingMapVals : 1,
 // });
 //
 //
@@ -919,7 +919,7 @@ function normalize( fileUri )
 // ({
 //   routine : normalize,
 //   vectorizingArray : 1,
-//   vectorizingMap : 1,
+//   vectorizingMapVals : 1,
 // });
 //
 // //
@@ -929,7 +929,7 @@ function normalize( fileUri )
 //   routine : normalize,
 //   fieldFilter : _._filterOnlyPath,
 //   vectorizingArray : 1,
-//   vectorizingMap : 1,
+//   vectorizingMapVals : 1,
 // });
 
 //

@@ -57,8 +57,8 @@ function vectorize( routine, select )
   ({
     routine : [ 'single', routine ],
     vectorizingArray : 1,
-    vectorizingMap : 0,
-    vectorizingKeys : 1,
+    vectorizingMapVals : 0,
+    vectorizingMapKeys : 1,
     select : select,
   });
 }
@@ -74,7 +74,7 @@ function vectorizeOnly( routine )
     routine : [ 'single', routine ],
     fieldFilter : _keyEndsUriFilter,
     vectorizingArray : 1,
-    vectorizingMap : 1,
+    vectorizingMapVals : 1,
   });
 }
 
