@@ -4159,6 +4159,30 @@ function common( test )
 
   var got = _.uri.common( '/some/staging/a/b/c' );
   test.identical( got, '/some/staging/a/b/c' );
+
+  test.case = 'combination of diff strcutures';
+
+  var got = _.uri.common( [ 'http:///' ], [ 'http:///' ] )
+  test.identical( got, 'http:///' );
+
+  var got = _.uri.common( [ 'http:///x' ], [ 'http:///y' ] )
+  test.identical( got, 'http:///' );
+
+  var got = _.uri.common( [ 'http:///a/x' ], [ 'http:///a/y' ] )
+  test.identical( got, 'http:///a/' );
+
+  var got = _.uri.common( [ 'http:///a/x' ], 'http:///a/y' )
+  test.identical( got, 'http:///a/' );
+
+  var got = _.uri.common( 'http:///a/x', [ 'http:///a/y' ] )
+  test.identical( got, 'http:///a/' );
+
+  var got = _.uri.common( 'http:///a/x', 'http:///a/y' )
+  test.identical( got, 'http:///a/' );
+
+  var got = _.uri.common( [ [ 'http:///a/x' ], 'http:///a/y' ], 'http:///a/z' )
+  test.identical( got, 'http:///a/' );
+
 /*
   var got = _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' );
   var got = _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' );
@@ -4174,8 +4198,8 @@ function common( test )
   test.shouldThrowError( () => _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
   test.shouldThrowError( () => _.uri.common([]) );
   test.shouldThrowError( () => _.uri.common() );
-  test.shouldThrowError( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
-  test.shouldThrowError( () => _.uri.common( [ 'http:///' ], 'http:///' ) );
+  // test.shouldThrowError( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
+  // test.shouldThrowError( () => _.uri.common( [ 'http:///' ], 'http:///' ) );
 
 }
 
@@ -5036,37 +5060,37 @@ var Self =
     isRelative,
     isRoot,
 
-    normalize : normalize,
-    normalizeLocalPaths : normalizeLocalPaths,
-    normalizeTolerant : normalizeTolerant,
-    normalizeLocalPathsTolerant : normalizeLocalPathsTolerant,
+    normalize,
+    normalizeLocalPaths,
+    normalizeTolerant,
+    normalizeLocalPathsTolerant,
 
-    refine : refine,
-    urisRefine : urisRefine,
-    parse : parse,
-    parseGlob : parseGlob,
-    str : str,
-    parseAndStr : parseAndStr,
-    // from : from,
-    documentGet : documentGet,
-    server : server,
-    query : query,
-    dequery : dequery,
-    resolve : resolve,
+    refine,
+    urisRefine,
+    parse,
+    parseGlob,
+    str,
+    parseAndStr,
+    // from,
+    documentGet,
+    server,
+    query,
+    dequery,
+    resolve,
 
-    // _uriJoin_body : _uriJoin_body,
+    // _uriJoin_body,
     join,
     joinRaw,
 
-    commonLocalPaths : commonLocalPaths,
-    common : common,
+    commonLocalPaths,
+    common,
 
-    rebase : rebase,
+    rebase,
 
-    name : name,
-    ext : ext,
-    changeExt : changeExt,
-    dir : dir
+    name,
+    ext,
+    changeExt,
+    dir
 
   },
 
