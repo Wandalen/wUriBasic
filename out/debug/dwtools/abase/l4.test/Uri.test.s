@@ -1307,7 +1307,7 @@ function parse( test )
 
   var expected =
   {
-    localPath : '127.0.0.1:61726/../path',
+    webLocalPath : '127.0.0.1:61726/../path',
     longPath : '127.0.0.1:61726/../path',
     protocols : [],
     full : '127.0.0.1:61726/../path'
@@ -1317,7 +1317,7 @@ function parse( test )
 
   var expected =
   {
-    localPath : '127.0.0.1:61726/../path'
+    webLocalPath : '127.0.0.1:61726/../path'
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -1340,7 +1340,7 @@ function parse( test )
     protocol : 'http',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
@@ -1360,7 +1360,7 @@ function parse( test )
     protocol : 'http',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     // longPath : 'www.site.com:13/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -1376,7 +1376,7 @@ function parse( test )
     protocol : 'http',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -1399,7 +1399,7 @@ function parse( test )
     protocol : 'http',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
     // longPath : 'www.site.com:13/path/name',
@@ -1416,7 +1416,7 @@ function parse( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localPath : '/something/to/add',
+    webLocalPath : '/something/to/add',
     longPath : 'some.domain.com/something/to/add',
     protocols : [],
     hostWithPort : 'some.domain.com',
@@ -1435,7 +1435,7 @@ function parse( test )
   {
     protocol : 'file',
     host : '',
-    localPath : '/something/to/add',
+    webLocalPath : '/something/to/add',
     longPath : '/something/to/add',
     protocols : [ 'file' ],
     hostWithPort : '',
@@ -1454,7 +1454,7 @@ function parse( test )
   {
     protocol : 'svn+https',
     host : 'user@subversion.com',
-    localPath : '/svn/trunk',
+    webLocalPath : '/svn/trunk',
     longPath : 'user@subversion.com/svn/trunk',
     protocols : [ 'svn','https' ],
     hostWithPort : 'user@subversion.com',
@@ -1471,7 +1471,7 @@ function parse( test )
 
   var expected =
   {
-    localPath : '/some/file',
+    webLocalPath : '/some/file',
     longPath : '/some/file',
     protocols : [],
     full : '/some/file',
@@ -1485,7 +1485,7 @@ function parse( test )
   var uri = '//some.domain.com/was';
   var expected =
   {
-    localPath : '//some.domain.com/was',
+    webLocalPath : '//some.domain.com/was',
     longPath : '//some.domain.com/was',
     protocols : [],
     full : '//some.domain.com/was'
@@ -1501,7 +1501,7 @@ function parse( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localPath : '/was',
+    webLocalPath : '/was',
     longPath : 'some.domain.com/was',
     protocols : [ '' ],
     hostWithPort : 'some.domain.com',
@@ -1516,7 +1516,7 @@ function parse( test )
   {
     protocol : 'protocol',
     host : 'some.domain.com',
-    localPath : '/was',
+    webLocalPath : '/was',
     longPath : 'some.domain.com/was',
     protocols : [ 'protocol' ],
     hostWithPort : 'some.domain.com',
@@ -1532,7 +1532,7 @@ function parse( test )
   var uri = '//';
   var expected =
   {
-    localPath : '//',
+    webLocalPath : '//',
     longPath : '//',
     protocols : [],
     full : '//'
@@ -1544,7 +1544,7 @@ function parse( test )
   var uri = '///';
   var expected =
   {
-    localPath : '///',
+    webLocalPath : '///',
     longPath : '///',
     protocols : [],
     full : '///'
@@ -1556,7 +1556,7 @@ function parse( test )
   var uri = '///a/b/c';
   var expected =
   {
-    localPath : '///a/b/c',
+    webLocalPath : '///a/b/c',
     longPath : '///a/b/c',
     protocols : [],
     full : '///a/b/c'
@@ -1572,7 +1572,7 @@ function parse( test )
     protocol : 'complex+protocol',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
@@ -1593,7 +1593,7 @@ function parse( test )
     protocol : 'complex+protocol',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1608,7 +1608,7 @@ function parse( test )
     protocol : '',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path//name//',
+    webLocalPath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path//name//',
@@ -1626,7 +1626,7 @@ function parse( test )
     protocol : '',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path//name//',
+    webLocalPath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor'
   }
@@ -1649,7 +1649,7 @@ function parse( test )
   {
     protocol : '',
     host : '',
-    localPath : '/www.site.com:13/path//name//',
+    webLocalPath : '/www.site.com:13/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
     protocols : [],
@@ -1666,7 +1666,7 @@ function parse( test )
   {
     protocol : '',
     host : '',
-    localPath : '/www.site.com:13/path//name//',
+    webLocalPath : '/www.site.com:13/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1687,7 +1687,7 @@ function parse( test )
 
   var expected =
   {
-    localPath : '///some.com:99/staging/index.html',
+    webLocalPath : '///some.com:99/staging/index.html',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : '///some.com:99/staging/index.html',
@@ -1699,7 +1699,7 @@ function parse( test )
 
   var expected =
   {
-    localPath : '///some.com:99/staging/index.html',
+    webLocalPath : '///some.com:99/staging/index.html',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1739,207 +1739,207 @@ function parseGlob( test )
 
   var src = '!a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/!a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/!a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/^a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/+a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/!';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/^';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/a/+';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '?';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '*';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '**';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '?c.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '*.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '**/a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir?c/a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/*.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/**.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/**/a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/dir?c/a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/dir/*.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/dir/**.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/dir/**/a.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '[a-c]';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '{a,c}';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '(a|b)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '(ab)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '@(ab)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '!(ab)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '?(ab)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '*(ab)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '+(ab)';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/[a-c].js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/{a,c}.js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/(a|b).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/(ab).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/@(ab).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/!(ab).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/?(ab).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/*(ab).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = 'dir/+(ab).js';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   var src = '/index/**';
   var got = _.uri.parse( src );
-  var expected = { localPath : src };
+  var expected = { webLocalPath : src };
   test.contains( got, expected );
 
   test.close( 'local path' );
@@ -1953,7 +1953,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -1964,7 +1964,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -1975,7 +1975,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -1986,7 +1986,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -1997,7 +1997,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2008,7 +2008,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2019,7 +2019,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2030,7 +2030,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2041,7 +2041,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2052,7 +2052,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2063,7 +2063,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2074,7 +2074,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2085,7 +2085,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2096,7 +2096,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2107,7 +2107,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2118,7 +2118,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2129,7 +2129,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2140,7 +2140,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2151,7 +2151,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2162,7 +2162,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2173,7 +2173,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2184,7 +2184,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2195,7 +2195,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2206,7 +2206,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2217,7 +2217,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2228,7 +2228,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2239,7 +2239,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2250,7 +2250,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2261,7 +2261,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2272,7 +2272,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2283,7 +2283,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2294,7 +2294,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2305,7 +2305,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2316,7 +2316,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2327,7 +2327,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2338,7 +2338,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2349,7 +2349,7 @@ function parseGlob( test )
   var got = _.uri.parse( uri );
   var expected =
   {
-    localPath : src,
+    webLocalPath : src,
     query : 'query=here&and=here',
     hash : 'anchor'
   };
@@ -2405,7 +2405,7 @@ function str( test )
 
   var components2 =
   {
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -2415,7 +2415,7 @@ function str( test )
   var components3 =
   {
     protocol : 'http',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -2444,7 +2444,7 @@ function str( test )
     protocol : 'http',
     host : 'www.site.com',
     port : '13',
-    localPath : '/path/name',
+    webLocalPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2470,7 +2470,7 @@ function str( test )
   var components =
   {
     host : 'some.domain.com',
-    localPath : '/was',
+    webLocalPath : '/was',
   }
   var got = _.uri.str( components );
   test.identical( got, expected );
@@ -2481,7 +2481,7 @@ function str( test )
 
   var components =
   {
-    localPath : '/some2',
+    webLocalPath : '/some2',
     protocol : 'src',
   }
   var expected = 'src:///some2';
@@ -2490,7 +2490,7 @@ function str( test )
 
   var components =
   {
-    localPath : 'some2',
+    webLocalPath : 'some2',
     protocol : 'src',
   }
   var expected = 'src://some2';
@@ -2695,6 +2695,32 @@ function parseAndStr( test )
   var parsed = _.uri.parse( uri );
   var got = _.uri.str( parsed );
   test.identical( got, uri );
+
+  var expectedParsed =
+  {
+    'protocol' : 'ext',
+    'host' : '..',
+    'webLocalPath' : '/src',
+    'longPath' : '../src',
+    'protocols' : [ 'ext' ],
+    'hostWithPort' : '..',
+    'origin' : 'ext://..',
+    'full' : 'ext://../src'
+  }
+  var uri = 'ext://../src';
+  var parsed = _.uri.parse( uri );
+  var got = _.uri.str( parsed );
+  test.identical( got, uri );
+  test.identical( parsed, expectedParsed );
+
+  // full: "ext://../src"
+  // host: ".."
+  // hostWithPort: ".."
+  // webLocalPath: "/src"
+  // longPath: "../src"
+  // origin: "ext://.."
+  // protocol: "ext"
+  // protocols: ["ext"]
 
   /* - */
 
@@ -3403,119 +3429,119 @@ function join( test )
   var got = _.uri.join( 'http://www.site.com:13/ab','y','z' );
   test.identical( got, 'http://www.site.com:13/ab/y/z' );
 
-  test.case = 'add relative to uri with no localPath';
+  test.case = 'add relative to uri with no webLocalPath';
   var got = _.uri.join( 'https://some.domain.com/','something/to/add' );
   test.identical( got, 'https://some.domain.com/something/to/add' );
 
-  test.case = 'add relative to uri with localPath';
+  test.case = 'add relative to uri with webLocalPath';
   var got = _.uri.join( 'https://some.domain.com/was','something/to/add' );
   test.identical( got, 'https://some.domain.com/was/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( 'https://some.domain.com/was','/something/to/add' );
   test.identical( got, 'https:///something/to/add' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '//some.domain.com/was','/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '://some.domain.com/was','/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '//some.domain.com/was', 'x', '/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '://some.domain.com/was', 'x', '/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '//some.domain.com/was', '/something/to/add', 'x' );
   test.identical( got, '/something/to/add/x' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '://some.domain.com/was', '/something/to/add', 'x' );
   test.identical( got, ':///something/to/add/x' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '//some.domain.com/was', '/something/to/add', '/x' );
   test.identical( got, '/x' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '://some.domain.com/was', '/something/to/add', '/x' );
   test.identical( got, ':///x' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '/some/staging/index.html','/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '/some/staging/index.html', 'x', '/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '/some/staging/index.html', 'x', '/something/to/add', 'y' );
   test.identical( got, '/something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '/some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, '/y' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '///some/staging/index.html','/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( ':///some/staging/index.html','/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '///some/staging/index.html', 'x', '/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( ':///some/staging/index.html', 'x', '/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '///some/staging/index.html', 'x', '/something/to/add', 'y' );
   test.identical( got, '/something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( ':///some/staging/index.html', 'x', '/something/to/add', 'y' );
   test.identical( got, ':///something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( '///some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, '/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( ':///some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, ':///y' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk','/something/to/add' );
   test.identical( got, 'svn+https:///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/to/add' );
   test.identical( got, 'svn+https:///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/to/add', 'y' );
   test.identical( got, 'svn+https:///something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk','/something/to/add', '/y' );
   test.identical( got, 'svn+https:///y' );
 
@@ -3524,19 +3550,19 @@ function join( test )
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var parsed = _.uri.parse( uri );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( uri,'/something/to/add' );
   test.identical( got, 'complex+protocol:///something/to/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( uri, 'x', '/something/to/add' );
   test.identical( got, 'complex+protocol:///something/to/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( uri, 'x', '/something/to/add', 'y' );
   test.identical( got, 'complex+protocol:///something/to/add/y?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( uri,'/something/to/add', '/y' );
   test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
 
@@ -3593,7 +3619,7 @@ function join( test )
   var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
   test.identical( got, expected );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.join( 'file:///some/file','/something/to/add' );
   test.identical( got, 'file:///something/to/add' );
 
@@ -3806,119 +3832,119 @@ function joinRaw( test )
   var got = _.uri.joinRaw( 'http://www.site.com:13/ab','y','z' );
   test.identical( got, 'http://www.site.com:13/ab/y/z' );
 
-  test.case = 'add relative to uri with no localPath';
+  test.case = 'add relative to uri with no webLocalPath';
   var got = _.uri.joinRaw( 'https://some.domain.com/','something/to/add' );
   test.identical( got, 'https://some.domain.com/something/to/add' );
 
-  test.case = 'add relative to uri with localPath';
+  test.case = 'add relative to uri with webLocalPath';
   var got = _.uri.joinRaw( 'https://some.domain.com/was','something/to/add' );
   test.identical( got, 'https://some.domain.com/was/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( 'https://some.domain.com/was','/something/to/add' );
   test.identical( got, 'https:///something/to/add' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '//some.domain.com/was','/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '://some.domain.com/was','/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '//some.domain.com/was', 'x', '/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '://some.domain.com/was', 'x', '/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '//some.domain.com/was', '/something/to/add', 'x' );
   test.identical( got, '/something/to/add/x' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '://some.domain.com/was', '/something/to/add', 'x' );
   test.identical( got, ':///something/to/add/x' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '//some.domain.com/was', '/something/to/add', '/x' );
   test.identical( got, '/x' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '://some.domain.com/was', '/something/to/add', '/x' );
   test.identical( got, ':///x' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '/some/staging/index.html','/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '/some/staging/index.html', 'x', '/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '/some/staging/index.html', 'x', '/something/to/add', 'y' );
   test.identical( got, '/something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '/some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, '/y' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '///some/staging/index.html','/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( ':///some/staging/index.html','/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '///some/staging/index.html', 'x', '/something/to/add' );
   test.identical( got, '/something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( ':///some/staging/index.html', 'x', '/something/to/add' );
   test.identical( got, ':///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '///some/staging/index.html', 'x', '/something/to/add', 'y' );
   test.identical( got, '/something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( ':///some/staging/index.html', 'x', '/something/to/add', 'y' );
   test.identical( got, ':///something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( '///some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, '/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( ':///some/staging/index.html','/something/to/add', '/y' );
   test.identical( got, ':///y' );
 
   /* */
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk','/something/to/add' );
   test.identical( got, 'svn+https:///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/to/add' );
   test.identical( got, 'svn+https:///something/to/add' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/to/add', 'y' );
   test.identical( got, 'svn+https:///something/to/add/y' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk','/something/to/add', '/y' );
   test.identical( got, 'svn+https:///y' );
 
@@ -3927,19 +3953,19 @@ function joinRaw( test )
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var parsed = _.uri.parse( uri );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( uri,'/something/to/add' );
   test.identical( got, 'complex+protocol:///something/to/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( uri, 'x', '/something/to/add' );
   test.identical( got, 'complex+protocol:///something/to/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( uri, 'x', '/something/to/add', 'y' );
   test.identical( got, 'complex+protocol:///something/to/add/y?query=here&and=here#anchor' );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( uri,'/something/to/add', '/y' );
   test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
 
@@ -3996,7 +4022,7 @@ function joinRaw( test )
   var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
   test.identical( got, expected );
 
-  test.case = 'add absolute to uri with localPath';
+  test.case = 'add absolute to uri with webLocalPath';
   var got = _.uri.joinRaw( 'file:///some/file','/something/to/add' );
   test.identical( got, 'file:///something/to/add' );
 

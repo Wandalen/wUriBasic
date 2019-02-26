@@ -145,7 +145,7 @@ function isRoot( path )
  * @property {string} protocol the URL's protocol scheme.;
  * @property {string} host host portion of the URL;
  * @property {string} port property is the numeric port portion of the URL
- * @property {string} localPath the entire path section of the URL.
+ * @property {string} webLocalPath the entire path section of the URL.
  * @property {string} query the entire "query string" portion of the URL, not including '?' character.
  * @property {string} hash property consists of the "fragment identifier" portion of the URL.
 
@@ -163,7 +163,7 @@ let UriComponents =
   protocol : null, /* 'svn+http' */
   host : null, /* 'www.site.com' */
   port : null, /* '13' */
-  localPath : null, /* '/path/name' */
+  webLocalPath : null, /* '/path/name' */
   query : null, /* 'query=here&and=here' */
   hash : null, /* 'anchor' */
 
@@ -185,7 +185,7 @@ let UriComponents =
 http://www.site.com:13/path/name?query=here&and=here#anchor
 2 - protocol
 3 - hostWithPort( host + port )
-5 - localPath
+5 - webLocalPath
 6 - query
 8 - hash
 */
@@ -254,7 +254,7 @@ function parse_body( o )
   if( _.strIs( e[ 4 ] ) )
   result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
-  result.localPath = e[ 5 ];
+  result.webLocalPath = e[ 5 ];
   if( _.strIs( e[ 6 ] ) )
   result.query = e[ 6 ];
   if( _.strIs( e[ 7 ] ) )
@@ -265,7 +265,7 @@ function parse_body( o )
   if( o.kind === 'all' )
   {
     let hostWithPort = e[ 2 ] || '';
-    result.longPath = hostWithPort + result.localPath;
+    result.longPath = hostWithPort + result.webLocalPath;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
@@ -280,10 +280,10 @@ function parse_body( o )
   else if( o.kind === 'consecutive' )
   {
     let hostWithPort = e[ 2 ] || '';
-    result.longPath = hostWithPort + result.localPath;
+    result.longPath = hostWithPort + result.webLocalPath;
     delete result.host;
     delete result.port;
-    delete result.localPath;
+    delete result.webLocalPath;
   }
 
   return result;
@@ -312,7 +312,7 @@ parse_body.Kind = [ 'all', 'atomic', 'consecutive' ];
    // {
    //   protocol : 'http',
    //   hostWithPort : 'www.site.com:13',
-   //   localPath : /path/name,
+   //   webLocalPath : /path/name,
    //   query : 'query=here&and=here',
    //   hash : 'anchor',
    //   host : 'www.site.com',
@@ -389,7 +389,7 @@ function parseConsecutive( srcPath )
        protocol : 'http',
        host : 'www.site.com',
        port : '13',
-       localPath : '/path/name',
+       webLocalPath : '/path/name',
        query : 'query=here&and=here',
        hash : 'anchor',
      };
@@ -475,7 +475,7 @@ function str( c )
   // protocol : null, /* 'svn+http' */
   // host : null, /* 'www.site.com' */
   // port : null, /* '13' */
-  // localPath : null, /* '/path/name' */
+  // webLocalPath : null, /* '/path/name' */
   // query : null, /* 'query=here&and=here' */
   // hash : null, /* 'anchor' */
   //
@@ -502,12 +502,12 @@ function str( c )
     if( !_.strIs( hostWithPort ) )
     hostWithPort = hostWithPortFrom( c );
 
-    if( _.strIs( c.localPath ) )
+    if( _.strIs( c.webLocalPath ) )
     {
-      if( c.localPath && hostWithPort && !_.strBegins( c.localPath, self._upStr ) )
-      return hostWithPort + self._upStr + c.localPath;
+      if( c.webLocalPath && hostWithPort && !_.strBegins( c.webLocalPath, self._upStr ) )
+      return hostWithPort + self._upStr + c.webLocalPath;
       else
-      return hostWithPort + c.localPath;
+      return hostWithPort + c.webLocalPath;
     }
     else
     {
@@ -530,8 +530,8 @@ function str( c )
     if( !_.strHas( c.longPath, String( c.port ) ) )
     return false;
 
-    if( c.localPath )
-    if( !_.strEnds( c.longPath, c.localPath ) )
+    if( c.webLocalPath )
+    if( !_.strEnds( c.longPath, c.webLocalPath ) )
     return false;
 
     return true;
@@ -680,8 +680,8 @@ function str( c )
     if( !_.strHas( c.full, String( c.host ) ) )
     return false;
 
-    if( c.localPath )
-    if( !_.strHas( c.full, String( c.localPath ) ) )
+    if( c.webLocalPath )
+    if( !_.strHas( c.full, String( c.webLocalPath ) ) )
     return false;
 
     if( c.query )
@@ -757,8 +757,8 @@ str.components = UriComponents;
 //
 //   /* */
 //
-//   if( components.localPath )
-//   result += _.strPrependOnce( components.localPath, this._upStr );
+//   if( components.webLocalPath )
+//   result += _.strPrependOnce( components.webLocalPath, this._upStr );
 //
 //   _.assert( !components.query || _.strIs( components.query ) );
 //
@@ -781,7 +781,7 @@ str.components = UriComponents;
 //  * // current uri http://www.site.com:13/foo/baz
 //    let components =
 //    {
-//      localPath : '/path/name',
+//      webLocalPath : '/path/name',
 //      query : 'query=here&and=here',
 //      hash : 'anchor',
 //    };
@@ -821,7 +821,7 @@ str.components = UriComponents;
  * // current uri http://www.site.com:13/foo/baz
    let components =
    {
-     localPath : '/path/name',
+     webLocalPath : '/path/name',
      query : 'query=here&and=here',
      hash : 'anchor',
    };
@@ -869,7 +869,7 @@ function refine( fileUri )
   else
   return parent.refine.call( this, fileUri );
 
-  // fileUri.localPath = null; xxx
+  // fileUri.webLocalPath = null; xxx
 
   if( _.strDefined( fileUri.longPath ) )
   fileUri.longPath = parent.refine.call( this, fileUri.longPath );
@@ -908,7 +908,7 @@ function normalize( fileUri )
     return parent.normalize.call( this, fileUri );
   }
   _.assert( !!fileUri );
-  // fileUri.localPath = null; xxx
+  // fileUri.webLocalPath = null; xxx
   fileUri.longPath = parent.normalize.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
@@ -945,7 +945,7 @@ function normalizeTolerant( fileUri )
     return parent.normalizeTolerant.call( this, fileUri );
   }
   _.assert( !!fileUri );
-  // fileUri.localPath = null;
+  // fileUri.webLocalPath = null;
   fileUri.longPath = parent.normalizeTolerant.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
@@ -1013,7 +1013,7 @@ function join_functor( gen )
         else
         {
           parsed = arguments[ s ] !== null;
-          srcs[ s ] = { localPath : arguments[ s ] };
+          srcs[ s ] = { webLocalPath : arguments[ s ] };
         }
       }
 
@@ -1041,7 +1041,7 @@ function join_functor( gen )
 
     if( web )
     {
-      result.localPath = undefined;
+      result.webLocalPath = undefined;
     }
     else
     {
@@ -1073,12 +1073,12 @@ function join_functor( gen )
         if( !hostWas || !src.host || hostWas === src.host )
         result.port = src.port;
 
-        if( !result.localPath && src.localPath !== undefined )
-        result.localPath = src.localPath;
-        else if( src.localPath )
-        result.localPath = parent[ routineName ]( src.localPath, result.localPath );
+        if( !result.webLocalPath && src.webLocalPath !== undefined )
+        result.webLocalPath = src.webLocalPath;
+        else if( src.webLocalPath )
+        result.webLocalPath = parent[ routineName ]( src.webLocalPath, result.webLocalPath );
 
-        if( src.localPath === null )
+        if( src.webLocalPath === null )
         break;
 
       }
@@ -1111,7 +1111,7 @@ function join_functor( gen )
     if( !parsed )
     {
       if( web )
-      return result.localPath;
+      return result.webLocalPath;
       else
       return result.longPath;
     }
@@ -1309,7 +1309,7 @@ function rebase( srcPath, oldPath, newPath )
   //   delete dstPath.host;
   // }
 
-  // dstPath.localPath = null; xxx
+  // dstPath.webLocalPath = null; xxx
   dstPath.longPath = parent.rebase.call( this, srcPath.longPath, oldPath.longPath, newPath.longPath );
 
   return this.str( dstPath );
@@ -1384,7 +1384,7 @@ function changeExt( path, ext )
 
   path = this.parseConsecutive( path );
 
-  // path.localPath = null;
+  // path.webLocalPath = null;
   path.longPath = this.changeExt( path.longPath, ext );
   // path.full = null;
   // path.origin = null;
@@ -1405,7 +1405,7 @@ function dir( path )
   return parent.dir.call( this, path );
 
   path = this.parseConsecutive( path );
-  // path.localPath = null;
+  // path.webLocalPath = null;
   path.longPath = this.dir( path.longPath );
 
   // path.full = null;
