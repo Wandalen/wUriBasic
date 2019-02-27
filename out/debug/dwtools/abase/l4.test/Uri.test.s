@@ -5041,6 +5041,74 @@ function dir( test )
     test.identical( got, exp );
   })
 
+  /* - */
+
+  test.open( 'trailing slash' );
+
+  var src = '/a/b/';
+  var expected = '/a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = '/a/b/.';
+  var expected = '/a';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = '/a/b/./';
+  var expected = '/a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'a/b/';
+  var expected = 'a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'a/b/.';
+  var expected = 'a';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'a/b/./';
+  var expected = 'a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = '/a/b/';
+  var expected = '/a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'http::///a/b/.';
+  var expected = 'http::///a';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'http::///a/b/./';
+  var expected = 'http::///a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'http:://a/b/';
+  var expected = 'http:://a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'http:://a/b/.';
+  var expected = 'http:://a';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  var src = 'http:://a/b/./';
+  var expected = 'http:://a/b';
+  var got = _.uri.dir( src );
+  test.identical( got, expected );
+
+  test.close( 'trailing slash' );
+
+  /* - */
+
   if( !Config.debug )
   return;
 
@@ -5049,6 +5117,7 @@ function dir( test )
   {
     _.uri.dir( false );
   });
+
 }
 
 //

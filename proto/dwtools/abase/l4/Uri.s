@@ -1384,10 +1384,7 @@ function changeExt( path, ext )
 
   path = this.parseConsecutive( path );
 
-  // path.webLocalPath = null;
-  path.longPath = this.changeExt( path.longPath, ext );
-  // path.full = null;
-  // path.origin = null;
+  path.longPath = parent.changeExt( path.longPath, ext );
 
   return this.str( path );
 }
@@ -1405,11 +1402,7 @@ function dir( path )
   return parent.dir.call( this, path );
 
   path = this.parseConsecutive( path );
-  // path.webLocalPath = null;
-  path.longPath = this.dir( path.longPath );
-
-  // path.full = null;
-  // path.origin = null;
+  path.longPath = parent.dir( path.longPath );
 
   return this.str( path );
 }
