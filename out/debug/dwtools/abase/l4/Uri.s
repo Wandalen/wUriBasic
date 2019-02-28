@@ -436,7 +436,7 @@ function str( c )
   if( c.origin && ( protocol === null || protocol === undefined ) )
   if( _.strHas( c.origin, '://' ) )
   {
-    protocol = _.strIsolateBeginOrNone( c.origin, '://' )[ 0 ];
+    protocol = _.strIsolateLeftOrNone( c.origin, '://' )[ 0 ];
   }
 
   if( ( protocol === null || protocol === undefined ) && c.protocols && c.protocols.length )
@@ -450,13 +450,13 @@ function str( c )
   if( c.origin && ( port === null || port === undefined ) )
   if( _.strHas( c.origin, ':' ) )
   {
-    port = _.strIsolateEndOrNone( c.origin, ':' )[ 2 ];
+    port = _.strIsolateRightOrNone( c.origin, ':' )[ 2 ];
   }
 
   // if( c.origin && ( c.protocol === null || c.protocol === undefined ) )
   // if( _.strHas( c.origin, '://' ) )
   // {
-  //   c.protocol = _.strIsolateBeginOrNone( c.origin, '://' )[ 0 ];
+  //   c.protocol = _.strIsolateLeftOrNone( c.origin, '://' )[ 0 ];
   // }
   //
   // if( c.origin && ( c.host === null || c.host === undefined ) )
@@ -467,7 +467,7 @@ function str( c )
   // if( c.origin && ( c.port === null || c.port === undefined ) )
   // if( _.strHas( c.origin, ':' ) )
   // {
-  //   c.port = _.strIsolateEndOrNone( c.origin, ':' )[ 2 ];
+  //   c.port = _.strIsolateRightOrNone( c.origin, ':' )[ 2 ];
   // }
 
   // /* atomic */
