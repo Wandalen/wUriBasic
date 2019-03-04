@@ -4110,6 +4110,650 @@ function joinRaw( test )
 
 //
 
+function relativeLocalPaths( test )
+{
+  var got;
+
+  test.open( 'absolute' );
+
+  test.case = '/a - /b'; /* */
+  var from = '/a';
+  var to = '/b';
+  var expected = '../b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '/a - /b'; /* */
+  var from = '/a';
+  var to = '/b';
+  var expected = '../b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '/ - /b'; /* */
+  var from = '/';
+  var to = '/b';
+  var expected = 'b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = '/aa/bb/cc';
+  var to = '/aa/bb/cc';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = '/aa/bb/cc';
+  var to = '/aa/bb/cc/';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = '/aa/bb/cc/';
+  var to = '/aa/bb/cc';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = '/aa//bb/cc/';
+  var to = '//xx/yy/zz/';
+  var expected = '../../../..//xx/yy/zz';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to parent directory'; /* */
+  var from = '/aa/bb/cc';
+  var to = '/aa/bb';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to parent directory'; /* */
+  var from = '/aa/bb/cc/';
+  var to = '/aa/bb';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to parent directory'; /* */
+  var from = '/aa/bb/cc/';
+  var to = '/aa/bb/';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to nested'; /* */
+  var from = '/foo/bar/baz/asdf/quux';
+  var to = '/foo/bar/baz/asdf/quux/new1';
+  var expected = 'new1';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'out of relative dir'; /* */
+  var from = '/abc';
+  var to = '/a/b/z';
+  var expected = '../a/b/z';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative root'; /* */
+  var from = '/';
+  var to = '/a/b/z';
+  var expected = 'a/b/z';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative root'; /* */
+  var from = '/';
+  var to = '/';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'windows disks'; /* */
+  var from = 'd:/';
+  var to = 'c:/x/y';
+  var expected = '../c/x/y';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'long, not direct'; /* */
+  var from = '/a/b/xx/yy/zz';
+  var to = '/a/b/files/x/y/z.txt';
+  var expected = '../../../files/x/y/z.txt';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.close( 'absolute' );
+
+  //
+
+  test.open( 'relative' );
+
+  test.case = '. - .'; /* */
+  var from = '.';
+  var to = '.';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a - b'; /* */
+  var from = 'a';
+  var to = 'b';
+  var expected = '../b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b - b/c'; /* */
+  var from = 'a/b';
+  var to = 'b/c';
+  var expected = '../../b/c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b - a/b/c'; /* */
+  var from = 'a/b';
+  var to = 'a/b/c';
+  var expected = 'c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b/c - a/b'; /* */
+  var from = 'a/b/c';
+  var to = 'a/b';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b/c - a/b'; /* */
+  var from = 'a/b/c';
+  var to = 'a/b';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b/c/d - a/b/d/c'; /* */
+  var from = 'a/b/c/d';
+  var to = 'a/b/d/c';
+  var expected = '../../d/c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a - ../a'; /* */
+  var from = 'a';
+  var to = '../a';
+  var expected = '../../a';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a//b - a//c'; /* */
+  var from = 'a//b';
+  var to = 'a//c';
+  var expected = '../c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/./b - a/./c'; /* */
+  var from = 'a/./b';
+  var to = 'a/./c';
+  var expected = '../c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/../b - b'; /* */
+  var from = 'a/../b';
+  var to = 'b';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'b - b/../b'; /* */
+  var from = 'b';
+  var to = 'b/../b';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '. - ..'; /* */
+  var from = '.';
+  var to = '..';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '. - ../..'; /* */
+  var from = '.';
+  var to = '../..';
+  var expected = '../..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '.. - ../..'; /* */
+  var from = '..';
+  var to = '../..';
+  var expected = '..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '.. - ..'; /* */
+  var from = '..';
+  var to = '..';
+  var expected = '.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '../a/b - ../c/d'; /* */
+  var from = '../a/b';
+  var to = '../c/d';
+  var expected = '../../c/d';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/../b/.. - b'; /* */
+  var from = 'a/../b/..';
+  var to = 'b';
+  var expected = 'b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.close( 'relative' );
+
+  //
+
+  if( !Config.debug ) //
+  return;
+
+  test.open( 'relative' );
+
+  // must be fails
+
+  test.case = '../a/b - .'; /* */
+  var from = '../a/b';
+  var to = '.';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '../a/b - ./c/d'; /* */
+  var from = '../a/b';
+  var to = './c/d';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '.. - .'; /* */
+  var from = '..';
+  var to = '.';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '.. - ./a'; /* */
+  var from = '..';
+  var to = './a';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '../a - a'; /* */
+  var from = '../a';
+  var to = 'a';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.close( 'relative' );
+
+  //
+
+  test.open( 'other' )
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( from );
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( 'from3', 'to3', 'to4' );
+  });
+
+  test.case = 'second argument is not string or array';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( 'from3', null );
+  });
+
+  test.case = 'relative + absolute';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( '.', '/' );
+  });
+
+  test.close( 'other' )
+
+};
+
+//
+
+function relative( test )
+{
+  var got;
+
+  test.open( 'absolute' );
+
+  test.case = '/a - /b'; /* */
+  var from = 'file:///a';
+  var to = 'file:///b';
+  var expected = 'file://../b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '/a - /b'; /* */
+  var from = 'file:///a';
+  var to = 'file:///b';
+  var expected = 'file://../b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '/ - /b'; /* */
+  var from = 'file:///';
+  var to = 'file:///b';
+  var expected = 'file://b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = 'file:///aa/bb/cc';
+  var to = 'file:///aa/bb/cc';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = 'file:///aa/bb/cc';
+  var to = 'file:///aa/bb/cc/';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = 'file:///aa/bb/cc/';
+  var to = 'file:///aa/bb/cc';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'same path'; /* */
+  var from = 'file:///aa//bb/cc/';
+  var to = 'file:////xx/yy/zz/';
+  var expected = 'file://../../../..//xx/yy/zz';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to parent directory'; /* */
+  var from = 'file:///aa/bb/cc';
+  var to = 'file:///aa/bb';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to parent directory'; /* */
+  var from = 'file:///aa/bb/cc/';
+  var to = 'file:///aa/bb';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to parent directory'; /* */
+  var from = 'file:///aa/bb/cc/';
+  var to = 'file:///aa/bb/';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative to nested'; /* */
+  var from = 'file:///foo/bar/baz/asdf/quux';
+  var to = 'file:///foo/bar/baz/asdf/quux/new1';
+  var expected = 'file://new1';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'out of relative dir'; /* */
+  var from = 'file:///abc';
+  var to = 'file:///a/b/z';
+  var expected = 'file://../a/b/z';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative root'; /* */
+  var from = 'file:///';
+  var to = 'file:///a/b/z';
+  var expected = 'file://a/b/z';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'relative root'; /* */
+  var from = 'file:///';
+  var to = 'file:///';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'windows disks'; /* */
+  var from = 'file://d:/';
+  var to = 'file://c:/x/y';
+  var expected = 'file://../c/x/y';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'long, not direct'; /* */
+  var from = 'file:///a/b/xx/yy/zz';
+  var to = 'file:///a/b/files/x/y/z.txt';
+  var expected = 'file://../../../files/x/y/z.txt';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.close( 'absolute' );
+
+  //
+
+  test.open( 'relative' );
+
+  test.case = '. - .'; /* */
+  var from = 'file://.';
+  var to = 'file://.';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a - b'; /* */
+  var from = 'file://a';
+  var to = 'file://b';
+  var expected = 'file://../b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b - b/c'; /* */
+  var from = 'file://a/b';
+  var to = 'file://b/c';
+  var expected = 'file://../../b/c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b - a/b/c'; /* */
+  var from = 'file://a/b';
+  var to = 'file://a/b/c';
+  var expected = 'file://c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b/c - a/b'; /* */
+  var from = 'file://a/b/c';
+  var to = 'file://a/b';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b/c - a/b'; /* */
+  var from = 'file://a/b/c';
+  var to = 'file://a/b';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/b/c/d - a/b/d/c'; /* */
+  var from = 'file://a/b/c/d';
+  var to = 'file://a/b/d/c';
+  var expected = 'file://../../d/c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a - ../a'; /* */
+  var from = 'file://a';
+  var to = 'file://../a';
+  var expected = 'file://../../a';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a//b - a//c'; /* */
+  var from = 'file://a//b';
+  var to = 'file://a//c';
+  var expected = 'file://../c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/./b - a/./c'; /* */
+  var from = 'file://a/./b';
+  var to = 'file://a/./c';
+  var expected = 'file://../c';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/../b - b'; /* */
+  var from = 'file://a/../b';
+  var to = 'file://b';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'b - b/../b'; /* */
+  var from = 'file://b';
+  var to = 'file://b/../b';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '. - ..'; /* */
+  var from = 'file://.';
+  var to = 'file://..';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '. - ../..'; /* */
+  var from = 'file://.';
+  var to = 'file://../..';
+  var expected = 'file://../..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '.. - ../..'; /* */
+  var from = 'file://..';
+  var to = 'file://../..';
+  var expected = 'file://..';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '.. - ..'; /* */
+  var from = '..';
+  var to = 'file://..';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '../a/b - ../c/d'; /* */
+  var from = 'file://../a/b';
+  var to = 'file://../c/d';
+  var expected = 'file://../../c/d';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = 'a/../b/.. - b'; /* */
+  var from = 'file://a/../b/..';
+  var to = 'file://b';
+  var expected = 'file://b';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.close( 'relative' );
+
+  //
+
+  if( !Config.debug ) //
+  return;
+
+  test.open( 'relative' );
+
+  // must be fails
+
+  test.case = '../a/b - .'; /* */
+  var from = 'file://../a/b';
+  var to = 'file://.';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '../a/b - ./c/d'; /* */
+  var from = 'file://../a/b';
+  var to = 'file://./c/d';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '.. - .'; /* */
+  var from = 'file://..';
+  var to = 'file://.';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '.. - ./a'; /* */
+  var from = 'file://..';
+  var to = 'file://./a';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.case = '../a - a'; /* */
+  var from = 'file://../a';
+  var to = 'file://a';
+  test.shouldThrowError( () => _.uri.relative( from, to ) );
+
+  test.close( 'relative' );
+
+  //
+
+  test.open( 'other' )
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( from );
+  });
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( 'from3', 'to3', 'to4' );
+  });
+
+  test.case = 'second argument is not string or array';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( 'from3', null );
+  });
+
+  test.case = 'relative + absolute';
+  test.shouldThrowErrorSync( function( )
+  {
+    _.uri.relative( '.', '/' );
+  });
+
+  test.close( 'other' )
+
+};
+
+//
+
 function common( test )
 {
 
@@ -5176,6 +5820,9 @@ var Self =
     // _uriJoin_body,
     join,
     joinRaw,
+
+    relativeLocalPaths,
+    relative,
 
     commonLocalPaths,
     common,
