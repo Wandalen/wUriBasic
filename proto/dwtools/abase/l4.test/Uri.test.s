@@ -5799,24 +5799,28 @@ function filter( test )
   var got = _.uri.filter( src,onEach );
   var expected = [ 'file:////a', 'file:////b' ];
   test.identical( got, expected );
+  test.notIdentical( got, src );
 
   test.case = 'array filter';
   var src = [ 'file:///a', '/b' ];
   var got = _.uri.filter( src,onEachFilter );
   var expected = [ 'file:///a' ];
   test.identical( got, expected );
+  test.notIdentical( got, src );
 
   test.case = 'map';
   var src = { '/src' : '/dst' };
   var got = _.uri.filter( src,onEach );
   var expected = { 'file:////src' : 'file:////dst' };
   test.identical( got, expected );
+  test.notIdentical( got, src );
 
   test.case = 'map filter';
   var src = { 'file:///src' : '/dst' };
   var got = _.uri.filter( src,onEachFilter );
   var expected = {};
   test.identical( got, expected );
+  test.notIdentical( got, src );
 
   test.case = 'map filter';
   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
@@ -5826,6 +5830,7 @@ function filter( test )
     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
   };
   test.identical( got, expected );
+  test.notIdentical( got, src );
 
   test.case = 'map filter keys, onEach returns array with undefined';
   var src = { '/a' : '/b' };
@@ -5835,6 +5840,7 @@ function filter( test )
     'file:///src/a' : 'file:///b'
   };
   test.identical( got, expected );
+  test.notIdentical( got, src );
 
   test.case = 'null';
   var src = null;
@@ -5893,65 +5899,68 @@ function refilter( test )
 {
   test.case = 'string';
   var src = '/a/b/c';
-  var got = _.uri.filter( src,onEach );
+  var got = _.uri.refilter( src,onEach );
   var expected = 'file:////a/b/c';
   test.identical( got, expected );
 
   test.case = 'array';
   var src = [ '/a', '/b' ];
-  var got = _.uri.filter( src,onEach );
+  var got = _.uri.refilter( src,onEach );
   var expected = [ 'file:////a', 'file:////b' ];
   test.identical( got, expected );
+  test.identical( got, src );
 
   test.case = 'array filter';
   var src = [ 'file:///a', '/b' ];
-  var got = _.uri.filter( src,onEachFilter );
+  var got = _.uri.refilter( src,onEachFilter );
   var expected = [ 'file:///a' ];
   test.identical( got, expected );
-  test.identical( src, expected );
+  test.identical( got, src );
 
   test.case = 'map';
   var src = { '/src' : '/dst' };
-  var got = _.uri.filter( src,onEach );
+  var got = _.uri.refilter( src,onEach );
   var expected = { 'file:////src' : 'file:////dst' };
   test.identical( got, expected );
+  test.identical( got, src );
 
   test.case = 'map filter';
   var src = { 'file:///src' : '/dst' };
-  var got = _.uri.filter( src,onEachFilter );
+  var got = _.uri.refilter( src,onEachFilter );
   var expected = {};
   test.identical( got, expected );
-  test.identical( src, expected );
+  test.identical( got, src );
 
   test.case = 'map filter';
   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
-  var got = _.uri.filter( src,onEachStructure );
+  var got = _.uri.refilter( src,onEachStructure );
   var expected =
   {
     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
   };
   test.identical( got, expected );
+  test.identical( got, src );
 
   test.case = 'map filter keys, onEach returns array with undefined';
   var src = { '/a' : '/b' };
-  var got = _.uri.filter( src,onEachStructureKeys );
+  var got = _.uri.refilter( src,onEachStructureKeys );
   var expected =
   {
     'file:///src/a' : 'file:///b'
   };
   test.identical( got, expected );
-  test.identical( src, expected );
+  test.identical( got, src );
 
   test.case = 'null';
   var src = null;
-  var got = _.uri.filter( src,onEach );
+  var got = _.uri.refilter( src,onEach );
   var expected = 'file:///';
   test.identical( got, expected );
 
   if( Config.debug )
   {
     test.case = 'number';
-    test.shouldThrowErrorSync( () => _.uri.filter( 1,onEach ) )
+    test.shouldThrowErrorSync( () => _.uri.refilter( 1,onEach ) )
   }
 
   /*  */
