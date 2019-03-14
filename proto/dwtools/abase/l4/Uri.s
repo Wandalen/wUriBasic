@@ -1160,28 +1160,30 @@ function relative( o )
 
   if( arguments[ 1 ] !== undefined )
   {
-    o = { relative : arguments[ 0 ], path : arguments[ 1 ] }
+    o = { relative : arguments[ 0 ], filePath : arguments[ 1 ] }
   }
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( this._relative, o );
 
-  if( !this.isGlobal( o.relative ) && !this.isGlobal( o.path ) )
+  if( !this.isGlobal( o.relative ) && !this.isGlobal( o.filePath ) )
   return this._relative( o );
 
   let relative = this.parseConsecutive( o.relative );
-  let path = this.parseConsecutive( o.path );
+  let filePath = this.parseConsecutive( o.filePath );
 
   let o2 = _.mapExtend( null,o );
   o2.relative = relative.longPath;
-  o2.path = path.longPath;
+  o2.filePath = filePath.longPath;
+
+  _.mapSupplement( relative, filePath );
 
   relative.longPath = this._relative( o2 );
 
   return this.str( relative );
 }
 
-relative.defaults = Object.create( _.path._relative.defaults );
+relative.defaults = Object.create( _.path.relative.defaults );
 
 //
 

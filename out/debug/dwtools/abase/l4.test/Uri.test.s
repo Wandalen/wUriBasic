@@ -3684,9 +3684,7 @@ function join( test )
 
   /* - */
 
-  test.case = 'other special cases';
-
-  /* qqq */
+  test.open( 'other special cases' );
 
   var paths = [  '/aa', 'bb//', 'cc' ];
   var expected = '/aa/bb//cc';
@@ -3702,6 +3700,28 @@ function join( test )
   var expected = '//b/d/..e';
   var got = _.uri.join.apply( _.uri, paths );
   test.identical( got, expected );
+
+  var paths = [  '/','a', '//b', '././c', '../d', '..e' ];
+  var expected = '//b/d/..e';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'git+https:///github.com/Wandalen/wTools.git/out/wTools#master', '../wTools/**#master' ];
+  var expected = 'git+https:///github.com/Wandalen/wTools.git/out/wTools/**#master#master';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'git+https:///github.com/Wandalen/wTools.git/out/wTools#master', 'git+https://../wTools/**#master' ];
+  var expected = 'git+https:///github.com/Wandalen/wTools.git/out/wTools/**#master';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'git+https:///github.com/Wandalen/wTools.git/out/wTools#master1', 'git+https://../wTools/**#master2' ];
+  var expected = 'git+https:///github.com/Wandalen/wTools.git/out/wTools/**#master2';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  test.close( 'other special cases' );
 
 }
 
@@ -4664,6 +4684,13 @@ function relative( test )
   test.case = '.. - ..'; /* */
   var from = '..';
   var to = 'file://..';
+  var expected = 'file://.';
+  var got = _.uri.relative( from, to );
+  test.identical( got, expected );
+
+  test.case = '.. - ..'; /* */
+  var from = 'file://..';
+  var to = '..';
   var expected = 'file://.';
   var got = _.uri.relative( from, to );
   test.identical( got, expected );
