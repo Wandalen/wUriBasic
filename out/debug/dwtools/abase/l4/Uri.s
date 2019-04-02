@@ -145,7 +145,7 @@ function isRoot( path )
  * @property {string} protocol the URL's protocol scheme.;
  * @property {string} host host portion of the URL;
  * @property {string} port property is the numeric port portion of the URL
- * @property {string} webLocalPath the entire path section of the URL.
+ * @property {string} localWebPath the entire path section of the URL.
  * @property {string} query the entire "query string" portion of the URL, not including '?' character.
  * @property {string} hash property consists of the "fragment identifier" portion of the URL.
 
@@ -163,7 +163,7 @@ let UriComponents =
   protocol : null, /* 'svn+http' */
   host : null, /* 'www.site.com' */
   port : null, /* '13' */
-  webLocalPath : null, /* '/path/name' */
+  localWebPath : null, /* '/path/name' */
   query : null, /* 'query=here&and=here' */
   hash : null, /* 'anchor' */
 
@@ -185,7 +185,7 @@ let UriComponents =
 http://www.site.com:13/path/name?query=here&and=here#anchor
 2 - protocol
 3 - hostWithPort( host + port )
-5 - webLocalPath
+5 - localWebPath
 6 - query
 8 - hash
 */
@@ -254,7 +254,7 @@ function parse_body( o )
   if( _.strIs( e[ 4 ] ) )
   result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
-  result.webLocalPath = e[ 5 ];
+  result.localWebPath = e[ 5 ];
   if( _.strIs( e[ 6 ] ) )
   result.query = e[ 6 ];
   if( _.strIs( e[ 7 ] ) )
@@ -265,7 +265,7 @@ function parse_body( o )
   if( o.kind === 'all' )
   {
     let hostWithPort = e[ 2 ] || '';
-    result.longPath = hostWithPort + result.webLocalPath;
+    result.longPath = hostWithPort + result.localWebPath;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
@@ -280,10 +280,10 @@ function parse_body( o )
   else if( o.kind === 'consecutive' )
   {
     let hostWithPort = e[ 2 ] || '';
-    result.longPath = hostWithPort + result.webLocalPath;
+    result.longPath = hostWithPort + result.localWebPath;
     delete result.host;
     delete result.port;
-    delete result.webLocalPath;
+    delete result.localWebPath;
   }
 
   return result;
@@ -312,7 +312,7 @@ parse_body.Kind = [ 'all', 'atomic', 'consecutive' ];
    // {
    //   protocol : 'http',
    //   hostWithPort : 'www.site.com:13',
-   //   webLocalPath : /path/name,
+   //   localWebPath : /path/name,
    //   query : 'query=here&and=here',
    //   hash : 'anchor',
    //   host : 'www.site.com',
@@ -389,7 +389,7 @@ function parseConsecutive( srcPath )
        protocol : 'http',
        host : 'www.site.com',
        port : '13',
-       webLocalPath : '/path/name',
+       localWebPath : '/path/name',
        query : 'query=here&and=here',
        hash : 'anchor',
      };
@@ -475,7 +475,7 @@ function str( c )
   // protocol : null, /* 'svn+http' */
   // host : null, /* 'www.site.com' */
   // port : null, /* '13' */
-  // webLocalPath : null, /* '/path/name' */
+  // localWebPath : null, /* '/path/name' */
   // query : null, /* 'query=here&and=here' */
   // hash : null, /* 'anchor' */
   //
@@ -502,12 +502,12 @@ function str( c )
     if( !_.strIs( hostWithPort ) )
     hostWithPort = hostWithPortFrom( c );
 
-    if( _.strIs( c.webLocalPath ) )
+    if( _.strIs( c.localWebPath ) )
     {
-      if( c.webLocalPath && hostWithPort && !_.strBegins( c.webLocalPath, self._upStr ) )
-      return hostWithPort + self._upStr + c.webLocalPath;
+      if( c.localWebPath && hostWithPort && !_.strBegins( c.localWebPath, self._upStr ) )
+      return hostWithPort + self._upStr + c.localWebPath;
       else
-      return hostWithPort + c.webLocalPath;
+      return hostWithPort + c.localWebPath;
     }
     else
     {
@@ -530,8 +530,8 @@ function str( c )
     if( !_.strHas( c.longPath, String( c.port ) ) )
     return false;
 
-    if( c.webLocalPath )
-    if( !_.strEnds( c.longPath, c.webLocalPath ) )
+    if( c.localWebPath )
+    if( !_.strEnds( c.longPath, c.localWebPath ) )
     return false;
 
     return true;
@@ -680,8 +680,8 @@ function str( c )
     if( !_.strHas( c.full, String( c.host ) ) )
     return false;
 
-    if( c.webLocalPath )
-    if( !_.strHas( c.full, String( c.webLocalPath ) ) )
+    if( c.localWebPath )
+    if( !_.strHas( c.full, String( c.localWebPath ) ) )
     return false;
 
     if( c.query )
@@ -757,8 +757,8 @@ str.components = UriComponents;
 //
 //   /* */
 //
-//   if( components.webLocalPath )
-//   result += _.strPrependOnce( components.webLocalPath, this._upStr );
+//   if( components.localWebPath )
+//   result += _.strPrependOnce( components.localWebPath, this._upStr );
 //
 //   _.assert( !components.query || _.strIs( components.query ) );
 //
@@ -781,7 +781,7 @@ str.components = UriComponents;
 //  * // current uri http://www.site.com:13/foo/baz
 //    let components =
 //    {
-//      webLocalPath : '/path/name',
+//      localWebPath : '/path/name',
 //      query : 'query=here&and=here',
 //      hash : 'anchor',
 //    };
@@ -821,7 +821,7 @@ str.components = UriComponents;
  * // current uri http://www.site.com:13/foo/baz
    let components =
    {
-     webLocalPath : '/path/name',
+     localWebPath : '/path/name',
      query : 'query=here&and=here',
      hash : 'anchor',
    };
@@ -869,7 +869,7 @@ function refine( fileUri )
   else
   return parent.refine.call( this, fileUri );
 
-  // fileUri.webLocalPath = null; xxx
+  // fileUri.localWebPath = null; xxx
 
   if( _.strDefined( fileUri.longPath ) )
   fileUri.longPath = parent.refine.call( this, fileUri.longPath );
@@ -908,7 +908,7 @@ function normalize( fileUri )
     return parent.normalize.call( this, fileUri );
   }
   _.assert( !!fileUri );
-  // fileUri.webLocalPath = null; xxx
+  // fileUri.localWebPath = null; xxx
   fileUri.longPath = parent.normalize.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
@@ -945,7 +945,7 @@ function normalizeTolerant( fileUri )
     return parent.normalizeTolerant.call( this, fileUri );
   }
   _.assert( !!fileUri );
-  // fileUri.webLocalPath = null;
+  // fileUri.localWebPath = null;
   fileUri.longPath = parent.normalizeTolerant.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
@@ -985,7 +985,8 @@ function join_functor( gen )
   gen = { routineName : arguments[ 0 ], web : arguments[ 1 ] }
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( join_functor, gen );
+  // _.assert( arguments.length === 1 );
+  _.assertRoutineOptions( join_functor, gen );
 
   let routineName = gen.routineName;
   let web = gen.web;
@@ -1013,7 +1014,7 @@ function join_functor( gen )
         else
         {
           parsed = arguments[ s ] !== null;
-          srcs[ s ] = { webLocalPath : arguments[ s ] };
+          srcs[ s ] = { localWebPath : arguments[ s ] };
         }
       }
 
@@ -1041,7 +1042,7 @@ function join_functor( gen )
 
     if( web )
     {
-      result.webLocalPath = undefined;
+      result.localWebPath = undefined;
     }
     else
     {
@@ -1073,12 +1074,12 @@ function join_functor( gen )
         if( !hostWas || !src.host || hostWas === src.host )
         result.port = src.port;
 
-        if( !result.webLocalPath && src.webLocalPath !== undefined )
-        result.webLocalPath = src.webLocalPath;
-        else if( src.webLocalPath )
-        result.webLocalPath = parent[ routineName ]( src.webLocalPath, result.webLocalPath );
+        if( !result.localWebPath && src.localWebPath !== undefined )
+        result.localWebPath = src.localWebPath;
+        else if( src.localWebPath )
+        result.localWebPath = parent[ routineName ]( src.localWebPath, result.localWebPath );
 
-        if( src.webLocalPath === null )
+        if( src.localWebPath === null )
         break;
 
       }
@@ -1111,7 +1112,7 @@ function join_functor( gen )
     if( !parsed )
     {
       if( web )
-      return result.webLocalPath;
+      return result.localWebPath;
       else
       return result.longPath;
     }
@@ -1129,8 +1130,9 @@ join_functor.defaults =
 
 //
 
-let join = join_functor( 'join', 0 );
-let joinRaw = join_functor( 'joinRaw', 0 );
+let join = join_functor({ routineName : 'join', web : 0 });
+let joinRaw = join_functor({ routineName : 'joinRaw', web : 0 });
+let reroot = join_functor({ routineName : 'reroot', web : 0 });
 
 //
 //
@@ -1154,36 +1156,54 @@ function resolve()
 
 //
 
-function relative( o )
+function relative_body( o )
 {
   let parent = this.path;
 
-  if( arguments[ 1 ] !== undefined )
+  _.assertRoutineOptions( relative_body, arguments );
+
+  if( !this.isGlobal( o.basePath ) && !this.isGlobal( o.filePath ) )
   {
-    o = { relative : arguments[ 0 ], filePath : arguments[ 1 ] }
+    let o2 = _.mapExtend( null, o );
+    delete o2.global;
+    return this._relative( o2 );
   }
 
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( this._relative, o );
-
-  if( !this.isGlobal( o.relative ) && !this.isGlobal( o.filePath ) )
-  return this._relative( o );
-
-  let relative = this.parseConsecutive( o.relative );
+  let basePath = this.parseConsecutive( o.basePath );
   let filePath = this.parseConsecutive( o.filePath );
 
-  let o2 = _.mapExtend( null,o );
-  o2.relative = relative.longPath;
+  let o2 = _.mapExtend( null, o );
+  delete o2.global;
+  o2.basePath = basePath.longPath;
   o2.filePath = filePath.longPath;
+  let longPath = parent._relative( o2 );
 
-  _.mapSupplement( relative, filePath );
+  if( o.global )
+  {
+    _.mapExtend( filePath, basePath );
+    // _.mapSupplement( basePath, filePath );
+    // return this.str( basePath );
+  }
+  else
+  {
+    for( let c in filePath )
+    {
+      if( c === 'longPath' )
+      continue;
+      if( filePath[ c ] === basePath[ c ] )
+      delete filePath[ c ];
+    }
+  }
 
-  relative.longPath = this._relative( o2 );
+  filePath.longPath = longPath;
 
-  return this.str( relative );
+  return this.str( filePath );
 }
 
-relative.defaults = Object.create( _.path.relative.defaults );
+var defaults = relative_body.defaults = Object.create( _.path.relative.defaults );
+defaults.global = 1;
+
+let relative = _.routineFromPreAndBody( _.path.relative.pre, relative_body );
 
 //
 
@@ -1195,9 +1215,7 @@ function common()
 {
   let parent = this.path;
   let self = this;
-
   let uris = _.arrayFlatten( null, arguments );
-  // let uris = _.longSlice( arguments );
 
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
@@ -1221,9 +1239,21 @@ function common()
 
   /* */
 
-  let result = uris[ 0 ];
+  let result = _.mapExtend( null, uris[ 0 ] );
+  // let result = uris[ 0 ];
   let protocol = null;
   let withoutProtocol = 0;
+  // let common = Object.create( null );
+
+
+  for( let i = 1, len = uris.length ; i < len ; i++ )
+  {
+
+    for( let c in result )
+    if( uris[ i ][ c ] !== result[ c ] )
+    delete result[ c ];
+
+  }
 
   /* */
 
@@ -1251,7 +1281,9 @@ function common()
 
   if( withoutProtocol )
   protocol = '';
+
   result.protocol = protocol;
+  result.longPath = result.longPath || uris[ 0 ].longPath;
 
   /* */
 
@@ -1311,7 +1343,7 @@ function rebase( srcPath, oldPath, newPath )
   //   delete dstPath.host;
   // }
 
-  // dstPath.webLocalPath = null; xxx
+  // dstPath.localWebPath = null; xxx
   dstPath.longPath = parent.rebase.call( this, srcPath.longPath, oldPath.longPath, newPath.longPath );
 
   return this.str( dstPath );
@@ -1408,6 +1440,57 @@ function dir( path )
 
   return this.str( path );
 }
+
+//
+
+function moveReport_body( o )
+{
+  let self = this;
+  let parent = this.path;
+
+  _.assertRoutineOptions( moveReport_body, arguments );
+
+  if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
+  {
+    return parent.moveReport( o );
+  }
+
+  _.assert( _.strIs( o.dstPath ) );
+  _.assert( _.strIs( o.srcPath ) );
+
+  let c = this.common( o.dstPath, o.srcPath );
+
+  let result = '';
+  o.srcPath = this.parseConsecutive( o.srcPath );
+  o.dstPath = this.parseConsecutive( o.dstPath );
+
+  if( o.decorating && _.color )
+  {
+    if( c.length > 1 )
+    result = _.color.strFormat( c, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
+    else
+    result = _.color.strFormat( this.str( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( this.str( o.srcPath ), 'path' );
+  }
+  else
+  {
+    if( c.length > 1 )
+    result = c + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
+    else
+    result = this.str( o.dstPath ) + ' <- ' + this.str( o.srcPath );
+  }
+
+  return result;
+
+  function relative( filePath )
+  {
+    return self.relative({ basePath : c, filePath : filePath, global : 0 });
+  }
+
+}
+
+moveReport_body.defaults = Object.create( _.path.moveReport.defaults );
+
+let moveReport = _.routineFromPreAndBody( _.path.moveReport.pre, moveReport_body );
 
 //
 
@@ -1646,6 +1729,7 @@ let Routines =
 
   join,
   joinRaw,
+  reroot,
   // urisJoin,
   resolve,
 
@@ -1658,6 +1742,8 @@ let Routines =
   exts,
   changeExt,
   dir,
+
+  moveReport,
 
   documentGet,
   server,
