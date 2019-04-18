@@ -12,6 +12,13 @@
  * @file Uri.s.
  */
 
+/**
+ * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way.
+  @namespace Uri
+  @augments wTools
+  @memberof module:Tools/base/Uri
+*/
+
 if( typeof module !== 'undefined' )
 {
 
@@ -83,6 +90,22 @@ function is( path )
 
 //
 
+/**
+ * @summary Checks if provided uri is safe.
+ * @param {String} path Source uri
+ * @param {Number} level Level of check
+ *
+ * @example
+ * _.uri.isSafe( 'https:///web.archive.org' )// false
+ *
+ * @example
+ * _.uri.isSafe( 'https:///web.archive.org/root' )// true
+ *
+ * @returns {Boolean} Returns result of check for safetiness.
+ * @function isSafe
+ * @memberof module:Tools/base/Uri.Uri
+ */
+
 function isSafe( path, level )
 {
   let parent = this.path;
@@ -98,6 +121,21 @@ function isSafe( path, level )
 
 //
 
+/**
+ * @summary Checks if provided uri is normalized.
+ * @param {String} path Source uri
+ *
+ * @example
+ * _.uri.isNormalized( 'https:///web.archive.org' )// true
+ *
+ * @example
+ * _.uri.isNormalized( 'https:/\\\\web.archive.org' )// false
+ *
+ * @returns {Boolean} Returns true if path is normalized, otherwise false.
+ * @function isNormalized
+ * @memberof module:Tools/base/Uri.Uri
+ */
+
 function isNormalized( path )
 {
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -106,6 +144,21 @@ function isNormalized( path )
 }
 
 //
+
+/**
+ * @summary Checks if provided uri is absolute.
+ * @param {String} path Source uri
+ *
+ * @example
+ * _.uri.isAbsolute( 'https:/web.archive.org' )// false
+ *
+ * @example
+ * _.uri.isAbsolute( 'https:///web.archive.org' )// true
+ *
+ * @returns {Boolean} Returns true if path is absolute, otherwise false.
+ * @function isAbsolute
+ * @memberof module:Tools/base/Uri.Uri
+ */
 
 function isAbsolute( path )
 {
@@ -121,6 +174,21 @@ function isAbsolute( path )
 }
 
 //
+
+/**
+ * @summary Checks if provided uri is root.
+ * @param {String} path Source uri
+ *
+ * @example
+ * _.uri.isRoot( 'https:/web.archive.org' )// false
+ *
+ * @example
+ * _.uri.isRoot( 'https:///' )// true
+ *
+ * @returns {Boolean} Returns true if path is root, otherwise false.
+ * @function isRoot
+ * @memberof module:Tools/base/Uri.Uri
+ */
 
 function isRoot( path )
 {
@@ -153,6 +221,7 @@ function isRoot( path )
  * @property {string} hostWithPort host portion of the URL, including the port if specified.
  * @property {string} origin protocol + host + port
  * @private
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 let UriComponents =
@@ -325,8 +394,8 @@ parse_body.Kind = [ 'all', 'atomic', 'consecutive' ];
     included into result
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
- * @method parse
- * @memberof wTools.uri
+ * @function parse
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function parse( srcPath )
@@ -399,8 +468,8 @@ function parseConsecutive( srcPath )
  * @returns {string} Complete uri string
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
- * @method str
- * @memberof wTools.uri
+ * @function str
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function str( c )
@@ -789,8 +858,8 @@ str.components = UriComponents;
 //    // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
 //  *
 //  * @returns {string} composed uri
-//  * @method from
-//  * @memberof wTools.uri
+//  * @function from
+//  * @memberof module:Tools/base/Uri.Uri
 //  */
 //
 // function from( o )
@@ -829,8 +898,8 @@ str.components = UriComponents;
    // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
  *
  * @returns {string} composed uri
- * @method full
- * @memberof wTools.uri
+ * @function full
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function full( o )
@@ -1506,8 +1575,8 @@ let moveReport = _.routineFromPreAndBody( _.path.moveReport.pre, moveReport_body
  * @param {boolean} o.withoutServer if true rejects origin part from result
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
- * @method documentGet
- * @memberof wTools.uri
+ * @function documentGet
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function documentGet( path, o )
@@ -1560,8 +1629,8 @@ documentGet.defaults =
    // 'http://www.site.com:13/'
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
- * @method server
- * @memberof wTools.uri
+ * @function server
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function server( path )
@@ -1596,8 +1665,8 @@ function server( path )
    wTools.uri.query( uri ); // 'query=here&and=here#anchor'
  * @param {string } [path] uri
  * @returns {string}
- * @method query
- * @memberof wTools.uri
+ * @function query
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function query( path )
@@ -1626,8 +1695,8 @@ function query( path )
 
  * @param {string} query query string
  * @returns {Object}
- * @method dequery
- * @memberof wTools.uri
+ * @function dequery
+ * @memberof module:Tools/base/Uri.Uri
  */
 
 function dequery( query )
