@@ -6,14 +6,17 @@ about:
     UriFundamentals leverages parsing, joining, extracting, normalizing,
     nativizing, resolving URI(s). Use the module to get uniform experience from
     playing with URI(s) on different platforms.
-  version: 0.6.81
   enabled: 1
-  interpreters:
-    - nodejs >= 6.0.0
-    - chrome >= 60.0.0
-    - firefox >= 60.0.0
-  keywords:
-    - wTools
+  version: 0.6.81
+  values:
+    enabled: 1
+    name: wUriFundamentals
+    interpreters:
+      - nodejs >= 6.0.0
+      - chrome >= 60.0.0
+      - firefox >= 60.0.0
+    keywords:
+      - wTools
 execution:
   scripts:
     test: wtest proto
