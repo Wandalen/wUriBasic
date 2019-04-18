@@ -6,6 +6,12 @@
  * @file Uris.s.
  */
 
+/**
+ * Collection of routines to operate multiple uris in the reliable and consistent way.
+ * @namespace "wTools.uri.s"
+ * @memberof module:Tools/base/Uri
+ */
+
 if( typeof module !== 'undefined' )
 {
 
@@ -77,6 +83,59 @@ function vectorizeOnly( routine )
     vectorizingMapVals : 1,
   });
 }
+
+/**
+ * @summary Parses uris from array `src`. Writes results into array.
+ * @param {Array|String} src
+ * @example
+ * _.uri.s.parse( [ '/a', 'https:///stackoverflow.com' ] );
+ * @returns {Array} Returns array with results of parse operation.
+ * @function parse
+ * @memberof module:Tools/base/Uri.wTools.uri.s
+ */
+
+/**
+ * @summary Parses uris from array `src`. Looks only for atomic components of the uri. Writes results into array.
+ * @description Atomic components: protocol,host,port,localWebPath,query,hash.
+ * @param {Array|String} src
+ * @example
+ * _.uri.s.parseAtomic( [ '/a', 'https:///stackoverflow.com' ] );
+ * @returns {Array} Returns array with results of parse operation.
+ * @function parseAtomic
+ * @memberof module:Tools/base/Uri.wTools.uri.s
+ */
+
+/**
+ * @summary Parses uris from array `src`. Looks only for consecutive components of the uri. Writes results into array.
+ * @description Consecutive components: protocol,longPath,query,hash.
+ * @param {Array|String} src
+ * @example
+ * _.uri.s.parseConsecutive( [ '/a', 'https:///stackoverflow.com' ] );
+ * @returns {Array} Returns array with results of parse operation.
+ * @function parseConsecutive
+ * @memberof module:Tools/base/Uri.wTools.uri.s
+ */
+
+ /**
+ * @summary Assembles uris from array of components( src ).
+ * @param {Array|Object} src
+ * @example
+ * _.uri.s.str( [ { localWebPath : '/a' }, { protocol : 'http', localWebPath : '/a' } ] );
+ * //['/a', 'http:///a' ]
+ * @returns {Array} Returns array of strings, each element represent a uri.
+ * @function str
+ * @memberof module:Tools/base/Uri.wTools.uri.s
+ */
+
+/**
+ * @summary Complements current window uri origin with array of components.
+ * @param {Array|Object} src
+ * @example
+ * _.uri.s.full( [ { localWebPath : '/a' }, { protocol : 'http', localWebPath : '/a' } ] );
+ * @returns {Array} Returns array of strings, each element represent a uri.
+ * @function full
+ * @memberof module:Tools/base/Uri.wTools.uri.s
+ */
 
 // --
 // fields
