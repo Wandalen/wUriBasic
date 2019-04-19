@@ -14,8 +14,7 @@
 
 /**
  * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way.
-  @namespace Uri
-  @augments wTools
+  @namespace "wTools.uri"
   @memberof module:Tools/base/Uri
 */
 
@@ -103,7 +102,7 @@ function is( path )
  *
  * @returns {Boolean} Returns result of check for safetiness.
  * @function isSafe
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function isSafe( path, level )
@@ -133,7 +132,7 @@ function isSafe( path, level )
  *
  * @returns {Boolean} Returns true if path is normalized, otherwise false.
  * @function isNormalized
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function isNormalized( path )
@@ -157,7 +156,7 @@ function isNormalized( path )
  *
  * @returns {Boolean} Returns true if path is absolute, otherwise false.
  * @function isAbsolute
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function isAbsolute( path )
@@ -187,7 +186,7 @@ function isAbsolute( path )
  *
  * @returns {Boolean} Returns true if path is root, otherwise false.
  * @function isRoot
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function isRoot( path )
@@ -221,7 +220,7 @@ function isRoot( path )
  * @property {string} hostWithPort host portion of the URL, including the port if specified.
  * @property {string} origin protocol + host + port
  * @private
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 let UriComponents =
@@ -395,7 +394,7 @@ parse_body.Kind = [ 'all', 'atomic', 'consecutive' ];
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
  * @function parse
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function parse( srcPath )
@@ -469,7 +468,7 @@ function parseConsecutive( srcPath )
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
  * @function str
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function str( c )
@@ -859,7 +858,7 @@ str.components = UriComponents;
 //  *
 //  * @returns {string} composed uri
 //  * @function from
-//  * @memberof module:Tools/base/Uri.Uri
+//  * @memberof module:Tools/base/Uri.wTools.uri
 //  */
 //
 // function from( o )
@@ -899,7 +898,7 @@ str.components = UriComponents;
  *
  * @returns {string} composed uri
  * @function full
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function full( o )
@@ -1576,7 +1575,7 @@ let moveReport = _.routineFromPreAndBody( _.path.moveReport.pre, moveReport_body
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
  * @function documentGet
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function documentGet( path, o )
@@ -1630,7 +1629,7 @@ documentGet.defaults =
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
  * @function server
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function server( path )
@@ -1666,7 +1665,7 @@ function server( path )
  * @param {string } [path] uri
  * @returns {string}
  * @function query
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function query( path )
@@ -1696,7 +1695,7 @@ function query( path )
  * @param {string} query query string
  * @returns {Object}
  * @function dequery
- * @memberof module:Tools/base/Uri.Uri
+ * @memberof module:Tools/base/Uri.wTools.uri
  */
 
 function dequery( query )
