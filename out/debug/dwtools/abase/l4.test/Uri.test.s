@@ -126,8 +126,13 @@ function isRoot( test )
 function normalize( test )
 {
 
-  test.case = 'dot at end'; /* */
+  test.case = 'empty';
+  var path = '';
+  var expected = '';
+  var got = _.uri.normalize( path );
+  test.identical( got, expected );
 
+  test.case = 'dot at end';
   var path = 'ext:///.';
   var expected = 'ext:///';
   var got = _.uri.normalize( path );
@@ -333,7 +338,7 @@ function normalizeLocalPaths( test )
   test.case = 'empty path'; /* */
 
   var path = '';
-  var expected = '.';
+  var expected = '';
   var got = _.uri.normalize( path );
   test.identical( got, expected );
 
@@ -781,7 +786,7 @@ function normalizeTolerant( test )
 
 //
 
-function normalizeLocalPathsTolerant( test )
+function normalizeTolerantLocalPaths( test )
 {
   var got;
 
@@ -837,7 +842,7 @@ function normalizeLocalPathsTolerant( test )
   test.case = 'empty path'; /* */
 
   var path = '';
-  var expected = '.';
+  var expected = '';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -3307,20 +3312,30 @@ function dequery( test )
 function join( test )
 {
 
+  test.case = 'join empty';
+  var paths = [ '' ];
+  var expected = '';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  test.case = 'join several empties';
+  var paths = [ '', '' ];
+  var expected = '';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
   test.case = 'join with empty';
   var paths = [ '', 'a/b', '', 'c', '' ];
   var expected = 'a/b/c';
-  var got = _.path.join.apply( _.path, paths );
+  var got = _.uri.join.apply( _.uri, paths );
   test.identical( got, expected );
 
   test.case = 'replace protocol';
-
   var got = _.uri.join( 'src:///in', 'fmap://' );
   var expected = 'fmap:///in';
   test.identical( got, expected );
 
   test.case = 'join different protocols';
-
   var got = _.uri.join( 'file://www.site.com:13','a','http:///dir','b' );
   var expected = 'http:///dir/b';
   test.identical( got, expected );
@@ -6398,46 +6413,46 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 
 //
 
-function filter( test )
+function pathMapFilter( test )
 {
 
   test.case = 'string';
   var src = '/a/b/c';
-  var got = _.uri.filter( src, onEach );
+  var got = _.uri.pathMapFilter( src, onEach );
   var expected = 'file:///a/b/c';
   test.identical( got, expected );
 
   test.case = 'array';
   var src = [ '/a', '/b' ];
-  var got = _.uri.filter( src, onEach );
+  var got = _.uri.pathMapFilter( src, onEach );
   var expected = [ 'file:///a', 'file:///b' ];
   test.identical( got, expected );
   test.is( got !== src );
 
-  test.case = 'array filter';
+  test.case = 'array pathMapFilter';
   var src = [ 'file:///a', '/b' ];
-  var got = _.uri.filter( src, onEachFilter );
+  var got = _.uri.pathMapFilter( src, onEachFilter );
   var expected = [ 'file:///a' ];
   test.identical( got, expected );
   test.is( got !== src );
 
   test.case = 'map';
   var src = { '/src' : '/dst' };
-  var got = _.uri.filter( src, onEach );
+  var got = _.uri.pathMapFilter( src, onEach );
   var expected = { 'file:///src' : 'file:///dst' };
   test.identical( got, expected );
   test.is( got !== src );
 
-  test.case = 'map filter';
+  test.case = 'map pathMapFilter';
   var src = { 'file:///src' : '/dst' };
-  var got = _.uri.filter( src, onEachFilter );
+  var got = _.uri.pathMapFilter( src, onEachFilter );
   var expected = {};
   test.identical( got, expected );
   test.is( got !== src );
 
-  test.case = 'map filter';
+  test.case = 'map pathMapFilter';
   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
-  var got = _.uri.filter( src, onEachStructure );
+  var got = _.uri.pathMapFilter( src, onEachStructure );
   var expected =
   {
     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
@@ -6445,9 +6460,9 @@ function filter( test )
   test.identical( got, expected );
   test.is( got !== src );
 
-  test.case = 'map filter keys, onEach returns array with undefined';
+  test.case = 'map pathMapFilter keys, onEach returns array with undefined';
   var src = { '/a' : '/b' };
-  var got = _.uri.filter( src, onEachStructureKeys );
+  var got = _.uri.pathMapFilter( src, onEachStructureKeys );
   var expected =
   {
     'file:///a' : '/b'
@@ -6457,14 +6472,14 @@ function filter( test )
 
   test.case = 'null';
   var src = null;
-  var got = _.uri.filter( src, onEach );
+  var got = _.uri.pathMapFilter( src, onEach );
   var expected = 'file:///';
   test.identical( got, expected );
 
   if( Config.debug )
   {
     test.case = 'number';
-    test.shouldThrowErrorSync( () => _.uri.filter( 1, onEach ) )
+    test.shouldThrowErrorSync( () => _.uri.pathMapFilter( 1, onEach ) )
   }
 
   /*  */
@@ -6509,45 +6524,45 @@ function filter( test )
 
 //
 
-function refilter( test )
+function pathMapRefilter( test )
 {
   test.case = 'string';
   var src = '/a/b/c';
-  var got = _.uri.refilter( src, onEach );
+  var got = _.uri.pathMapRefilter( src, onEach );
   var expected = 'file:///a/b/c';
   test.identical( got, expected );
 
   test.case = 'array';
   var src = [ '/a', '/b' ];
-  var got = _.uri.refilter( src, onEach );
+  var got = _.uri.pathMapRefilter( src, onEach );
   var expected = [ 'file:///a', 'file:///b' ];
   test.identical( got, expected );
   test.identical( got, src );
 
-  test.case = 'array filter';
+  test.case = 'array';
   var src = [ 'file:///a', '/b' ];
-  var got = _.uri.refilter( src, onEachFilter );
+  var got = _.uri.pathMapRefilter( src, onEachFilter );
   var expected = [ 'file:///a' ];
   test.identical( got, expected );
   test.identical( got, src );
 
   test.case = 'map';
   var src = { '/src' : '/dst' };
-  var got = _.uri.refilter( src, onEach );
+  var got = _.uri.pathMapRefilter( src, onEach );
   var expected = { 'file:///src' : 'file:///dst' };
   test.identical( got, expected );
   test.identical( got, src );
 
-  test.case = 'map filter';
+  test.case = 'map';
   var src = { 'file:///src' : '/dst' };
-  var got = _.uri.refilter( src, onEachFilter );
+  var got = _.uri.pathMapRefilter( src, onEachFilter );
   var expected = {};
   test.identical( got, expected );
   test.identical( got, src );
 
-  test.case = 'map filter';
+  test.case = 'map';
   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
-  var got = _.uri.refilter( src, onEachStructure );
+  var got = _.uri.pathMapRefilter( src, onEachStructure );
   var expected =
   {
     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
@@ -6557,7 +6572,7 @@ function refilter( test )
 
   test.case = 'map filter keys, onEach returns array with undefined';
   var src = { '/a' : '/b' };
-  var got = _.uri.refilter( src, onEachStructureKeys );
+  var got = _.uri.pathMapRefilter( src, onEachStructureKeys );
   var expected =
   {
     'file:///a' : '/b'
@@ -6567,14 +6582,14 @@ function refilter( test )
 
   test.case = 'null';
   var src = null;
-  var got = _.uri.refilter( src, onEach );
+  var got = _.uri.pathMapRefilter( src, onEach );
   var expected = 'file:///';
   test.identical( got, expected );
 
   if( Config.debug )
   {
     test.case = 'number';
-    test.shouldThrowErrorSync( () => _.uri.refilter( 1, onEach ) )
+    test.shouldThrowErrorSync( () => _.uri.pathMapRefilter( 1, onEach ) )
   }
 
   /*  */
@@ -6635,7 +6650,7 @@ var Self =
     normalize,
     normalizeLocalPaths,
     normalizeTolerant,
-    normalizeLocalPathsTolerant,
+    normalizeTolerantLocalPaths,
 
     refine,
     urisRefine,
@@ -6669,8 +6684,8 @@ var Self =
     changeExt,
     dir,
 
-    filter,
-    refilter
+    pathMapFilter,
+    pathMapRefilter
 
   },
 
