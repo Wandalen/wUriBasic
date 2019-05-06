@@ -21,8 +21,8 @@ execution :
 
 path :
 
-  repository : git+https://github.com/Wandalen/wUriFundamentals.git
-  bugs : https://github.com/Wandalen/wUriFundamentals/issues
+  repository : git+https:///github.com/Wandalen/wUriFundamentals.git
+  bugs : https:///github.com/Wandalen/wUriFundamentals/issues
 
 step :
 
