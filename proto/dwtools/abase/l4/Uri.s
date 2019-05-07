@@ -1019,6 +1019,24 @@ function normalizeTolerant( fileUri )
 
 //
 
+function dot( path )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strDefined( path ) );
+
+  if( !this.isGlobal( path ) )
+  return parent.dot.call( this, path );
+
+  path = this.parseConsecutive( path );
+  path.longPath = parent.dot( path.longPath );
+
+  return this.str( path );
+}
+
+//
+
 function trail( srcPath )
 {
   _.assert( arguments.length === 1 );
@@ -1786,6 +1804,8 @@ let Routines =
   // urisOnlyNormalize,
 
   normalizeTolerant,
+  
+  dot,
 
   trail,
   detrail,
