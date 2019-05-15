@@ -1139,7 +1139,8 @@ function refine( test )
 
   var cases =
   [
-    { src : '', expected : '.' },
+    { src : '', expected : '' },
+    { src : '.', expected : '.' },
 
     { src : 'a/', expected : 'a' },
     { src : 'a//', expected : 'a//' },
@@ -6124,7 +6125,7 @@ function name( test )
     var exp = expectedNoExt[ i ];
     test.identical( got, exp );
 
-    var o = { path : path, withExtension : 1 };
+    var o = { path : path, full : 1 };
     var got = _.uri.name( o );
     var exp = expectedExt[ i ];
     test.identical( got, exp );
