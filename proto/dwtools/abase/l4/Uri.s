@@ -520,23 +520,6 @@ function str( c )
     port = _.strIsolateRightOrNone( c.origin, ':' )[ 2 ];
   }
 
-  // if( c.origin && ( c.protocol === null || c.protocol === undefined ) )
-  // if( _.strHas( c.origin, '://' ) )
-  // {
-  //   c.protocol = _.strIsolateLeftOrNone( c.origin, '://' )[ 0 ];
-  // }
-  //
-  // if( c.origin && ( c.host === null || c.host === undefined ) )
-  // {
-  //   c.host = _.strIsolateInsideOrAll( c.origin, '://', ':' )[ 2 ];
-  // }
-  //
-  // if( c.origin && ( c.port === null || c.port === undefined ) )
-  // if( _.strHas( c.origin, ':' ) )
-  // {
-  //   c.port = _.strIsolateRightOrNone( c.origin, ':' )[ 2 ];
-  // }
-
   // /* atomic */
   //
   // protocol : null, /* 'svn+http' */
@@ -770,114 +753,6 @@ function str( c )
 
 str.components = UriComponents;
 
-// function str( components )
-// {
-//   let result = '';
-//
-//   _.assert( _.strIs( components ) || _.mapIs( components ) );
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.assertMapHasOnly( components, this.UriComponents );
-//   _.assert( components.uri === undefined );
-//
-//   if( components.full )
-//   {
-//     _.assert( _.strDefined( components.full ) );
-//     return components.full;
-//   }
-//
-//   if( _.strIs( components ) )
-//   return components;
-//
-//   /* */
-//
-//   if( components.origin )
-//   {
-//     result += components.origin;
-//   }
-//   else
-//   {
-//
-//     let hostWithPort;
-//     if( components.hostWithPort )
-//     {
-//       hostWithPort = components.hostWithPort;
-//     }
-//     else
-//     {
-//       if( components.host !== undefined )
-//       hostWithPort = components.host;
-//       if( components.port !== undefined && components.port !== null )
-//       if( hostWithPort )
-//       hostWithPort += ':' + components.port;
-//       else
-//       hostWithPort = ':' + components.port;
-//     }
-//
-//     if( _.strIs( components.protocol ) && !hostWithPort )
-//     hostWithPort = '';
-//
-//     if( _.strIs( components.protocol ) || _.strIs( hostWithPort ) )
-//     // if( _.strIs( components.protocol ) || _.strDefined( hostWithPort ) )
-//     result += ( _.strIs( components.protocol ) ? components.protocol + '://' : '//' ) + hostWithPort;
-//
-//   }
-//
-//   /* */
-//
-//   if( components.localWebPath )
-//   result += _.strPrependOnce( components.localWebPath, this._upStr );
-//
-//   _.assert( !components.query || _.strIs( components.query ) );
-//
-//   if( components.query !== undefined )
-//   result += '?' + components.query;
-//
-//   if( components.hash !== undefined )
-//   result += '#' + components.hash;
-//
-//   return result;
-// }
-//
-//
-//
-// /**
-//  * Complements current window uri origin by components passed in o.
-//  * All components of current origin is replaced by appropriates components from o if they exist.
-//  * If { o.full } exists and valid, method returns it.
-//  * @example
-//  * // current uri http://www.site.com:13/foo/baz
-//    let components =
-//    {
-//      localWebPath : '/path/name',
-//      query : 'query=here&and=here',
-//      hash : 'anchor',
-//    };
-//    let res = wTools.uri.from(o);
-//    // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
-//  *
-//  * @returns {string} composed uri
-//  * @function from
-//  * @memberof module:Tools/base/Uri.wTools.uri
-//  */
-//
-// function from( o )
-// {
-//
-//   _.assert( arguments.length === 1 );
-//   _.assert( _.mapIs( o ) );
-//   _.assertMapHasOnly( o, this.UriComponents );
-//
-//   if( o.full )
-//   return this.str( o );
-//
-//   let currentUri = this.server();
-//   let carentParsed = this.parseAtomic( currentUri );
-//
-//   _.mapExtend( carentParsed, o );
-//
-//   return this.str( carentParsed );
-// }
-//
 //
 
 /**
@@ -936,32 +811,16 @@ function refine( fileUri )
   else
   return parent.refine.call( this, fileUri );
 
-  // fileUri.localWebPath = null; xxx
+  // fileUri.localWebPath = null; yyy
 
   if( _.strDefined( fileUri.longPath ) )
   fileUri.longPath = parent.refine.call( this, fileUri.longPath );
 
+  if( fileUri.hash )
+  fileUri.longPath = parent.detrail( fileUri.longPath );
+
   return this.str( fileUri );
 }
-
-//
-//
-// let urisRefine = _.routineVectorize_functor
-// ({
-//   routine : refine,
-//   vectorizingArray : 1,
-//   vectorizingMapVals : 1,
-// });
-//
-// let urisOnlyRefine = _.routineVectorize_functor
-// ({
-//   routine : refine,
-//   fieldFilter : _filterOnlyUrl,
-//   vectorizingArray : 1,
-//   vectorizingMapVals : 1,
-// });
-//
-//
 
 function normalize( fileUri )
 {
@@ -975,29 +834,10 @@ function normalize( fileUri )
     return parent.normalize.call( this, fileUri );
   }
   _.assert( !!fileUri );
-  // fileUri.localWebPath = null; xxx
+  // fileUri.localWebPath = null; yyy
   fileUri.longPath = parent.normalize.call( this, fileUri.longPath );
   return this.str( fileUri );
 }
-
-//
-
-// let urisNormalize = _.routineVectorize_functor
-// ({
-//   routine : normalize,
-//   vectorizingArray : 1,
-//   vectorizingMapVals : 1,
-// });
-//
-// //
-//
-// let urisOnlyNormalize = _.routineVectorize_functor
-// ({
-//   routine : normalize,
-//   fieldFilter : _._filterOnlyPath,
-//   vectorizingArray : 1,
-//   vectorizingMapVals : 1,
-// });
 
 //
 
@@ -1070,7 +910,6 @@ function join_functor( gen )
   gen = { routineName : arguments[ 0 ], web : arguments[ 1 ] }
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  // _.assert( arguments.length === 1 );
   _.assertRoutineOptions( join_functor, gen );
 
   let routineName = gen.routineName;
@@ -1082,7 +921,7 @@ function join_functor( gen )
     let parent = this.path;
     let result = Object.create( null );
     let srcs = [];
-    let parsed = false;
+    let isGlobal = false;
 
     /* */
 
@@ -1093,12 +932,12 @@ function join_functor( gen )
       {
         if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
         {
-          parsed = true;
+          isGlobal = true;
           srcs[ s ] = this.parseAtomic( arguments[ s ] );
         }
         else
         {
-          parsed = arguments[ s ] !== null;
+          isGlobal = arguments[ s ] !== null;
           srcs[ s ] = { localWebPath : arguments[ s ] };
         }
       }
@@ -1111,12 +950,12 @@ function join_functor( gen )
       {
         if( arguments[ s ] !== null && this.isGlobal( arguments[ s ] ) )
         {
-          parsed = true;
+          isGlobal = true;
           srcs[ s ] = this.parseConsecutive( arguments[ s ] );
         }
         else
         {
-          parsed = arguments[ s ] !== null;
+          isGlobal = arguments[ s ] !== null;
           srcs[ s ] = { longPath : arguments[ s ] };
         }
       }
@@ -1194,13 +1033,16 @@ function join_functor( gen )
 
     /* */
 
-    if( !parsed )
+    if( !isGlobal )
     {
       if( web )
       return result.localWebPath;
       else
       return result.longPath;
     }
+
+    if( result.hash && result.longPath )
+    result.longPath = parent.detrail( result.longPath );
 
     return this.str( result );
   }
@@ -1218,13 +1060,6 @@ join_functor.defaults =
 let join = join_functor({ routineName : 'join', web : 0 });
 let joinRaw = join_functor({ routineName : 'joinRaw', web : 0 });
 let reroot = join_functor({ routineName : 'reroot', web : 0 });
-
-//
-//
-// let urisJoin = _.path._pathMultiplicator_functor
-// ({
-//   routine : join
-// });
 
 //
 
@@ -1796,15 +1631,9 @@ let Routines =
   full,
 
   refine,
-  // urisRefine,
-  // urisOnlyRefine,
-
   normalize,
-  // urisNormalize,
-  // urisOnlyNormalize,
-
   normalizeTolerant,
-  
+
   dot,
 
   trail,

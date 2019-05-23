@@ -146,137 +146,137 @@ function normalize( test )
   var path = '://some/staging/index.html/'
   var expected ='://some/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = '://some/staging/index.html/.'
   var expected ='://some/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = '://some/staging/index.html.'
   var expected ='://some/staging/index.html.'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html'
   var expected =':///some/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html/.'
   var expected =':///some/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html/./'
   var expected =':///some/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/./index.html/./'
   var expected =':///some/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/.//index.html/./'
   var expected =':///some/staging//index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html///.'
-  var expected =':///some/staging/index.html///'
+  var expected =':///some/staging/index.html//'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'file:///some/staging/index.html/..'
   var expected ='file:///some/staging'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'file:///some/staging/index.html/..///'
   var expected ='file:///some/staging///'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'file:///some\\staging\\index.html\\..\\'
   var expected ='file:///some/staging'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'http:///./some.come/staging/index.html/.'
   var expected ='http:///some.come/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'http:///./some.come/staging/index.html'
   var expected ='http:///some.come/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'http:///./some.come/./staging/index.html'
   var expected ='http:///some.come/staging/index.html'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'svn+https://../user@subversion.com/svn/trunk'
   var expected ='svn+https://../user@subversion.com/svn/trunk'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'svn+https://..//..//user@subversion.com/svn/trunk'
   var expected ='svn+https://..//user@subversion.com/svn/trunk'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'svn+https://..//../user@subversion.com/svn/trunk'
   var expected ='svn+https://../user@subversion.com/svn/trunk'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/.?query=here&and=here#anchor'
   var expected ='complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/./../?query=here&and=here#anchor'
   var expected ='complex+protocol://www.site.com:13/path?query=here&and=here#anchor'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/.//../?query=here&and=here#anchor'
   var expected ='complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking/.'
   var expected ='https://web.archive.org/web/*\/http://www.heritage.org/index/ranking'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http://www.heritage.org/index/ranking//'
+  var expected ='https://web.archive.org/web/*\/http://www.heritage.org/index/ranking'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org//index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http://www.heritage.org//index/ranking//'
+  var expected ='https://web.archive.org/web/*\/http://www.heritage.org//index/ranking'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/../index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http://index/ranking//'
+  var expected ='https://web.archive.org/web/*\/http://index/ranking'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http://index/ranking//'
+  var expected ='https://web.archive.org/web/*\/http://index/ranking'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking/./.'
   var expected ='https://web.archive.org/web/*\/http://index/ranking'
   var got = _.uri.normalize( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
 }
 
@@ -284,7 +284,6 @@ function normalize( test )
 
 function normalizeLocalPaths( test )
 {
-  var got;
 
   test.case = 'posix path'; /* */
 
@@ -304,7 +303,7 @@ function normalizeLocalPaths( test )
   test.identical( got, expected );
 
   var path = 'foo/bar//baz/asdf/quux/..//.';
-  var expected = 'foo/bar//baz/asdf//';
+  var expected = 'foo/bar//baz/asdf';
   var got = _.uri.normalize( path );
   test.identical( got, expected );
 
@@ -635,152 +634,174 @@ function normalizeTolerant( test )
 {
   var got;
 
-  test.case = 'dot at end'; /* */
-
+  test.case = 'dot at end';
   var path = 'ext:///.';
   var expected = 'ext:///';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = 'file:///C/proto/.';
+  var expected = 'file:///C/proto';
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
+
+  var path = 'file:///C/proto/./';
   var expected = 'file:///C/proto/';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
+  test.case = '';
   var path = '://some/staging/index.html/'
   var expected ='://some/staging/index.html/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
-  var path = '://some/staging/index.html/.'
+  test.case = '';
+  var path = '://some/staging/index.html/./'
   var expected ='://some/staging/index.html/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
+
+  test.case = '';
+  var path = '://some/staging/index.html/.'
+  var expected ='://some/staging/index.html'
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
+
+  var path = '://some/staging/index.html/.'
+  var expected ='://some/staging/index.html'
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
 
   var path = '://some/staging/index.html.'
   var expected ='://some/staging/index.html.'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html'
   var expected =':///some/staging/index.html'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html/.'
-  var expected =':///some/staging/index.html/'
+  var expected =':///some/staging/index.html'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html/./'
   var expected =':///some/staging/index.html/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/./index.html/./'
   var expected =':///some/staging/index.html/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/.//index.html/./'
   var expected =':///some/staging/index.html/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = ':///some/staging/index.html///.'
   var expected =':///some/staging/index.html/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'file:///some/staging/index.html/..'
   var expected ='file:///some/staging/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'file:///some/staging/index.html/..///'
   var expected ='file:///some/staging/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'file:///some\\staging\\index.html\\..\\'
   var expected ='file:///some/staging/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'http:///./some.come/staging/index.html/.'
-  var expected ='http:///some.come/staging/index.html/'
+  var expected ='http:///some.come/staging/index.html'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'http:///./some.come/staging/index.html'
   var expected ='http:///some.come/staging/index.html'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'http:///./some.come/./staging/index.html'
   var expected ='http:///some.come/staging/index.html'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'svn+https://../user@subversion.com/svn/trunk'
   var expected ='svn+https://../user@subversion.com/svn/trunk'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'svn+https://..//..//user@subversion.com/svn/trunk'
   var expected ='svn+https://../user@subversion.com/svn/trunk'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'svn+https://..//../user@subversion.com/svn/trunk'
   var expected ='svn+https://../user@subversion.com/svn/trunk'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/.?query=here&and=here#anchor'
-  var expected ='complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor'
+  var expected ='complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/./../?query=here&and=here#anchor'
   var expected ='complex+protocol://www.site.com:13/path/?query=here&and=here#anchor'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/.//../?query=here&and=here#anchor'
   var expected ='complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking/.'
-  var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking/'
+  var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking//.'
   var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org//index/ranking//.'
   var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/../index/ranking//.'
   var expected ='https://web.archive.org/web/*\/http:/index/ranking/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking//.'
   var expected ='https://web.archive.org/web/*\/http:/index/ranking/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking/./.'
+  var expected ='https://web.archive.org/web/*\/http:/index/ranking'
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
+
+  var path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking/././'
   var expected ='https://web.archive.org/web/*\/http:/index/ranking/'
   var got = _.uri.normalizeTolerant( path );
-  test.identical( got,expected )
+  test.identical( got, expected );
 
 }
 
@@ -941,6 +962,11 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = './x/.';
+  var expected = './x';
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
+
+  var path = './x/./';
   var expected = './x/';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
@@ -958,12 +984,17 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = 'foo/bar/.';
+  var expected = 'foo/bar';
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
+
+  var path = 'foo/bar/./';
   var expected = 'foo/bar/';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = 'foo/bar/./.';
-  var expected = 'foo/bar/';
+  var expected = 'foo/bar';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -1054,7 +1085,7 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = 'foo/bar/../../';
-  var expected = '/';
+  var expected = './';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -1116,6 +1147,11 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = './../.';
+  var expected = '..';
+  var got = _.uri.normalizeTolerant( path );
+  test.identical( got, expected );
+
+  var path = './.././';
   var expected = '../';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
@@ -1126,10 +1162,125 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = '../.';
-  var expected = '../';
+  var expected = '..';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
+
 }
+
+//
+// //
+//
+// function refine( test )
+// {
+//   test.case = 'refine the uri';
+//
+//   var cases =
+//   [
+//     { src : '', expected : '' },
+//     { src : '.', expected : '.' },
+//
+//     { src : 'a/', expected : 'a' },
+//     { src : 'a//', expected : 'a//' },
+//     { src : 'a\\', expected : 'a' },
+//     { src : 'a\\\\', expected : 'a//' },
+//
+//     { src : 'a', expected : 'a' },
+//     { src : 'a/b', expected : 'a/b' },
+//     { src : 'a\\b', expected : 'a/b' },
+//     { src : '\\a\\b\\c', expected : '/a/b/c' },
+//     { src : '\\\\a\\\\b\\\\c', expected : '//a//b//c' },
+//     { src : '\\', expected : '/' },
+//     { src : '\\\\', expected : '//' },
+//     { src : '\\\\\\', expected : '///' },
+//     { src : '/', expected : '/' },
+//     { src : '//', expected : '//' },
+//     { src : '///', expected : '///' },
+//
+//     {
+//       src : '/some/staging/index.html',
+//       expected : '/some/staging/index.html'
+//     },
+//     {
+//       src : '/some/staging/index.html/',
+//       expected : '/some/staging/index.html'
+//     },
+//     {
+//       src : '//some/staging/index.html',
+//       expected : '//some/staging/index.html'
+//     },
+//     {
+//       src : '//some/staging/index.html/',
+//       expected : '//some/staging/index.html'
+//     },
+//     {
+//       src : '///some/staging/index.html',
+//       expected : '///some/staging/index.html'
+//     },
+//     {
+//       src : '///some/staging/index.html/',
+//       expected : '///some/staging/index.html'
+//     },
+//     {
+//       src : 'file:///some/staging/index.html',
+//       expected : 'file:///some/staging/index.html'
+//     },
+//     {
+//       src : 'file:///some/staging/index.html/',
+//       expected : 'file:///some/staging/index.html'
+//     },
+//     {
+//       src : 'http://some.come/staging/index.html',
+//       expected : 'http://some.come/staging/index.html'
+//     },
+//     {
+//       src : 'http://some.come/staging/index.html/',
+//       expected : 'http://some.come/staging/index.html'
+//     },
+//     {
+//       src : 'svn+https://user@subversion.com/svn/trunk',
+//       expected : 'svn+https://user@subversion.com/svn/trunk'
+//     },
+//     {
+//       src : 'svn+https://user@subversion.com/svn/trunk/',
+//       expected : 'svn+https://user@subversion.com/svn/trunk'
+//     },
+//     {
+//       src : 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor',
+//       expected : 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
+//     },
+//     {
+//       src : 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor',
+//       expected : 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
+//     },
+//     {
+//       src : 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking',
+//       expected : 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking'
+//     },
+//     {
+//       src : 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking',
+//       expected : 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking'
+//     },
+//     {
+//       src : '://www.site.com:13/path//name//?query=here&and=here#anchor',
+//       expected : '://www.site.com:13/path//name//?query=here&and=here#anchor'
+//     },
+//     {
+//       src : ':///www.site.com:13/path//name/?query=here&and=here#anchor',
+//       expected : ':///www.site.com:13/path//name?query=here&and=here#anchor'
+//     },
+//   ]
+//
+//   for( var i = 0; i < cases.length; i++ )
+//   {
+//     var c = cases[ i ];
+//     if( c.error )
+//     test.shouldThrowError( () => _.uri.refine( c.src ) );
+//     else
+//     test.identical( _.uri.refine( c.src ), c.expected );
+//   }
+//
+// }
 
 //
 
@@ -1142,9 +1293,9 @@ function refine( test )
     { src : '', expected : '' },
     { src : '.', expected : '.' },
 
-    { src : 'a/', expected : 'a' },
+    { src : 'a/', expected : 'a/' },
     { src : 'a//', expected : 'a//' },
-    { src : 'a\\', expected : 'a' },
+    { src : 'a\\', expected : 'a/' },
     { src : 'a\\\\', expected : 'a//' },
 
     { src : 'a', expected : 'a' },
@@ -1165,7 +1316,7 @@ function refine( test )
     },
     {
       src : '/some/staging/index.html/',
-      expected : '/some/staging/index.html'
+      expected : '/some/staging/index.html/'
     },
     {
       src : '//some/staging/index.html',
@@ -1173,7 +1324,7 @@ function refine( test )
     },
     {
       src : '//some/staging/index.html/',
-      expected : '//some/staging/index.html'
+      expected : '//some/staging/index.html/'
     },
     {
       src : '///some/staging/index.html',
@@ -1181,7 +1332,7 @@ function refine( test )
     },
     {
       src : '///some/staging/index.html/',
-      expected : '///some/staging/index.html'
+      expected : '///some/staging/index.html/'
     },
     {
       src : 'file:///some/staging/index.html',
@@ -1189,7 +1340,7 @@ function refine( test )
     },
     {
       src : 'file:///some/staging/index.html/',
-      expected : 'file:///some/staging/index.html'
+      expected : 'file:///some/staging/index.html/'
     },
     {
       src : 'http://some.come/staging/index.html',
@@ -1197,7 +1348,7 @@ function refine( test )
     },
     {
       src : 'http://some.come/staging/index.html/',
-      expected : 'http://some.come/staging/index.html'
+      expected : 'http://some.come/staging/index.html/'
     },
     {
       src : 'svn+https://user@subversion.com/svn/trunk',
@@ -1205,7 +1356,7 @@ function refine( test )
     },
     {
       src : 'svn+https://user@subversion.com/svn/trunk/',
-      expected : 'svn+https://user@subversion.com/svn/trunk'
+      expected : 'svn+https://user@subversion.com/svn/trunk/'
     },
     {
       src : 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor',
@@ -1225,7 +1376,7 @@ function refine( test )
     },
     {
       src : '://www.site.com:13/path//name//?query=here&and=here#anchor',
-      expected : '://www.site.com:13/path//name//?query=here&and=here#anchor'
+      expected : '://www.site.com:13/path//name/?query=here&and=here#anchor'
     },
     {
       src : ':///www.site.com:13/path//name/?query=here&and=here#anchor',
@@ -1275,27 +1426,28 @@ function urisRefine( test )
   var expected =
   [
     '/some/staging/index.html',
-    '/some/staging/index.html',
+    '/some/staging/index.html/',
     '//some/staging/index.html',
-    '//some/staging/index.html',
+    '//some/staging/index.html/',
     '///some/staging/index.html',
-    '///some/staging/index.html',
+    '///some/staging/index.html/',
     'file:///some/staging/index.html',
-    'file:///some/staging/index.html',
+    'file:///some/staging/index.html/',
     'http://some.come/staging/index.html',
-    'http://some.come/staging/index.html',
+    'http://some.come/staging/index.html/',
     'svn+https://user@subversion.com/svn/trunk',
-    'svn+https://user@subversion.com/svn/trunk',
+    'svn+https://user@subversion.com/svn/trunk/',
     'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor',
     'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor',
     'https://web.archive.org/web/*/http://www.heritage.org/index/ranking',
     'https://web.archive.org//web//*//http://www.heritage.org//index//ranking',
-    '://www.site.com:13/path//name//?query=here&and=here#anchor',
+    '://www.site.com:13/path//name/?query=here&and=here#anchor',
     ':///www.site.com:13/path//name?query=here&and=here#anchor'
   ]
 
   var got = _.uri.s.refine( srcs );
   test.identical( got, expected );
+
 }
 
 //
@@ -1569,7 +1721,7 @@ function parse( test )
   }
 
   var got = _.uri.parse( uri );
-  test.identical( got, expected )
+  test.identical( got, expected );
 
   test.case = 'complex';
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
@@ -4079,7 +4231,7 @@ function joinRaw( test )
 
   test.case = 'not global, windows path';
   var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
-  var expected = '/c/foo/bar';
+  var expected = '/c/foo/bar/';
   var got = _.uri.joinRaw.apply( _.uri, paths );
   test.identical( got, expected );
 
