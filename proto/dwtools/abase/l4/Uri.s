@@ -206,17 +206,17 @@ function isRoot( path )
 
 /**
  *
- * The URL component object.
+ * The URI component object.
  * @typedef {Object} UrlComponents
- * @property {string} protocol the URL's protocol scheme.;
- * @property {string} host host portion of the URL;
- * @property {string} port property is the numeric port portion of the URL
- * @property {string} localWebPath the entire path section of the URL.
- * @property {string} query the entire "query string" portion of the URL, not including '?' character.
- * @property {string} hash property consists of the "fragment identifier" portion of the URL.
+ * @property {string} protocol the URI's protocol scheme.;
+ * @property {string} host host portion of the URI;
+ * @property {string} port property is the numeric port portion of the URI
+ * @property {string} localWebPath the entire path section of the URI.
+ * @property {string} query the entire "query string" portion of the URI, not including '?' character.
+ * @property {string} hash property consists of the "fragment identifier" portion of the URI.
 
- * @property {string} uri the whole URL
- * @property {string} hostWithPort host portion of the URL, including the port if specified.
+ * @property {string} uri the whole URI
+ * @property {string} hostWithPort host portion of the URI, including the port if specified.
  * @property {string} origin protocol + host + port
  * @private
  * @memberof module:Tools/base/Uri.wTools.uri
@@ -256,6 +256,16 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
 6 - query
 8 - hash
 */
+
+/*{
+  'protocol' : 'complex+protocol',
+  'host' : 'www.site.com',
+  'port' : '13',
+  'query' : 'query=here&and=here',
+  'hash' : 'anchor',
+  'localWebPath' : '/!a.js?',
+  'longPath' : 'www.site.com:13/!a.js?',
+}*/
 
 // let _uriParseRegexpStr = '^';
 // _uriParseRegexpStr += '(?:([^:/\\?#]*):)?'; /* protocol */
@@ -329,7 +339,7 @@ function parse_body( o )
 
   /* */
 
-  if( o.kind === 'all' )
+  if( o.kind === 'full' )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.localWebPath;
@@ -342,14 +352,14 @@ function parse_body( o )
     if( _.strIs( result.protocol ) || _.strIs( result.hostWithPort ) )
     result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostWithPort;
     result.full = o.srcPath;
-    // result.full = this.str( result ); // xxx
+    // result.full = this.str( result ); // yyy
   }
   else if( o.kind === 'consecutive' )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.localWebPath;
-    delete result.host;
-    delete result.port;
+    delete result.host; // yyy
+    delete result.port; // yyy
     delete result.localWebPath;
   }
 
@@ -359,17 +369,17 @@ function parse_body( o )
 parse_body.defaults =
 {
   srcPath : null,
-  kind : 'all',
+  kind : 'full',
 }
 
 parse_body.components = UriComponents;
 
-parse_body.Kind = [ 'all', 'atomic', 'consecutive' ];
+parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
 //
 
 /**
- * Method parses URL string, and returns a UrlComponents object.
+ * Method parses URI string, and returns a UrlComponents object.
  * @example
  *
    let uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor'
@@ -402,7 +412,9 @@ function parse( srcPath )
   let result = this.parse_body
   ({
     srcPath : srcPath,
-    kind : 'all',
+    kind : 'full',
+    // kind : 'consecutive',
+    // kind : 'atomic',
   });
 
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -411,6 +423,23 @@ function parse( srcPath )
 }
 
 parse.components = UriComponents;
+
+//
+
+function parseFull( srcPath )
+{
+  let result = this.parse_body
+  ({
+    srcPath : srcPath,
+    kind : 'full',
+  });
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+
+  return result;
+}
+
+parseAtomic.components = UriComponents;
 
 //
 
@@ -1624,6 +1653,7 @@ let Routines =
 
   parse_body,
   parse,
+  parseFull,
   parseAtomic,
   parseConsecutive,
 

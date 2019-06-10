@@ -1452,10 +1452,46 @@ function urisRefine( test )
 
 //
 
-function parse( test )
+function parseAtomic( test )
 {
 
-  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  /* */
+
+  test.case = 'global, relative, with hash, with query';
+  var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
+  var expected =
+  {
+    'protocol' : 'git',
+    'host' : '..',
+    'localWebPath' : '/repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '../repo/Tools',
+    'protocols' : [ 'git' ],
+    'hostWithPort' : '..',
+    'origin' : 'git://..',
+    'full' : 'git://../repo/Tools?out=out/wTools.out.will#master',
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
+
+  test.case = 'global, absolute, with hash, with query';
+  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var expected =
+  {
+    'protocol' : 'git',
+    'host' : '',
+    'localWebPath' : '/../repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '/../repo/Tools',
+    'protocols' : [ 'git' ],
+    'hostWithPort' : '',
+    'origin' : 'git://',
+    'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
 
   /* */
 
@@ -1466,11 +1502,8 @@ function parse( test )
   var expected =
   {
     localWebPath : '127.0.0.1:61726/../path',
-    longPath : '127.0.0.1:61726/../path',
-    protocols : [],
-    full : '127.0.0.1:61726/../path'
   }
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseAtomic( uri );
   test.identical( got, expected );
 
   var expected =
@@ -1481,12 +1514,657 @@ function parse( test )
   var got = _.uri.parseAtomic( uri );
   test.identical( got, expected );
 
+  /* */
+
+  test.case = 'full uri with all components';
+
+  var expected =
+  {
+    protocol : 'http',
+    host : 'www.site.com',
+    port : '13',
+    localWebPath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    // longPath : 'www.site.com:13/path/name',
+    // protocols : [ 'http' ],
+    // hostWithPort : 'www.site.com:13',
+    // origin : 'http://www.site.com:13',
+    // full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
+  }
+
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.parseAtomic( uri1 );
+  test.identical( got, expected );
+
+  test.case = 'full uri with all components, primitiveOnly'; /* */
+
+  var expected =
+  {
+    protocol : 'http',
+    host : 'www.site.com',
+    port : '13',
+    localWebPath : '/path/name',
+    // longPath : 'www.site.com:13/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.parseAtomic( uri1 );
+  test.identical( got, expected );
+
+  test.case = 'reparse with non primitives';
+
+  var expected =
+  {
+    protocol : 'http',
+    host : 'www.site.com',
+    port : '13',
+    localWebPath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+
+  var parsed = got;
+  var got = _.uri.parseAtomic( parsed );
+  test.identical( got, expected );
+
+  test.case = 'reparse with primitives';
+
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var expected =
+  {
+    protocol : 'http',
+    host : 'www.site.com',
+    port : '13',
+    localWebPath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+
+  var got = _.uri.parseAtomic( uri1 );
+  test.identical( got, expected );
+
+  test.case = 'uri with zero length protocol'; /* */
+
+  var uri = '://some.domain.com/something/to/add';
+
+  var expected =
+  {
+    protocol : '',
+    host : 'some.domain.com',
+    localWebPath : '/something/to/add',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'uri with zero length hostWithPort'; /* */
+
+  var uri = 'file:///something/to/add';
+
+  var expected =
+  {
+    protocol : 'file',
+    host : '',
+    localWebPath : '/something/to/add',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'uri with double protocol'; /* */
+
+  var uri = 'svn+https://user@subversion.com/svn/trunk';
+
+  var expected =
+  {
+    protocol : 'svn+https',
+    host : 'user@subversion.com',
+    localWebPath : '/svn/trunk',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'simple path'; /* */
+
+  var uri = '/some/file';
+
+  var expected =
+  {
+    localWebPath : '/some/file',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'without ":"'; /* */
+
+  var uri = '//some.domain.com/was';
+  var expected =
+  {
+    localWebPath : '//some.domain.com/was',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'with ":"'; /* */
+
+  var uri = '://some.domain.com/was';
+  var expected =
+  {
+    protocol : '',
+    host : 'some.domain.com',
+    localWebPath : '/was',
+  }
+
+  test.case = 'with ":" and protocol'; /* */
+
+  var uri = 'protocol://some.domain.com/was';
+  var expected =
+  {
+    protocol : 'protocol',
+    host : 'some.domain.com',
+    localWebPath : '/was',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'simple path'; /* */
+
+  var uri = '//';
+  var expected =
+  {
+    localWebPath : '//',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  var uri = '///';
+  var expected =
+  {
+    localWebPath : '///',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  var uri = '///a/b/c';
+  var expected =
+  {
+    localWebPath : '///a/b/c',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'complex';
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var expected =
+  {
+    protocol : 'complex+protocol',
+    host : 'www.site.com',
+    port : '13',
+    localWebPath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+
+  var got = _.uri.parseAtomic( uri );
+  test.identical( got, expected );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseAtomic( uri );
+  var expected =
+  {
+    protocol : '',
+    host : 'www.site.com',
+    port : '13',
+    localWebPath : '/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor'
+  }
+  test.identical( got, expected );
+
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseAtomic( uri );
+  var expected =
+  {
+    protocol : '',
+    host : '',
+    localWebPath : '/www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+  test.identical( got, expected );
+
+  /* */
+
+  var expected =
+  {
+    localWebPath : '///some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+  var got = _.uri.parseAtomic( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parseAtomic();
+  });
+
+  test.case = 'redundant argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parseAtomic( 'http://www.site.com:13/path/name?query=here&and=here#anchor','' );
+  });
+
+  test.case = 'argument is not string';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parseAtomic( 34 );
+  });
+
+}
+
+//
+
+function parseConsecutive( test )
+{
+
+  /* */
+
+  test.case = 'global, relative, with hash, with query';
+  var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
+  var expected =
+  {
+    'protocol' : 'git',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '../repo/Tools'
+  }
+  var got = _.uri.parseConsecutive( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'global, absolute, with hash, with query';
+  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var expected =
+  {
+    'protocol' : 'git',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '/../repo/Tools'
+  }
+  var got = _.uri.parseConsecutive( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'no protocol';
+  var uri = '127.0.0.1:61726/../path';
+  var expected =
+  {
+    longPath : '127.0.0.1:61726/../path',
+  }
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
   var expected =
   {
     longPath : '127.0.0.1:61726/../path'
   }
 
   var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'full uri with all components';
+
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : 'www.site.com:13/path/name',
+  }
+
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri1 );
+  test.identical( got, expected );
+
+  test.case = 'full uri with all components, primitiveOnly'; /* */
+
+  var expected =
+  {
+    protocol : 'http',
+    longPath : 'www.site.com:13/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  }
+
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri1 );
+  test.identical( got, expected );
+
+  test.case = 'reparse with non primitives';
+
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : 'www.site.com:13/path/name',
+  }
+
+  var parsed = got;
+  var got = _.uri.parseConsecutive( parsed );
+  test.identical( got, expected );
+
+  test.case = 'reparse with primitives';
+
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : 'www.site.com:13/path/name',
+  }
+
+  var got = _.uri.parseConsecutive( uri1 );
+  test.identical( got, expected );
+
+  test.case = 'uri with zero length protocol'; /* */
+
+  var uri = '://some.domain.com/something/to/add';
+
+  var expected =
+  {
+    protocol : '',
+    longPath : 'some.domain.com/something/to/add',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'uri with zero length hostWithPort'; /* */
+
+  var uri = 'file:///something/to/add';
+
+  var expected =
+  {
+    protocol : 'file',
+    longPath : '/something/to/add',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'uri with double protocol'; /* */
+
+  var uri = 'svn+https://user@subversion.com/svn/trunk';
+
+  var expected =
+  {
+    protocol : 'svn+https',
+    longPath : 'user@subversion.com/svn/trunk',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'simple path'; /* */
+
+  var uri = '/some/file';
+
+  var expected =
+  {
+    longPath : '/some/file',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'without ":"'; /* */
+
+  var uri = '//some.domain.com/was';
+  var expected =
+  {
+    longPath : '//some.domain.com/was',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'with ":"'; /* */
+
+  var uri = '://some.domain.com/was';
+  var expected =
+  {
+    protocol : '',
+    host : 'some.domain.com',
+    localWebPath : '/was',
+    longPath : 'some.domain.com/was',
+    protocols : [ '' ],
+    hostWithPort : 'some.domain.com',
+    origin : '://some.domain.com',
+    full : '://some.domain.com/was'
+  }
+
+  test.case = 'with ":" and protocol'; /* */
+
+  var uri = 'protocol://some.domain.com/was';
+  var expected =
+  {
+    protocol : 'protocol',
+    longPath : 'some.domain.com/was',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'simple path'; /* */
+
+  var uri = '//';
+  var expected =
+  {
+    longPath : '//',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  var uri = '///';
+  var expected =
+  {
+    longPath : '///',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  var uri = '///a/b/c';
+  var expected =
+  {
+    longPath : '///a/b/c',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'complex';
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var expected =
+  {
+    protocol : 'complex+protocol',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : 'www.site.com:13/path/name',
+  }
+
+  var got = _.uri.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : 'www.site.com:13/path//name//',
+  }
+  test.identical( got, expected );
+
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : 'www.site.com:13/path//name//',
+  }
+  test.identical( got, expected );
+
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : '/www.site.com:13/path//name//',
+  }
+  test.identical( got, expected );
+
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : '/www.site.com:13/path//name//'
+  }
+  test.identical( got, expected );
+
+  /* */
+
+  var expected =
+  {
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    longPath : '///some.com:99/staging/index.html',
+  }
+  var got = _.uri.parseConsecutive( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'missed arguments';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parseConsecutive();
+  });
+
+  test.case = 'redundant argument';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parseConsecutive( 'http://www.site.com:13/path/name?query=here&and=here#anchor','' );
+  });
+
+  test.case = 'argument is not string';
+  test.shouldThrowErrorSync( function()
+  {
+    _.uri.parseConsecutive( 34 );
+  });
+
+}
+
+//
+
+function parseFull( test )
+{
+
+  /* */
+
+  test.case = 'global, relative, with hash, with query';
+  var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
+  var expected =
+  {
+    'protocol' : 'git',
+    'host' : '..',
+    'localWebPath' : '/repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '../repo/Tools',
+    'protocols' : [ 'git' ],
+    'hostWithPort' : '..',
+    'origin' : 'git://..',
+    'full' : 'git://../repo/Tools?out=out/wTools.out.will#master'
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
+
+  test.case = 'global, absolute, with hash, with query';
+  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var expected =
+  {
+    'protocol' : 'git',
+    'host' : '',
+    'localWebPath' : '/../repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '/../repo/Tools',
+    'protocols' : [ 'git' ],
+    'hostWithPort' : '',
+    'origin' : 'git://',
+    'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'no protocol';
+  var uri = '127.0.0.1:61726/../path';
+  var expected =
+  {
+    localWebPath : '127.0.0.1:61726/../path',
+    longPath : '127.0.0.1:61726/../path',
+    protocols : [],
+    full : '127.0.0.1:61726/../path'
+  }
+  var got = _.uri.parseFull( uri );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    'localWebPath' : '127.0.0.1:61726/../path',
+    'longPath' : '127.0.0.1:61726/../path',
+    'protocols' : [],
+    'full' : '127.0.0.1:61726/../path'
+  }
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   /* */
@@ -1508,23 +2186,28 @@ function parse( test )
     full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
   }
 
-  var got = _.uri.parse( uri1 );
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.parseFull( uri1 );
   test.identical( got, expected );
 
   test.case = 'full uri with all components, primitiveOnly'; /* */
 
   var expected =
   {
-    protocol : 'http',
-    host : 'www.site.com',
-    port : '13',
-    localWebPath : '/path/name',
-    // longPath : 'www.site.com:13/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
+    'protocol' : 'http',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/path/name',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/path/name',
+    'protocols' : [ 'http' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'http://www.site.com:13',
+    'full' : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
   }
-
-  var got = _.uri.parseAtomic( uri1 );
+  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.parseFull( uri1 );
   test.identical( got, expected );
 
   test.case = 'reparse with non primitives';
@@ -1546,7 +2229,7 @@ function parse( test )
   }
 
   var parsed = got;
-  var got = _.uri.parse( parsed );
+  var got = _.uri.parseFull( parsed );
   test.identical( got, expected );
 
   test.case = 'reparse with primitives';
@@ -1554,16 +2237,19 @@ function parse( test )
   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var expected =
   {
-    protocol : 'http',
-    host : 'www.site.com',
-    port : '13',
-    localWebPath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-    // longPath : 'www.site.com:13/path/name',
+    'protocol' : 'http',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/path/name',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/path/name',
+    'protocols' : [ 'http' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'http://www.site.com:13',
+    'full' : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
   }
-
-  var got = _.uri.parseAtomic( uri1 );
+  var got = _.uri.parseFull( uri1 );
   test.identical( got, expected );
 
   test.case = 'uri with zero length protocol'; /* */
@@ -1582,7 +2268,7 @@ function parse( test )
     full : '://some.domain.com/something/to/add',
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'uri with zero length hostWithPort'; /* */
@@ -1601,7 +2287,7 @@ function parse( test )
     full : 'file:///something/to/add',
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'uri with double protocol'; /* */
@@ -1620,7 +2306,7 @@ function parse( test )
     full : 'svn+https://user@subversion.com/svn/trunk',
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'simple path'; /* */
@@ -1635,7 +2321,7 @@ function parse( test )
     full : '/some/file',
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'without ":"'; /* */
@@ -1649,7 +2335,7 @@ function parse( test )
     full : '//some.domain.com/was'
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'with ":"'; /* */
@@ -1682,7 +2368,7 @@ function parse( test )
     full : 'protocol://some.domain.com/was'
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'simple path'; /* */
@@ -1696,7 +2382,7 @@ function parse( test )
     full : '//'
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   var uri = '///';
@@ -1708,7 +2394,7 @@ function parse( test )
     full : '///'
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   var uri = '///a/b/c';
@@ -1720,7 +2406,7 @@ function parse( test )
     full : '///a/b/c'
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
 
   test.case = 'complex';
@@ -1740,27 +2426,11 @@ function parse( test )
     full : uri,
   }
 
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   test.identical( got, expected );
-
-  test.case = 'complex, parseAtomic + str';
-  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uri.parseAtomic( uri );
-  var expected =
-  {
-    protocol : 'complex+protocol',
-    host : 'www.site.com',
-    port : '13',
-    localWebPath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-  }
-  test.identical( got, expected );
-  var newUrl = _.uri.str( got );
-  test.identical( newUrl, uri );
 
   var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
     protocol : '',
@@ -1778,31 +2448,25 @@ function parse( test )
   test.identical( got, expected );
 
   var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parseAtomic( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    protocol : '',
-    host : 'www.site.com',
-    port : '13',
-    localWebPath : '/path//name//',
-    query : 'query=here&and=here',
-    hash : 'anchor'
-  }
-  test.identical( got, expected );
-
-  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parseConsecutive( uri );
-  var expected =
-  {
-    protocol : '',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-    longPath : 'www.site.com:13/path//name//',
+    'protocol' : '',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/path//name//',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/path//name//',
+    'protocols' : [],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : '://www.site.com:13',
+    'full' : '://www.site.com:13/path//name//?query=here&and=here#anchor'
   }
   test.identical( got, expected );
 
   var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
     protocol : '',
@@ -1819,25 +2483,19 @@ function parse( test )
   test.identical( got, expected );
 
   var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parseAtomic( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    protocol : '',
-    host : '',
-    localWebPath : '/www.site.com:13/path//name//',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-  }
-  test.identical( got, expected );
-
-  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uri.parseConsecutive( uri );
-  var expected =
-  {
-    protocol : '',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-    longPath : '/www.site.com:13/path//name//'
+    'protocol' : '',
+    'host' : '',
+    'localWebPath' : '/www.site.com:13/path//name//',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : '/www.site.com:13/path//name//',
+    'protocols' : [],
+    'hostWithPort' : '',
+    'origin' : '://',
+    'full' : ':///www.site.com:13/path//name//?query=here&and=here#anchor'
   }
   test.identical( got, expected );
 
@@ -1852,16 +2510,7 @@ function parse( test )
     protocols : [],
     full : '///some.com:99/staging/index.html?query=here&and=here#anchor',
   }
-  var got = _.uri.parse( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
-  test.identical( got, expected );
-
-  var expected =
-  {
-    localWebPath : '///some.com:99/staging/index.html',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-  }
-  var got = _.uri.parseAtomic( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  var got = _.uri.parseFull( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
   test.identical( got, expected );
 
   /* - */
@@ -1872,19 +2521,19 @@ function parse( test )
   test.case = 'missed arguments';
   test.shouldThrowErrorSync( function()
   {
-    _.uri.parse();
+    _.uri.parseFull();
   });
 
   test.case = 'redundant argument';
   test.shouldThrowErrorSync( function()
   {
-    _.uri.parse( 'http://www.site.com:13/path/name?query=here&and=here#anchor','' );
+    _.uri.parseFull( 'http://www.site.com:13/path/name?query=here&and=here#anchor','' );
   });
 
   test.case = 'argument is not string';
   test.shouldThrowErrorSync( function()
   {
-    _.uri.parse( 34 );
+    _.uri.parseFull( 34 );
   });
 
 }
@@ -1893,211 +2542,212 @@ function parse( test )
 
 function parseGlob( test )
 {
+
   test.open( 'local path' );
 
   var src = '!a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/!a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/!a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/^a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/+a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/!';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/^';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/+';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '?';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '*';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '**';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '?c.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '*.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '**/a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir?c/a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/*.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/**.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/**/a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir?c/a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir/*.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir/**.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir/**/a.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '[a-c]';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '{a,c}';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '(a|b)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '(ab)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '@(ab)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '!(ab)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '?(ab)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '*(ab)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '+(ab)';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/[a-c].js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/{a,c}.js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/(a|b).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/(ab).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/@(ab).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/!(ab).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/?(ab).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/*(ab).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/+(ab).js';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/index/**';
-  var got = _.uri.parse( src );
-  var expected = { localWebPath : src };
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
 
   test.close( 'local path' );
@@ -2108,410 +2758,707 @@ function parseGlob( test )
 
   var src = '/!a.js?';
   var uri = 'complex+protocol://www.site.com:13/!a.js??query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
-  };
-  test.contains( got, expected );
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'localWebPath' : '/!a.js?',
+    'longPath' : 'www.site.com:13/!a.js?',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/!a.js??query=here&and=here#anchor',
+  }
+  test.identical( got, expected );
 
   var src = '/a/!a.js';
   var uri = 'complex+protocol://www.site.com:13/a/!a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/a/!a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/a/!a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/a/!a.js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/a/^a.js';
   var uri = 'complex+protocol://www.site.com:13/a/^a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/a/^a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/a/^a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/a/^a.js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/a/+a.js';
   var uri = 'complex+protocol://www.site.com:13/a/+a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/a/+a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/a/+a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/a/+a.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/a/!';
   var uri = 'complex+protocol://www.site.com:13/a/!?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/a/!',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/a/!',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/a/!?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/a/^';
   var uri = 'complex+protocol://www.site.com:13/a/^?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/a/^',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/a/^',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/a/^?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/a/+';
   var uri = 'complex+protocol://www.site.com:13/a/+?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/a/+',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/a/+',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/a/+?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/?';
   var uri = 'complex+protocol://www.site.com:13/??query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/?',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/?',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/??query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/*';
   var uri = 'complex+protocol://www.site.com:13/*?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/*',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/*',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/*?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/**';
   var uri = 'complex+protocol://www.site.com:13/**?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/**',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/**',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/**?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/?c.js';
   var uri = 'complex+protocol://www.site.com:13/?c.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/?c.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/?c.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/?c.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/*.js';
   var uri = 'complex+protocol://www.site.com:13/*.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/*.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/*.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/*.js?query=here&and=here#anchor'
+
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/**/a.js';
   var uri = 'complex+protocol://www.site.com:13/**/a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/**/a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/**/a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/**/a.js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir?c/a.js';
   var uri = 'complex+protocol://www.site.com:13/dir?c/a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir?c/a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir?c/a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir?c/a.js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/*.js';
   var uri = 'complex+protocol://www.site.com:13/dir/*.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/*.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/*.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/*.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/**.js';
   var uri = 'complex+protocol://www.site.com:13/dir/**.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
-  };
-  test.contains( got, expected );
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/**.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/**.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/**.js?query=here&and=here#anchor',
+  }
+  test.identical( got, expected );
 
   var src = '/dir/**/a.js';
   var uri = 'complex+protocol://www.site.com:13/dir/**/a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/**/a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/**/a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/**/a.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir?c/a.js';
   var uri = 'complex+protocol://www.site.com:13/dir?c/a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir?c/a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir?c/a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir?c/a.js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/*.js';
   var uri = 'complex+protocol://www.site.com:13/dir/*.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/*.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/*.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/*.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/**/a.js';
   var uri = 'complex+protocol://www.site.com:13/dir/**/a.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/**/a.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/**/a.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/**/a.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/[a-c]';
   var uri = 'complex+protocol://www.site.com:13/[a-c]?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/[a-c]',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/[a-c]',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/[a-c]?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/{a-c}';
   var uri = 'complex+protocol://www.site.com:13/{a-c}?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/{a-c}',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/{a-c}',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/{a-c}?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/(a|b)';
   var uri = 'complex+protocol://www.site.com:13/(a|b)?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/(a|b)',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/(a|b)',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/(a|b)?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/@(ab)';
   var uri = 'complex+protocol://www.site.com:13/@(ab)?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/@(ab)',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/@(ab)',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/@(ab)?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/!(ab)';
   var uri = 'complex+protocol://www.site.com:13/!(ab)?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/!(ab)',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/!(ab)',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/!(ab)?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/?(ab)';
   var uri = 'complex+protocol://www.site.com:13/?(ab)?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/?(ab)',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/?(ab)',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/?(ab)?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/*(ab)';
   var uri = 'complex+protocol://www.site.com:13/*(ab)?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/*(ab)',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/*(ab)',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/*(ab)?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/+(ab)';
   var uri = 'complex+protocol://www.site.com:13/+(ab)?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/+(ab)',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/+(ab)',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/+(ab)?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/[a-c].js';
   var uri = 'complex+protocol://www.site.com:13/dir/[a-c].js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/[a-c].js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/[a-c].js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/[a-c].js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/{a,c}.js';
   var uri = 'complex+protocol://www.site.com:13/dir/{a,c}.js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/{a,c}.js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/{a,c}.js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/{a,c}.js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/(a|b).js';
   var uri = 'complex+protocol://www.site.com:13/dir/(a|b).js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/(a|b).js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/(a|b).js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/(a|b).js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/(ab).js';
   var uri = 'complex+protocol://www.site.com:13/dir/(ab).js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/(ab).js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/(ab).js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/(ab).js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/@(ab).js';
   var uri = 'complex+protocol://www.site.com:13/dir/@(ab).js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/@(ab).js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/@(ab).js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/@(ab).js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/?(ab).js';
   var uri = 'complex+protocol://www.site.com:13/dir/?(ab).js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/?(ab).js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/?(ab).js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/?(ab).js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/*(ab).js';
   var uri = 'complex+protocol://www.site.com:13/dir/*(ab).js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/*(ab).js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/*(ab).js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/*(ab).js?query=here&and=here#anchor',
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/dir/+(ab).js';
   var uri = 'complex+protocol://www.site.com:13/dir/+(ab).js?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/dir/+(ab).js',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/dir/+(ab).js',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/dir/+(ab).js?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   var src = '/index/**';
   var uri = 'complex+protocol://www.site.com:13/index/**?query=here&and=here#anchor';
-  var got = _.uri.parse( uri );
+  var got = _.uri.parseFull( uri );
   var expected =
   {
-    localWebPath : src,
-    query : 'query=here&and=here',
-    hash : 'anchor'
+    'protocol' : 'complex+protocol',
+    'host' : 'www.site.com',
+    'port' : '13',
+    'localWebPath' : '/index/**',
+    'query' : 'query=here&and=here',
+    'hash' : 'anchor',
+    'longPath' : 'www.site.com:13/index/**',
+    'protocols' : [ 'complex', 'protocol' ],
+    'hostWithPort' : 'www.site.com:13',
+    'origin' : 'complex+protocol://www.site.com:13',
+    'full' : 'complex+protocol://www.site.com:13/index/**?query=here&and=here#anchor'
   };
-  test.contains( got, expected );
+  test.identical( got, expected );
 
   test.close( 'complex uri' );
 
@@ -6807,8 +7754,12 @@ var Self =
 
     refine,
     urisRefine,
-    parse,
+
+    parseAtomic,
+    parseConsecutive,
+    parseFull,
     parseGlob,
+
     str,
     parseAndStr,
     // from,
