@@ -90,7 +90,7 @@ function is( path )
 
 /**
  * @summary Checks if provided uri is safe.
- * @param {String} path Source uri
+ * @param {String} filePath Source uri
  * @param {Number} level Level of check
  *
  * @example
@@ -117,19 +117,95 @@ function isSafe( path, level )
   return parent.isSafe.call( this, path, level );
 }
 
+/*
+qqq : module:Tools?
+*/
+
+//
+
+/**
+ * @summary Checks if provided uri is refined.
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
+ * @function isRefinedMaybeTrailed
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isRefinedMaybeTrailed( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isRefinedMaybeTrailed.call( this, filePath );
+}
+
+//
+
+/**
+ * @summary Checks if provided uri is refined.
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
+ * @function isRefined
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isRefined( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isRefined.call( this, filePath );
+}
+
 //
 
 /**
  * @summary Checks if provided uri is normalized.
- * @param {String} path Source uri
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
+ * @function isNormalizedMaybeTrailed
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isNormalizedMaybeTrailed( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isNormalizedMaybeTrailed.call( this, filePath );
+}
+
+//
+
+/**
+ * @summary Checks if provided uri is normalized.
+ * @param {String} filePath Source uri
  *
  * @example
- * _.uri.isNormalized( 'https:///web.archive.org' )// true
+ * _.uri.isNormalized( 'https:///web.archive.org' ); // returns true
  *
  * @example
- * _.uri.isNormalized( 'https:/\\\\web.archive.org' )// false
+ * _.uri.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
  *
- * @returns {Boolean} Returns true if path is normalized, otherwise false.
+ * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
  * @function isNormalized
  * @memberof module:Tools/base/Uri.wTools.uri
  */
@@ -145,7 +221,7 @@ function isNormalized( path )
 
 /**
  * @summary Checks if provided uri is absolute.
- * @param {String} path Source uri
+ * @param {String} filePath Source uri
  *
  * @example
  * _.uri.isAbsolute( 'https:/web.archive.org' )// false
@@ -153,7 +229,7 @@ function isNormalized( path )
  * @example
  * _.uri.isAbsolute( 'https:///web.archive.org' )// true
  *
- * @returns {Boolean} Returns true if path is absolute, otherwise false.
+ * @returns {Boolean} Returns true if {filePath} is absolute, otherwise false.
  * @function isAbsolute
  * @memberof module:Tools/base/Uri.wTools.uri
  */
@@ -174,8 +250,32 @@ function isAbsolute( path )
 //
 
 /**
+ * @summary Checks if provided uri is relative.
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if {filePath} is relative, otherwise false.
+ * @function isRelative
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isRelative( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isRelative.call( this, filePath );
+}
+
+//
+
+/**
  * @summary Checks if provided uri is root.
- * @param {String} path Source uri
+ * @param {String} filePath Source uri
  *
  * @example
  * _.uri.isRoot( 'https:/web.archive.org' )// false
@@ -183,21 +283,93 @@ function isAbsolute( path )
  * @example
  * _.uri.isRoot( 'https:///' )// true
  *
- * @returns {Boolean} Returns true if path is root, otherwise false.
+ * @returns {Boolean} Returns true if {filePath} is root, otherwise false.
  * @function isRoot
  * @memberof module:Tools/base/Uri.wTools.uri
  */
 
-function isRoot( path )
+function isRoot( filePath )
 {
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  if( this.isGlobal( path ) )
-  path = this.parseConsecutive( path ).longPath;
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
 
-  return parent.isRoot.call( this, path );
+  return parent.isRoot.call( this, filePath );
+}
+
+//
+
+/**
+ * @summary Checks if provided uri begins with dot.
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if path begins with dot, otherwise false.
+ * @function isDotted
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isDotted( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isDotted.call( this, filePath );
+}
+
+//
+
+/**
+ * @summary Checks if provided uri ends with slash.
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if path ends with slash, otherwise false.
+ * @function isTrailed
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isTrailed( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isTrailed.call( this, filePath );
+}
+
+//
+
+/**
+ * @summary Checks if provided uri is glob.
+ * @param {String} filePath Source uri
+ *
+ * @returns {Boolean} Returns true if {filePath} is glob, otherwise false.
+ * @function isGlob
+ * @memberof module:Tools/base/Uri.wTools.uri
+ */
+
+function isGlob( filePath )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath ).longPath;
+
+  return parent.isGlob.call( this, filePath );
 }
 
 // --
@@ -828,62 +1000,77 @@ function full( o )
 
 //
 
-function refine( fileUri )
+function refine( filePath )
 {
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( fileUri ) );
+  _.assert( _.strIs( filePath ) );
 
-  if( this.isGlobal( fileUri ) )
-  fileUri = this.parseConsecutive( fileUri );
+  if( this.isGlobal( filePath ) )
+  filePath = this.parseConsecutive( filePath );
   else
-  return parent.refine.call( this, fileUri );
+  return parent.refine.call( this, filePath );
 
-  // fileUri.localWebPath = null; yyy
+  // filePath.localWebPath = null; yyy
 
-  if( _.strDefined( fileUri.longPath ) )
-  fileUri.longPath = parent.refine.call( this, fileUri.longPath );
+  if( _.strDefined( filePath.longPath ) )
+  filePath.longPath = parent.refine.call( this, filePath.longPath );
 
-  if( fileUri.hash )
-  fileUri.longPath = parent.detrail( fileUri.longPath );
+  if( filePath.hash )
+  filePath.longPath = parent.detrail( filePath.longPath );
 
-  return this.str( fileUri );
+  return this.str( filePath );
 }
 
-function normalize( fileUri )
+function normalize( filePath )
 {
   let parent = this.path;
-  _.assert( _.strIs( fileUri ), 'Expects string {-fileUri-}' );
-  if( _.strIs( fileUri ) )
+  _.assert( _.strIs( filePath ), 'Expects string {-filePath-}' );
+  if( _.strIs( filePath ) )
   {
-    if( this.isGlobal( fileUri ) )
-    fileUri = this.parseConsecutive( fileUri );
+    if( this.isGlobal( filePath ) )
+    filePath = this.parseConsecutive( filePath );
     else
-    return parent.normalize.call( this, fileUri );
+    return parent.normalize.call( this, filePath );
   }
-  _.assert( !!fileUri );
-  // fileUri.localWebPath = null; yyy
-  fileUri.longPath = parent.normalize.call( this, fileUri.longPath );
-  return this.str( fileUri );
+  _.assert( !!filePath );
+  filePath.longPath = parent.normalize.call( this, filePath.longPath );
+  return this.str( filePath );
 }
 
 //
 
-function normalizeTolerant( fileUri )
+function normalizeStrict( filePath )
 {
   let parent = this.path;
-  if( _.strIs( fileUri ) )
+  if( _.strIs( filePath ) )
   {
-    if( this.isGlobal( fileUri ) )
-    fileUri = this.parseConsecutive( fileUri );
+    if( this.isGlobal( filePath ) )
+    filePath = this.parseConsecutive( filePath );
     else
-    return parent.normalizeTolerant.call( this, fileUri );
+    return parent.normalizeStrict.call( this, filePath );
   }
-  _.assert( !!fileUri );
-  // fileUri.localWebPath = null;
-  fileUri.longPath = parent.normalizeTolerant.call( this, fileUri.longPath );
-  return this.str( fileUri );
+  _.assert( !!filePath );
+  filePath.longPath = parent.normalizeStrict.call( this, filePath.longPath );
+  return this.str( filePath );
+}
+
+//
+
+function normalizeTolerant( filePath )
+{
+  let parent = this.path;
+  if( _.strIs( filePath ) )
+  {
+    if( this.isGlobal( filePath ) )
+    filePath = this.parseConsecutive( filePath );
+    else
+    return parent.normalizeTolerant.call( this, filePath );
+  }
+  _.assert( !!filePath );
+  filePath.longPath = parent.normalizeTolerant.call( this, filePath.longPath );
+  return this.str( filePath );
 }
 
 //
@@ -1157,7 +1344,7 @@ let relative = _.routineFromPreAndBody( _.path.relative.pre, relative_body );
 //
 
 /*
-qqq : teach common to work with uri maps and cover it by tests
+qqq : teach common to work with path maps and cover it by tests
 */
 
 function common()
@@ -1172,8 +1359,13 @@ function common()
     _.arrayCutin( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
   }
 
-  _.assert( uris.length, 'Expects at least one argument' );
+  // _.assert( uris.length, 'Expects at least one argument' );
   _.assert( _.strsAreAll( uris ), 'Expects only strings as arguments' );
+
+  /* */
+
+  if( !uris.length )
+  return null;
 
   /* */
 
@@ -1189,11 +1381,8 @@ function common()
   /* */
 
   let result = _.mapExtend( null, uris[ 0 ] );
-  // let result = uris[ 0 ];
   let protocol = null;
   let withoutProtocol = 0;
-  // let common = Object.create( null );
-
 
   for( let i = 1, len = uris.length ; i < len ; i++ )
   {
@@ -1374,34 +1563,41 @@ function changeExt( path, ext )
 
 //
 
-function dir( path )
+function dir_body( o )
 {
   let parent = this.path;
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strDefined( path ) );
+  if( !this.isGlobal( o.filePath ) )
+  return parent.dir.body.call( this, o );
 
-  if( !this.isGlobal( path ) )
-  return parent.dir.call( this, path );
+  let o2 = _.mapExtend( null, o );
+  let filePath = this.parseConsecutive( o.filePath );
+  o2.filePath = filePath.longPath
+  filePath.longPath = parent.dir.body.call( this, o2 )
 
-  path = this.parseConsecutive( path );
-  path.longPath = parent.dir( path.longPath );
-
-  return this.str( path );
+  return this.str( filePath );
 }
+
+_.routineExtend( dir_body, _.path.dir );
+
+let dir = _.routineFromPreAndBody( _.path.dir.pre, dir_body );
+_.mapExtend( dir.defaults, _.path.dir.defaults );
+
+let dirFirst = _.routineFromPreAndBody( _.path.dirFirst.pre, dir_body );
+_.mapExtend( dirFirst.defaults, _.path.dirFirst.defaults );
 
 //
 
-function moveReport_body( o )
+function moveTextualReport_body( o )
 {
   let self = this;
   let parent = this.path;
 
-  _.assertRoutineOptions( moveReport_body, arguments );
+  _.assertRoutineOptions( moveTextualReport_body, arguments );
 
   if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
   {
-    return parent.moveReport( o );
+    return parent.moveTextualReport( o );
   }
 
   _.assert( _.strIs( o.dstPath ) );
@@ -1437,9 +1633,9 @@ function moveReport_body( o )
 
 }
 
-moveReport_body.defaults = Object.create( _.path.moveReport.defaults );
+_.routineExtend( moveTextualReport_body, _.path.moveTextualReport );
 
-let moveReport = _.routineFromPreAndBody( _.path.moveReport.pre, moveReport_body );
+let moveTextualReport = _.routineFromPreAndBody( _.path.moveTextualReport.pre, moveTextualReport_body );
 
 //
 
@@ -1645,9 +1841,16 @@ let Routines =
 
   is,
   isSafe,
+  isRefinedMaybeTrailed,
+  isRefined,
+  isNormalizedMaybeTrailed,
   isNormalized,
   isAbsolute,
+  isRelative,
   isRoot,
+  isDotted,
+  isTrailed,
+  isGlob,
 
   // transformer
 
@@ -1662,6 +1865,7 @@ let Routines =
 
   refine,
   normalize,
+  normalizeStrict,
   normalizeTolerant,
 
   dot,
@@ -1676,7 +1880,6 @@ let Routines =
   join,
   joinRaw,
   reroot,
-  // urisJoin,
   resolve,
 
   relative,
@@ -1688,8 +1891,9 @@ let Routines =
   exts,
   changeExt,
   dir,
+  dirFirst,
 
-  moveReport,
+  moveTextualReport,
 
   documentGet,
   server,

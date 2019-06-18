@@ -156,7 +156,7 @@ let Routines =
   _keyEndsUriFilter : _keyEndsUriFilter,
   _isUriFilter : _isUriFilter,
 
-  // uri
+  //
 
   parse : vectorize( 'parse' ),
   parseAtomic : vectorize( 'parseAtomic' ),
@@ -170,8 +170,7 @@ let Routines =
   full : vectorize( 'full' ),
 
   normalizeTolerant : vectorize( 'normalizeTolerant' ),
-
-  onlyTormalizeTolerant : vectorizeOnly( 'normalizeTolerant' ),
+  onlyNormalizeTolerant : vectorizeOnly( 'normalizeTolerant' ),
 
   rebase : vectorize( 'rebase', 3 ),
 
@@ -189,9 +188,9 @@ _.mapSupplementOwn( Self, Routines );
 // export
 // --
 
-if( typeof module !== 'undefined' )
-if( _global_.WTOOLS_PRIVATE )
-{ /* delete require.cache[ module.id ]; */ }
+// if( typeof module !== 'undefined' )
+// if( _global_.WTOOLS_PRIVATE )
+// { /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
