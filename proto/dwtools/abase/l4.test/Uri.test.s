@@ -7710,45 +7710,45 @@ function pathMapFilter( test )
 
 //
 
-function pathMapRefilter( test )
+function pathMapFilterInplace( test )
 {
   test.case = 'string';
   var src = '/a/b/c';
-  var got = _.uri.pathMapRefilter( src, onEach );
+  var got = _.uri.pathMapFilterInplace( src, onEach );
   var expected = 'file:///a/b/c';
   test.identical( got, expected );
 
   test.case = 'array';
   var src = [ '/a', '/b' ];
-  var got = _.uri.pathMapRefilter( src, onEach );
+  var got = _.uri.pathMapFilterInplace( src, onEach );
   var expected = [ 'file:///a', 'file:///b' ];
   test.identical( got, expected );
   test.identical( got, src );
 
   test.case = 'array';
   var src = [ 'file:///a', '/b' ];
-  var got = _.uri.pathMapRefilter( src, onEachFilter );
+  var got = _.uri.pathMapFilterInplace( src, onEachFilter );
   var expected = [ 'file:///a' ];
   test.identical( got, expected );
   test.identical( got, src );
 
   test.case = 'map';
   var src = { '/src' : '/dst' };
-  var got = _.uri.pathMapRefilter( src, onEach );
+  var got = _.uri.pathMapFilterInplace( src, onEach );
   var expected = { 'file:///src' : 'file:///dst' };
   test.identical( got, expected );
   test.identical( got, src );
 
   test.case = 'map';
   var src = { 'file:///src' : '/dst' };
-  var got = _.uri.pathMapRefilter( src, onEachFilter );
+  var got = _.uri.pathMapFilterInplace( src, onEachFilter );
   var expected = {};
   test.identical( got, expected );
   test.identical( got, src );
 
   test.case = 'map';
   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
-  var got = _.uri.pathMapRefilter( src, onEachStructure );
+  var got = _.uri.pathMapFilterInplace( src, onEachStructure );
   var expected =
   {
     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
@@ -7758,7 +7758,7 @@ function pathMapRefilter( test )
 
   test.case = 'map filter keys, onEach returns array with undefined';
   var src = { '/a' : '/b' };
-  var got = _.uri.pathMapRefilter( src, onEachStructureKeys );
+  var got = _.uri.pathMapFilterInplace( src, onEachStructureKeys );
   var expected =
   {
     'file:///a' : '/b'
@@ -7768,14 +7768,14 @@ function pathMapRefilter( test )
 
   test.case = 'null';
   var src = null;
-  var got = _.uri.pathMapRefilter( src, onEach );
+  var got = _.uri.pathMapFilterInplace( src, onEach );
   var expected = 'file:///';
   test.identical( got, expected );
 
   if( Config.debug )
   {
     test.case = 'number';
-    test.shouldThrowErrorSync( () => _.uri.pathMapRefilter( 1, onEach ) )
+    test.shouldThrowErrorSync( () => _.uri.pathMapFilterInplace( 1, onEach ) )
   }
 
   /*  */
@@ -7876,7 +7876,7 @@ var Self =
     dirFirst,
 
     pathMapFilter,
-    pathMapRefilter
+    pathMapFilterInplace
 
   },
 
