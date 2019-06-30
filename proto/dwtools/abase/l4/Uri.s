@@ -583,7 +583,7 @@ function parse( srcPath )
 
   let result = this.parse_body
   ({
-    srcPath : srcPath,
+    /*ttt*/srcPath,
     kind : 'full',
     // kind : 'consecutive',
     // kind : 'atomic',
@@ -602,7 +602,7 @@ function parseFull( srcPath )
 {
   let result = this.parse_body
   ({
-    srcPath : srcPath,
+    /*ttt*/srcPath,
     kind : 'full',
   });
 
@@ -619,7 +619,7 @@ function parseAtomic( srcPath )
 {
   let result = this.parse_body
   ({
-    srcPath : srcPath,
+    /*ttt*/srcPath,
     kind : 'atomic',
   });
 
@@ -636,7 +636,7 @@ function parseConsecutive( srcPath )
 {
   let result = this.parse_body
   ({
-    srcPath : srcPath,
+    /*ttt*/srcPath,
     kind : 'consecutive',
   });
 
@@ -1628,7 +1628,7 @@ function moveTextualReport_body( o )
 
   function relative( filePath )
   {
-    return self.relative({ basePath : c, filePath : filePath, global : 0 });
+    return self.relative({ basePath : c, /*ttt*/filePath, global : 0 });
   }
 
 }
@@ -1821,7 +1821,7 @@ let Fields =
 {
 
   single : Self,
-  UriComponents : UriComponents,
+  /*ttt*/UriComponents,
 
 }
 

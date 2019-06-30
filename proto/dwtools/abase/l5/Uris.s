@@ -65,7 +65,7 @@ function vectorize( routine, select )
     vectorizingArray : 1,
     vectorizingMapVals : 0,
     vectorizingMapKeys : 1,
-    select : select,
+    /*ttt*/select,
   });
 }
 
@@ -153,8 +153,8 @@ let Fields =
 let Routines =
 {
 
-  _keyEndsUriFilter : _keyEndsUriFilter,
-  _isUriFilter : _isUriFilter,
+  /*ttt*/_keyEndsUriFilter,
+  /*ttt*/_isUriFilter,
 
   //
 
