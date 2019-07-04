@@ -470,14 +470,27 @@ let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
 
 // let _uriParseRegexp = new RegExp( '^(?:([^:/\\?#]*):)?(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?([^\\?#]*)(?:\\?([^#]*))?(?:#(.*))?$' );
 
+function parse_pre( routine, args )
+{
+  _.assert( args.length === 1, 'Expects single argument' );
+  let o = { srcPath : args[ 0 ] };
+
+  _.routineOptions( routine, o );
+  _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
+  _.assert( _.arrayHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
+
+  return o;
+}
+
+
 function parse_body( o )
 {
   let result = Object.create( null );
 
-  _.routineOptions( this.parse_body, o );
-  _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.arrayHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
+  // _.routineOptions( this.parse_body, o );
+  // _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
+  // _.assert( arguments.length === 1, 'Expects single argument' );
+  // _.assert( _.arrayHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
 
   if( _.mapIs( o.srcPath ) )
   {
@@ -578,72 +591,83 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
  * @memberof module:Tools/base/Uri.wTools.uri
  */
 
-function parse( srcPath )
-{
+let parse = _.routineFromPreAndBody( parse_pre, parse_body );
 
-  let result = this.parse_body
-  ({
-    /*ttt*/srcPath,
-    kind : 'full',
-    // kind : 'consecutive',
-    // kind : 'atomic',
-  });
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  return result;
-}
+// function parse( srcPath )
+// {
+//
+//   let result = this.parse_body
+//   ({
+//     /*ttt*/srcPath,
+//     kind : 'full',
+//     // kind : 'consecutive',
+//     // kind : 'atomic',
+//   });
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   return result;
+// }
 
 parse.components = UriComponents;
 
 //
 
-function parseFull( srcPath )
-{
-  let result = this.parse_body
-  ({
-    /*ttt*/srcPath,
-    kind : 'full',
-  });
+let parseFull = _.routineFromPreAndBody( parse_pre, parse_body );
+parseFull.components = UriComponents;
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
+// function parseFull( srcPath )
+// {
+//   let result = this.parse_body
+//   ({
+//     /*ttt*/srcPath,
+//     kind : 'full',
+//   });
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   return result;
+// }
+//
+// parseAtomic.components = UriComponents;
 
-  return result;
-}
+//
+
+let parseAtomic = _.routineFromPreAndBody( parse_pre, parse_body );
+parseAtomic.defaults.kind = 'atomic';
+
+// function parseAtomic( srcPath )
+// {
+//   let result = this.parse_body
+//   ({
+//     /*ttt*/srcPath,
+//     kind : 'atomic',
+//   });
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   return result;
+// }
 
 parseAtomic.components = UriComponents;
 
 //
 
-function parseAtomic( srcPath )
-{
-  let result = this.parse_body
-  ({
-    /*ttt*/srcPath,
-    kind : 'atomic',
-  });
+let parseConsecutive = _.routineFromPreAndBody( parse_pre, parse_body );
+parseConsecutive.defaults.kind = 'consecutive';
 
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  return result;
-}
-
-parseAtomic.components = UriComponents;
-
+// function parseConsecutive( srcPath )
+// {
+//   let result = this.parse_body
+//   ({
+//     /*ttt*/srcPath,
+//     kind : 'consecutive',
+//   });
 //
-
-function parseConsecutive( srcPath )
-{
-  let result = this.parse_body
-  ({
-    /*ttt*/srcPath,
-    kind : 'consecutive',
-  });
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-
-  return result;
-}
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//
+//   return result;
+// }
 
 //
 
@@ -1854,7 +1878,7 @@ let Routines =
 
   // transformer
 
-  parse_body,
+  //parse_body,
   parse,
   parseFull,
   parseAtomic,
