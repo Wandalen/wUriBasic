@@ -614,6 +614,7 @@ parse.components = UriComponents;
 //
 
 let parseFull = _.routineFromPreAndBody( parse_pre, parse_body );
+parseFull.defaults.kind = 'full';
 parseFull.components = UriComponents;
 
 // function parseFull( srcPath )

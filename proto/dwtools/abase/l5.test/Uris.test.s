@@ -26,7 +26,6 @@ qqq : fix style problems and non-style problems in the test
 function refine( test )
 {
   test.case = 'refine the uris';
-
   var srcs =
   [
     '/some/staging/index.html',
@@ -48,31 +47,40 @@ function refine( test )
     '://www.site.com:13/path//name//?query=here&and=here#anchor',
     ':///www.site.com:13/path//name/?query=here&and=here#anchor',
   ]
-
   var expected =
   [
     '/some/staging/index.html',
-    '/some/staging/index.html',
+    '/some/staging/index.html/',
     '//some/staging/index.html',
-    '//some/staging/index.html',
+    '//some/staging/index.html/',
     '///some/staging/index.html',
-    '///some/staging/index.html',
+    '///some/staging/index.html/',
     'file:///some/staging/index.html',
-    'file:///some/staging/index.html',
+    'file:///some/staging/index.html/',
     'http://some.come/staging/index.html',
-    'http://some.come/staging/index.html',
+    'http://some.come/staging/index.html/',
     'svn+https://user@subversion.com/svn/trunk',
-    'svn+https://user@subversion.com/svn/trunk',
+    'svn+https://user@subversion.com/svn/trunk/',
     'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor',
     'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor',
     'https://web.archive.org/web/*/http://www.heritage.org/index/ranking',
     'https://web.archive.org//web//*//http://www.heritage.org//index//ranking',
-    '://www.site.com:13/path//name//?query=here&and=here#anchor',
+    '://www.site.com:13/path//name/?query=here&and=here#anchor',
     ':///www.site.com:13/path//name?query=here&and=here#anchor'
   ]
-
   var got = _.uri.s.refine( srcs );
   test.identical( got, expected );
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'incorrect input';
+  test.shouldThrowErrorSync( () => _.uris.refine() );
+  test.shouldThrowErrorSync( () => _.uris.refine( [] ) );
+  test.shouldThrowErrorSync( () => _.uris.refine( {} ) );
+  test.shouldThrowErrorSync( () => _.uris.refine( [ '' ] ) );
+  test.shouldThrowErrorSync( () => _.uris.refine( [ 1, 'http://some.com' ] ) );
+
 }
 
 //
@@ -162,20 +170,20 @@ function common( test )
   test.identical( got, 'http://some.come/' );
 
   // qqq !!! : implement
-  // var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.s.common( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' );
-  // test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
+  var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+
+  var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+
+  var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+
+  var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+
+  var got = _.uri.s.common( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' );
+  test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
 
   var got = _.uri.s.common( '://some/staging/a/b/c', '://some/staging/a/b/c/index.html', '://some/staging/a/x' );
   test.identical( got, '://some/staging/a/' );
@@ -214,6 +222,10 @@ function common( test )
   if( !Config.debug )
   return
 
+  test.case = 'incorrect input';
+  test.shouldThrowError( () => _.uri.s.common( 1, 2 ) );
+
+  test.case = 'different paths'
   test.shouldThrowError( () => _.uri.s.common( 'http://some.come/staging/index.html', 'file:///some/staging' ) );
   test.shouldThrowError( () => _.uri.s.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
 
