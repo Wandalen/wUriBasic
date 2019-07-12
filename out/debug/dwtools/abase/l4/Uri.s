@@ -1041,7 +1041,7 @@ function normalize( filePath )
 
 //
 
-function normalizeStrict( filePath )
+function normalizeCanonical( filePath )
 {
   let parent = this.path;
   if( _.strIs( filePath ) )
@@ -1049,10 +1049,10 @@ function normalizeStrict( filePath )
     if( this.isGlobal( filePath ) )
     filePath = this.parseConsecutive( filePath );
     else
-    return parent.normalizeStrict.call( this, filePath );
+    return parent.normalizeCanonical.call( this, filePath );
   }
   _.assert( !!filePath );
-  filePath.longPath = parent.normalizeStrict.call( this, filePath.longPath );
+  filePath.longPath = parent.normalizeCanonical.call( this, filePath.longPath );
   return this.str( filePath );
 }
 
@@ -1865,7 +1865,7 @@ let Routines =
 
   refine,
   normalize,
-  normalizeStrict,
+  normalizeCanonical,
   normalizeTolerant,
 
   dot,
