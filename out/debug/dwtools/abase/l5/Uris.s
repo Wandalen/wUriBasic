@@ -65,7 +65,7 @@ function vectorize( routine, select )
     vectorizingArray : 1,
     vectorizingMapVals : 0,
     vectorizingMapKeys : 1,
-    /*ttt*/select,
+    select,
   });
 }
 
@@ -153,8 +153,8 @@ let Fields =
 let Routines =
 {
 
-  /*ttt*/_keyEndsUriFilter,
-  /*ttt*/_isUriFilter,
+  _keyEndsUriFilter,
+  _isUriFilter,
 
   //
 
@@ -187,10 +187,6 @@ _.mapSupplementOwn( Self, Routines );
 // --
 // export
 // --
-
-// if( typeof module !== 'undefined' )
-// if( _global_.WTOOLS_PRIVATE )
-// { /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;

@@ -598,7 +598,7 @@ let parse = _.routineFromPreAndBody( parse_pre, parse_body );
 //
 //   let result = this.parse_body
 //   ({
-//     /*ttt*/srcPath,
+//     srcPath,
 //     kind : 'full',
 //     // kind : 'consecutive',
 //     // kind : 'atomic',
@@ -621,7 +621,7 @@ parseFull.components = UriComponents;
 // {
 //   let result = this.parse_body
 //   ({
-//     /*ttt*/srcPath,
+//     srcPath,
 //     kind : 'full',
 //   });
 //
@@ -641,7 +641,7 @@ parseAtomic.defaults.kind = 'atomic';
 // {
 //   let result = this.parse_body
 //   ({
-//     /*ttt*/srcPath,
+//     srcPath,
 //     kind : 'atomic',
 //   });
 //
@@ -661,7 +661,7 @@ parseConsecutive.defaults.kind = 'consecutive';
 // {
 //   let result = this.parse_body
 //   ({
-//     /*ttt*/srcPath,
+//     srcPath,
 //     kind : 'consecutive',
 //   });
 //
@@ -1066,7 +1066,7 @@ function normalize( filePath )
 
 //
 
-function normalizeCanonical( filePath )
+function canonize( filePath )
 {
   let parent = this.path;
   if( _.strIs( filePath ) )
@@ -1074,10 +1074,10 @@ function normalizeCanonical( filePath )
     if( this.isGlobal( filePath ) )
     filePath = this.parseConsecutive( filePath );
     else
-    return parent.normalizeCanonical.call( this, filePath );
+    return parent.canonize.call( this, filePath );
   }
   _.assert( !!filePath );
-  filePath.longPath = parent.normalizeCanonical.call( this, filePath.longPath );
+  filePath.longPath = parent.canonize.call( this, filePath.longPath );
   return this.str( filePath );
 }
 
@@ -1653,7 +1653,7 @@ function moveTextualReport_body( o )
 
   function relative( filePath )
   {
-    return self.relative({ basePath : c, /*ttt*/filePath, global : 0 });
+    return self.relative({ basePath : c, filePath, global : 0 });
   }
 
 }
@@ -1846,7 +1846,7 @@ let Fields =
 {
 
   single : Self,
-  /*ttt*/UriComponents,
+  UriComponents,
 
 }
 
@@ -1890,7 +1890,7 @@ let Routines =
 
   refine,
   normalize,
-  normalizeCanonical,
+  canonize,
   normalizeTolerant,
 
   dot,
@@ -1936,16 +1936,10 @@ Self.Init();
 // export
 // --
 
-// if( typeof module !== 'undefined' )
-// if( _global_.WTOOLS_PRIVATE )
-// { /* delete require.cache[ module.id ]; */ }
-
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
 
 if( typeof module !== 'undefined' )
-{
-  require( '../l5/Uris.s' );
-}
+require( '../l5/Uris.s' );
 
 })();
