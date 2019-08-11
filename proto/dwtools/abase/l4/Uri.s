@@ -449,15 +449,20 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
 
 let _uriParseRegexpStr = '^';
 
-let _uriParseRegexpProtocolStr = '([^:/\\?#]*):'; /* protocol */
-let _uriParseRegexpHostAndPortStr = '\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
+let _uriParseRegexpProtocolStr = '([^:/\\?#]*)'; /* protocol */
+let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
 
 _uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
 
-_uriParseRegexpStr += '([^#]*\\?[^=#]*|[^\\?#]*)'; /* local path */
+// _uriParseRegexpStr += '([^#]*\\?[^=#]*|[^\\?#]*)'; /* local path */
+// _uriParseRegexpStr += '([^#?]*\\?[^=#]*|[^#?]*)'; /* local path */
+
+_uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */
 _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
 _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
 _uriParseRegexpStr += '$';
+
+// ([^#]*\?[^=#]*|[^\?#]*)
 
 let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
 
