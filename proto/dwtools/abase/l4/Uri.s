@@ -482,7 +482,6 @@ function parse_pre( routine, args )
   return o;
 }
 
-
 function parse_body( o )
 {
   let result = Object.create( null );
@@ -537,14 +536,13 @@ function parse_body( o )
     if( _.strIs( result.protocol ) || _.strIs( result.hostWithPort ) )
     result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostWithPort;
     result.full = o.srcPath;
-    // result.full = this.str( result ); // yyy
   }
   else if( o.kind === 'consecutive' )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.localWebPath;
-    delete result.host; // yyy
-    delete result.port; // yyy
+    delete result.host;
+    delete result.port;
     delete result.localWebPath;
   }
 
@@ -593,22 +591,6 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
 let parse = _.routineFromPreAndBody( parse_pre, parse_body );
 
-// function parse( srcPath )
-// {
-//
-//   let result = this.parse_body
-//   ({
-//     srcPath,
-//     kind : 'full',
-//     // kind : 'consecutive',
-//     // kind : 'atomic',
-//   });
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   return result;
-// }
-
 parse.components = UriComponents;
 
 //
@@ -617,38 +599,10 @@ let parseFull = _.routineFromPreAndBody( parse_pre, parse_body );
 parseFull.defaults.kind = 'full';
 parseFull.components = UriComponents;
 
-// function parseFull( srcPath )
-// {
-//   let result = this.parse_body
-//   ({
-//     srcPath,
-//     kind : 'full',
-//   });
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   return result;
-// }
-//
-// parseAtomic.components = UriComponents;
-
 //
 
 let parseAtomic = _.routineFromPreAndBody( parse_pre, parse_body );
 parseAtomic.defaults.kind = 'atomic';
-
-// function parseAtomic( srcPath )
-// {
-//   let result = this.parse_body
-//   ({
-//     srcPath,
-//     kind : 'atomic',
-//   });
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   return result;
-// }
 
 parseAtomic.components = UriComponents;
 
@@ -656,19 +610,6 @@ parseAtomic.components = UriComponents;
 
 let parseConsecutive = _.routineFromPreAndBody( parse_pre, parse_body );
 parseConsecutive.defaults.kind = 'consecutive';
-
-// function parseConsecutive( srcPath )
-// {
-//   let result = this.parse_body
-//   ({
-//     srcPath,
-//     kind : 'consecutive',
-//   });
-//
-//   _.assert( arguments.length === 1, 'Expects single argument' );
-//
-//   return result;
-// }
 
 //
 
@@ -714,7 +655,6 @@ function str( c )
   return c;
 
   _.assertMapHasOnly( c, this.UriComponents );
-  // _.assert( _.strIs( c.longPath ) );
 
   if( c.full )
   {
@@ -1036,8 +976,6 @@ function refine( filePath )
   filePath = this.parseConsecutive( filePath );
   else
   return parent.refine.call( this, filePath );
-
-  // filePath.localWebPath = null; yyy
 
   if( _.strDefined( filePath.longPath ) )
   filePath.longPath = parent.refine.call( this, filePath.longPath );
@@ -1361,10 +1299,10 @@ function relative_body( o )
   return this.str( filePath );
 }
 
-var defaults = relative_body.defaults = Object.create( _.path.relative.defaults );
+var defaults = relative_body.defaults = Object.create( Parent.relative.defaults );
 defaults.global = 1;
 
-let relative = _.routineFromPreAndBody( _.path.relative.pre, relative_body );
+let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
 
 //
 
@@ -1534,7 +1472,7 @@ function name( o )
   return parent.name.call( this, o2 );
 }
 
-name.defaults = Object.create( _.path.name.defaults );
+name.defaults = Object.create( Parent.name.defaults );
 
 //
 
@@ -1603,13 +1541,13 @@ function dir_body( o )
   return this.str( filePath );
 }
 
-_.routineExtend( dir_body, _.path.dir );
+_.routineExtend( dir_body, Parent.dir );
 
-let dir = _.routineFromPreAndBody( _.path.dir.pre, dir_body );
-_.mapExtend( dir.defaults, _.path.dir.defaults );
+let dir = _.routineFromPreAndBody( Parent.dir.pre, dir_body );
+_.mapExtend( dir.defaults, Parent.dir.defaults );
 
-let dirFirst = _.routineFromPreAndBody( _.path.dirFirst.pre, dir_body );
-_.mapExtend( dirFirst.defaults, _.path.dirFirst.defaults );
+let dirFirst = _.routineFromPreAndBody( Parent.dirFirst.pre, dir_body );
+_.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
 
@@ -1621,9 +1559,10 @@ function moveTextualReport_body( o )
   _.assertRoutineOptions( moveTextualReport_body, arguments );
 
   if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
-  {
-    return parent.moveTextualReport( o );
-  }
+  return parent.moveTextualReport( o );
+
+  if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
+  return parent.moveTextualReport( o );
 
   _.assert( _.strIs( o.dstPath ) );
   _.assert( _.strIs( o.srcPath ) );
@@ -1658,9 +1597,9 @@ function moveTextualReport_body( o )
 
 }
 
-_.routineExtend( moveTextualReport_body, _.path.moveTextualReport );
+_.routineExtend( moveTextualReport_body, Parent.moveTextualReport );
 
-let moveTextualReport = _.routineFromPreAndBody( _.path.moveTextualReport.pre, moveTextualReport_body );
+let moveTextualReport = _.routineFromPreAndBody( Parent.moveTextualReport.pre, moveTextualReport_body );
 
 //
 
@@ -1879,11 +1818,11 @@ let Routines =
 
   // transformer
 
-  //parse_body,
   parse,
   parseFull,
   parseAtomic,
   parseConsecutive,
+  // parsedSupplementFull, /* qqq : implement, please. supplement parsed with parseAtomic by extra fields( returning parseFull ) */
 
   str,
   full,

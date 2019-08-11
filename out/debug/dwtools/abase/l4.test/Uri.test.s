@@ -20,7 +20,7 @@ qqq : improve style, remove array of expected values and array of inputs
 */
 
 // --
-//
+// tests
 // --
 
 function isRelative( test )
