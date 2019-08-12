@@ -1563,42 +1563,43 @@ function moveTextualReport_body( o )
 
   _.assertRoutineOptions( moveTextualReport_body, arguments );
 
-  if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
-  return parent.moveTextualReport( o );
+  return parent.moveTextualReport.call( self, o );
 
-  if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
-  return parent.moveTextualReport( o );
-
-  _.assert( _.strIs( o.dstPath ) );
-  _.assert( _.strIs( o.srcPath ) );
-
-  let c = this.common( o.dstPath, o.srcPath );
-
-  let result = '';
-  o.srcPath = this.parseConsecutive( o.srcPath );
-  o.dstPath = this.parseConsecutive( o.dstPath );
-
-  if( o.decorating && _.color )
-  {
-    if( c.length > 1 )
-    result = _.color.strFormat( c, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
-    else
-    result = _.color.strFormat( this.str( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( this.str( o.srcPath ), 'path' );
-  }
-  else
-  {
-    if( c.length > 1 )
-    result = c + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
-    else
-    result = this.str( o.dstPath ) + ' <- ' + this.str( o.srcPath );
-  }
-
-  return result;
-
-  function relative( filePath )
-  {
-    return self.relative({ basePath : c, filePath, global : 0 });
-  }
+  // if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
+  // if( o.basePath === null || !this.isGlobal( o.basePath ) )
+  // return parent.moveTextualReport( o );
+  //
+  // _.assert( _.strIs( o.dstPath ) );
+  // _.assert( _.strIs( o.srcPath ) );
+  //
+  // let c = this.common( o.dstPath, o.srcPath );
+  //
+  // let result = '';
+  // o.srcPath = this.parseConsecutive( o.srcPath );
+  // o.dstPath = this.parseConsecutive( o.dstPath );
+  //
+  // if( o.decorating && _.color )
+  // {
+  //   if( c.length > 1 )
+  //   result = _.color.strFormat( c, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
+  //   else
+  //   result = _.color.strFormat( this.str( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( this.str( o.srcPath ), 'path' );
+  // }
+  // else
+  // {
+  //   if( c.length > 1 )
+  //   result = c + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
+  //   else
+  //   result = this.str( o.dstPath ) + ' <- ' + this.str( o.srcPath );
+  // }
+  //
+  // return result;
+  //
+  // function relative( filePath )
+  // {
+  //   _.assert( _.mapIs( filePath ) );
+  //   return self.relative({ basePath : c, filePath : filePath.longPath, global : 0 });
+  // }
 
 }
 
