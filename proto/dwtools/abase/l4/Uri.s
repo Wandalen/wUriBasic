@@ -1309,6 +1309,10 @@ defaults.global = 1;
 
 let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
 
+let relativeLocal = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
+relativeLocal.defaults.global = 0;
+
+
 //
 
 /*
@@ -1562,7 +1566,7 @@ function moveTextualReport_body( o )
   let parent = this.path;
 
   _.assertRoutineOptions( moveTextualReport_body, arguments );
-
+  
   return parent.moveTextualReport.call( self, o );
 
   // if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
@@ -1600,7 +1604,7 @@ function moveTextualReport_body( o )
   //   _.assert( _.mapIs( filePath ) );
   //   return self.relative({ basePath : c, filePath : filePath.longPath, global : 0 });
   // }
-
+  
 }
 
 _.routineExtend( moveTextualReport_body, Parent.moveTextualReport );
@@ -1853,6 +1857,7 @@ let Routines =
   resolve,
 
   relative,
+  relativeLocal,
   common,
   rebase,
 
