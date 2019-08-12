@@ -20,7 +20,7 @@ qqq : improve style, remove array of expected values and array of inputs
 */
 
 // --
-//
+// tests
 // --
 
 function isRelative( test )
@@ -44,9 +44,7 @@ function isRelative( test )
 
   var path = 'ext://something/longer';
   var expected = true;
-  debugger;
   var got = _.uri.isRelative( path );
-  debugger;
   test.identical( got, expected );
 
   test.case = 'absolute with protocol'; /* */
@@ -424,7 +422,6 @@ function normalizeLocalPaths( test )
   var got = _.uri.normalize( path );
   test.identical( got, expected );
 
-  debugger
   var path = './/.//foo/bar/';
   var expected = './//foo/bar/';
   var got = _.uri.normalize( path );
@@ -712,7 +709,7 @@ function normalizeTolerant( test )
   test.identical( got, expected );
 
   var path = ':///some/staging/index.html///.'
-  var expected =':///some/staging/index.html/'
+  var expected =':///some/staging/index.html'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -752,12 +749,12 @@ function normalizeTolerant( test )
   test.identical( got, expected );
 
   var path = 'svn+https://..//..//user@subversion.com/svn/trunk'
-  var expected ='svn+https://../user@subversion.com/svn/trunk'
+  var expected ='svn+https://../../user@subversion.com/svn/trunk'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = 'svn+https://..//../user@subversion.com/svn/trunk'
-  var expected ='svn+https://../user@subversion.com/svn/trunk'
+  var expected ='svn+https://../../user@subversion.com/svn/trunk'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -772,7 +769,7 @@ function normalizeTolerant( test )
   test.identical( got, expected );
 
   var path = 'complex+protocol://www.site.com:13/path/name/.//../?query=here&and=here#anchor'
-  var expected ='complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor'
+  var expected ='complex+protocol://www.site.com:13/path/?query=here&and=here#anchor'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -782,22 +779,22 @@ function normalizeTolerant( test )
   test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking/'
+  var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org//index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking/'
+  var expected ='https://web.archive.org/web/*\/http:/www.heritage.org/index/ranking'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/../index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http:/index/ranking/'
+  var expected ='https://web.archive.org/web/*\/http:/index/ranking'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking//.'
-  var expected ='https://web.archive.org/web/*\/http:/index/ranking/'
+  var expected ='https://web.archive.org/web/*\/http:/index/ranking'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -836,7 +833,7 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = 'foo/bar//baz/asdf/quux/..//.';
-  var expected = 'foo/bar/baz/asdf/';
+  var expected = 'foo/bar/baz/asdf';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -863,7 +860,7 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = 'C:\\temp\\\\foo\\bar\\..\\..\\.';
-  var expected = '/C/temp/';
+  var expected = '/C/temp';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -1055,12 +1052,12 @@ function normalizeTolerantLocalPaths( test )
   test.identical( got, expected );
 
   var path = '..//..//foo/bar/';
-  var expected = '../foo/bar/';
+  var expected = '../../foo/bar/';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
   var path = '/..//..//foo/bar/';
-  var expected = '/../foo/bar/';
+  var expected = '/../../foo/bar/';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
 
@@ -1472,15 +1469,12 @@ function parseAtomic( test )
     'host' : '..',
     'localWebPath' : '/repo/Tools',
     'query' : 'out=out/wTools.out.will',
-    'hash' : 'master',
-    'longPath' : '../repo/Tools',
-    'protocols' : [ 'git' ],
-    'hostWithPort' : '..',
-    'origin' : 'git://..',
-    'full' : 'git://../repo/Tools?out=out/wTools.out.will#master',
+    'hash' : 'master'
   }
-  var got = _.uri.parseFull( remotePath );
+  var got = _.uri.parseAtomic( remotePath );
   test.identical( got, expected );
+
+  /* */
 
   test.case = 'global, absolute, with hash, with query';
   var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
@@ -1490,14 +1484,41 @@ function parseAtomic( test )
     'host' : '',
     'localWebPath' : '/../repo/Tools',
     'query' : 'out=out/wTools.out.will',
-    'hash' : 'master',
-    'longPath' : '/../repo/Tools',
-    'protocols' : [ 'git' ],
-    'hostWithPort' : '',
-    'origin' : 'git://',
-    'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
+    'hash' : 'master'
   }
-  var got = _.uri.parseFull( remotePath );
+  var got = _.uri.parseAtomic( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal';
+  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : '5000',
+    'localWebPath' : '/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uri.parseAtomic( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with colon';
+  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : '5000',
+    'localWebPath' : '/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uri.parseAtomic( remotePath );
   test.identical( got, expected );
 
   /* */
@@ -1533,11 +1554,6 @@ function parseAtomic( test )
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
-    // longPath : 'www.site.com:13/path/name',
-    // protocols : [ 'http' ],
-    // hostWithPort : 'www.site.com:13',
-    // origin : 'http://www.site.com:13',
-    // full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
   }
 
   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
@@ -1552,7 +1568,6 @@ function parseAtomic( test )
     host : 'www.site.com',
     port : '13',
     localWebPath : '/path/name',
-    // longPath : 'www.site.com:13/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1815,6 +1830,34 @@ function parseConsecutive( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '/../repo/Tools'
+  }
+  var got = _.uri.parseConsecutive( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal';
+  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'query' : 'q=3',
+    'hash' : 'anch',
+    'longPath' : '127.0.0.1:5000/a/b'
+  }
+  var got = _.uri.parseConsecutive( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with colon';
+  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'query' : 'q:3',
+    'hash' : 'anch',
+    'longPath' : '127.0.0.1:5000/a/b'
   }
   var got = _.uri.parseConsecutive( remotePath );
   test.identical( got, expected );
@@ -2132,6 +2175,8 @@ function parseFull( test )
   var got = _.uri.parseFull( remotePath );
   test.identical( got, expected );
 
+  /* */
+
   test.case = 'global, absolute, with hash, with query';
   var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
   var expected =
@@ -2146,6 +2191,48 @@ function parseFull( test )
     'hostWithPort' : '',
     'origin' : 'git://',
     'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal';
+  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : '5000',
+    'localWebPath' : '/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'protocols' : [ 'http' ],
+    'hostWithPort' : '127.0.0.1:5000',
+    'origin' : 'http://127.0.0.1:5000',
+    'full' : 'http://127.0.0.1:5000/a/b?q=3#anch'
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with colon';
+  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : '5000',
+    'localWebPath' : '/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'protocols' : [ 'http' ],
+    'hostWithPort' : '127.0.0.1:5000',
+    'origin' : 'http://127.0.0.1:5000',
+    'full' : 'http://127.0.0.1:5000/a/b?q:3#anch'
   }
   var got = _.uri.parseFull( remotePath );
   test.identical( got, expected );
@@ -2581,6 +2668,23 @@ function parseGlob( test )
   var got = _.uri.parseFull( src );
   var expected = { localWebPath : src, longPath : src };
   test.contains( got, expected );
+
+  var src = '/a/???abc';
+  var got = _.uri.parseFull( src );
+  var expected = { localWebPath : src, longPath : src };
+  test.contains( got, expected );
+
+  var src = '/a/???abc#';
+  var got = _.uri.parseFull( src );
+  var expected =
+  {
+    'localWebPath' : '/a/???abc',
+    'hash' : '',
+    'longPath' : '/a/???abc',
+    'protocols' : [],
+    'full' : '/a/???abc#'
+  }
+  test.identical( got, expected );
 
   var src = '/a/^';
   var got = _.uri.parseFull( src );
@@ -6530,14 +6634,17 @@ function commonLocalPaths( test )
   var got = _.uri.common( '/.a./.b./.c.', '/.a./.b./.c' );
   test.identical( got, '/.a./.b./' );
 
+  var got = _.uri.common( '//a//b//c', '//a/b' );
+  test.identical( got, '//a/' );
+
   var got = _.uri.common( '//a//b//c', '/a/b' );
-  test.identical( got, '/a/b' );
+  test.identical( got, '/' );
 
   var got = _.uri.common( '/a//b', '/a//b' );
-  test.identical( got, '/a/b' );
+  test.identical( got, '/a//b' );
 
   var got = _.uri.common( '/a//', '/a//' );
-  test.identical( got, '/a/' );
+  test.identical( got, '/a//' );
 
   var got = _.uri.common( '/./a/./b/./c', '/a/b' );
   test.identical( got, '/a/b' );
@@ -7694,7 +7801,6 @@ function filter( test )
       let prefix = it.side === 'src' ? 'file:///src' : 'file:///dst';
       if( path === null || path === undefined )
       return prefix;
-      debugger;
       return _.uri.reroot( prefix, path );
     }
   }

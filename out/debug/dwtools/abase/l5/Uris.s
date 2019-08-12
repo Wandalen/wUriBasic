@@ -28,61 +28,64 @@ let Parent = _.uri;
 let Self = _.uri.s = _.uri.s || Object.create( Parent );
 
 // --
-//
+// functors
 // --
 
-function _keyEndsUriFilter( e,k,c )
-{
-  _.assert( 0, 'not tested' );
+let _vectorize = _.path.s._vectorize;
+let _vectorizeOnly = _.path.s._vectorizeOnly;
 
-  if( _.strIs( k ) )
-  {
-    if( _.strEnds( k,'Uri' ) )
-    return true;
-    else
-    return false
-  }
-  return this.is( e );
-}
-
+// function _keyEndsUriFilter( e,k,c )
+// {
+//   _.assert( 0, 'not tested' );
 //
-
-function _isUriFilter( e )
-{
-  return this.is( e[ 0 ] )
-}
-
+//   if( _.strIs( k ) )
+//   {
+//     if( _.strEnds( k,'Uri' ) )
+//     return true;
+//     else
+//     return false
+//   }
+//   return this.is( e );
+// }
 //
-
-function vectorize( routine, select )
-{
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assert( _.strIs( routine ) );
-  select = select || 1;
-  return _.routineVectorize_functor
-  ({
-    routine : [ 'single', routine ],
-    vectorizingArray : 1,
-    vectorizingMapVals : 0,
-    vectorizingMapKeys : 1,
-    select,
-  });
-}
-
+// //
 //
+// function _isUriFilter( e )
+// {
+//   return this.is( e[ 0 ] )
+// }
 
-function vectorizeOnly( routine )
-{
-  _.assert( arguments.length === 1 );
-  _.assert( _.strIs( routine ) );
-  return _.routineVectorize_functor
-  ({
-    routine : [ 'single', routine ],
-    fieldFilter : _keyEndsUriFilter,
-    vectorizingArray : 1,
-    vectorizingMapVals : 1,
-  });
-}
+// //
+//
+// function _vectorize( routine, select )
+// {
+//   _.assert( arguments.length === 1 || arguments.length === 2 );
+//   _.assert( _.strIs( routine ) );
+//   select = select || 1;
+//   return _.routineVectorize_functor
+//   ({
+//     routine : [ 'single', routine ],
+//     vectorizingArray : 1,
+//     vectorizingMapVals : 0,
+//     vectorizingMapKeys : 1,
+//     select,
+//   });
+// }
+//
+// //
+//
+// function _vectorizeOnly( routine )
+// {
+//   _.assert( arguments.length === 1 );
+//   _.assert( _.strIs( routine ) );
+//   return _.routineVectorize_functor
+//   ({
+//     routine : [ 'single', routine ],
+//     fieldFilter : _keyEndsUriFilter,
+//     vectorizingArray : 1,
+//     vectorizingMapVals : 1,
+//   });
+// }
 
 /**
  * @summary Parses uris from array `src`. Writes results into array.
@@ -153,31 +156,34 @@ let Fields =
 let Routines =
 {
 
-  _keyEndsUriFilter,
-  _isUriFilter,
+  // _keyEndsUriFilter,
+  // _isUriFilter,
+  //
+  // _vectorize,
+  // _vectorizeOnly,
 
   //
 
-  parse : vectorize( 'parse' ),
-  parseAtomic : vectorize( 'parseAtomic' ),
-  parseConsecutive : vectorize( 'parseConsecutive' ),
+  parse : _vectorize( 'parse' ),
+  parseAtomic : _vectorize( 'parseAtomic' ),
+  parseConsecutive : _vectorize( 'parseConsecutive' ),
 
-  onlyParse : vectorizeOnly( 'parse' ),
-  onlyParseAtomic : vectorizeOnly( 'parseAtomic' ),
-  onlyParseConsecutive : vectorizeOnly( 'parseConsecutive' ),
+  onlyParse : _vectorizeOnly( 'parse' ),
+  onlyParseAtomic : _vectorizeOnly( 'parseAtomic' ),
+  onlyParseConsecutive : _vectorizeOnly( 'parseConsecutive' ),
 
-  str : vectorize( 'str' ),
-  full : vectorize( 'full' ),
+  str : _vectorize( 'str' ),
+  full : _vectorize( 'full' ),
 
-  normalizeTolerant : vectorize( 'normalizeTolerant' ),
-  onlyNormalizeTolerant : vectorizeOnly( 'normalizeTolerant' ),
+  normalizeTolerant : _vectorize( 'normalizeTolerant' ),
+  onlyNormalizeTolerant : _vectorizeOnly( 'normalizeTolerant' ),
 
-  rebase : vectorize( 'rebase', 3 ),
+  rebase : _vectorize( 'rebase', 3 ),
 
-  documentGet : vectorize( 'documentGet', 2 ),
-  server : vectorize( 'server' ),
-  query : vectorize( 'query' ),
-  dequery : vectorize( 'dequery' )
+  documentGet : _vectorize( 'documentGet', 2 ),
+  server : _vectorize( 'server' ),
+  query : _vectorize( 'query' ),
+  dequery : _vectorize( 'dequery' )
 
 }
 
