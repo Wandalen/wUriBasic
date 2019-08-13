@@ -6609,6 +6609,234 @@ function common( test )
 
 //
 
+function groupTextualReport( test )
+{
+  let defaults = 
+  {
+    explanation : '',
+    groupsMap : null,
+    verbosity : 3,
+    spentTime : null,
+  }
+  
+  test.case = 'defaults';
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults ) );
+  var expected = '0 file(s)';
+  test.identical( got,expected );
+  
+  test.case = 'explanation only';
+  var o = 
+  {
+    explanation : '- Deleted '
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = '- Deleted 0 file(s)';
+  test.identical( got,expected );
+  
+  test.case = 'spentTime only';
+  var o = 
+  {
+    spentTime : 5000
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = '0 file(s), found in 5.000s';
+  test.identical( got,expected );
+  
+  test.open( 'locals' )
+  
+  test.case = 'groupsMap only';
+  var o = 
+  {
+    groupsMap : 
+    {
+      '/' : [ '/a', '/a/b', '/b', '/b/c', ], 
+      '/a' : [ '/a', '/a/b' ],
+      '/b' : [ '/b', '/b/c' ]
+    }
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [
+    '   4 at /',
+    '   2 at ./a',
+    '   2 at ./b',
+    '4 file(s), at /'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 3';
+  var o = 
+  {
+    groupsMap : 
+    {
+      '/' : [ '/a', '/a/b', '/b', '/b/c', ], 
+      '/a' : [ '/a', '/a/b' ],
+      '/b' : [ '/b', '/b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 3
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [ 
+    '   4 at /',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at /, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 5';
+  var o = 
+  {
+    groupsMap : 
+    {
+      '/' : [ '/a', '/a/b', '/b', '/b/c', ], 
+      '/a' : [ '/a', '/a/b' ],
+      '/b' : [ '/b', '/b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [ 
+    '/a,/a/b,/b,/b/c ',
+    '   4 at /',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at /, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.case = 'relative, explanation + groupsMap + spentTime, verbosity : 5';
+  var o = 
+  {
+    groupsMap : 
+    {
+      '.' : [ './a', './a/b', './b','./b/c', ], 
+      './a' : [ './a', './a/b' ],
+      './b' : [ './b', './b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [ 
+    './a,./a/b,./b,./b/c ',
+    '   4 at .',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at ., found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.close( 'locals' );
+  
+  /*  */
+  
+  test.open( 'globals' );
+  
+  test.case = 'groupsMap only';
+  var o = 
+  {
+    groupsMap : 
+    {
+      'file:///' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
+      'file:///a' : [ 'file:///a', 'file:///a/b' ],
+      'file:///b' : [ 'file:///b', 'file:///b/c' ]
+    },
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [
+    '   4 at file:///',
+    '   2 at ./a',
+    '   2 at ./b',
+    '4 file(s), at file:///'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 3';
+  var o = 
+  {
+    groupsMap : 
+    {
+      'file:///' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
+      'file:///a' : [ 'file:///a', 'file:///a/b' ],
+      'file:///b' : [ 'file:///b', 'file:///b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 3
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [ 
+    '   4 at file:///',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at file:///, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 5';
+  var o = 
+  {
+    groupsMap : 
+    {
+      'file:///' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
+      'file:///a' : [ 'file:///a', 'file:///a/b' ],
+      'file:///b' : [ 'file:///b', 'file:///b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [ 
+    'file:///a,file:///a/b,file:///b,file:///b/c ',
+    '   4 at file:///',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at file:///, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.case = 'relative, explanation + groupsMap + spentTime, verbosity : 5';
+  var o = 
+  {
+    groupsMap : 
+    {
+      'file://.' : [ 'file://a', 'file://a/b', 'file://b', 'file://b/c', ], 
+      'file://a' : [ 'file://a', 'file://a/b' ],
+      'file://b' : [ 'file://b', 'file://b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = 
+  [ 
+    'file://a,file://a/b,file://b,file://b/c ',
+    '   4 at file://.',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at file://., found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+  
+  test.close( 'globals' );
+}
+
+//
+
 function commonLocalPaths( test )
 {
   test.case = 'absolute-absolute'
@@ -8345,6 +8573,8 @@ var Self =
 
     commonLocalPaths,
     common,
+    
+    groupTextualReport,
     commonTextualReport,
     moveTextualReport,
 
