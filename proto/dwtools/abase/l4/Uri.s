@@ -1556,166 +1556,72 @@ _.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
 
-function groupTextualReport( o )
-{
-  let self = this;
-  let r = '';
-  let commonPath;
-
-  _.routineOptions( groupTextualReport, arguments );
-  o.verbosity = _.numberIs( o.verbosity ) ? o.verbosity : o.verbosity;
-
-  if( o.verbosity >= 5 && o.groupsMap )
-  r +=  _.toStr( o.groupsMap[ '/' ], { multiline : 1, wrap : 0, levels : 2 } ) + '\n';
-
-  if( o.groupsMap )
-  {
-    commonPath = self.common( _.mapKeys( o.groupsMap ).filter( ( p ) => p !== '/' ) );
-    if( o.verbosity >= 3 && o.groupsMap[ '/' ].length )
-    r += '   ' + o.groupsMap[ '/' ].length + ' at ' + commonPath + '\n';
-  }
-
-  if( o.verbosity >= 3 && o.groupsMap )
-  {
-    let details = _.filter( o.groupsMap, ( filesPath, basePath ) =>
-    {
-      if( basePath === '/' )
-      return;
-      if( !filesPath.length )
-      return;
-      return '   ' + filesPath.length + ' at ' + self.dot( self.relative({ basePath : commonPath, filePath : basePath, global : 0 }) );
-    });
-    if( _.mapVals( details ).length )
-    r += _.mapVals( details ).join( '\n' ) + '\n';
-  }
-
-  if( o.verbosity >= 1 )
-  {
-    r += o.explanation + ( o.groupsMap ? o.groupsMap[ '/' ].length : 0 ) + ' file(s)';
-    if( commonPath )
-    r += ', at ' + commonPath;
-    if( o.spentTime !== null )
-    r += ', found in ' + _.timeSpentFormat( o.spentTime );
-  }
-
-  return r;
-}
-
-groupTextualReport.defaults =
-{
-  explanation : '',
-  groupsMap : null,
-  verbosity : 3,
-  spentTime : null,
-}
-
-//
-
-function commonTextualReport( filePath )
-{
-  if( _.mapIs( filePath ) )
-  filePath = _.mapKeys( filePath );
-
-  _.assert( _.strIs( filePath ) || _.arrayIs( filePath ) );
-  _.assert( arguments.length === 1 );
-
-  if( _.arrayIs( filePath ) && filePath.length === 0 )
-  return '()';
-
-  if( _.arrayIs( filePath ) && filePath.length === 1 )
-  filePath = filePath[ 0 ];
-
-  if( _.strIs( filePath ) )
-  return filePath;
-
-  let commonPath = this.common.apply( this, filePath );
-
-  if( !commonPath )
-  return '[ ' + filePath.join( ' , ' ) + ' ]';
-
-  let relativePath = [];
-
-  for( let i = 0 ; i < filePath.length ; i++ )
-  relativePath[ i ] = this.relative({ basePath : commonPath, filePath : filePath[ i ], global : 0 });
-
-  if( commonPath === '.' )
-  return '[ ' + relativePath.join( ' , ' ) + ' ]';
-  else
-  return '( ' + commonPath + ' + ' + '[ ' + relativePath.join( ' , ' ) + ' ]' + ' )';
-}
-
-//
-
-function moveTextualReport_body( o )
+function groupTextualReport_pre( routine, args )
 { 
   let self = this;
   let parent = this.path;
-  let result = '';
-
-  _.assertRoutineOptions( moveTextualReport_body, arguments );
   
-  if( !self.isGlobal( o.srcPath ) && !self.isGlobal( o.dstPath ) )
-  return parent.moveTextualReport( o );
-
-  let common = self.common( o.dstPath, o.srcPath );
-
-  if( o.decorating && _.color )
+  let o = args[ 0 ];
+  
+  _.assert( _.objectIs( o ), 'Expects object' );
+  
+  if( !o.onRelative )
+  o.onRelative = function onRelative( basePath, filePath )
   {
-    if( common.length > 1 )
-    result = _.color.strFormat( common, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
-    else
-    result = _.color.strFormat( o.dstPath, 'path' ) + ' <- ' + _.color.strFormat( o.srcPath, 'path' );
-  }
-  else
-  {
-    if( common.length > 1 )
-    result = common + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
-    else
-    result = o.dstPath + ' <- ' + o.srcPath;
-  }
-
-  return result;
-
-  // if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
-  // if( o.basePath === null || !this.isGlobal( o.basePath ) )
-  // return parent.moveTextualReport( o );
-  //
-  // _.assert( _.strIs( o.dstPath ) );
-  // _.assert( _.strIs( o.srcPath ) );
-  //
-  // let c = this.common( o.dstPath, o.srcPath );
-  //
-  // let result = '';
-  // o.srcPath = this.parseConsecutive( o.srcPath );
-  // o.dstPath = this.parseConsecutive( o.dstPath );
-  //
-  // if( o.decorating && _.color )
-  // {
-  //   if( c.length > 1 )
-  //   result = _.color.strFormat( c, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
-  //   else
-  //   result = _.color.strFormat( this.str( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( this.str( o.srcPath ), 'path' );
-  // }
-  // else
-  // {
-  //   if( c.length > 1 )
-  //   result = c + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
-  //   else
-  //   result = this.str( o.dstPath ) + ' <- ' + this.str( o.srcPath );
-  // }
-  //
-  // return result;
-  //
-  function relative( filePath )
-  {
-    return self.relative({ basePath : common, filePath : filePath, global : 0 });
+    return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
   }
   
+  return parent.groupTextualReport.pre.call( self, routine, [ o ] );
 }
 
-_.routineExtend( moveTextualReport_body, Parent.moveTextualReport );
+let groupTextualReport = _.routineFromPreAndBody( groupTextualReport_pre, Parent.groupTextualReport.body );
 
-let moveTextualReport = _.routineFromPreAndBody( Parent.moveTextualReport.pre, moveTextualReport_body );
+//
+
+function commonTextualReport_pre( routine, args )
+{ 
+  let self = this;
+  let parent = this.path;
+    
+  if( !_.objectIs( args[ 0 ] ) )
+  args[ 0 ] = { filePath : args[ 0 ] };
+  
+  let o = args[ 0 ];
+
+  if( !o.onRelative )
+  o.onRelative = function onRelative( basePath, filePath )
+  {
+    return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
+  }
+  
+  return parent.commonTextualReport.pre.call( self, routine, [ o ] );
+}
+
+let commonTextualReport = _.routineFromPreAndBody( commonTextualReport_pre, Parent.commonTextualReport.body );
+
+//
+
+function moveTextualReport_pre( routine, args )
+{ 
+  let self = this;
+  let parent = this.path;
+  
+  let o = args[ 0 ];
+  if( args[ 1 ] !== undefined )
+  o = { dstPath : args[ 0 ], srcPath : args[ 1 ] }
+    
+  _.assert( _.objectIs( o ), 'Expects object' );
+
+  if( !o.onRelative )
+  o.onRelative = function onRelative( basePath, filePath )
+  {
+    return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
+  }
+  
+  return parent.moveTextualReport.pre.call( self, routine, [ o ] );
+}
+
+let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.moveTextualReport.body );
 
 //
 
