@@ -9,7 +9,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wTesting' );
   require( '../l4/Uri.s' );
-
+  
 }
 
 var _global = _global_;
@@ -6716,7 +6716,7 @@ function groupTextualReport( test )
   {
     groupsMap : 
     {
-      '.' : [ './a', './a/b', './b','./b/c', ], 
+      '/' : [ './a', './a/b', './b','./b/c', ], 
       './a' : [ './a', './a/b' ],
       './b' : [ './b', './b/c' ]
     },
@@ -6746,7 +6746,7 @@ function groupTextualReport( test )
   {
     groupsMap : 
     {
-      'file:///' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
+      '/' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
       'file:///a' : [ 'file:///a', 'file:///a/b' ],
       'file:///b' : [ 'file:///b', 'file:///b/c' ]
     },
@@ -6766,7 +6766,7 @@ function groupTextualReport( test )
   {
     groupsMap : 
     {
-      'file:///' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
+      '/' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
       'file:///a' : [ 'file:///a', 'file:///a/b' ],
       'file:///b' : [ 'file:///b', 'file:///b/c' ]
     },
@@ -6789,7 +6789,7 @@ function groupTextualReport( test )
   {
     groupsMap : 
     {
-      'file:///' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
+      '/' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ], 
       'file:///a' : [ 'file:///a', 'file:///a/b' ],
       'file:///b' : [ 'file:///b', 'file:///b/c' ]
     },
@@ -6813,7 +6813,7 @@ function groupTextualReport( test )
   {
     groupsMap : 
     {
-      'file://.' : [ 'file://a', 'file://a/b', 'file://b', 'file://b/c', ], 
+      '/' : [ 'file://a', 'file://a/b', 'file://b', 'file://b/c', ], 
       'file://a' : [ 'file://a', 'file://a/b' ],
       'file://b' : [ 'file://b', 'file://b/c' ]
     },
