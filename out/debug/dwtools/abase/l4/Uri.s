@@ -22,7 +22,8 @@ if( typeof module !== 'undefined' )
 
   let _ = require( '../../Tools.s' );
 
-  _.include( 'wPathFundamentals' );
+  // debugger;
+  _.include( 'wPathBasic' );
 
 }
 
@@ -1556,14 +1557,125 @@ _.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
 
+function groupTextualReport( o )
+{
+  let self = this;
+  let r = '';
+  let commonPath;
+
+  _.routineOptions( groupTextualReport, arguments );
+  o.verbosity = _.numberIs( o.verbosity ) ? o.verbosity : o.verbosity;
+
+  if( o.verbosity >= 5 && o.groupsMap )
+  r +=  _.toStr( o.groupsMap[ '/' ], { multiline : 1, wrap : 0, levels : 2 } ) + '\n';
+
+  if( o.groupsMap )
+  {
+    commonPath = self.common( _.mapKeys( o.groupsMap ).filter( ( p ) => p !== '/' ) );
+    if( o.verbosity >= 3 && o.groupsMap[ '/' ].length )
+    r += '   ' + o.groupsMap[ '/' ].length + ' at ' + commonPath + '\n';
+  }
+
+  if( o.verbosity >= 3 && o.groupsMap )
+  {
+    let details = _.filter( o.groupsMap, ( filesPath, basePath ) =>
+    {
+      if( basePath === '/' )
+      return;
+      if( !filesPath.length )
+      return;
+      return '   ' + filesPath.length + ' at ' + self.dot( self.relative({ basePath : commonPath, filePath : basePath, global : 0 }) );
+    });
+    if( _.mapVals( details ).length )
+    r += _.mapVals( details ).join( '\n' ) + '\n';
+  }
+
+  if( o.verbosity >= 1 )
+  {
+    r += o.explanation + ( o.groupsMap ? o.groupsMap[ '/' ].length : 0 ) + ' file(s)';
+    if( commonPath )
+    r += ', at ' + commonPath;
+    if( o.spentTime !== null )
+    r += ', found in ' + _.timeSpentFormat( o.spentTime );
+  }
+
+  return r;
+}
+
+groupTextualReport.defaults =
+{
+  explanation : '',
+  groupsMap : null,
+  verbosity : 3,
+  spentTime : null,
+}
+
+//
+
+function commonTextualReport( filePath )
+{
+  if( _.mapIs( filePath ) )
+  filePath = _.mapKeys( filePath );
+
+  _.assert( _.strIs( filePath ) || _.arrayIs( filePath ) );
+  _.assert( arguments.length === 1 );
+
+  if( _.arrayIs( filePath ) && filePath.length === 0 )
+  return '()';
+
+  if( _.arrayIs( filePath ) && filePath.length === 1 )
+  filePath = filePath[ 0 ];
+
+  if( _.strIs( filePath ) )
+  return filePath;
+
+  let commonPath = this.common.apply( this, filePath );
+
+  if( !commonPath )
+  return '[ ' + filePath.join( ' , ' ) + ' ]';
+
+  let relativePath = [];
+
+  for( let i = 0 ; i < filePath.length ; i++ )
+  relativePath[ i ] = this.relative({ basePath : commonPath, filePath : filePath[ i ], global : 0 });
+
+  if( commonPath === '.' )
+  return '[ ' + relativePath.join( ' , ' ) + ' ]';
+  else
+  return '( ' + commonPath + ' + ' + '[ ' + relativePath.join( ' , ' ) + ' ]' + ' )';
+}
+
+//
+
 function moveTextualReport_body( o )
 {
   let self = this;
   let parent = this.path;
+  let result = '';
 
   _.assertRoutineOptions( moveTextualReport_body, arguments );
 
-  return parent.moveTextualReport.call( self, o );
+  if( !self.isGlobal( o.srcPath ) && !self.isGlobal( o.dstPath ) )
+  return parent.moveTextualReport( o );
+
+  let common = self.common( o.dstPath, o.srcPath );
+
+  if( o.decorating && _.color )
+  {
+    if( common.length > 1 )
+    result = _.color.strFormat( common, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
+    else
+    result = _.color.strFormat( o.dstPath, 'path' ) + ' <- ' + _.color.strFormat( o.srcPath, 'path' );
+  }
+  else
+  {
+    if( common.length > 1 )
+    result = common + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
+    else
+    result = o.dstPath + ' <- ' + o.srcPath;
+  }
+
+  return result;
 
   // if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
   // if( o.basePath === null || !this.isGlobal( o.basePath ) )
@@ -1595,11 +1707,10 @@ function moveTextualReport_body( o )
   //
   // return result;
   //
-  // function relative( filePath )
-  // {
-  //   _.assert( _.mapIs( filePath ) );
-  //   return self.relative({ basePath : c, filePath : filePath.longPath, global : 0 });
-  // }
+  function relative( filePath )
+  {
+    return self.relative({ basePath : common, filePath : filePath, global : 0 });
+  }
 
 }
 
@@ -1863,6 +1974,8 @@ let Routines =
   dir,
   dirFirst,
 
+  groupTextualReport,
+  commonTextualReport,
   moveTextualReport,
 
   documentGet,
@@ -1884,7 +1997,7 @@ Self.Init();
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
 
-if( typeof module !== 'undefined' )
-require( '../l5/Uris.s' );
+// if( typeof module !== 'undefined' )
+// require( '../l5/Uris.s' );
 
 })();

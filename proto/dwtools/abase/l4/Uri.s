@@ -22,7 +22,8 @@ if( typeof module !== 'undefined' )
 
   let _ = require( '../../Tools.s' );
 
-  _.include( 'wPathFundamentals' );
+  // debugger;
+  _.include( 'wPathBasic' );
 
 }
 
@@ -1647,13 +1648,13 @@ function commonTextualReport( filePath )
 //
 
 function moveTextualReport_body( o )
-{ 
+{
   let self = this;
   let parent = this.path;
   let result = '';
 
   _.assertRoutineOptions( moveTextualReport_body, arguments );
-  
+
   if( !self.isGlobal( o.srcPath ) && !self.isGlobal( o.dstPath ) )
   return parent.moveTextualReport( o );
 
@@ -1710,7 +1711,7 @@ function moveTextualReport_body( o )
   {
     return self.relative({ basePath : common, filePath : filePath, global : 0 });
   }
-  
+
 }
 
 _.routineExtend( moveTextualReport_body, Parent.moveTextualReport );
@@ -1939,7 +1940,7 @@ let Routines =
   parseAtomic,
   parseConsecutive,
   // parsedSupplementFull, /* qqq : implement, please. supplement parsed with parseAtomic by extra fields( returning parseFull ) */
-  
+
   str,
   full,
 
@@ -1972,7 +1973,7 @@ let Routines =
   changeExt,
   dir,
   dirFirst,
- 
+
   groupTextualReport,
   commonTextualReport,
   moveTextualReport,
@@ -1996,7 +1997,7 @@ Self.Init();
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
 
-if( typeof module !== 'undefined' )
-require( '../l5/Uris.s' );
+// if( typeof module !== 'undefined' )
+// require( '../l5/Uris.s' );
 
 })();

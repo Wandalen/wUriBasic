@@ -2,12 +2,12 @@
 
 about :
 
-  name : "wUriFundamentals"
+  name : "wUriBasic"
   description : "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms."
   version : "0.6.81"
   enabled : 1
   interpreters :
-  - nodejs >= 6.0.0
+  - nodejs >= 8.0.0
   - chrome >= 60.0.0
   - firefox >= 60.0.0
   keywords :
@@ -21,8 +21,8 @@ execution :
 
 path :
 
-  repository : git+https:///github.com/Wandalen/wUriFundamentals.git
-  bugs : https:///github.com/Wandalen/wUriFundamentals/issues
+  repository : git+https:///github.com/Wandalen/wUriBasic.git
+  bugs : https:///github.com/Wandalen/wUriBasic/issues
 
 step :
 
