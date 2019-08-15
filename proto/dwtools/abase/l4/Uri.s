@@ -1578,26 +1578,27 @@ let groupTextualReport = _.routineFromPreAndBody( groupTextualReport_pre, Parent
 
 //
 
-function commonTextualReport_pre( routine, args )
-{
+function commonTextualReport( filePath )
+{ 
   let self = this;
   let parent = this.path;
-
-  if( !_.objectIs( args[ 0 ] ) )
-  args[ 0 ] = { filePath : args[ 0 ] };
-
-  let o = args[ 0 ];
-
-  if( !o.onRelative )
-  o.onRelative = function onRelative( basePath, filePath )
+  
+  _.assert( arguments.length === 1  );
+  
+  let o = 
+  { 
+    filePath : filePath, 
+    onRelative : onRelative 
+  }
+  return parent._commonTextualReport.call( self, o );
+  
+  /*  */
+  
+  function onRelative( basePath, filePath )
   {
     return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
   }
-
-  return parent.commonTextualReport.pre.call( self, routine, [ o ] );
 }
-
-let commonTextualReport = _.routineFromPreAndBody( commonTextualReport_pre, Parent.commonTextualReport.body );
 
 //
 
