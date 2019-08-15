@@ -7194,7 +7194,75 @@ function commonTextualReport( test )
   
   /*  */
   
+  test.open( 'map' );
   
+  test.case = 'single key';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1 };
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, 'npm:///wprocedure#0.3.19' );
+  
+  test.case = 'empty map';
+  var filePath = {};
+  var expected = '()';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  
+  test.case = 'two, same protocol and path, diffent hash';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1, 'npm:///wprocedure#0.3.18' : 1 };
+  var expected = '( npm:///wprocedure + [ .#0.3.19 , .#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two, different, common protocol and hash';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1, 'npm:///wfiles#0.3.19' : 1 };
+  var expected = '( npm:///#0.3.19 + [ wprocedure , wfiles ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two, different, common protocol';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1, 'npm:///wfiles#0.3.18' : 1 };
+  var expected = '( npm:/// + [ wprocedure#0.3.19 , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two, different, common protocol';
+  var filePath = { 'npm:///wprocedure' : 1, 'npm:///wfiles#0.3.18' :1 };
+  var expected = '( npm:/// + [ wprocedure , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two, different';
+  var filePath = { 'npm:///wprocedure' : 1, 'file:///a/b/c' : 1 };
+  var expected = '[ npm:///wprocedure , file:///a/b/c ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'three, two have common protocol';
+  var filePath = { 'npm:///wprocedure' : 1, 'file:///a/b/c' : 1, 'npm:///wfiles' : 1 };
+  var expected = '[ npm:///wprocedure , file:///a/b/c , npm:///wfiles ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two, part of path is diffent, common protocol';
+  var filePath = { 'file:///a/b/c' : 1, 'file:///a/x/c' : 1 };
+  var expected = '( file:///a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two relatives, common protocol and part of path';
+  var filePath = { 'file://a/b/c' : 1, 'file://a/x/c' : 1 };
+  var expected = '( file://a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'two different relatives, common protocol';
+  var filePath = { 'file://a/b' : 1, 'file://c/d' : 1 };
+  var expected = '( file://. + [ a/b , c/d ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.close( 'map' );
   
   /*  */
   
