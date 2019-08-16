@@ -454,6 +454,8 @@ let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* h
 
 _uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
 
+let _uriParseRegexpProtocolHostAndPortRegExp = new RegExp( _uriParseRegexpStr );
+
 // _uriParseRegexpStr += '([^#]*\\?[^=#]*|[^\\?#]*)'; /* local path */
 // _uriParseRegexpStr += '([^#?]*\\?[^=#]*|[^#?]*)'; /* local path */
 
@@ -615,6 +617,29 @@ parseAtomic.components = UriComponents;
 
 let parseConsecutive = _.routineFromPreAndBody( parse_pre, parse_body );
 parseConsecutive.defaults.kind = 'consecutive';
+
+//
+
+function localFromGlobal( globalPath )
+{ 
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  
+  if( _.boolLike( globalPath ) )
+  return globalPath;
+
+  if( _.strIs( globalPath ) )
+  {
+    if( !this.isGlobal( globalPath ) )
+    return globalPath;
+    
+    globalPath = this.parseConsecutive( globalPath );
+  }
+
+  _.assert( _.mapIs( globalPath ) ) ;
+  _.assert( _.strIs( globalPath.longPath ) );
+
+  return globalPath.longPath;
+}
 
 //
 
@@ -1896,6 +1921,7 @@ let Routines =
   parseAtomic,
   parseConsecutive,
   // parsedSupplementFull, /* qqq : implement, please. supplement parsed with parseAtomic by extra fields( returning parseFull ) */
+  localFromGlobal,
 
   str,
   full,

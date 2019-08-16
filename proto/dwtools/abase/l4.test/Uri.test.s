@@ -3610,6 +3610,109 @@ function parseGlob( test )
 
 //
 
+function localFromGlobal( test )
+{
+  var src = '/some/staging/index.html'
+  var expected = '/some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '/some/staging/index.html/'
+  var expected =     '/some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '//some/staging/index.html'
+  var expected =     '//some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '//some/staging/index.html/'
+  var expected =     '//some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '///some/staging/index.html'
+  var expected =     '///some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '///some/staging/index.html/'
+  var expected =     '///some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'file:///some/staging/index.html'
+  var expected =     '/some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'file:///some/staging/index.html/'
+  var expected =     '/some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'http://some.come/staging/index.html'
+  var expected =     'some.come/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'http://some.come/staging/index.html/'
+  var expected =     'some.come/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'svn+https://user@subversion.com/svn/trunk'
+  var expected =     'user@subversion.com/svn/trunk'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'svn+https://user@subversion.com/svn/trunk/'
+  var expected =     'user@subversion.com/svn/trunk/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path/name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path/name'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking'
+  var expected =     'web.archive.org/web/*/http://www.heritage.org/index/ranking'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking'
+  var expected =     'web.archive.org//web//*//http://www.heritage.org//index//ranking'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '://www.site.com:13/path//name//?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path//name//'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = ':///www.site.com:13/path//name/?query=here&and=here#anchor'
+  var expected =     '/www.site.com:13/path//name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  /*  */
+  
+  var src = _.uri.parse( ':///www.site.com:13/path//name/?query=here&and=here#anchor' );
+  var expected =     '/www.site.com:13/path//name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+}
+
+//
+
 function str( test )
 {
 
@@ -8657,6 +8760,8 @@ var Self =
     parseConsecutive,
     parseFull,
     parseGlob,
+    
+    localFromGlobal,
 
     str,
     parseAndStr,
