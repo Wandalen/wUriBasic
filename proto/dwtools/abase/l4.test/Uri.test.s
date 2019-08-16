@@ -8395,7 +8395,7 @@ function filter( test )
   test.case = 'array filter';
   var src = [ 'file:///a', '/b' ];
   var got = _.uri.filter( src, onEachFilter );
-  var expected = [ 'file:///a' ];
+  var expected = 'file:///a';
   test.identical( got, expected );
   test.is( got !== src );
 
@@ -8409,7 +8409,7 @@ function filter( test )
   test.case = 'map filter';
   var src = { 'file:///src' : '/dst' };
   var got = _.uri.filter( src, onEachFilter );
-  var expected = {};
+  var expected = '';
   test.identical( got, expected );
   test.is( got !== src );
 
@@ -8418,7 +8418,7 @@ function filter( test )
   var got = _.uri.filter( src, onEachStructure );
   var expected =
   {
-    'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
+    'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst' ]
   };
   test.identical( got, expected );
   test.is( got !== src );
@@ -8527,7 +8527,7 @@ function filterInplace( test )
   var got = _.uri.filterInplace( src, onEachStructure );
   var expected =
   {
-    'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
+    'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst' ]
   };
   test.identical( got, expected );
   test.identical( got, src );
