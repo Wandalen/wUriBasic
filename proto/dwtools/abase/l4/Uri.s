@@ -454,8 +454,6 @@ let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* h
 
 _uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
 
-let _uriParseRegexpProtocolHostAndPortRegExp = new RegExp( _uriParseRegexpStr );
-
 // _uriParseRegexpStr += '([^#]*\\?[^=#]*|[^\\?#]*)'; /* local path */
 // _uriParseRegexpStr += '([^#?]*\\?[^=#]*|[^#?]*)'; /* local path */
 
