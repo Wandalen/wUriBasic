@@ -3610,6 +3610,109 @@ function parseGlob( test )
 
 //
 
+function localFromGlobal( test )
+{
+  var src = '/some/staging/index.html'
+  var expected = '/some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '/some/staging/index.html/'
+  var expected =     '/some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '//some/staging/index.html'
+  var expected =     '//some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '//some/staging/index.html/'
+  var expected =     '//some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '///some/staging/index.html'
+  var expected =     '///some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '///some/staging/index.html/'
+  var expected =     '///some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'file:///some/staging/index.html'
+  var expected =     '/some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'file:///some/staging/index.html/'
+  var expected =     '/some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'http://some.come/staging/index.html'
+  var expected =     'some.come/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'http://some.come/staging/index.html/'
+  var expected =     'some.come/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'svn+https://user@subversion.com/svn/trunk'
+  var expected =     'user@subversion.com/svn/trunk'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'svn+https://user@subversion.com/svn/trunk/'
+  var expected =     'user@subversion.com/svn/trunk/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path/name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path/name'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking'
+  var expected =     'web.archive.org/web/*/http://www.heritage.org/index/ranking'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking'
+  var expected =     'web.archive.org//web//*//http://www.heritage.org//index//ranking'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '://www.site.com:13/path//name//?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path//name//'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = ':///www.site.com:13/path//name/?query=here&and=here#anchor'
+  var expected =     '/www.site.com:13/path//name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  /*  */
+  
+  var src = _.uri.parse( ':///www.site.com:13/path//name/?query=here&and=here#anchor' );
+  var expected =     '/www.site.com:13/path//name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+}
+
+//
+
 function str( test )
 {
 
@@ -7265,7 +7368,43 @@ function commonTextualReport( test )
   test.close( 'map' );
 
   /*  */
-
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.19' , 'npm:///wprocedure?query=1#0.3.18' ];
+  var expected = '( npm:///wprocedure?query=1 + [ .#0.3.19 , .#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wprocedure?query=1#0.3.19' ];
+  var expected = '( npm:///wprocedure#0.3.19 + [ .?query=2 , .?query=1 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wprocedure?query=1#0.3.18' ];
+  var expected = '( npm:///wprocedure + [ .?query=2#0.3.19 , .?query=1#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wfiles?query=1#0.3.18' ];
+  var expected = '( npm:/// + [ wprocedure?query=2#0.3.19 , wfiles?query=1#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.19' , 'npm:///wfiles?query=1#0.3.19' ];
+  var expected = '( npm:///?query=1#0.3.19 + [ wprocedure , wfiles ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.18' , 'npm:///wfiles?query=1#0.3.19' ];
+  var expected = '( npm:///?query=1 + [ wprocedure#0.3.18 , wfiles#0.3.19 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
   if( !Config.debug )
   return
 
@@ -8621,6 +8760,8 @@ var Self =
     parseConsecutive,
     parseFull,
     parseGlob,
+    
+    localFromGlobal,
 
     str,
     parseAndStr,
