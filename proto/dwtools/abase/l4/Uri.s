@@ -1305,7 +1305,7 @@ function relative_body( o )
 }
 
 var defaults = relative_body.defaults = Object.create( Parent.relative.defaults );
-defaults.global = 1;
+defaults.global = 1; /* qqq : why is this option here? */
 
 let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
 
@@ -1579,21 +1579,21 @@ let groupTextualReport = _.routineFromPreAndBody( groupTextualReport_pre, Parent
 //
 
 function commonTextualReport( filePath )
-{ 
+{
   let self = this;
   let parent = this.path;
-  
+
   _.assert( arguments.length === 1  );
-  
-  let o = 
-  { 
-    filePath : filePath, 
-    onRelative : onRelative 
+
+  let o =
+  {
+    filePath : filePath,
+    onRelative : onRelative
   }
   return parent._commonTextualReport.call( self, o );
-  
+
   /*  */
-  
+
   function onRelative( basePath, filePath )
   {
     return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
