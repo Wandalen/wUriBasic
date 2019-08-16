@@ -7266,6 +7266,42 @@ function commonTextualReport( test )
   
   /*  */
   
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.19' , 'npm:///wprocedure?query=1#0.3.18' ];
+  var expected = '( npm:///wprocedure?query=1 + [ .#0.3.19 , .#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wprocedure?query=1#0.3.19' ];
+  var expected = '( npm:///wprocedure#0.3.19 + [ .?query=2 , .?query=1 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wprocedure?query=1#0.3.18' ];
+  var expected = '( npm:///wprocedure + [ .?query=2#0.3.19 , .?query=1#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wfiles?query=1#0.3.18' ];
+  var expected = '( npm:/// + [ wprocedure?query=2#0.3.19 , wfiles?query=1#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.19' , 'npm:///wfiles?query=1#0.3.19' ];
+  var expected = '( npm:///?query=1#0.3.19 + [ wprocedure , wfiles ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.18' , 'npm:///wfiles?query=1#0.3.19' ];
+  var expected = '( npm:///?query=1 + [ wprocedure#0.3.18 , wfiles#0.3.19 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
   if( !Config.debug )
   return
   
