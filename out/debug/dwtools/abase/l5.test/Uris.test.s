@@ -8,7 +8,7 @@ if( typeof module !== 'undefined' )
   let _ = require( '../../Tools.s' );
 
   _.include( 'wTesting' );
-  require( '../l4/Uri.s' );
+  require( '../l5/Uris.s' );
 
 }
 
@@ -89,9 +89,9 @@ function common( test )
 {
 
   test.case = 'empty';
-
+  
   var got = _.uri.s.common();
-  test.identical( got, [] );
+  test.identical( got, null );
 
   var got = _.uri.s.common([]);
   test.identical( got, [] );

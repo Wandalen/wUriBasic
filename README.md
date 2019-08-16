@@ -1,4 +1,4 @@
-# wUriFundamentals [![Build Status](https://travis-ci.org/Wandalen/wUriFundamentals.svg?branch=master)](https://travis-ci.org/Wandalen/wUriFundamentals)
+# wUriBasic [![Build Status](https://travis-ci.org/Wandalen/wUriBasic.svg?branch=master)](https://travis-ci.org/Wandalen/wUriBasic)
 
 Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.
 
@@ -7,6 +7,12 @@ Collection of routines to operate URI(s) in the reliable and consistent way. Uri
 npm install
 node sample/Sample.s
 ```
+
+
+
+
+
+
 
 
 

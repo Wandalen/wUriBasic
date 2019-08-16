@@ -3610,6 +3610,109 @@ function parseGlob( test )
 
 //
 
+function localFromGlobal( test )
+{
+  var src = '/some/staging/index.html'
+  var expected = '/some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '/some/staging/index.html/'
+  var expected =     '/some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '//some/staging/index.html'
+  var expected =     '//some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '//some/staging/index.html/'
+  var expected =     '//some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '///some/staging/index.html'
+  var expected =     '///some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '///some/staging/index.html/'
+  var expected =     '///some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'file:///some/staging/index.html'
+  var expected =     '/some/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'file:///some/staging/index.html/'
+  var expected =     '/some/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'http://some.come/staging/index.html'
+  var expected =     'some.come/staging/index.html'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'http://some.come/staging/index.html/'
+  var expected =     'some.come/staging/index.html/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'svn+https://user@subversion.com/svn/trunk'
+  var expected =     'user@subversion.com/svn/trunk'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'svn+https://user@subversion.com/svn/trunk/'
+  var expected =     'user@subversion.com/svn/trunk/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path/name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path/name'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking'
+  var expected =     'web.archive.org/web/*/http://www.heritage.org/index/ranking'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking'
+  var expected =     'web.archive.org//web//*//http://www.heritage.org//index//ranking'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = '://www.site.com:13/path//name//?query=here&and=here#anchor'
+  var expected =     'www.site.com:13/path//name//'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  var src = ':///www.site.com:13/path//name/?query=here&and=here#anchor'
+  var expected =     '/www.site.com:13/path//name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+  /*  */
+  
+  var src = _.uri.parse( ':///www.site.com:13/path//name/?query=here&and=here#anchor' );
+  var expected =     '/www.site.com:13/path//name/'
+  var got = _.uri.localFromGlobal( src );
+  test.identical( got, expected );
+  
+}
+
+//
+
 function str( test )
 {
 
@@ -6609,6 +6712,234 @@ function common( test )
 
 //
 
+function groupTextualReport( test )
+{
+  let defaults =
+  {
+    explanation : '',
+    groupsMap : null,
+    verbosity : 3,
+    spentTime : null,
+  }
+
+  test.case = 'defaults';
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults ) );
+  var expected = '0 file(s)';
+  test.identical( got,expected );
+
+  test.case = 'explanation only';
+  var o =
+  {
+    explanation : '- Deleted '
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = '- Deleted 0 file(s)';
+  test.identical( got,expected );
+
+  test.case = 'spentTime only';
+  var o =
+  {
+    spentTime : 5000
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected = '0 file(s), found in 5.000s';
+  test.identical( got,expected );
+
+  test.open( 'locals' )
+
+  test.case = 'groupsMap only';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ '/a', '/a/b', '/b', '/b/c', ],
+      '/a' : [ '/a', '/a/b' ],
+      '/b' : [ '/b', '/b/c' ]
+    }
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    '   4 at /',
+    '   2 at ./a',
+    '   2 at ./b',
+    '4 file(s), at /'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 3';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ '/a', '/a/b', '/b', '/b/c', ],
+      '/a' : [ '/a', '/a/b' ],
+      '/b' : [ '/b', '/b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 3
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    '   4 at /',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at /, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 5';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ '/a', '/a/b', '/b', '/b/c', ],
+      '/a' : [ '/a', '/a/b' ],
+      '/b' : [ '/b', '/b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    '/a,/a/b,/b,/b/c ',
+    '   4 at /',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at /, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.case = 'relative, explanation + groupsMap + spentTime, verbosity : 5';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ './a', './a/b', './b','./b/c', ],
+      './a' : [ './a', './a/b' ],
+      './b' : [ './b', './b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    './a,./a/b,./b,./b/c ',
+    '   4 at .',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at ., found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.close( 'locals' );
+
+  /*  */
+
+  test.open( 'globals' );
+
+  test.case = 'groupsMap only';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ],
+      'file:///a' : [ 'file:///a', 'file:///a/b' ],
+      'file:///b' : [ 'file:///b', 'file:///b/c' ]
+    },
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    '   4 at file:///',
+    '   2 at ./a',
+    '   2 at ./b',
+    '4 file(s), at file:///'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 3';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ],
+      'file:///a' : [ 'file:///a', 'file:///a/b' ],
+      'file:///b' : [ 'file:///b', 'file:///b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 3
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    '   4 at file:///',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at file:///, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.case = 'explanation + groupsMap + spentTime, verbosity : 5';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ 'file:///a', 'file:///a/b', 'file:///b', 'file:///b/c', ],
+      'file:///a' : [ 'file:///a', 'file:///a/b' ],
+      'file:///b' : [ 'file:///b', 'file:///b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    'file:///a,file:///a/b,file:///b,file:///b/c ',
+    '   4 at file:///',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at file:///, found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.case = 'relative, explanation + groupsMap + spentTime, verbosity : 5';
+  var o =
+  {
+    groupsMap :
+    {
+      '/' : [ 'file://a', 'file://a/b', 'file://b', 'file://b/c', ],
+      'file://a' : [ 'file://a', 'file://a/b' ],
+      'file://b' : [ 'file://b', 'file://b/c' ]
+    },
+    spentTime : 5000,
+    explanation : '- Deleted ',
+    verbosity : 5
+  }
+  var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
+  var expected =
+  [
+    'file://a,file://a/b,file://b,file://b/c ',
+    '   4 at file://.',
+    '   2 at ./a',
+    '   2 at ./b',
+    '- Deleted 4 file(s), at file://., found in 5.000s'
+  ].join( '\n' )
+  test.identical( got,expected );
+
+  test.close( 'globals' );
+}
+
+//
+
 function commonLocalPaths( test )
 {
   test.case = 'absolute-absolute'
@@ -6809,8 +7140,291 @@ function commonLocalPaths( test )
 
 //
 
+function commonTextualReport( test )
+{
+  test.open( 'globals' )
+
+  test.case = 'single string';
+  var filePath = 'npm:///wprocedure#0.3.19';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, filePath );
+
+  test.case = 'empty array';
+  var filePath = [];
+  var expected = '()';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'single string in array';
+  var filePath = [ 'npm:///wprocedure#0.3.19' ];
+  var expected = filePath[ 0 ];
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, same';
+  var filePath = [ 'npm:///wprocedure#0.3.19', 'npm:///wprocedure#0.3.19' ];
+  var expected = '( npm:///wprocedure#0.3.19 + [ . , . ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, same protocol and path, diffent hash';
+  var filePath = [ 'npm:///wprocedure#0.3.19', 'npm:///wprocedure#0.3.18' ];
+  var expected = '( npm:///wprocedure + [ .#0.3.19 , .#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different, common protocol and hash';
+  var filePath = [ 'npm:///wprocedure#0.3.19', 'npm:///wfiles#0.3.19' ];
+  var expected = '( npm:///#0.3.19 + [ wprocedure , wfiles ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different, common protocol';
+  var filePath = [ 'npm:///wprocedure#0.3.19', 'npm:///wfiles#0.3.18' ];
+  var expected = '( npm:/// + [ wprocedure#0.3.19 , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different, common protocol';
+  var filePath = [ 'npm:///wprocedure', 'npm:///wfiles#0.3.18' ];
+  var expected = '( npm:/// + [ wprocedure , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different';
+  var filePath = [ 'npm:///wprocedure', 'file:///a/b/c' ];
+  var expected = '[ npm:///wprocedure , file:///a/b/c ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'three, two have common protocol';
+  var filePath = [ 'npm:///wprocedure', 'file:///a/b/c', 'npm:///wfiles' ];
+  var expected = '[ npm:///wprocedure , file:///a/b/c , npm:///wfiles ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, part of path is diffent, common protocol';
+  var filePath = [ 'file:///a/b/c', 'file:///a/x/c' ];
+  var expected = '( file:///a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two relatives, common protocol and part of path';
+  var filePath = [ 'file://a/b/c', 'file://a/x/c' ];
+  var expected = '( file://a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two different relatives, common protocol';
+  var filePath = [ 'file://a/b', 'file://c/d' ];
+  var expected = '( file://. + [ a/b , c/d ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.close( 'globals' );
+
+  /*  */
+
+  test.open( 'locals' );
+
+  test.case = 'single';
+  var filePath = [ '/wprocedure#0.3.19' ];
+  var expected = filePath[ 0 ];
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, same';
+  var filePath = [ '/wprocedure#0.3.19', '/wprocedure#0.3.19' ];
+  var expected = '( /wprocedure#0.3.19 + [ . , . ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, same protocol and path, diffent hash';
+  var filePath = [ '/wprocedure#0.3.19', '/wprocedure#0.3.18' ];
+  var expected = '( / + [ wprocedure#0.3.19 , wprocedure#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different';
+  var filePath = [ '/wprocedure#0.3.19', '/wfiles#0.3.19' ];
+  var expected = '( / + [ wprocedure#0.3.19 , wfiles#0.3.19 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different';
+  var filePath = [ '/wprocedure#0.3.19', '/wfiles#0.3.18' ];
+  var expected = '( / + [ wprocedure#0.3.19 , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different';
+  var filePath = [ '/wprocedure', '/wfiles#0.3.18' ];
+  var expected = '( / + [ wprocedure , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different';
+  var filePath = [ '/wprocedure', '/a/b/c' ];
+  var expected = '( / + [ wprocedure , a/b/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'three, commot part of path';
+  var filePath = [ '/wprocedure', '/a/b/c', '/wfiles' ];
+  var expected = '( / + [ wprocedure , a/b/c , wfiles ] )'
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, part of path is diffent';
+  var filePath = [ '/a/b/c', '/a/x/c' ];
+  var expected = '( /a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two relatives, common part of path';
+  var filePath = [ 'a/b/c', 'a/x/c' ];
+  var expected = '( a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two different relatives';
+  var filePath = [ 'a/b', 'c/d' ];
+  var expected = '[ a/b , c/d ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.close( 'locals' );
+
+  /*  */
+
+  test.open( 'map' );
+
+  test.case = 'single key';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1 };
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, 'npm:///wprocedure#0.3.19' );
+
+  test.case = 'empty map';
+  var filePath = {};
+  var expected = '()';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+
+  test.case = 'two, same protocol and path, diffent hash';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1, 'npm:///wprocedure#0.3.18' : 1 };
+  var expected = '( npm:///wprocedure + [ .#0.3.19 , .#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different, common protocol and hash';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1, 'npm:///wfiles#0.3.19' : 1 };
+  var expected = '( npm:///#0.3.19 + [ wprocedure , wfiles ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different, common protocol';
+  var filePath = { 'npm:///wprocedure#0.3.19' : 1, 'npm:///wfiles#0.3.18' : 1 };
+  var expected = '( npm:/// + [ wprocedure#0.3.19 , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different, common protocol';
+  var filePath = { 'npm:///wprocedure' : 1, 'npm:///wfiles#0.3.18' :1 };
+  var expected = '( npm:/// + [ wprocedure , wfiles#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, different';
+  var filePath = { 'npm:///wprocedure' : 1, 'file:///a/b/c' : 1 };
+  var expected = '[ npm:///wprocedure , file:///a/b/c ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'three, two have common protocol';
+  var filePath = { 'npm:///wprocedure' : 1, 'file:///a/b/c' : 1, 'npm:///wfiles' : 1 };
+  var expected = '[ npm:///wprocedure , file:///a/b/c , npm:///wfiles ]';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two, part of path is diffent, common protocol';
+  var filePath = { 'file:///a/b/c' : 1, 'file:///a/x/c' : 1 };
+  var expected = '( file:///a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two relatives, common protocol and part of path';
+  var filePath = { 'file://a/b/c' : 1, 'file://a/x/c' : 1 };
+  var expected = '( file://a/ + [ b/c , x/c ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.case = 'two different relatives, common protocol';
+  var filePath = { 'file://a/b' : 1, 'file://c/d' : 1 };
+  var expected = '( file://. + [ a/b , c/d ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+
+  test.close( 'map' );
+
+  /*  */
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.19' , 'npm:///wprocedure?query=1#0.3.18' ];
+  var expected = '( npm:///wprocedure?query=1 + [ .#0.3.19 , .#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wprocedure?query=1#0.3.19' ];
+  var expected = '( npm:///wprocedure#0.3.19 + [ .?query=2 , .?query=1 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wprocedure?query=1#0.3.18' ];
+  var expected = '( npm:///wprocedure + [ .?query=2#0.3.19 , .?query=1#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=2#0.3.19' , 'npm:///wfiles?query=1#0.3.18' ];
+  var expected = '( npm:/// + [ wprocedure?query=2#0.3.19 , wfiles?query=1#0.3.18 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.19' , 'npm:///wfiles?query=1#0.3.19' ];
+  var expected = '( npm:///?query=1#0.3.19 + [ wprocedure , wfiles ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  test.case = 'with hash and query';
+  var filePath = ['npm:///wprocedure?query=1#0.3.18' , 'npm:///wfiles?query=1#0.3.19' ];
+  var expected = '( npm:///?query=1 + [ wprocedure#0.3.18 , wfiles#0.3.19 ] )';
+  var got = _.uri.commonTextualReport( filePath );
+  test.identical( got, expected );
+  
+  if( !Config.debug )
+  return
+
+  test.shouldThrowErrorSync( () => _.uri.commonTextualReport( null ) )
+  test.shouldThrowErrorSync( () => _.uri.commonTextualReport([ 'npm:///wprocedure#0.3.19', null ]) )
+  test.shouldThrowErrorSync( () => _.uri.commonTextualReport([ 'file:///a/b', 'file://c/d'  ]) )
+}
+
+//
+
 function moveTextualReport( test )
 {
+  test.open( 'globals' );
+
+  test.case = 'same';
+  var expected = 'npm:///wprocedure#0.3.19 : . <- .';
+  var dst = 'npm:///wprocedure#0.3.19';
+  var src = 'npm:///wprocedure#0.3.19';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
 
   test.case = 'dst with hash, src without hash';
   var expected = 'npm:///wprocedure : .#0.3.19 <- .';
@@ -6825,6 +7439,201 @@ function moveTextualReport( test )
   var src = 'npm:///wprocedure#0.3.19';
   var got = _.uri.moveTextualReport( dst, src );
   test.identical( got, expected );
+
+  test.case = 'dst with hash, src with hash';
+  var expected = 'npm:///wprocedure : .#0.3.20 <- .#0.3.19';
+  var dst = 'npm:///wprocedure#0.3.20';
+  var src = 'npm:///wprocedure#0.3.19';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst without hash, src without hash';
+  var expected = 'npm:///wprocedure : . <- .';
+  var dst = 'npm:///wprocedure';
+  var src = 'npm:///wprocedure';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'common protocol, different paths';
+  var expected = 'npm:/// : wprocedure <- wfiles';
+  var dst = 'npm:///wprocedure';
+  var src = 'npm:///wfiles';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different paths';
+  var expected = 'npm1:///wprocedure <- npm2:///wfiles';
+  var dst = 'npm1:///wprocedure';
+  var src = 'npm2:///wfiles';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative, src relative, with common';
+  var expected = 'npm://. : wprocedure <- wfiles';
+  var dst = 'npm://wprocedure';
+  var src = 'npm://wfiles';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative, src relative, same';
+  var expected = 'npm://wfiles : . <- .';
+  var dst = 'npm://wfiles';
+  var src = 'npm://wfiles';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative with hash, src relative with hash, same';
+  var expected = 'npm://wprocedure#0.3.20 : . <- .';
+  var dst = 'npm://wprocedure#0.3.20';
+  var src = 'npm://wprocedure#0.3.20';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative with hash, src relative with hash, with common';
+  var expected = 'npm://wprocedure : .#0.3.20 <- .#0.3.19';
+  var dst = 'npm://wprocedure#0.3.20';
+  var src = 'npm://wprocedure#0.3.19';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative, src relative, with common';
+  var expected = 'npm://. : b/dst <- a/src';
+  var dst = 'npm://b/dst';
+  var src = 'npm://a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative, src relative, with common';
+  var expected = 'npm://a/ : dst <- src';
+  var dst = 'npm://a/dst';
+  var src = 'npm://a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.close( 'globals' );
+
+  /*  */
+
+  test.open( 'locals' );
+
+  test.case = 'same, absolute';
+  var expected = '/a : . <- .';
+  var dst = '/a';
+  var src = '/a';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different, absolute, with common';
+  var expected = '/a/ : dst <- src';
+  var dst = '/a/dst';
+  var src = '/a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different, absolute, without common';
+  var expected = '/b/dst <- /a/src';
+  var dst = '/b/dst';
+  var src = '/a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'same, relative';
+  var expected = 'a/src : . <- .';
+  var dst = 'a/src';
+  var src = 'a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different, relative, with common';
+  var expected = 'a/ : dst <- src';
+  var dst = 'a/dst';
+  var src = 'a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different, relative, without common';
+  var expected = 'b/dst <- a/src';
+  var dst = 'b/dst';
+  var src = 'a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'same, relative dotted';
+  var expected = 'a/src : . <- .';
+  var dst = './a/src';
+  var src = './a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different, relative dotted, with common';
+  var expected = 'a/ : dst <- src';
+  var dst = './a/dst';
+  var src = './a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'different, relative dotted, without common';
+  var expected = './b/dst <- ./a/src';
+  var dst = './b/dst';
+  var src = './a/src';
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.close( 'locals' );
+
+  test.open( 'null' );
+
+  test.case = 'both null';
+  var expected = '{null} : . <- .';
+  var dst = null;
+  var src = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst global, src null';
+  var expected = ':/// : npm://wprocedure#0.3.19 <- {null}';
+  var dst = 'npm:///wprocedure#0.3.19';
+  var src = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst null, src global';
+  var expected = ':/// : {null} <- npm://wprocedure#0.3.19';
+  var src = 'npm:///wprocedure#0.3.19';
+  var dst = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst relative, src null';
+  var expected = './a/dst <- {null}';
+  var dst = './a/dst';
+  var src = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'src relative, dst null';
+  var expected = '{null} <- ./a/src';
+  var src = './a/src';
+  var dst = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'src absolute, dst null';
+  var expected = '/{null} <- /a/src';
+  var src = '/a/src';
+  var dst = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.case = 'dst absolute, src null';
+  var expected = '/a/dst <- /{null}';
+  var dst = '/a/dst';
+  var src = null;
+  var got = _.uri.moveTextualReport( dst, src );
+  test.identical( got, expected );
+
+  test.close( 'null' );
+
 
 }
 
@@ -7704,224 +8513,224 @@ https://web.archive.org/web/*\/http://www.heritage.org/index/ranking
 https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 */
 
+// //
 //
-
-function filter( test )
-{
-
-  test.case = 'string';
-  var src = '/a/b/c';
-  var got = _.uri.filter( src, onEach );
-  var expected = 'file:///a/b/c';
-  test.identical( got, expected );
-
-  test.case = 'array';
-  var src = [ '/a', '/b' ];
-  var got = _.uri.filter( src, onEach );
-  var expected = [ 'file:///a', 'file:///b' ];
-  test.identical( got, expected );
-  test.is( got !== src );
-
-  test.case = 'array filter';
-  var src = [ 'file:///a', '/b' ];
-  var got = _.uri.filter( src, onEachFilter );
-  var expected = [ 'file:///a' ];
-  test.identical( got, expected );
-  test.is( got !== src );
-
-  test.case = 'map';
-  var src = { '/src' : '/dst' };
-  var got = _.uri.filter( src, onEach );
-  var expected = { 'file:///src' : 'file:///dst' };
-  test.identical( got, expected );
-  test.is( got !== src );
-
-  test.case = 'map filter';
-  var src = { 'file:///src' : '/dst' };
-  var got = _.uri.filter( src, onEachFilter );
-  var expected = {};
-  test.identical( got, expected );
-  test.is( got !== src );
-
-  test.case = 'map filter';
-  var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
-  var got = _.uri.filter( src, onEachStructure );
-  var expected =
-  {
-    'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
-  };
-  test.identical( got, expected );
-  test.is( got !== src );
-
-  test.case = 'map filter keys, onEach returns array with undefined';
-  var src = { '/a' : '/b' };
-  var got = _.uri.filter( src, onEachStructureKeys );
-  var expected =
-  {
-    'file:///a' : '/b'
-  };
-  test.identical( got, expected );
-  test.is( got !== src );
-
-  test.case = 'null';
-  var src = null;
-  var got = _.uri.filter( src, onEach );
-  var expected = 'file:///';
-  test.identical( got, expected );
-
-  if( Config.debug )
-  {
-    test.case = 'number';
-    test.shouldThrowErrorSync( () => _.uri.filter( 1, onEach ) )
-  }
-
-  /*  */
-
-  function onEach( filePath, it )
-  {
-    if( filePath === null )
-    return 'file:///';
-    return _.uri.reroot( 'file:///', filePath );
-  }
-
-  function onEachFilter( filePath, it )
-  {
-    if( _.uri.isGlobal( filePath ) )
-    return filePath;
-  }
-
-  function onEachStructure( filePath, it )
-  {
-    if( _.arrayIs( filePath ) )
-    return filePath.map( onPath );
-    return onPath( filePath );
-
-    function onPath( path )
-    {
-      let prefix = it.side === 'src' ? 'file:///src' : 'file:///dst';
-      if( path === null || path === undefined )
-      return prefix;
-      return _.uri.reroot( prefix, path );
-    }
-  }
-
-  function onEachStructureKeys( filePath, it )
-  {
-    if( it.side === 'src' )
-    return [ _.uri.join( 'file:///src', filePath ), undefined ];
-    return filePath;
-  }
-
-}
-
+// function filter( test )
+// {
 //
-
-function filterInplace( test )
-{
-  test.case = 'string';
-  var src = '/a/b/c';
-  var got = _.uri.filterInplace( src, onEach );
-  var expected = 'file:///a/b/c';
-  test.identical( got, expected );
-
-  test.case = 'array';
-  var src = [ '/a', '/b' ];
-  var got = _.uri.filterInplace( src, onEach );
-  var expected = [ 'file:///a', 'file:///b' ];
-  test.identical( got, expected );
-  test.identical( got, src );
-
-  test.case = 'array';
-  var src = [ 'file:///a', '/b' ];
-  var got = _.uri.filterInplace( src, onEachFilter );
-  var expected = [ 'file:///a' ];
-  test.identical( got, expected );
-  test.identical( got, src );
-
-  test.case = 'map';
-  var src = { '/src' : '/dst' };
-  var got = _.uri.filterInplace( src, onEach );
-  var expected = { 'file:///src' : 'file:///dst' };
-  test.identical( got, expected );
-  test.identical( got, src );
-
-  test.case = 'map';
-  var src = { 'file:///src' : '/dst' };
-  var got = _.uri.filterInplace( src, onEachFilter );
-  var expected = {};
-  test.identical( got, expected );
-  test.identical( got, src );
-
-  test.case = 'map';
-  var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
-  var got = _.uri.filterInplace( src, onEachStructure );
-  var expected =
-  {
-    'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst', 'file:///dst' ]
-  };
-  test.identical( got, expected );
-  test.identical( got, src );
-
-  test.case = 'map filter keys, onEach returns array with undefined';
-  var src = { '/a' : '/b' };
-  var got = _.uri.filterInplace( src, onEachStructureKeys );
-  var expected =
-  {
-    'file:///a' : '/b'
-  };
-  test.identical( got, expected );
-  test.identical( got, src );
-
-  test.case = 'null';
-  var src = null;
-  var got = _.uri.filterInplace( src, onEach );
-  var expected = 'file:///';
-  test.identical( got, expected );
-
-  if( Config.debug )
-  {
-    test.case = 'number';
-    test.shouldThrowErrorSync( () => _.uri.filterInplace( 1, onEach ) )
-  }
-
-  /*  */
-
-  function onEach( filePath, it )
-  {
-    if( filePath === null )
-    return 'file:///';
-    return _.uri.reroot( 'file:///', filePath );
-  }
-
-  function onEachFilter( filePath, it )
-  {
-    if( _.uri.isGlobal( filePath ) )
-    return filePath;
-  }
-
-  function onEachStructure( filePath, it )
-  {
-    if( _.arrayIs( filePath ) )
-    return filePath.map( onPath );
-    return onPath( filePath );
-
-    function onPath( path )
-    {
-      let prefix = it.side === 'src' ? 'file:///src' : 'file:///dst';
-      if( path === null || path === undefined )
-      return prefix;
-      return _.uri.reroot( prefix, path );
-    }
-  }
-
-  function onEachStructureKeys( filePath, it )
-  {
-    if( it.side === 'src' )
-    return [ _.uri.join( 'file:///src', filePath ), undefined ];
-    return filePath;
-  }
-
-}
+//   test.case = 'string';
+//   var src = '/a/b/c';
+//   var got = _.uri.filter( src, onEach );
+//   var expected = 'file:///a/b/c';
+//   test.identical( got, expected );
+//
+//   test.case = 'array';
+//   var src = [ '/a', '/b' ];
+//   var got = _.uri.filter( src, onEach );
+//   var expected = [ 'file:///a', 'file:///b' ];
+//   test.identical( got, expected );
+//   test.is( got !== src );
+//
+//   test.case = 'array filter';
+//   var src = [ 'file:///a', '/b' ];
+//   var got = _.uri.filter( src, onEachFilter );
+//   var expected = 'file:///a';
+//   test.identical( got, expected );
+//   test.is( got !== src );
+//
+//   test.case = 'map';
+//   var src = { '/src' : '/dst' };
+//   var got = _.uri.filter( src, onEach );
+//   var expected = { 'file:///src' : 'file:///dst' };
+//   test.identical( got, expected );
+//   test.is( got !== src );
+//
+//   test.case = 'map filter';
+//   var src = { 'file:///src' : '/dst' };
+//   var got = _.uri.filter( src, onEachFilter );
+//   var expected = '';
+//   test.identical( got, expected );
+//   test.is( got !== src );
+//
+//   test.case = 'map filter';
+//   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
+//   var got = _.uri.filter( src, onEachStructure );
+//   var expected =
+//   {
+//     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst' ]
+//   };
+//   test.identical( got, expected );
+//   test.is( got !== src );
+//
+//   test.case = 'map filter keys, onEach returns array with undefined';
+//   var src = { '/a' : '/b' };
+//   var got = _.uri.filter( src, onEachStructureKeys );
+//   var expected =
+//   {
+//     'file:///a' : '/b'
+//   };
+//   test.identical( got, expected );
+//   test.is( got !== src );
+//
+//   test.case = 'null';
+//   var src = null;
+//   var got = _.uri.filter( src, onEach );
+//   var expected = 'file:///';
+//   test.identical( got, expected );
+//
+//   if( Config.debug )
+//   {
+//     test.case = 'number';
+//     test.shouldThrowErrorSync( () => _.uri.filter( 1, onEach ) )
+//   }
+//
+//   /*  */
+//
+//   function onEach( filePath, it )
+//   {
+//     if( filePath === null )
+//     return 'file:///';
+//     return _.uri.reroot( 'file:///', filePath );
+//   }
+//
+//   function onEachFilter( filePath, it )
+//   {
+//     if( _.uri.isGlobal( filePath ) )
+//     return filePath;
+//   }
+//
+//   function onEachStructure( filePath, it )
+//   {
+//     if( _.arrayIs( filePath ) )
+//     return filePath.map( onPath );
+//     return onPath( filePath );
+//
+//     function onPath( path )
+//     {
+//       let prefix = it.side === 'src' ? 'file:///src' : 'file:///dst';
+//       if( path === null || path === undefined )
+//       return prefix;
+//       return _.uri.reroot( prefix, path );
+//     }
+//   }
+//
+//   function onEachStructureKeys( filePath, it )
+//   {
+//     if( it.side === 'src' )
+//     return [ _.uri.join( 'file:///src', filePath ), undefined ];
+//     return filePath;
+//   }
+//
+// }
+//
+// //
+//
+// function filterInplace( test )
+// {
+//   test.case = 'string';
+//   var src = '/a/b/c';
+//   var got = _.uri.filterInplace( src, onEach );
+//   var expected = 'file:///a/b/c';
+//   test.identical( got, expected );
+//
+//   test.case = 'array';
+//   var src = [ '/a', '/b' ];
+//   var got = _.uri.filterInplace( src, onEach );
+//   var expected = [ 'file:///a', 'file:///b' ];
+//   test.identical( got, expected );
+//   test.identical( got, src );
+//
+//   test.case = 'array';
+//   var src = [ 'file:///a', '/b' ];
+//   var got = _.uri.filterInplace( src, onEachFilter );
+//   var expected = [ 'file:///a' ];
+//   test.identical( got, expected );
+//   test.identical( got, src );
+//
+//   test.case = 'map';
+//   var src = { '/src' : '/dst' };
+//   var got = _.uri.filterInplace( src, onEach );
+//   var expected = { 'file:///src' : 'file:///dst' };
+//   test.identical( got, expected );
+//   test.identical( got, src );
+//
+//   test.case = 'map';
+//   var src = { 'file:///src' : '/dst' };
+//   var got = _.uri.filterInplace( src, onEachFilter );
+//   var expected = {};
+//   test.identical( got, expected );
+//   test.identical( got, src );
+//
+//   test.case = 'map';
+//   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
+//   var got = _.uri.filterInplace( src, onEachStructure );
+//   var expected =
+//   {
+//     'file:///src/a' : [ 'file:///dst/b','file:///dst/c', 'file:///dst' ]
+//   };
+//   test.identical( got, expected );
+//   test.identical( got, src );
+//
+//   test.case = 'map filter keys, onEach returns array with undefined';
+//   var src = { '/a' : '/b' };
+//   var got = _.uri.filterInplace( src, onEachStructureKeys );
+//   var expected =
+//   {
+//     'file:///a' : '/b'
+//   };
+//   test.identical( got, expected );
+//   test.identical( got, src );
+//
+//   test.case = 'null';
+//   var src = null;
+//   var got = _.uri.filterInplace( src, onEach );
+//   var expected = 'file:///';
+//   test.identical( got, expected );
+//
+//   if( Config.debug )
+//   {
+//     test.case = 'number';
+//     test.shouldThrowErrorSync( () => _.uri.filterInplace( 1, onEach ) )
+//   }
+//
+//   /*  */
+//
+//   function onEach( filePath, it )
+//   {
+//     if( filePath === null )
+//     return 'file:///';
+//     return _.uri.reroot( 'file:///', filePath );
+//   }
+//
+//   function onEachFilter( filePath, it )
+//   {
+//     if( _.uri.isGlobal( filePath ) )
+//     return filePath;
+//   }
+//
+//   function onEachStructure( filePath, it )
+//   {
+//     if( _.arrayIs( filePath ) )
+//     return filePath.map( onPath );
+//     return onPath( filePath );
+//
+//     function onPath( path )
+//     {
+//       let prefix = it.side === 'src' ? 'file:///src' : 'file:///dst';
+//       if( path === null || path === undefined )
+//       return prefix;
+//       return _.uri.reroot( prefix, path );
+//     }
+//   }
+//
+//   function onEachStructureKeys( filePath, it )
+//   {
+//     if( it.side === 'src' )
+//     return [ _.uri.join( 'file:///src', filePath ), undefined ];
+//     return filePath;
+//   }
+//
+// }
 
 // --
 // declare
@@ -7951,6 +8760,8 @@ var Self =
     parseConsecutive,
     parseFull,
     parseGlob,
+    
+    localFromGlobal,
 
     str,
     parseAndStr,
@@ -7971,6 +8782,9 @@ var Self =
 
     commonLocalPaths,
     common,
+
+    groupTextualReport,
+    commonTextualReport,
     moveTextualReport,
 
     rebase,
@@ -7981,8 +8795,8 @@ var Self =
     dir,
     dirFirst,
 
-    filter,
-    filterInplace
+    // filter,
+    // filterInplace
 
   },
 

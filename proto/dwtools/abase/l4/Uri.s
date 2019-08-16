@@ -22,7 +22,7 @@ if( typeof module !== 'undefined' )
 
   let _ = require( '../../Tools.s' );
 
-  _.include( 'wPathFundamentals' );
+  _.include( 'wPathBasic' );
 
 }
 
@@ -615,6 +615,29 @@ parseAtomic.components = UriComponents;
 
 let parseConsecutive = _.routineFromPreAndBody( parse_pre, parse_body );
 parseConsecutive.defaults.kind = 'consecutive';
+
+//
+
+function localFromGlobal( globalPath )
+{ 
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  
+  if( _.boolLike( globalPath ) )
+  return globalPath;
+
+  if( _.strIs( globalPath ) )
+  {
+    if( !this.isGlobal( globalPath ) )
+    return globalPath;
+    
+    globalPath = this.parseConsecutive( globalPath );
+  }
+
+  _.assert( _.mapIs( globalPath ) ) ;
+  _.assert( _.strIs( globalPath.longPath ) );
+
+  return globalPath.longPath;
+}
 
 //
 
@@ -1305,7 +1328,7 @@ function relative_body( o )
 }
 
 var defaults = relative_body.defaults = Object.create( Parent.relative.defaults );
-defaults.global = 1;
+defaults.global = 1; /* qqq : why is this option here? */
 
 let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
 
@@ -1556,55 +1579,123 @@ _.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
 
-function moveTextualReport_body( o )
+function groupTextualReport_pre( routine, args )
 {
   let self = this;
   let parent = this.path;
 
-  _.assertRoutineOptions( moveTextualReport_body, arguments );
+  let o = args[ 0 ];
 
-  if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
-  return parent.moveTextualReport( o );
-
-  if( !this.isGlobal( o.srcPath ) && !this.isGlobal( o.dstPath ) )
-  return parent.moveTextualReport( o );
-
-  _.assert( _.strIs( o.dstPath ) );
-  _.assert( _.strIs( o.srcPath ) );
-
-  let c = this.common( o.dstPath, o.srcPath );
-
-  let result = '';
-  o.srcPath = this.parseConsecutive( o.srcPath );
-  o.dstPath = this.parseConsecutive( o.dstPath );
-
-  if( o.decorating && _.color )
-  {
-    if( c.length > 1 )
-    result = _.color.strFormat( c, 'path' ) + ' : ' + _.color.strFormat( relative( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( relative( o.srcPath ), 'path' );
-    else
-    result = _.color.strFormat( this.str( o.dstPath ), 'path' ) + ' <- ' + _.color.strFormat( this.str( o.srcPath ), 'path' );
-  }
-  else
-  {
-    if( c.length > 1 )
-    result = c + ' : ' + relative( o.dstPath ) + ' <- ' + relative( o.srcPath );
-    else
-    result = this.str( o.dstPath ) + ' <- ' + this.str( o.srcPath );
+  _.assert( _.objectIs( o ), 'Expects object' );
+  
+  let basePathParsed;
+  
+  if( !o.onRelative )
+  o.onRelative = function onRelative( basePath, filePath )
+  { 
+    if( !basePathParsed )
+    basePathParsed = self.parseConsecutive( basePath );
+    
+    let filePathParsed = self.parseConsecutive( filePath );
+    filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
+    
+    let strOptions = { longPath : filePathParsed.longPath }
+    
+    if( !basePathParsed.hash )
+    strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.protocol )
+    strOptions.protocol = filePathParsed.protocol;
+    if( !basePathParsed.query )
+    strOptions.query = filePathParsed.query;
+    
+    return self.str( strOptions );
   }
 
-  return result;
-
-  function relative( filePath )
-  {
-    return self.relative({ basePath : c, filePath, global : 0 });
-  }
-
+  return parent.groupTextualReport.pre.call( self, routine, [ o ] );
 }
 
-_.routineExtend( moveTextualReport_body, Parent.moveTextualReport );
+let groupTextualReport = _.routineFromPreAndBody( groupTextualReport_pre, Parent.groupTextualReport.body );
 
-let moveTextualReport = _.routineFromPreAndBody( Parent.moveTextualReport.pre, moveTextualReport_body );
+//
+
+function commonTextualReport( filePath )
+{
+  let self = this;
+  let parent = this.path;
+
+  _.assert( arguments.length === 1  );
+  
+  let basePathParsed;
+  let o = 
+  { 
+    filePath : filePath, 
+    onRelative : onRelative 
+  }
+  return parent._commonTextualReport.call( self, o );
+
+  /*  */
+
+  function onRelative( basePath, filePath )
+  { 
+    if( !basePathParsed )
+    basePathParsed = self.parseConsecutive( basePath );
+    
+    let filePathParsed = self.parseConsecutive( filePath );
+    filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
+    
+    let strOptions = { longPath : filePathParsed.longPath }
+    
+    if( !basePathParsed.hash )
+    strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.protocol )
+    strOptions.protocol = filePathParsed.protocol;
+    if( !basePathParsed.query )
+    strOptions.query = filePathParsed.query;
+    
+    return self.str( strOptions );
+  }
+}
+
+//
+
+function moveTextualReport_pre( routine, args )
+{
+  let self = this;
+  let parent = this.path;
+
+  let o = args[ 0 ];
+  if( args[ 1 ] !== undefined )
+  o = { dstPath : args[ 0 ], srcPath : args[ 1 ] }
+
+  _.assert( _.objectIs( o ), 'Expects object' );
+  
+  let basePathParsed;
+  
+  if( !o.onRelative )
+  o.onRelative = function onRelative( basePath, filePath )
+  { 
+    if( !basePathParsed )
+    basePathParsed = self.parseConsecutive( basePath );
+    
+    let filePathParsed = self.parseConsecutive( filePath );
+    filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
+    
+    let strOptions = { longPath : filePathParsed.longPath }
+    
+    if( !basePathParsed.hash )
+    strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.protocol )
+    strOptions.protocol = filePathParsed.protocol;
+    if( !basePathParsed.query )
+    strOptions.query = filePathParsed.query;
+    
+    return self.str( strOptions );
+  }
+
+  return parent.moveTextualReport.pre.call( self, routine, [ o ] );
+}
+
+let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.moveTextualReport.body );
 
 //
 
@@ -1828,6 +1919,7 @@ let Routines =
   parseAtomic,
   parseConsecutive,
   // parsedSupplementFull, /* qqq : implement, please. supplement parsed with parseAtomic by extra fields( returning parseFull ) */
+  localFromGlobal,
 
   str,
   full,
@@ -1862,6 +1954,8 @@ let Routines =
   dir,
   dirFirst,
 
+  groupTextualReport,
+  commonTextualReport,
   moveTextualReport,
 
   documentGet,

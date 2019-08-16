@@ -1,6 +1,6 @@
 
 if( typeof module !== 'undefined' )
-require( 'wurifundamentals' );
+require( 'wuribasic' );
 var _ = wTools;
 
 var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
