@@ -618,6 +618,29 @@ parseConsecutive.defaults.kind = 'consecutive';
 
 //
 
+function localFromGlobal( globalPath )
+{ 
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  
+  if( _.boolLike( globalPath ) )
+  return globalPath;
+
+  if( _.strIs( globalPath ) )
+  {
+    if( !this.isGlobal( globalPath ) )
+    return globalPath;
+    
+    globalPath = this.parseConsecutive( globalPath );
+  }
+
+  _.assert( _.mapIs( globalPath ) ) ;
+  _.assert( _.strIs( globalPath.longPath ) );
+
+  return globalPath.longPath;
+}
+
+//
+
 /**
  * Assembles uri string from components
  *
@@ -1564,11 +1587,28 @@ function groupTextualReport_pre( routine, args )
   let o = args[ 0 ];
 
   _.assert( _.objectIs( o ), 'Expects object' );
-
+  
+  let basePathParsed;
+  
   if( !o.onRelative )
   o.onRelative = function onRelative( basePath, filePath )
-  {
-    return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
+  { 
+    if( !basePathParsed )
+    basePathParsed = self.parseConsecutive( basePath );
+    
+    let filePathParsed = self.parseConsecutive( filePath );
+    filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
+    
+    let strOptions = { longPath : filePathParsed.longPath }
+    
+    if( !basePathParsed.hash )
+    strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.protocol )
+    strOptions.protocol = filePathParsed.protocol;
+    if( !basePathParsed.query )
+    strOptions.query = filePathParsed.query;
+    
+    return self.str( strOptions );
   }
 
   return parent.groupTextualReport.pre.call( self, routine, [ o ] );
@@ -1584,19 +1624,35 @@ function commonTextualReport( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1  );
-
-  let o =
-  {
-    filePath : filePath,
-    onRelative : onRelative
+  
+  let basePathParsed;
+  let o = 
+  { 
+    filePath : filePath, 
+    onRelative : onRelative 
   }
   return parent._commonTextualReport.call( self, o );
 
   /*  */
 
   function onRelative( basePath, filePath )
-  {
-    return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
+  { 
+    if( !basePathParsed )
+    basePathParsed = self.parseConsecutive( basePath );
+    
+    let filePathParsed = self.parseConsecutive( filePath );
+    filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
+    
+    let strOptions = { longPath : filePathParsed.longPath }
+    
+    if( !basePathParsed.hash )
+    strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.protocol )
+    strOptions.protocol = filePathParsed.protocol;
+    if( !basePathParsed.query )
+    strOptions.query = filePathParsed.query;
+    
+    return self.str( strOptions );
   }
 }
 
@@ -1612,11 +1668,28 @@ function moveTextualReport_pre( routine, args )
   o = { dstPath : args[ 0 ], srcPath : args[ 1 ] }
 
   _.assert( _.objectIs( o ), 'Expects object' );
-
+  
+  let basePathParsed;
+  
   if( !o.onRelative )
   o.onRelative = function onRelative( basePath, filePath )
-  {
-    return self.relative({ basePath : basePath, filePath : filePath, global : 0 });
+  { 
+    if( !basePathParsed )
+    basePathParsed = self.parseConsecutive( basePath );
+    
+    let filePathParsed = self.parseConsecutive( filePath );
+    filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
+    
+    let strOptions = { longPath : filePathParsed.longPath }
+    
+    if( !basePathParsed.hash )
+    strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.protocol )
+    strOptions.protocol = filePathParsed.protocol;
+    if( !basePathParsed.query )
+    strOptions.query = filePathParsed.query;
+    
+    return self.str( strOptions );
   }
 
   return parent.moveTextualReport.pre.call( self, routine, [ o ] );
@@ -1846,6 +1919,7 @@ let Routines =
   parseAtomic,
   parseConsecutive,
   // parsedSupplementFull, /* qqq : implement, please. supplement parsed with parseAtomic by extra fields( returning parseFull ) */
+  localFromGlobal,
 
   str,
   full,
