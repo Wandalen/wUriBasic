@@ -619,9 +619,9 @@ parseConsecutive.defaults.kind = 'consecutive';
 //
 
 function localFromGlobal( globalPath )
-{ 
+{
   _.assert( arguments.length === 1, 'Expects single argument' );
-  
+
   if( _.boolLike( globalPath ) )
   return globalPath;
 
@@ -629,7 +629,7 @@ function localFromGlobal( globalPath )
   {
     if( !this.isGlobal( globalPath ) )
     return globalPath;
-    
+
     globalPath = this.parseConsecutive( globalPath );
   }
 
@@ -1346,8 +1346,9 @@ function common()
 
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
+    _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
     if( _.mapIs( uris[ s ] ) )
-    _.arrayCutin( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
+    _.longBut( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
   }
 
   // _.assert( uris.length, 'Expects at least one argument' );
@@ -1587,27 +1588,27 @@ function groupTextualReport_pre( routine, args )
   let o = args[ 0 ];
 
   _.assert( _.objectIs( o ), 'Expects object' );
-  
+
   let basePathParsed;
-  
+
   if( !o.onRelative )
   o.onRelative = function onRelative( basePath, filePath )
-  { 
+  {
     if( !basePathParsed )
     basePathParsed = self.parseConsecutive( basePath );
-    
+
     let filePathParsed = self.parseConsecutive( filePath );
     filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
-    
+
     let strOptions = { longPath : filePathParsed.longPath }
-    
+
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
     strOptions.query = filePathParsed.query;
-    
+
     return self.str( strOptions );
   }
 
@@ -1624,34 +1625,34 @@ function commonTextualReport( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1  );
-  
+
   let basePathParsed;
-  let o = 
-  { 
-    filePath : filePath, 
-    onRelative : onRelative 
+  let o =
+  {
+    filePath : filePath,
+    onRelative : onRelative
   }
   return parent._commonTextualReport.call( self, o );
 
   /*  */
 
   function onRelative( basePath, filePath )
-  { 
+  {
     if( !basePathParsed )
     basePathParsed = self.parseConsecutive( basePath );
-    
+
     let filePathParsed = self.parseConsecutive( filePath );
     filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
-    
+
     let strOptions = { longPath : filePathParsed.longPath }
-    
+
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
     strOptions.query = filePathParsed.query;
-    
+
     return self.str( strOptions );
   }
 }
@@ -1668,27 +1669,27 @@ function moveTextualReport_pre( routine, args )
   o = { dstPath : args[ 0 ], srcPath : args[ 1 ] }
 
   _.assert( _.objectIs( o ), 'Expects object' );
-  
+
   let basePathParsed;
-  
+
   if( !o.onRelative )
   o.onRelative = function onRelative( basePath, filePath )
-  { 
+  {
     if( !basePathParsed )
     basePathParsed = self.parseConsecutive( basePath );
-    
+
     let filePathParsed = self.parseConsecutive( filePath );
     filePathParsed.longPath = self.relative( basePathParsed.longPath, filePathParsed.longPath );
-    
+
     let strOptions = { longPath : filePathParsed.longPath }
-    
+
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
     strOptions.query = filePathParsed.query;
-    
+
     return self.str( strOptions );
   }
 
