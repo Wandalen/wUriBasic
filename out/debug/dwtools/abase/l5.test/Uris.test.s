@@ -223,11 +223,11 @@ function common( test )
   return
 
   test.case = 'incorrect input';
-  test.shouldThrowError( () => _.uri.s.common( 1, 2 ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.s.common( 1, 2 ) );
 
   test.case = 'different paths'
-  test.shouldThrowError( () => _.uri.s.common( 'http://some.come/staging/index.html', 'file:///some/staging' ) );
-  test.shouldThrowError( () => _.uri.s.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.s.common( 'http://some.come/staging/index.html', 'file:///some/staging' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.s.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
 
 }
 
@@ -238,7 +238,7 @@ function common( test )
 var Self =
 {
 
-  name : 'Tools/base/l4/Uri/S',
+  name : 'Tools.base.l4.Uri.S',
   silencing : 1,
 
   tests :

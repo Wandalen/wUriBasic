@@ -1279,7 +1279,7 @@ function normalizeTolerantLocalPaths( test )
 //   {
 //     var c = cases[ i ];
 //     if( c.error )
-//     test.shouldThrowError( () => _.uri.refine( c.src ) );
+//     test.shouldThrowErrorOfAnyKind( () => _.uri.refine( c.src ) );
 //     else
 //     test.identical( _.uri.refine( c.src ), c.expected );
 //   }
@@ -1392,7 +1392,7 @@ function refine( test )
   {
     var c = cases[ i ];
     if( c.error )
-    test.shouldThrowError( () => _.uri.refine( c.src ) );
+    test.shouldThrowErrorOfAnyKind( () => _.uri.refine( c.src ) );
     else
     test.identical( _.uri.refine( c.src ), c.expected );
   }
@@ -5634,27 +5634,27 @@ function relativeLocalPaths( test )
   test.case = '../a/b - .'; /* */
   var basePath = '../a/b';
   var filePath = '.';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '../a/b - ./c/d'; /* */
   var basePath = '../a/b';
   var filePath = './c/d';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '.. - .'; /* */
   var basePath = '..';
   var filePath = '.';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '.. - ./a'; /* */
   var basePath = '..';
   var filePath = './a';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '../a - a'; /* */
   var basePath = '../a';
   var filePath = 'a';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.close( 'relative' );
 
@@ -6500,27 +6500,27 @@ function relative( test )
   test.case = '../a/b - .'; /* */
   var basePath = 'file://../a/b';
   var filePath = 'file://.';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '../a/b - ./c/d'; /* */
   var basePath = 'file://../a/b';
   var filePath = 'file://./c/d';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '.. - .'; /* */
   var basePath = 'file://..';
   var filePath = 'file://.';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '.. - ./a'; /* */
   var basePath = 'file://..';
   var filePath = 'file://./a';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.case = '../a - a'; /* */
   var basePath = 'file://../a';
   var filePath = 'file://a';
-  test.shouldThrowError( () => _.uri.relative( basePath, filePath ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.relative( basePath, filePath ) );
 
   test.close( 'relative' );
 
@@ -6701,12 +6701,12 @@ function common( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' ) );
-  test.shouldThrowError( () => _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
-  // test.shouldThrowError( () => _.uri.common([]) );
-  // test.shouldThrowError( () => _.uri.common() );
-  // test.shouldThrowError( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
-  // test.shouldThrowError( () => _.uri.common( [ 'http:///' ], 'http:///' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( 'http://some.come/staging/index.html', 'file:///some/staging' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( 'http://some.come/staging/index.html', 'http:///some/staging/file.html' ) );
+  // test.shouldThrowErrorOfAnyKind( () => _.uri.common([]) );
+  // test.shouldThrowErrorOfAnyKind( () => _.uri.common() );
+  // test.shouldThrowErrorOfAnyKind( () => _.uri.common( [ 'http:///' ], [ 'http:///' ] ) );
+  // test.shouldThrowErrorOfAnyKind( () => _.uri.common( [ 'http:///' ], 'http:///' ) );
 
 }
 
@@ -7125,16 +7125,16 @@ function commonLocalPaths( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => _.uri.common( '/a', '..' ) );
-  test.shouldThrowError( () => _.uri.common( '/a', '.' ) );
-  test.shouldThrowError( () => _.uri.common( '/a', 'x' ) );
-  test.shouldThrowError( () => _.uri.common( '/a', '../..' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a', '..' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a', '.' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a', 'x' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a', '../..' ) );
 
-  test.shouldThrowError( () => _.uri.common( '/a/b/c', '/a/b/c', './' ) );
-  test.shouldThrowError( () => _.uri.common( '/a/b/c', '/a/b/c', '.' ) );
-  test.shouldThrowError( () => _.uri.common( 'x', '/a/b/c', '/a' ) );
-  test.shouldThrowError( () => _.uri.common( '/a/b/c', '..', '/a' ) );
-  test.shouldThrowError( () => _.uri.common( '../..', '../../b/c', '/a' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a/b/c', '/a/b/c', './' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a/b/c', '/a/b/c', '.' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( 'x', '/a/b/c', '/a' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '/a/b/c', '..', '/a' ) );
+  test.shouldThrowErrorOfAnyKind( () => _.uri.common( '../..', '../../b/c', '/a' ) );
 
 }
 
@@ -8739,7 +8739,7 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 var Self =
 {
 
-  name : 'Tools/base/l4/UriFundamentals',
+  name : 'Tools.base.l4.UriFundamentals',
   silencing : 1,
 
   tests :
