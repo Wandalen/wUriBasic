@@ -897,6 +897,9 @@ function str( c )
 
     /**/
 
+    if( _.mapIs( c.query ) )
+    c.query = _.strWebQueryStr({ src : c.query });
+
     _.assert( !c.query || _.strIs( c.query ) );
 
     if( c.query !== undefined && c.query !== undefined )
