@@ -29,6 +29,9 @@ about :
 path :
 
   repository : git+https:///github.com/Wandalen/wUriBasic.git
+  remotes :
+   - git+https:///github.com/Wandalen/wUriBasic.git
+   - npm:///wuribasic
   bugtracker : https:///github.com/Wandalen/wUriBasic/issues
 
 step :
