@@ -22,7 +22,7 @@
   {
     "url" : "https://github.com/Wandalen/wUriBasic/issues"
   }, 
-  "dependencies" : { "wTools" : "", "wpathbasic" : "" }, 
-  "devDependencies" : { "wFiles" : "", "wTesting" : "" }, 
+  "dependencies" : { "wTools" : "beta", "wpathbasic" : "beta" }, 
+  "devDependencies" : { "wFiles" : "beta", "wTesting" : "beta" }, 
   "keywords" : [ "wTools", "wPath", "path", "URL", "URI", "path", "file" ]
 }
