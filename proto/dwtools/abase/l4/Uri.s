@@ -1491,6 +1491,7 @@ function name( o )
   o = { path : o }
 
   _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.mapIs( o ) );
   _.assert( _.strIs( o.path ) );
   _.routineOptions( name, o );
 
