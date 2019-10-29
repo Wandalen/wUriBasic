@@ -526,6 +526,8 @@ function parse_body( o )
   result.query = e[ 6 ];
   if( _.strIs( e[ 7 ] ) )
   result.hash = e[ 7 ];
+  if( _.strIs( e[ 8 ] ) )
+  result.tag = e[ 8 ];
 
   /* */
 
