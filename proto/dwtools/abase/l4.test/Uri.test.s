@@ -3614,9 +3614,39 @@ function parseGlob( test )
 function parseTagExperiment( test )
 {
 
-  var exp = 'x';
-  var got =_.uri.parse( 'git:///git@bitbucket.org:org/repo.git/some/lon/path@master' );
-  console.log( got)
+  var exp =
+  {
+    'protocol' : 'git',
+    'host' : '',
+    'localWebPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'hash' : 'master',
+    'longPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'protocols' : [ 'git' ],
+    'hostWithPort' : '',
+    'origin' : 'git://',
+    'full' : 'git:///git@bitbucket.org:org/repo.git/some/long/path#master'
+  }
+  debugger;
+  var got =_.uri.parseFull( 'git:///git@bitbucket.org:org/repo.git/some/long/path#master' );
+  test.identical( got, exp );
+  debugger;
+
+  var exp =
+  {
+    'protocol' : 'git',
+    'host' : '',
+    'localWebPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'tag' : 'master',
+    'longPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'protocols' : [ 'git' ],
+    'hostWithPort' : '',
+    'origin' : 'git://',
+    'full' : 'git:///git@bitbucket.org:org/repo.git/some/long/path#master'
+  }
+  debugger;
+  var got =_.uri.parseFull( 'git:///git@bitbucket.org:org/repo.git/some/long/path@master' );
+  test.identical( got, exp );
+  debugger;
 
 }
 

@@ -458,9 +458,9 @@ _uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAnd
 // _uriParseRegexpStr += '([^#?]*\\?[^=#]*|[^#?]*)'; /* local path */
 
 _uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */
-_uriParseRegexpStr += '(?:\\?([^#@]*))?'; /* query */
-_uriParseRegexpStr += '(?:#([^@]*))?'; /* hash */
-_uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
+_uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+_uriParseRegexpStr += '(?:#([^]*))?'; /* hash */
+// _uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
 _uriParseRegexpStr += '$';
 
 // ([^#]*\?[^=#]*|[^\?#]*)
@@ -526,6 +526,7 @@ function parse_body( o )
   result.query = e[ 6 ];
   if( _.strIs( e[ 7 ] ) )
   result.hash = e[ 7 ];
+  debugger;
   if( _.strIs( e[ 8 ] ) )
   result.tag = e[ 8 ];
 
