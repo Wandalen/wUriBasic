@@ -524,9 +524,6 @@ function parse_body( o )
   result.localWebPath = e[ 5 ];
   if( _.strIs( e[ 6 ] ) )
   result.query = e[ 6 ];
-  if( _.strIs( e[ 7 ] ) )
-  result.hash = e[ 7 ];
-  debugger;
   if( _.strIs( e[ 8 ] ) )
   result.tag = e[ 8 ];
 
