@@ -1025,7 +1025,10 @@ function full( o )
   // if( o.full )
   // return this.str( o );
 
-  let serverUri = this.server();
+  if( !_realGlobal_.location )
+  return this.str( o );
+
+  let serverUri = this.server( serverPath );
   let serverParsed = this.parseAtomic( serverUri );
 
   _.mapExtend( serverParsed, o );
