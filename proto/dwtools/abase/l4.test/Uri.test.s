@@ -1777,6 +1777,215 @@ function parseAtomic( test )
   var got = _.uri.parseAtomic( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
   test.identical( got, expected );
 
+  /*  */
+
+  var expected =
+  {
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
+    host : '',
+    protocol : 'git', 
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    hash : 'hash' 
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    hash : 'hash' 
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git', 
+    hash : 'hash' 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git#hash' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git/', 
+    hash : 'hash'
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git/#hash' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    tag : 'tag',
+  }
+  debugger
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git/', 
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git/@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    hash : 'hash',
+    tag : 'tag'
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    hash : 'hash',
+    tag : 'tag'
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git', 
+    hash : 'hash', 
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git/', 
+    hash : 'hash', 
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git/#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git', 
+    query : 'query=1',
+    hash : 'hash', 
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git?query=1#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git/', 
+    query : 'query=1',
+    hash : 'hash', 
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git/?query=1#hash@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    query : 'query=1',
+    tag : 'tag',
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    query : 'query=1',
+    tag : 'tag',
+  }
+  var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag' );
+  test.identical( got, expected );
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git', 
+    query : 'query=1',
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git?query=1@tag' );
+  test.identical( got, expected );
+
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/somerepo.git/', 
+    query : 'query=1',
+    tag : 'tag', 
+  }
+  var got = _.uri.parseAtomic( 'git:///somerepo.git/?query=1@tag' );
+  test.identical( got, expected );
+
   /* - */
 
   if( !Config.debug )
@@ -2609,6 +2818,20 @@ function parseFull( test )
   test.identical( got, expected );
 
   /* */
+
+  var expected =
+  {
+    protocol : 'git', 
+    host : '', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
+    protocols : [ 'git' ], 
+    hostWithPort : '', 
+    origin : 'git://', 
+    full : 'git:///git@bitbucket.org:someorg/somerepo.git@tag'
+  }
+  var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
+  test.identical( got, expected );
 
   var expected =
   {
