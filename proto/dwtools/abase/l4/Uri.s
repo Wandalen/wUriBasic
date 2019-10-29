@@ -405,6 +405,7 @@ let UriComponents =
   localWebPath : null, /* '/path/name' */
   query : null, /* 'query=here&and=here' */
   hash : null, /* 'anchor' */
+  tag : null, /* tag */
 
   /* composite */
 
@@ -942,6 +943,9 @@ function str( c )
 
     if( c.hash !== undefined && c.hash !== null )
     result += '#' + c.hash;
+
+    if( c.tag !== undefined && c.tag !== null )
+    result += '@' + c.tag;
 
     return result;
   }
