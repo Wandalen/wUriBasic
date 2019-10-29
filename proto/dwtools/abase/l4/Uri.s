@@ -458,8 +458,9 @@ _uriParseRegexpStr = '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAnd
 // _uriParseRegexpStr += '([^#?]*\\?[^=#]*|[^#?]*)'; /* local path */
 
 _uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */
-_uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
-_uriParseRegexpStr += '(?:#(.*))?'; /* hash */
+_uriParseRegexpStr += '(?:\\?([^#@]*))?'; /* query */
+_uriParseRegexpStr += '(?:#([^@]*))?'; /* hash */
+_uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
 _uriParseRegexpStr += '$';
 
 // ([^#]*\?[^=#]*|[^\?#]*)
