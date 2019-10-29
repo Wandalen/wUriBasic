@@ -2864,7 +2864,7 @@ function parseGlob( test )
 
   test.close( 'local path' );
 
-  //
+  /* */
 
   test.open( 'complex uri' );
 
@@ -3608,6 +3608,19 @@ function parseGlob( test )
   // 'dir/+(ab).js';
   // '/index/**';
 }
+
+//
+
+function parseTagExperiment( test )
+{
+
+  var exp = 'x';
+  var got =_.uri.parse( 'git:///git@bitbucket.org:org/repo.git/some/lon/path@master' );
+  console.log( got)
+
+}
+
+parseTagExperiment.experimental = 1;
 
 //
 
@@ -8771,6 +8784,7 @@ var Self =
     parseConsecutive,
     parseFull,
     parseGlob,
+    parseTagExperiment,
 
     localFromGlobal,
 
