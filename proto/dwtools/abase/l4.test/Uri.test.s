@@ -2644,30 +2644,31 @@ function parseFull( test )
   {
     protocol : 'git', 
     host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
     protocols : [ 'git' ], 
     hostWithPort : '', 
     origin : 'git://', 
-    full : 'git:///git@bitbucket.org:someorg/somerepo.git@tag'
+    full : 'git:///git@bitbucket.org:someorg/somerepo.git/@tag'
   }
-  var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
+  debugger
+  var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git/@tag' );
   test.identical( got, expected );
 
   var expected =
   {
     protocol : 'git', 
     host : '', 
-    localWebPath : '/somerepo.git', 
+    localWebPath : '/somerepo.git/', 
     tag : 'tag', 
-    longPath : '/somerepo.git', 
+    longPath : '/somerepo.git/', 
     protocols : [ 'git' ], 
     hostWithPort : '', 
     origin : 'git://', 
-    full : 'git:///somerepo.git@tag'
+    full : 'git:///somerepo.git/@tag'
   }
-  var got = _.uri.parseFull( 'git:///somerepo.git@tag' );
+  var got = _.uri.parseFull( 'git:///somerepo.git/@tag' );
   test.identical( got, expected );
 
   var expected =
@@ -2675,7 +2676,8 @@ function parseFull( test )
     protocol : 'git', 
     host : '', 
     localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    tag : 'master',
+    hash : 'hash',
+    tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git', 
     protocols : [ 'git' ], 
     hostWithPort : '', 
@@ -2764,7 +2766,7 @@ function parseFull( test )
     origin : 'git://', 
     full : 'git:///somerepo.git?query=1@tag'
   }
-  var got = _.uri.parseFull( 'git:///somerepo.git?query=1?query=1@tag' );
+  var got = _.uri.parseFull( 'git:///somerepo.git?query=1@tag' );
   test.identical( got, expected );
 
   /* - */

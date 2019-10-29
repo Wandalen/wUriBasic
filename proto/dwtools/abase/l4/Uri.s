@@ -521,11 +521,35 @@ function parse_body( o )
   if( _.strIs( e[ 4 ] ) )
   result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
-  result.localWebPath = e[ 5 ];
+  {   
+    result.localWebPath = e[ 5 ];
+    let isolated = _.strIsolateRightOrNone( result.localWebPath, '/@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.localWebPath = isolated[ 0 ] + '/';
+    }
+  }
   if( _.strIs( e[ 6 ] ) )
-  result.query = e[ 6 ];
+  { 
+    result.query = e[ 6 ];
+    let isolated = _.strIsolateRightOrNone( result.query, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.query = isolated[ 0 ]
+    }
+  }
   if( _.strIs( e[ 7 ] ) )
-  result.hash = e[ 7 ];
+  {
+    result.hash = e[ 7 ];
+    let isolated = _.strIsolateRightOrNone( result.hash, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.hash = isolated[ 0 ]
+    }
+  }
 
   /* */
 
@@ -553,6 +577,16 @@ function parse_body( o )
   }
 
   return result;
+
+  /*  */
+
+  function isolateTagFrom( src )
+  {
+    let result = _.strIsolateRightOrNone( src, '@' );
+    if( result[ 2 ] )
+    result.tag = result[ 2 ];
+    return result[ 0 ];
+  }
 }
 
 parse_body.defaults =
