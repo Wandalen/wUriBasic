@@ -2,16 +2,20 @@ format: outwillfile-2.0
 root:
   - wUriBasic.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wUriBasic.out.will.yml: &ref_0
+    hash: 040175424ae4a874bf27056e85f64167
+    size: 39096
+  ../.ex.will.yml: &ref_1
     hash: 1a8fd99dc264def0fc37cbde9aa82e0c
     size: 2008
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 4c31390c4fd7c14689eabf5904fe4914
     size: 5026
 module:
   wUriBasic.out:
     about:
       name: wUriBasic
+      org: noorg
       description: >-
         Collection of routines to operate URI(s) in the reliable and consistent
         way. UriFundamentals leverages parsing, joining, extracting,
@@ -19,11 +23,11 @@ module:
         experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
         - wPath
         - path
@@ -32,11 +36,11 @@ module:
         - file
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@willbe.so>
         - Volodymyr M. <volodymyr.migdal@gmail.com>
       npm.name: wuribasic
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -714,6 +718,22 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          reflector: 'reflector::exported.proto.export*'
+        criterion:
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          reflector: 'reflector::exported.files.proto.export*'
+        criterion:
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -802,11 +822,13 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wUriBasic.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wUriBasic
+      org: noorg
       description: >-
         Collection of routines to operate URI(s) in the reliable and consistent
         way. UriFundamentals leverages parsing, joining, extracting,
@@ -814,13 +836,26 @@ module:
         experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 8.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
+        - wPath
+        - path
+        - URL
+        - URI
+        - file
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@willbe.so>
+        - Volodymyr M. <volodymyr.migdal@gmail.com>
       npm.name: wuribasic
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -861,12 +896,8 @@ module:
       bugtracker:
         path: 'https:///github.com/Wandalen/wUriBasic/issues'
       in:
-        criterion:
-          predefined: 0
         path: .
       out:
-        criterion:
-          predefined: 0
         path: out
       temp:
         path: 'path::out'
@@ -1505,3 +1536,6 @@ module:
       ../.im.will.yml:
         hash: 4c31390c4fd7c14689eabf5904fe4914
         size: 5026
+      wUriBasic.out.will.yml:
+        hash: 040175424ae4a874bf27056e85f64167
+        size: 39096
