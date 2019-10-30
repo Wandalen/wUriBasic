@@ -522,17 +522,21 @@ function parse_body( o )
   if( _.strIs( e[ 4 ] ) )
   result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
-  {   
+  {
     result.localWebPath = e[ 5 ];
-    let isolated = _.strIsolateRightOrNone( result.localWebPath, '/@' );
-    if( isolated[ 2 ] )
+    let isolatedSlash = _.strIsolateRightOrNone( result.localWebPath, '/' );
+    if( isolatedSlash[ 2 ] )
     {
-      result.tag = isolated[ 2 ];
-      result.localWebPath = isolated[ 0 ] + '/';
+      let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], '@' );
+      if( isolated[ 2 ] )
+      {
+        result.tag = isolated[ 2 ];
+        result.localWebPath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
+      }
     }
   }
   if( _.strIs( e[ 6 ] ) )
-  { 
+  {
     result.query = e[ 6 ];
     let isolated = _.strIsolateRightOrNone( result.query, '@' );
     if( isolated[ 2 ] )
@@ -576,7 +580,6 @@ function parse_body( o )
     delete result.port;
     delete result.localWebPath;
   }
-
   return result;
 
   /*  */
@@ -978,6 +981,10 @@ function str( c )
     if( !_.strHas( c.full, String( c.hash ) ) )
     return false;
 
+    if( c.tag )
+    if( !_.strHas( c.full, String( c.tag ) ) )
+    return false;
+
     if( c.longPath )
     if( !_.strHas( c.full, String( c.longPath ) ) )
     return false;
@@ -1053,7 +1060,7 @@ function refine( filePath )
   if( _.strDefined( filePath.longPath ) )
   filePath.longPath = parent.refine.call( this, filePath.longPath );
 
-  if( filePath.hash )
+  if( filePath.hash || filePath.tag )
   filePath.longPath = parent.detrail( filePath.longPath );
 
   return this.str( filePath );
@@ -1281,6 +1288,8 @@ function join_functor( gen )
       if( !result.hash && src.hash !==undefined )
       result.hash = src.hash;
 
+      if( !result.tag && src.tag !==undefined )
+      result.tag = src.tag;
     }
 
     /* */
@@ -1293,7 +1302,7 @@ function join_functor( gen )
       return result.longPath;
     }
 
-    if( result.hash && result.longPath )
+    if( ( result.hash || result.tag ) && result.longPath )
     result.longPath = parent.detrail( result.longPath );
 
     return this.str( result );
@@ -1650,6 +1659,8 @@ function groupTextualReport_pre( routine, args )
 
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.tag )
+    strOptions.tag = filePathParsed.tag;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
@@ -1694,6 +1705,8 @@ function commonTextualReport( filePath )
 
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.tag )
+    strOptions.tag = filePathParsed.tag;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
@@ -1731,6 +1744,8 @@ function moveTextualReport_pre( routine, args )
 
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.tag )
+    strOptions.tag = filePathParsed.tag;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
