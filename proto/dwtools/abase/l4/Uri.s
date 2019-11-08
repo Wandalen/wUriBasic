@@ -483,7 +483,7 @@ function parse_pre( routine, args )
 
   _.routineOptions( routine, o );
   _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
-  _.assert( _.arrayHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
+  _.assert( _.longHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
 
   return o;
 }
@@ -495,7 +495,7 @@ function parse_body( o )
   // _.routineOptions( this.parse_body, o );
   // _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
   // _.assert( arguments.length === 1, 'Expects single argument' );
-  // _.assert( _.arrayHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
+  // _.assert( _.longHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
 
   if( _.mapIs( o.srcPath ) )
   {
