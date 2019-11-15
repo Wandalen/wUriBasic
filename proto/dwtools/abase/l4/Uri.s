@@ -405,6 +405,7 @@ let UriComponents =
   localWebPath : null, /* '/path/name' */
   query : null, /* 'query=here&and=here' */
   hash : null, /* 'anchor' */
+  tag : null, /* tag */
 
   /* composite */
 
@@ -521,11 +522,39 @@ function parse_body( o )
   if( _.strIs( e[ 4 ] ) )
   result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
-  result.localWebPath = e[ 5 ];
+  {
+    result.localWebPath = e[ 5 ];
+    let isolatedSlash = _.strIsolateRightOrNone( result.localWebPath, '/' );
+    if( isolatedSlash[ 2 ] )
+    {
+      let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], '@' );
+      if( isolated[ 2 ] )
+      {
+        result.tag = isolated[ 2 ];
+        result.localWebPath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
+      }
+    }
+  }
   if( _.strIs( e[ 6 ] ) )
-  result.query = e[ 6 ];
+  {
+    result.query = e[ 6 ];
+    let isolated = _.strIsolateRightOrNone( result.query, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.query = isolated[ 0 ]
+    }
+  }
   if( _.strIs( e[ 7 ] ) )
-  result.hash = e[ 7 ];
+  {
+    result.hash = e[ 7 ];
+    let isolated = _.strIsolateRightOrNone( result.hash, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.hash = isolated[ 0 ]
+    }
+  }
 
   /* */
 
@@ -551,8 +580,17 @@ function parse_body( o )
     delete result.port;
     delete result.localWebPath;
   }
-
   return result;
+
+  /*  */
+
+  function isolateTagFrom( src )
+  {
+    let result = _.strIsolateRightOrNone( src, '@' );
+    if( result[ 2 ] )
+    result.tag = result[ 2 ];
+    return result[ 0 ];
+  }
 }
 
 parse_body.defaults =
@@ -909,6 +947,9 @@ function str( c )
     if( c.hash !== undefined && c.hash !== null )
     result += '#' + c.hash;
 
+    if( c.tag !== undefined && c.tag !== null )
+    result += '@' + c.tag;
+
     return result;
   }
 
@@ -938,6 +979,10 @@ function str( c )
 
     if( c.hash )
     if( !_.strHas( c.full, String( c.hash ) ) )
+    return false;
+
+    if( c.tag )
+    if( !_.strHas( c.full, String( c.tag ) ) )
     return false;
 
     if( c.longPath )
@@ -987,6 +1032,9 @@ function full( o )
   // if( o.full )
   // return this.str( o );
 
+  if( !_realGlobal_.location )
+  return this.str( o );
+
   let serverUri = this.server();
   let serverParsed = this.parseAtomic( serverUri );
 
@@ -1012,7 +1060,7 @@ function refine( filePath )
   if( _.strDefined( filePath.longPath ) )
   filePath.longPath = parent.refine.call( this, filePath.longPath );
 
-  if( filePath.hash )
+  if( filePath.hash || filePath.tag )
   filePath.longPath = parent.detrail( filePath.longPath );
 
   return this.str( filePath );
@@ -1240,6 +1288,8 @@ function join_functor( gen )
       if( !result.hash && src.hash !==undefined )
       result.hash = src.hash;
 
+      if( !result.tag && src.tag !==undefined )
+      result.tag = src.tag;
     }
 
     /* */
@@ -1252,7 +1302,7 @@ function join_functor( gen )
       return result.longPath;
     }
 
-    if( result.hash && result.longPath )
+    if( ( result.hash || result.tag ) && result.longPath )
     result.longPath = parent.detrail( result.longPath );
 
     return this.str( result );
@@ -1609,6 +1659,8 @@ function groupTextualReport_pre( routine, args )
 
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.tag )
+    strOptions.tag = filePathParsed.tag;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
@@ -1653,6 +1705,8 @@ function commonTextualReport( filePath )
 
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.tag )
+    strOptions.tag = filePathParsed.tag;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
@@ -1690,6 +1744,8 @@ function moveTextualReport_pre( routine, args )
 
     if( !basePathParsed.hash )
     strOptions.hash = filePathParsed.hash;
+    if( !basePathParsed.tag )
+    strOptions.tag = filePathParsed.tag;
     if( !basePathParsed.protocol )
     strOptions.protocol = filePathParsed.protocol;
     if( !basePathParsed.query )
