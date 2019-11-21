@@ -1461,13 +1461,13 @@ function parse( test )
 {
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
@@ -1475,14 +1475,14 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git#hash'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
@@ -1490,14 +1490,14 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/#hash'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
@@ -1505,14 +1505,14 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git#hash'
   }
   var got = _.uri.parse( 'git:///somerepo.git#hash' );
@@ -1520,14 +1520,14 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/#hash'
   }
   var got = _.uri.parse( 'git:///somerepo.git/#hash' );
@@ -1535,14 +1535,14 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/@tag'
   }
   debugger
@@ -1551,14 +1551,14 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git/@tag' );
@@ -1566,15 +1566,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag' );
@@ -1582,15 +1582,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag' );
@@ -1598,15 +1598,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git#hash@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git#hash@tag' );
@@ -1614,15 +1614,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/#hash@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git/#hash@tag' );
@@ -1630,16 +1630,16 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag' );
@@ -1647,16 +1647,16 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag' );
@@ -1664,16 +1664,16 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git?query=1#hash@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git?query=1#hash@tag' );
@@ -1681,16 +1681,16 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/?query=1#hash@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git/?query=1#hash@tag' );
@@ -1698,15 +1698,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag' );
@@ -1714,15 +1714,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag'
   }
   var got = _.uri.parse( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag' );
@@ -1730,15 +1730,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git?query=1@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git?query=1@tag' );
@@ -1747,15 +1747,15 @@ function parse( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/?query=1@tag'
   }
   var got = _.uri.parse( 'git:///somerepo.git/?query=1@tag' );
@@ -2088,48 +2088,48 @@ function parseAtomic( test )
 
   var expected =
   {
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
     host : '',
-    protocol : 'git', 
+    protocol : 'git',
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    hash : 'hash' 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    hash : 'hash' 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash' 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git#hash' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/#hash' );
@@ -2137,9 +2137,9 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
   }
   debugger
@@ -2148,19 +2148,19 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    tag : 'tag', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag'
   }
@@ -2169,9 +2169,9 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag'
   }
@@ -2180,31 +2180,31 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    tag : 'tag', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    tag : 'tag', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -2214,9 +2214,9 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -2226,33 +2226,33 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
+    hash : 'hash',
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git?query=1#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
+    hash : 'hash',
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/?query=1#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
   }
@@ -2261,9 +2261,9 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
   }
@@ -2272,11 +2272,11 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    tag : 'tag', 
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git?query=1@tag' );
   test.identical( got, expected );
@@ -2284,11 +2284,11 @@ function parseAtomic( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    tag : 'tag', 
+    tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/?query=1@tag' );
   test.identical( got, expected );
@@ -2646,16 +2646,16 @@ function parseConsecutive( test )
 
   var expected =
   {
-    protocol : 'git', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
+    protocol : 'git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash'
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
@@ -2663,159 +2663,159 @@ function parseConsecutive( test )
 
   var expected =
   {
-    protocol : 'git', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    hash : 'hash', 
-    longPath : '/somerepo.git', 
+    protocol : 'git',
+    hash : 'hash',
+    longPath : '/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git#hash' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    hash : 'hash', 
-    longPath : '/somerepo.git/', 
+    protocol : 'git',
+    hash : 'hash',
+    longPath : '/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/#hash' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
+    protocol : 'git',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
+    protocol : 'git',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
+    protocol : 'git',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git?query=1#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/?query=1#hash@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag' );
   test.identical( got, expected );
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
+    tag : 'tag',
+    longPath : '/somerepo.git',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git?query=1@tag' );
   test.identical( got, expected );
@@ -2823,10 +2823,10 @@ function parseConsecutive( test )
 
   var expected =
   {
-    protocol : 'git', 
+    protocol : 'git',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
+    tag : 'tag',
+    longPath : '/somerepo.git/',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/?query=1@tag' );
   test.identical( got, expected );
@@ -3317,13 +3317,13 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
@@ -3331,14 +3331,14 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git#hash'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
@@ -3346,14 +3346,14 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/#hash'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
@@ -3361,14 +3361,14 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git#hash'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git#hash' );
@@ -3376,14 +3376,14 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/#hash'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git/#hash' );
@@ -3391,14 +3391,14 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/@tag'
   }
   debugger
@@ -3407,14 +3407,14 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git/@tag' );
@@ -3422,15 +3422,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag' );
@@ -3438,15 +3438,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag' );
@@ -3454,15 +3454,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git#hash@tag' );
@@ -3470,15 +3470,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git/#hash@tag' );
@@ -3486,16 +3486,16 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag' );
@@ -3503,16 +3503,16 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag' );
@@ -3520,16 +3520,16 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git?query=1#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git?query=1#hash@tag' );
@@ -3537,16 +3537,16 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/?query=1#hash@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git/?query=1#hash@tag' );
@@ -3554,15 +3554,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag' );
@@ -3570,15 +3570,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag'
   }
   var got = _.uri.parseFull( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag' );
@@ -3586,15 +3586,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git?query=1@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git?query=1@tag' );
@@ -3603,15 +3603,15 @@ function parseFull( test )
 
   var expected =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
     full : 'git:///somerepo.git/?query=1@tag'
   }
   var got = _.uri.parseFull( 'git:///somerepo.git/?query=1@tag' );
@@ -4888,14 +4888,14 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git#hash'
   var got = _.uri.str( components );
@@ -4903,13 +4903,13 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
     origin : 'git://'
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash';
@@ -4918,14 +4918,14 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected  = 'git:///somerepo.git#hash'
   var got = _.uri.str ( components);
@@ -4933,14 +4933,14 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/#hash'
   var got = _.uri.str( components );
@@ -4948,14 +4948,14 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/@tag'
   var got = _.uri.str( components );
@@ -4963,14 +4963,14 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/@tag'
   var got = _.uri.str( components );
@@ -4978,15 +4978,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag'
   var got = _.uri.str( components );
@@ -4994,15 +4994,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag'
   var got = _.uri.str( components );
@@ -5010,15 +5010,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git#hash@tag'
   var got = _.uri.str( components );
@@ -5026,15 +5026,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/#hash@tag'
   var got = _.uri.str( components );
@@ -5042,16 +5042,16 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag'
   var got = _.uri.str( components );
@@ -5059,16 +5059,16 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag'
   var got = _.uri.str( components );
@@ -5076,16 +5076,16 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git?query=1#hash@tag'
   var got = _.uri.str( components );
@@ -5093,16 +5093,16 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/?query=1#hash@tag'
   var got = _.uri.str( components );
@@ -5110,15 +5110,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag'
   var got = _.uri.str( components );
@@ -5126,15 +5126,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag'
   var got = _.uri.str( components );
@@ -5142,15 +5142,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git?query=1@tag'
   var got = _.uri.str( components );
@@ -5159,15 +5159,15 @@ function str( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/?query=1@tag'
   var got = _.uri.str( components );
@@ -5187,7 +5187,7 @@ function str( test )
 //
 
 function full( test )
-{ 
+{
   var uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var components0 =
   {
@@ -5305,14 +5305,14 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git#hash'
   var got = _.uri.full( components );
@@ -5320,13 +5320,13 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    hash : 'hash',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
     origin : 'git://'
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash';
@@ -5335,14 +5335,14 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected  = 'git:///somerepo.git#hash'
   var got = _.uri.full ( components);
@@ -5350,14 +5350,14 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/#hash'
   var got = _.uri.full( components );
@@ -5365,14 +5365,14 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/@tag'
   var got = _.uri.full( components );
@@ -5380,14 +5380,14 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/@tag'
   var got = _.uri.full( components );
@@ -5395,15 +5395,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag'
   var got = _.uri.full( components );
@@ -5411,15 +5411,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag'
   var got = _.uri.full( components );
@@ -5427,15 +5427,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git#hash@tag'
   var got = _.uri.full( components );
@@ -5443,15 +5443,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/#hash@tag'
   var got = _.uri.full( components );
@@ -5459,16 +5459,16 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag'
   var got = _.uri.full( components );
@@ -5476,16 +5476,16 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag'
   var got = _.uri.full( components );
@@ -5493,16 +5493,16 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git?query=1#hash@tag'
   var got = _.uri.full( components );
@@ -5510,16 +5510,16 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    hash : 'hash', 
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    hash : 'hash',
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/?query=1#hash@tag'
   var got = _.uri.full( components );
@@ -5527,15 +5527,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag'
   var got = _.uri.full( components );
@@ -5543,15 +5543,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag'
   var got = _.uri.full( components );
@@ -5559,15 +5559,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git?query=1@tag'
   var got = _.uri.full( components );
@@ -5575,15 +5575,15 @@ function full( test )
 
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
-    origin : 'git://', 
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
+    origin : 'git://',
   }
   var expected = 'git:///somerepo.git/?query=1@tag'
   var got = _.uri.full( components );
@@ -5595,14 +5595,14 @@ function full( test )
   _realGlobal_.location = { origin : 'git://' }
   var components =
   {
-    protocol : 'git', 
-    host : '', 
-    localWebPath : '/somerepo.git/', 
+    protocol : 'git',
+    host : '',
+    localWebPath : '/somerepo.git/',
     query : 'query=1',
-    tag : 'tag', 
-    longPath : '/somerepo.git/', 
-    protocols : [ 'git' ], 
-    hostWithPort : '', 
+    tag : 'tag',
+    longPath : '/somerepo.git/',
+    protocols : [ 'git' ],
+    hostWithPort : '',
   }
   var got = _.uri.full( components );
   test.identical( got, expected );
