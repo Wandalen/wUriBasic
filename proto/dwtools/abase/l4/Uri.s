@@ -1983,7 +1983,6 @@ let Routines =
   parseFull,
   parseAtomic,
   parseConsecutive,
-  // parsedSupplementFull, /* qqq : implement, please. supplement parsed with parseAtomic by extra fields( returning parseFull ) */
   localFromGlobal,
 
   str,
