@@ -128,30 +128,6 @@ qqq : module:Tools?
  * @param {String} filePath Source uri
  *
  * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
- * @function isRefinedMaybeTrailed
- * @memberof module:Tools/base/Uri.wTools.uri
- */
-
-function isRefinedMaybeTrailed( filePath )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
-
-  if( this.isGlobal( filePath ) )
-  filePath = this.parseConsecutive( filePath ).longPath;
-
-  return parent.isRefinedMaybeTrailed.call( this, filePath );
-}
-
-//
-
-/**
- * @summary Checks if provided uri is refined.
- * @param {String} filePath Source uri
- *
- * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
  * @function isRefined
  * @memberof module:Tools/base/Uri.wTools.uri
  */
@@ -169,6 +145,30 @@ function isRefined( filePath )
   return parent.isRefined.call( this, filePath );
 }
 
+// //
+//
+// /**
+//  * @summary Checks if provided uri is refined.
+//  * @param {String} filePath Source uri
+//  *
+//  * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
+//  * @function isRefined
+//  * @memberof module:Tools/base/Uri.wTools.uri
+//  */
+//
+// function isRefined( filePath )
+// {
+//   let parent = this.path;
+//
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+//
+//   if( this.isGlobal( filePath ) )
+//   filePath = this.parseConsecutive( filePath ).longPath;
+//
+//   return parent.isRefined.call( this, filePath );
+// }
+
 //
 
 /**
@@ -176,11 +176,11 @@ function isRefined( filePath )
  * @param {String} filePath Source uri
  *
  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
- * @function isNormalizedMaybeTrailed
+ * @function isNormalized
  * @memberof module:Tools/base/Uri.wTools.uri
  */
 
-function isNormalizedMaybeTrailed( filePath )
+function isNormalized( filePath )
 {
   let parent = this.path;
 
@@ -190,32 +190,32 @@ function isNormalizedMaybeTrailed( filePath )
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
 
-  return parent.isNormalizedMaybeTrailed.call( this, filePath );
+  return parent.isNormalized.call( this, filePath );
 }
 
+// //
 //
-
-/**
- * @summary Checks if provided uri is normalized.
- * @param {String} filePath Source uri
- *
- * @example
- * _.uri.isNormalized( 'https:///web.archive.org' ); // returns true
- *
- * @example
- * _.uri.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
- *
- * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
- * @function isNormalized
- * @memberof module:Tools/base/Uri.wTools.uri
- */
-
-function isNormalized( path )
-{
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( path ), 'Expects string' );
-  return this.normalize( path ) === path;
-}
+// /**
+//  * @summary Checks if provided uri is normalized.
+//  * @param {String} filePath Source uri
+//  *
+//  * @example
+//  * _.uri.isNormalized( 'https:///web.archive.org' ); // returns true
+//  *
+//  * @example
+//  * _.uri.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
+//  *
+//  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
+//  * @function isNormalized
+//  * @memberof module:Tools/base/Uri.wTools.uri
+//  */
+//
+// function isNormalized( path )
+// {
+//   _.assert( arguments.length === 1, 'Expects single argument' );
+//   _.assert( _.strIs( path ), 'Expects string' );
+//   return this.normalize( path ) === path;
+// }
 
 //
 
@@ -1966,9 +1966,7 @@ let Routines =
 
   is,
   isSafe,
-  isRefinedMaybeTrailed,
   isRefined,
-  isNormalizedMaybeTrailed,
   isNormalized,
   isAbsolute,
   isRelative,
