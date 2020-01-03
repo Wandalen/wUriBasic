@@ -1161,6 +1161,81 @@ function detrail( srcPath )
   return this.str( srcPath );
 }
 
+//
+
+function name( o )
+{
+  let parent = this.path;
+  if( _.strIs( o ) )
+  o = { path : o }
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.mapIs( o ) );
+  _.assert( _.strIs( o.path ) );
+  _.routineOptions( name, o );
+
+  if( !this.isGlobal( o.path ) )
+  return parent.name.call( this, o );
+
+  let path = this.parseConsecutive( o.path );
+
+  let o2 = _.mapExtend( null,o );
+  o2.path = path.longPath;
+  return parent.name.call( this, o2 );
+}
+
+name.defaults = Object.create( Parent.name.defaults );
+
+//
+
+function ext( path )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( path ), 'Expects string' );
+
+  if( this.isGlobal( path ) )
+  path = this.parseConsecutive( path ).longPath;
+
+  return parent.ext.call( this, path );
+}
+
+//
+
+function exts( path )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strDefined( path ) );
+
+  if( this.isGlobal( path ) )
+  path = this.parseConsecutive( path ).longPath;
+
+  return parent.exts.call( this, path );
+}
+
+//
+
+function changeExt( path, ext )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert( _.strDefined( path ) );
+  _.assert( _.strIs( ext ) );
+
+  if( !this.isGlobal( path ) )
+  return parent.changeExt.call( this, path, ext );
+
+  path = this.parseConsecutive( path );
+
+  path.longPath = parent.changeExt( path.longPath, ext );
+
+  return this.str( path );
+}
+
 // --
 // joiner
 // --
@@ -1538,80 +1613,6 @@ function rebase( srcPath, oldPath, newPath )
 
 //
 
-function name( o )
-{
-  let parent = this.path;
-  if( _.strIs( o ) )
-  o = { path : o }
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.mapIs( o ) );
-  _.assert( _.strIs( o.path ) );
-  _.routineOptions( name, o );
-
-  if( !this.isGlobal( o.path ) )
-  return parent.name.call( this, o );
-
-  let path = this.parseConsecutive( o.path );
-
-  let o2 = _.mapExtend( null,o );
-  o2.path = path.longPath;
-  return parent.name.call( this, o2 );
-}
-
-name.defaults = Object.create( Parent.name.defaults );
-
-//
-
-function ext( path )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( path ), 'Expects string' );
-
-  if( this.isGlobal( path ) )
-  path = this.parseConsecutive( path ).longPath;
-
-  return parent.ext.call( this, path );
-}
-
-//
-
-function exts( path )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strDefined( path ) );
-
-  if( this.isGlobal( path ) )
-  path = this.parseConsecutive( path ).longPath;
-
-  return parent.exts.call( this, path );
-}
-
-//
-
-function changeExt( path, ext )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.strDefined( path ) );
-  _.assert( _.strIs( ext ) );
-
-  if( !this.isGlobal( path ) )
-  return parent.changeExt.call( this, path, ext );
-
-  path = this.parseConsecutive( path );
-
-  path.longPath = parent.changeExt( path.longPath, ext );
-
-  return this.str( path );
-}
-
-//
 
 function dir_body( o )
 {
@@ -1996,6 +1997,11 @@ let Routines =
   trail,
   detrail,
 
+  name,
+  ext,
+  exts,
+  changeExt,
+
   // joiner
 
   join_functor,
@@ -2009,10 +2015,6 @@ let Routines =
   common,
   rebase,
 
-  name,
-  ext,
-  exts,
-  changeExt,
   dir,
   dirFirst,
 
