@@ -8701,21 +8701,21 @@ function common( test )
   var got = _.uri.common( 'http://some.come/staging/index.html', 'http://some.come/some/staging/file.html' );
   test.identical( got, 'http://some.come/' );
 
-  // qqq !!! : implement
-  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.common( 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
-  // test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  //
-  // var got = _.uri.common( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' );
-  // test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
+  // xxx !!! : implement
+  var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  
+  var got = _.uri.common( 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  
+  var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  
+  var got = _.uri.common( 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  
+  var got = _.uri.common( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' );
+  test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
 
   var got = _.uri.common( '://some/staging/a/b/c', '://some/staging/a/b/c/index.html', '://some/staging/a/x' );
   test.identical( got, '://some/staging/a/' );

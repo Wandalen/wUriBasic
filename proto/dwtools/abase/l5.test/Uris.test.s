@@ -16,7 +16,7 @@ var _global = _global_;
 var _ = _global_.wTools;
 
 /*
-qqq : fix style problems and non-style problems in the test
+qqq : fix style problems and non-style problems in the test | Dmytro : fixed
 */
 
 // --
@@ -169,7 +169,7 @@ function common( test )
   var got = _.uri.s.common( 'http://some.come/staging/index.html', 'http://some.come/some/staging/file.html' );
   test.identical( got, 'http://some.come/' );
 
-  // qqq !!! : implement
+  // xxx !!! : implement
   var got = _.uri.s.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
 
