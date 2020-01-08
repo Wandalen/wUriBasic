@@ -10060,20 +10060,20 @@ function name( test )
   /* */
 
   test.case = 'uri filePath file';
-  var uri = 'http://www.site.com:13/path/name.txt'
-  var got = _.uri.name( uri );
+  var src = 'http://www.site.com:13/path/name.txt'
+  var got = _.uri.name( src );
   var expected = 'name';
   test.identical( got, expected );
 
   test.case = 'uri with params';
-  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uri.name( uri );
+  var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.name( src );
   var expected = 'name';
   test.identical( got, expected );
 
   test.case = 'uri without protocol';
-  var uri1 = '://www.site.com:13/path/name.js';
-  var got = _.uri.name( uri );
+  var src = '://www.site.com:13/path/name.js';
+  var got = _.uri.name( src );
   var expected = 'name';
   test.identical( got, expected );
 
@@ -10090,61 +10090,128 @@ function name( test )
 
 function ext( test )
 {
-  var paths =
-  [
-    /* */ '',
-    'some.txt',
-    '/foo/bar/baz.asdf',
-    '/foo/bar/.baz',
-    '/foo.coffee.md',
-    '/foo/bar/baz',
-    '/some/staging/index.html',
-    '//some/staging/index.html',
-    '///some/staging/index.html',
-    'file:///some/staging/index.html',
-    'http://some.come/staging/index.html',
-    'svn+https://user@subversion.com/svn/trunk/index.html',
-    'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor',
-    '://www.site.com:13/path/name.html?query=here&and=here#anchor',
-    ':///www.site.com:13/path/name.html?query=here&and=here#anchor',
-  ]
+  test.case = 'empty path, with ext';
+  var src = '';
+  var got = _.uri.ext( src );
+  var exp = '';
+  test.identical( got, exp );
 
-  var expected =
-  [
-    /* */ '',
-    'txt',
-    'asdf',
-    '',
-    'md',
-    '',
-    'html',
-    'html',
-    'html',
-    'html',
-    'html',
-    'html',
-    'html',
-    'html',
-    'html',
-  ]
+  test.case = 'filename';
+  var src = 'some.txt';
+  var got = _.uri.ext( src );
+  var exp = 'txt';
+  test.identical( got, exp );
 
-  test.case = 'ext test'
-  paths.forEach( ( path, i ) =>
-  {
-    test.logger.log( path )
-    var got = _.uri.ext( path );
-    var exp = expected[ i ];
-    test.identical( got, exp );
-  })
+  test.case = 'absolute path to file';
+  var src = '/foo/bar/baz.asdf';
+  var got = _.uri.ext( src );
+  var exp = 'asdf';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to hidden file, without ext';
+  var src = '/foo/bar/.baz';
+  var got = _.uri.ext( src );
+  var exp = '';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to hidden file';
+  var src = '/foo/bar/.baz';
+  var got = _.uri.ext( src );
+  var exp = '';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file with complex extention';
+  var src = '/foo.coffee.md';
+  var got = _.uri.ext( src );
+  var exp = 'md';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file without extention';
+  var src = '/foo/bar/baz';
+  var got = _.uri.ext( src );
+  var exp = '';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, one slash';
+  var src = '/some/staging/index.html';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, two slashes';
+  var src = '//some/staging/index.html';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, three slashes';
+  var src = '///some/staging/index.html';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'hard drive path to file';
+  var src = 'file:///some/staging/index.html';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'http path to file';
+  var src = 'http://some.come/staging/index.html';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'svn+https path to file';
+  var src = 'svn+https://user@subversion.com/svn/trunk/index.html';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'complex+protocol path to file';
+  var src = 'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  
+  test.case = 'complex path to file with parameters';
+  var src = '://www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  test.case = 'complex path to file with parameters';
+  var src = ':///www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.ext( src );
+  var exp = 'html';
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'uri filePath file';
+  var src = 'http://www.site.com:13/path/name.txt'
+  var got = _.uri.ext( src );
+  var expected = 'txt';
+  test.identical( got, expected );
+
+  test.case = 'uri with params';
+  var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.ext( src );
+  var expected = '';
+  test.identical( got, expected );
+
+  test.case = 'uri without protocol';
+  var src = '://www.site.com:13/path/name.js';
+  var got = _.uri.ext( src );
+  var expected = 'js';
+  test.identical( got, expected );
+  
+  /* - */
 
   if( !Config.debug )
   return;
 
   test.case = 'passed argument is non string';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri.ext( false );
-  });
+  test.shouldThrowErrorSync( () => _.uri.ext( false ) );
 }
 
 //
