@@ -17,7 +17,7 @@ var _global = _global_;
 var _ = _global_.wTools;
 
 /*
-qqq : improve style, remove array of expected values and array of inputs
+qqq : improve style, remove array of expected values and array of inputs | Dmytro : improved
 */
 
 // --
@@ -7194,7 +7194,7 @@ function joinRaw( test )
 
   test.case = 'other special cases';
 
-  /* qqq */
+  /* xxx */
 
   var paths = [  '/aa', 'bb//', 'cc' ];
   var expected = '/aa/bb//cc';
