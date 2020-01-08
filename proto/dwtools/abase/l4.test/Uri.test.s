@@ -26,7 +26,6 @@ qqq : improve style, remove array of expected values and array of inputs
 
 function isRelative( test )
 {
-
   test.case = 'relative with protocol'; /* */
 
   var path = 'ext://.';
@@ -54,14 +53,12 @@ function isRelative( test )
   var expected = false;
   var got = _.uri.isRelative( path );
   test.identical( got, expected );
-
 }
 
 //
 
 function isRoot( test )
 {
-
   test.case = 'local';
 
   var path = '/src/a1';
@@ -121,14 +118,12 @@ function isRoot( test )
   var path = 'extract+src://.';
   var got = _.uri.isRoot( path );
   test.identical( got, false );
-
 }
 
 //
 
 function normalize( test )
 {
-
   test.case = 'empty';
   var path = '';
   var expected = '';
@@ -285,14 +280,12 @@ function normalize( test )
   var expected ='https://web.archive.org/web/*\/http://index/ranking'
   var got = _.uri.normalize( path );
   test.identical( got, expected );
-
 }
 
 //
 
 function normalizeLocalPaths( test )
 {
-
   test.case = 'posix path'; /* */
 
   var path = '/foo/bar//baz/asdf/quux/..';
@@ -632,14 +625,12 @@ function normalizeLocalPaths( test )
   var expected = '..';
   var got = _.uri.normalize( path );
   test.identical( got, expected );
-
 }
 
 //
 
 function normalizeTolerant( test )
 {
-
   test.case = 'dot at end';
   var path = 'ext:///.';
   var expected = 'ext:///';
@@ -808,14 +799,12 @@ function normalizeTolerant( test )
   var expected ='https://web.archive.org/web/*\/http:/index/ranking/'
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
-
 }
 
 //
 
 function normalizeTolerantLocalPaths( test )
 {
-
   test.case = 'posix path'; /* */
 
   var path = '/foo/bar//baz/asdf/quux/..';
@@ -1170,7 +1159,6 @@ function normalizeTolerantLocalPaths( test )
   var expected = '..';
   var got = _.uri.normalizeTolerant( path );
   test.identical( got, expected );
-
 }
 
 //
@@ -1291,113 +1279,231 @@ function normalizeTolerantLocalPaths( test )
 
 function refine( test )
 {
-  test.case = 'refine the uri';
+  test.case = 'empty uri';
+  var src = '';
+  var got = _.uri.refine( src );
+  var exp = '';
+  test.identical( got, exp );
 
-  var cases =
-  [
-    { src : '', expected : '' },
-    { src : '.', expected : '.' },
+  test.case = 'dot uri';
+  var src = '.';
+  var got = _.uri.refine( src );
+  var exp = '.';
+  test.identical( got, exp );
 
-    { src : 'a/', expected : 'a/' },
-    { src : 'a//', expected : 'a//' },
-    { src : 'a\\', expected : 'a/' },
-    { src : 'a\\\\', expected : 'a//' },
+  test.case = 'uri - simple string';
+  var src = 'a';
+  var got = _.uri.refine( src );
+  var exp = 'a';
+  test.identical( got, exp );
 
-    { src : 'a', expected : 'a' },
-    { src : 'a/b', expected : 'a/b' },
-    { src : 'a\\b', expected : 'a/b' },
-    { src : '\\a\\b\\c', expected : '/a/b/c' },
-    { src : '\\\\a\\\\b\\\\c', expected : '//a//b//c' },
-    { src : '\\', expected : '/' },
-    { src : '\\\\', expected : '//' },
-    { src : '\\\\\\', expected : '///' },
-    { src : '/', expected : '/' },
-    { src : '//', expected : '//' },
-    { src : '///', expected : '///' },
+  test.case = 'uri ends on one slash';
+  var src = 'a/';
+  var got = _.uri.refine( src );
+  var exp = 'a/';
+  test.identical( got, exp );
 
-    {
-      src : '/some/staging/index.html',
-      expected : '/some/staging/index.html'
-    },
-    {
-      src : '/some/staging/index.html/',
-      expected : '/some/staging/index.html/'
-    },
-    {
-      src : '//some/staging/index.html',
-      expected : '//some/staging/index.html'
-    },
-    {
-      src : '//some/staging/index.html/',
-      expected : '//some/staging/index.html/'
-    },
-    {
-      src : '///some/staging/index.html',
-      expected : '///some/staging/index.html'
-    },
-    {
-      src : '///some/staging/index.html/',
-      expected : '///some/staging/index.html/'
-    },
-    {
-      src : 'file:///some/staging/index.html',
-      expected : 'file:///some/staging/index.html'
-    },
-    {
-      src : 'file:///some/staging/index.html/',
-      expected : 'file:///some/staging/index.html/'
-    },
-    {
-      src : 'http://some.come/staging/index.html',
-      expected : 'http://some.come/staging/index.html'
-    },
-    {
-      src : 'http://some.come/staging/index.html/',
-      expected : 'http://some.come/staging/index.html/'
-    },
-    {
-      src : 'svn+https://user@subversion.com/svn/trunk',
-      expected : 'svn+https://user@subversion.com/svn/trunk'
-    },
-    {
-      src : 'svn+https://user@subversion.com/svn/trunk/',
-      expected : 'svn+https://user@subversion.com/svn/trunk/'
-    },
-    {
-      src : 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor',
-      expected : 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
-    },
-    {
-      src : 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor',
-      expected : 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor'
-    },
-    {
-      src : 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking',
-      expected : 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking'
-    },
-    {
-      src : 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking',
-      expected : 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking'
-    },
-    {
-      src : '://www.site.com:13/path//name//?query=here&and=here#anchor',
-      expected : '://www.site.com:13/path//name/?query=here&and=here#anchor'
-    },
-    {
-      src : ':///www.site.com:13/path//name/?query=here&and=here#anchor',
-      expected : ':///www.site.com:13/path//name?query=here&and=here#anchor'
-    },
-  ]
+  test.case = 'uri ends on double slash';
+  var src = 'a//';
+  var got = _.uri.refine( src );
+  var exp = 'a//';
+  test.identical( got, exp );
 
-  for( var i = 0; i < cases.length; i++ )
-  {
-    var c = cases[ i ];
-    if( c.error )
-    test.shouldThrowErrorOfAnyKind( () => _.uri.refine( c.src ) );
-    else
-    test.identical( _.uri.refine( c.src ), c.expected );
-  }
+  test.case = 'uri ends on one backslash';
+  var src = 'a\\';
+  var got = _.uri.refine( src );
+  var exp = 'a/';
+  test.identical( got, exp );
 
+  test.case = 'uri ends on double backslash';
+  var src = 'a\\\\';
+  var got = _.uri.refine( src );
+  var exp = 'a//';
+  test.identical( got, exp );
+
+  test.case = 'uri has one slash between parts';
+  var src = 'a/b';
+  var got = _.uri.refine( src );
+  var exp = 'a/b';
+  test.identical( got, exp );
+
+  test.case = 'uri has double slash between parts';
+  var src = 'a//b';
+  var got = _.uri.refine( src );
+  var exp = 'a//b';
+  test.identical( got, exp );
+
+  test.case = 'uri has one backslash between parts';
+  var src = 'a\\b';
+  var got = _.uri.refine( src );
+  var exp = 'a/b';
+  test.identical( got, exp );
+
+  test.case = 'uri has double backslash between parts';
+  var src = 'a\\\\b';
+  var got = _.uri.refine( src );
+  var exp = 'a//b';
+  test.identical( got, exp );
+
+  test.case = 'uri has a few backslash between parts';
+  var src = '\\a\\b\\c';
+  var got = _.uri.refine( src );
+  var exp = '/a/b/c';
+  test.identical( got, exp );
+
+  test.case = 'uri has a few double backslash between parts';
+  var src = '\\\\a\\\\b\\\\c';
+  var got = _.uri.refine( src );
+  var exp = '//a//b//c';
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'uri - one slash';
+  var src = '/';
+  var got = _.uri.refine( src );
+  var exp = '/';
+  test.identical( got, exp );
+
+  test.case = 'uri - double slash';
+  var src = '//';
+  var got = _.uri.refine( src );
+  var exp = '//';
+  test.identical( got, exp );
+
+  test.case = 'uri - triple slash';
+  var src = '///';
+  var got = _.uri.refine( src );
+  var exp = '///';
+  test.identical( got, exp );
+
+  test.case = 'uri - one backslash';
+  var src = '\\';
+  var got = _.uri.refine( src );
+  var exp = '/';
+  test.identical( got, exp );
+
+  test.case = 'uri - double backslash';
+  var src = '\\\\';
+  var got = _.uri.refine( src );
+  var exp = '//';
+  test.identical( got, exp );
+
+  test.case = 'uri - triple backslash';
+  var src = '\\\\\\';
+  var got = _.uri.refine( src );
+  var exp = '///';
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'uri - simple path';
+  var src = '/some/staging/index.html';
+  var got = _.uri.refine( src );
+  var exp = '/some/staging/index.html';
+  test.identical( got, exp );
+
+  test.case = 'uri - simple path, ends by slash';
+  var src = '/some/staging/index.html/';
+  var got = _.uri.refine( src );
+  var exp = '/some/staging/index.html/';
+  test.identical( got, exp );
+
+  test.case = 'uri - begins by double slash';
+  var src = '//some/staging/index.html';
+  var got = _.uri.refine( src );
+  var exp = '//some/staging/index.html';
+  test.identical( got, exp );
+
+  test.case = 'uri - begins by double slash, ends by slash';
+  var src = '//some/staging/index.html/';
+  var got = _.uri.refine( src );
+  var exp = '//some/staging/index.html/';
+  test.identical( got, exp );
+
+  test.case = 'uri - begins by triple slash';
+  var src = '///some/staging/index.html';
+  var got = _.uri.refine( src );
+  var exp = '///some/staging/index.html';
+  test.identical( got, exp );
+
+  test.case = 'uri - begins by triple slash, ends by slash';
+  var src = '///some/staging/index.html/';
+  var got = _.uri.refine( src );
+  var exp = '///some/staging/index.html/';
+  test.identical( got, exp );
+
+  test.case = 'hard drive path';
+  var src = 'file:///some/staging/index.html';
+  var got = _.uri.refine( src );
+  var exp = 'file:///some/staging/index.html';
+  test.identical( got, exp );
+
+  test.case = 'hard drive path, ends by slash';
+  var src = 'file:///some/staging/index.html/';
+  var got = _.uri.refine( src );
+  var exp = 'file:///some/staging/index.html/';
+  test.identical( got, exp );
+
+  test.case = 'http path';
+  var src = 'http://some/staging/index.html';
+  var got = _.uri.refine( src );
+  var exp = 'http://some/staging/index.html';
+  test.identical( got, exp );
+
+  test.case = 'http path, ends by slash';
+  var src = 'http://some/staging/index.html/';
+  var got = _.uri.refine( src );
+  var exp = 'http://some/staging/index.html/';
+  test.identical( got, exp );
+
+  test.case = 'svn+https path';
+  var src = 'svn+https://user@subversion.com/svn/trunk';
+  var got = _.uri.refine( src );
+  var exp = 'svn+https://user@subversion.com/svn/trunk';
+  test.identical( got, exp );
+
+  test.case = 'svn+https path, ends by slash';
+  var src = 'svn+https://user@subversion.com/svn/trunk/';
+  var got = _.uri.refine( src );
+  var exp = 'svn+https://user@subversion.com/svn/trunk/';
+  test.identical( got, exp );
+
+  test.case = 'complex+protocol path';
+  var src = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uri.refine( src );
+  var exp = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'complex+protocol path, unnecessary slash';
+  var src = 'complex+protocol://www.site.com:13/path/name/?query=here&and=here#anchor';
+  var got = _.uri.refine( src );
+  var exp = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'a few paths in string';
+  var src = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking';
+  var got = _.uri.refine( src );
+  var exp = 'https://web.archive.org/web/*/http://www.heritage.org/index/ranking';
+  test.identical( got, exp );
+
+  test.case = 'a few paths in string';
+  var src = 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking';
+  var got = _.uri.refine( src );
+  var exp = 'https://web.archive.org//web//*//http://www.heritage.org//index//ranking';
+  test.identical( got, exp );
+
+  test.case = 'path, one slash before query';
+  var src = '://www.site.com:13/path//name/?query=here&and=here#anchor';
+  var got = _.uri.refine( src );
+  var exp = '://www.site.com:13/path//name?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'path, a few slash before query';
+  var src = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uri.refine( src );
+  var exp = '://www.site.com:13/path//name/?query=here&and=here#anchor';
+  test.identical( got, exp );
 }
 
 //
@@ -1452,7 +1558,6 @@ function urisRefine( test )
 
   var got = _.uri.s.refine( srcs );
   test.identical( got, expected );
-
 }
 
 //
