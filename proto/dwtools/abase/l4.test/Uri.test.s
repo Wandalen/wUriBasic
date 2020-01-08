@@ -10090,7 +10090,7 @@ function name( test )
 
 function ext( test )
 {
-  test.case = 'empty path, with ext';
+  test.case = 'empty path';
   var src = '';
   var got = _.uri.ext( src );
   var exp = '';
@@ -10108,7 +10108,7 @@ function ext( test )
   var exp = 'asdf';
   test.identical( got, exp );
 
-  test.case = 'absolute path to hidden file, without ext';
+  test.case = 'absolute path to hidden file';
   var src = '/foo/bar/.baz';
   var got = _.uri.ext( src );
   var exp = '';
@@ -10218,59 +10218,97 @@ function ext( test )
 
 function changeExt( test )
 {
-  var paths =
-  [
-    { path : 'some.txt', ext : 'abc' },
-    { path : '/foo/bar/baz.asdf', ext : 'abc' },
-    { path : '/foo/bar/.baz', ext : 'abc' },
-    { path : '/foo.coffee.md', ext : 'abc' },
-    { path : '/foo/bar/baz', ext : 'abc' },
-    { path : '/some/staging/index.html', ext : 'abc' },
-    { path : '//some/staging/index.html', ext : 'abc' },
-    { path : '///some/staging/index.html', ext : 'abc' },
-    { path : 'file:///some/staging/index.html', ext : 'abc' },
-    { path : 'http://some.come/staging/index.html', ext : 'abc' },
-    { path : 'svn+https://user@subversion.com/svn/trunk/index.html', ext : 'abc' },
-    { path : 'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor', ext : 'abc' },
-    { path : '://www.site.com:13/path/name.html?query=here&and=here#anchor', ext : 'abc' },
-    { path : ':///www.site.com:13/path/name.html?query=here&and=here#anchor', ext : 'abc' },
-  ]
+  test.case = 'filename with extention';
+  var src = 'some.txt';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = 'some.abc';
+  test.identical( got, exp );
 
-  var expected =
-  [
-    'some.abc',
-    '/foo/bar/baz.abc',
-    '/foo/bar/.baz.abc',
-    '/foo.coffee.abc',
-    '/foo/bar/baz.abc',
-    '/some/staging/index.abc',
-    '//some/staging/index.abc',
-    '///some/staging/index.abc',
-    'file:///some/staging/index.abc',
-    'http://some.come/staging/index.abc',
-    'svn+https://user@subversion.com/svn/trunk/index.abc',
-    'complex+protocol://www.site.com:13/path/name.abc?query=here&and=here#anchor',
-    '://www.site.com:13/path/name.abc?query=here&and=here#anchor',
-    ':///www.site.com:13/path/name.abc?query=here&and=here#anchor',
-  ]
+  test.case = 'absolute path to file with extention';
+  var src = '/foo/bar/baz.asdf';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '/foo/bar/baz.abc';
+  test.identical( got, exp );
 
-  test.case = 'changeExt test'
-  paths.forEach( ( c, i ) =>
-  {
-    test.logger.log( c.path, c.ext )
-    var got = _.uri.changeExt( c.path, c.ext );
-    var exp = expected[ i ];
-    test.identical( got, exp );
-  })
+  test.case = 'absolute path to hidden file';
+  var src = '/foo/bar/.baz';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '/foo/bar/.baz.abc';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file with complex extention';
+  var src = '/foo.coffee.md';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '/foo.coffee.abc';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file without extention';
+  var src = '/foo/bar/baz';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '/foo/bar/baz.abc';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, begins on one slash';
+  var src = '/some/staging/index.html';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '/some/staging/index.abc';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, begins on two slashes';
+  var src = '//some/staging/index.html';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '//some/staging/index.abc';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, begins on three slashes';
+  var src = '///some/staging/index.html';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '///some/staging/index.abc';
+  test.identical( got, exp );
+
+  test.case = 'hard drive path to file';
+  var src = 'file:///some/staging/index.html';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = 'file:///some/staging/index.abc';
+  test.identical( got, exp );
+
+  test.case = 'http path to file';
+  var src = 'http://some.come/staging/index.html';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = 'http://some.come/staging/index.abc';
+  test.identical( got, exp );
+
+  test.case = 'svn+https path to file';
+  var src = 'svn+https://user@subversion.com/svn/trunk/index.html';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = 'svn+https://user@subversion.com/svn/trunk/index.abc';
+  test.identical( got, exp );
+
+  test.case = 'complex+protocol path to file';
+  var src = 'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = 'complex+protocol://www.site.com:13/path/name.abc?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'path to file with options';
+  var src = '://www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = '://www.site.com:13/path/name.abc?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'path to file with options';
+  var src = ':///www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.changeExt( src, 'abc' );
+  var exp = ':///www.site.com:13/path/name.abc?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  /* - */
 
   if( !Config.debug )
   return;
 
   test.case = 'passed argument is non string';
-  test.shouldThrowErrorSync( function()
-  {
-    _.uri.changeExt( false );
-  });
+  test.shouldThrowErrorSync( () => _.uri.changeExt( false ) );
 }
 
 //
