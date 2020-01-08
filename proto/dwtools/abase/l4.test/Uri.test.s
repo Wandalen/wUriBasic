@@ -10403,7 +10403,7 @@ function dir( test )
   var exp = ':///www.site.com:13/path?query=here&and=here#anchor';
   test.identical( got, exp );
 
-  /* - */
+  /* */
 
   test.open( 'trailing slash' );
 
@@ -10498,55 +10498,94 @@ function dirFirst( test )
 {
 
   /*
-  qqq : improve style, remove array of expected values and array of inputs
+  qqq : improve style, remove array of expected values and array of inputs | Dmytro : improved
   */
 
-  var paths =
-  [
-    'some.txt',
-    '/foo/bar/baz.asdf',
-    '/foo/bar/.baz',
-    '/foo.coffee.md',
-    '/foo/bar/baz',
-    '/some/staging/index.html',
-    '//some/staging/index.html',
-    '///some/staging/index.html',
-    'file:///some/staging/index.html',
-    'http://some.come/staging/index.html',
-    'svn+https://user@subversion.com/svn/trunk/index.html',
-    'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor',
-    '://www.site.com:13/path/name.html?query=here&and=here#anchor',
-    ':///www.site.com:13/path/name.html?query=here&and=here#anchor',
-  ]
+  test.case = 'filename';
+  var src = 'some.txt';
+  var got = _.uri.dirFirst( src );
+  var exp = './';
+  test.identical( got, exp );
 
-  var expected =
-  [
-    './',
-    '/foo/bar/',
-    '/foo/bar/',
-    '/',
-    '/foo/bar/',
-    '/some/staging/',
-    '//some/staging/',
-    '///some/staging/',
-    'file:///some/staging/',
-    'http://some.come/staging/',
-    'svn+https://user@subversion.com/svn/trunk/',
-    'complex+protocol://www.site.com:13/path/?query=here&and=here#anchor',
-    '://www.site.com:13/path/?query=here&and=here#anchor',
-    ':///www.site.com:13/path/?query=here&and=here#anchor',
-  ]
+  test.case = 'absolute path to file';
+  var src = '/foo/bar/baz.asdf';
+  var got = _.uri.dirFirst( src );
+  var exp = '/foo/bar/';
+  test.identical( got, exp );
 
-  test.case = 'dir test'
-  paths.forEach( ( path, i ) =>
-  {
-    test.logger.log( path )
-    var got = _.uri.dirFirst( path );
-    var exp = expected[ i ];
-    test.identical( got, exp );
-  })
+  test.case = 'absolute path to hidden file';
+  var src = '/foo/bar/.baz';
+  var got = _.uri.dirFirst( src );
+  var exp = '/foo/bar/';
+  test.identical( got, exp );
 
-  /* - */
+  test.case = 'absolute path to file with complex extention';
+  var src = '/foo.coffee.md';
+  var got = _.uri.dirFirst( src );
+  var exp = '/';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file without extention';
+  var src = '/foo/bar/baz';
+  var got = _.uri.dirFirst( src );
+  var exp = '/foo/bar/';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, begins on one slash';
+  var src = '/some/staging/index.html';
+  var got = _.uri.dirFirst( src );
+  var exp = '/some/staging/';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, begins on two slashes';
+  var src = '//some/staging/index.html';
+  var got = _.uri.dirFirst( src );
+  var exp = '//some/staging/';
+  test.identical( got, exp );
+
+  test.case = 'absolute path to file, begins on three slashes';
+  var src = '///some/staging/index.html';
+  var got = _.uri.dirFirst( src );
+  var exp = '///some/staging/';
+  test.identical( got, exp );
+
+  test.case = 'hard drive path to file';
+  var src = 'file:///some/staging/index.html';
+  var got = _.uri.dirFirst( src );
+  var exp = 'file:///some/staging/';
+  test.identical( got, exp );
+
+  test.case = 'http path to file';
+  var src = 'http://some.come/staging/index.html';
+  var got = _.uri.dirFirst( src );
+  var exp = 'http://some.come/staging/';
+  test.identical( got, exp );
+
+  test.case = 'svn+https path to file';
+  var src = 'svn+https://user@subversion.com/svn/trunk/index.html';
+  var got = _.uri.dirFirst( src );
+  var exp = 'svn+https://user@subversion.com/svn/trunk/';
+  test.identical( got, exp );
+
+  test.case = 'complex+protocol path to file';
+  var src = 'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.dirFirst( src );
+  var exp = 'complex+protocol://www.site.com:13/path/?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'path to file with options';
+  var src = '://www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.dirFirst( src );
+  var exp = '://www.site.com:13/path/?query=here&and=here#anchor';
+  test.identical( got, exp );
+
+  test.case = 'path to file with options';
+  var src = ':///www.site.com:13/path/name.html?query=here&and=here#anchor';
+  var got = _.uri.dirFirst( src );
+  var exp = ':///www.site.com:13/path/?query=here&and=here#anchor';
+  test.identical( got, exp ); 
+
+  /* */
 
   test.open( 'trailing slash' );
 
