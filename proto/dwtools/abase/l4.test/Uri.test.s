@@ -1463,9 +1463,10 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
+    tag : 'tag',
     hostWithPort : '',
     origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git@tag'
@@ -2088,8 +2089,9 @@ function parseAtomic( test )
 
   var expected =
   {
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
     host : '',
+    tag : 'tag',
     protocol : 'git',
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
@@ -2647,7 +2649,8 @@ function parseConsecutive( test )
   var expected =
   {
     protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    tag : 'tag'
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
   test.identical( got, expected );
@@ -3319,10 +3322,11 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
     hostWithPort : '',
+    tag : 'tag',
     origin : 'git://',
     full : 'git:///git@bitbucket.org:someorg/somerepo.git@tag'
   }
@@ -3843,7 +3847,13 @@ function parseGlob( test )
 
   var src = 'dir/@(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = 
+  {
+    localWebPath : 'dir/', 
+    tag : '(ab).js',
+    longPath : 'dir/', 
+    full : src
+  }
   test.contains( got, expected );
 
   var src = 'dir/!(ab).js';
@@ -4323,10 +4333,11 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : '13',
-    'localWebPath' : '/@(ab)',
+    'localWebPath' : '/',
+    'tag' : '(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
-    'longPath' : 'www.site.com:13/@(ab)',
+    'longPath' : 'www.site.com:13/',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4494,10 +4505,11 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : '13',
-    'localWebPath' : '/dir/@(ab).js',
+    'localWebPath' : '/dir/',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
-    'longPath' : 'www.site.com:13/dir/@(ab).js',
+    'tag' : '(ab).js',
+    'longPath' : 'www.site.com:13/dir/',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -8710,7 +8722,7 @@ function groupTextualReport( test )
     spentTime : 5000
   }
   var got = _.uri.groupTextualReport( _.mapExtend( null,defaults, o ) );
-  var expected = '0 file(s), found in 5.000s';
+  var expected = '0 file(s), in 5.000s';
   test.identical( got, expected );
 
   test.open( 'locals' )
@@ -8754,7 +8766,7 @@ function groupTextualReport( test )
     '   4 at /',
     '   2 at ./a',
     '   2 at ./b',
-    '- Deleted 4 file(s), at /, found in 5.000s'
+    '- Deleted 4 file(s), at /, in 5.000s'
   ].join( '\n' )
   test.identical( got, expected );
 
@@ -8780,7 +8792,7 @@ function groupTextualReport( test )
              4 at /
              2 at ./a
              2 at ./b
-          - Deleted 4 file(s), at /, found in 5.000s
+          - Deleted 4 file(s), at /, in 5.000s
 `
   test.equivalent( got, expected );
 
@@ -8807,7 +8819,7 @@ function groupTextualReport( test )
      4 at .
      2 at ./a
      2 at ./b
-  - Deleted 4 file(s), at ., found in 5.000s`
+  - Deleted 4 file(s), at ., in 5.000s`
   test.equivalent( got, expected );
 
   test.close( 'locals' );
@@ -8855,7 +8867,7 @@ function groupTextualReport( test )
     '   4 at file:///',
     '   2 at ./a',
     '   2 at ./b',
-    '- Deleted 4 file(s), at file:///, found in 5.000s'
+    '- Deleted 4 file(s), at file:///, in 5.000s'
   ].join( '\n' )
   test.equivalent( got, expected );
 
@@ -8882,7 +8894,7 @@ function groupTextualReport( test )
      4 at file:///
      2 at ./a
      2 at ./b
-  - Deleted 4 file(s), at file:///, found in 5.000s
+  - Deleted 4 file(s), at file:///, in 5.000s
 `
   test.equivalent( got, expected );
 
@@ -8909,7 +8921,7 @@ function groupTextualReport( test )
      4 at file://.
      2 at ./a
      2 at ./b
-  - Deleted 4 file(s), at file://., found in 5.000s
+  - Deleted 4 file(s), at file://., in 5.000s
   `
   test.equivalent( got, expected );
 
