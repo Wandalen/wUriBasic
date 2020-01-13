@@ -101,7 +101,7 @@ function is( path )
  *
  * @returns {Boolean} Returns result of check for safetiness.
  * @function isSafe
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isSafe( path, level )
@@ -118,7 +118,7 @@ function isSafe( path, level )
 }
 
 /*
-qqq : module:Tools?
+qqq : module:Tools? | Dmytro : changed similar to module wPathBasic
 */
 
 //
@@ -129,7 +129,7 @@ qqq : module:Tools?
  *
  * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
  * @function isRefined
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isRefined( filePath )
@@ -153,7 +153,7 @@ function isRefined( filePath )
 //  *
 //  * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
 //  * @function isRefined
-//  * @memberof module:Tools/base/Uri.wTools.uri
+//  * @memberof module:Tools/UriBasic.wTools.uri
 //  */
 //
 // function isRefined( filePath )
@@ -177,7 +177,7 @@ function isRefined( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
  * @function isNormalized
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isNormalized( filePath )
@@ -207,7 +207,7 @@ function isNormalized( filePath )
 //  *
 //  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
 //  * @function isNormalized
-//  * @memberof module:Tools/base/Uri.wTools.uri
+//  * @memberof module:Tools/UriBasic.wTools.uri
 //  */
 //
 // function isNormalized( path )
@@ -231,7 +231,7 @@ function isNormalized( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is absolute, otherwise false.
  * @function isAbsolute
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isAbsolute( path )
@@ -255,7 +255,7 @@ function isAbsolute( path )
  *
  * @returns {Boolean} Returns true if {filePath} is relative, otherwise false.
  * @function isRelative
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isRelative( filePath )
@@ -285,7 +285,7 @@ function isRelative( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is root, otherwise false.
  * @function isRoot
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isRoot( filePath )
@@ -308,7 +308,7 @@ function isRoot( filePath )
  *
  * @returns {Boolean} Returns true if path begins with dot, otherwise false.
  * @function isDotted
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isDotted( filePath )
@@ -332,7 +332,7 @@ function isDotted( filePath )
  *
  * @returns {Boolean} Returns true if path ends with slash, otherwise false.
  * @function isTrailed
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isTrailed( filePath )
@@ -356,7 +356,7 @@ function isTrailed( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is glob, otherwise false.
  * @function isGlob
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function isGlob( filePath )
@@ -391,7 +391,7 @@ function isGlob( filePath )
  * @property {string} hostWithPort host portion of the URI, including the port if specified.
  * @property {string} origin protocol + host + port
  * @private
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 let UriComponents =
@@ -630,7 +630,7 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
  * @function parse
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 let parse = _.routineFromPreAndBody( parse_pre, parse_body );
@@ -701,7 +701,7 @@ function localFromGlobal( globalPath )
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
  * @function str
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function str( c )
@@ -1018,7 +1018,7 @@ str.components = UriComponents;
  *
  * @returns {string} composed uri
  * @function full
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function full( o )
@@ -1159,6 +1159,81 @@ function detrail( srcPath )
   srcPath.longPath = this.path.detrail( srcPath.longPath );
 
   return this.str( srcPath );
+}
+
+//
+
+function name( o )
+{
+  let parent = this.path;
+  if( _.strIs( o ) )
+  o = { path : o }
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.mapIs( o ) );
+  _.assert( _.strIs( o.path ) );
+  _.routineOptions( name, o );
+
+  if( !this.isGlobal( o.path ) )
+  return parent.name.call( this, o );
+
+  let path = this.parseConsecutive( o.path );
+
+  let o2 = _.mapExtend( null,o );
+  o2.path = path.longPath;
+  return parent.name.call( this, o2 );
+}
+
+name.defaults = Object.create( Parent.name.defaults );
+
+//
+
+function ext( path )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strIs( path ), 'Expects string' );
+
+  if( this.isGlobal( path ) )
+  path = this.parseConsecutive( path ).longPath;
+
+  return parent.ext.call( this, path );
+}
+
+//
+
+function exts( path )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( _.strDefined( path ) );
+
+  if( this.isGlobal( path ) )
+  path = this.parseConsecutive( path ).longPath;
+
+  return parent.exts.call( this, path );
+}
+
+//
+
+function changeExt( path, ext )
+{
+  let parent = this.path;
+
+  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
+  _.assert( _.strDefined( path ) );
+  _.assert( _.strIs( ext ) );
+
+  if( !this.isGlobal( path ) )
+  return parent.changeExt.call( this, path, ext );
+
+  path = this.parseConsecutive( path );
+
+  path.longPath = parent.changeExt( path.longPath, ext );
+
+  return this.str( path );
 }
 
 // --
@@ -1538,80 +1613,6 @@ function rebase( srcPath, oldPath, newPath )
 
 //
 
-function name( o )
-{
-  let parent = this.path;
-  if( _.strIs( o ) )
-  o = { path : o }
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.mapIs( o ) );
-  _.assert( _.strIs( o.path ) );
-  _.routineOptions( name, o );
-
-  if( !this.isGlobal( o.path ) )
-  return parent.name.call( this, o );
-
-  let path = this.parseConsecutive( o.path );
-
-  let o2 = _.mapExtend( null,o );
-  o2.path = path.longPath;
-  return parent.name.call( this, o2 );
-}
-
-name.defaults = Object.create( Parent.name.defaults );
-
-//
-
-function ext( path )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( path ), 'Expects string' );
-
-  if( this.isGlobal( path ) )
-  path = this.parseConsecutive( path ).longPath;
-
-  return parent.ext.call( this, path );
-}
-
-//
-
-function exts( path )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strDefined( path ) );
-
-  if( this.isGlobal( path ) )
-  path = this.parseConsecutive( path ).longPath;
-
-  return parent.exts.call( this, path );
-}
-
-//
-
-function changeExt( path, ext )
-{
-  let parent = this.path;
-
-  _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-  _.assert( _.strDefined( path ) );
-  _.assert( _.strIs( ext ) );
-
-  if( !this.isGlobal( path ) )
-  return parent.changeExt.call( this, path, ext );
-
-  path = this.parseConsecutive( path );
-
-  path.longPath = parent.changeExt( path.longPath, ext );
-
-  return this.str( path );
-}
-
-//
 
 function dir_body( o )
 {
@@ -1777,7 +1778,7 @@ let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.m
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
  * @function documentGet
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function documentGet( path, o )
@@ -1831,7 +1832,7 @@ documentGet.defaults =
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
  * @function server
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function server( path )
@@ -1867,7 +1868,7 @@ function server( path )
  * @param {string } [path] uri
  * @returns {string}
  * @function query
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function query( path )
@@ -1897,7 +1898,7 @@ function query( path )
  * @param {string} query query string
  * @returns {Object}
  * @function dequery
- * @memberof module:Tools/base/Uri.wTools.uri
+ * @memberof module:Tools/UriBasic.wTools.uri
  */
 
 function dequery( query )
@@ -1996,6 +1997,11 @@ let Routines =
   trail,
   detrail,
 
+  name,
+  ext,
+  exts,
+  changeExt,
+
   // joiner
 
   join_functor,
@@ -2009,10 +2015,6 @@ let Routines =
   common,
   rebase,
 
-  name,
-  ext,
-  exts,
-  changeExt,
   dir,
   dirFirst,
 
