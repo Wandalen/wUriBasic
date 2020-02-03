@@ -1478,9 +1478,18 @@ function common()
 
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
-    _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
+    // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
+    /* Dmytro : added first condition for : 
+       _.uri.common( path1, path2 );
+       _.uri.common( _.uri.parse( path1 ), _.uri.parse( path2 ) );
+       має давати однаковий результат */
     if( _.mapIs( uris[ s ] ) )
-    _.longBut( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
+    {
+      if( _.mapHasOnly( uris[ s ], this.UriComponents ) ) 
+      _.longBut( uris, [ s, s+1 ], this.str( uris[ s ] ) );
+      else
+      _.longBut( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
+    }
   }
 
   // _.assert( uris.length, 'Expects at least one argument' );
