@@ -1949,22 +1949,10 @@ function dequery( query )
 }
 
 // --
-// declare Fields
-// --
-
-let Fields =
-{
-
-  single : Self,
-  UriComponents,
-
-}
-
-// --
 // declare routines
 // --
 
-let Routines =
+let Extension =
 {
 
   // internal
@@ -2036,10 +2024,14 @@ let Routines =
   query,
   dequery,
 
+  // fields
+
+  single : Self,
+  UriComponents,
+
 }
 
-_.mapSupplementOwn( Self, Fields );
-_.mapSupplementOwn( Self, Routines );
+_.mapSupplementOwn( Self, Extension );
 
 Self.Init();
 
