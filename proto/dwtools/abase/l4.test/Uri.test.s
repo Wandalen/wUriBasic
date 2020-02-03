@@ -8783,6 +8783,194 @@ function common( test )
 
 //
 
+function commonMapsInArgs( test ) 
+{
+  test.case = 'array with paths';
+  var src1 = _.uri.parseFull( '/a1/b2' );
+  var src2 = _.uri.parse( '/a1/b' );
+  var got = _.uri.common( [ src1, src2 ] );
+  test.identical( got, '/a1/' );
+
+  test.case = 'array with paths and path';
+  var src1 = _.uri.parseFull( '/a1/b1/c' );
+  var src2 = _.uri.parse( '/a1/b1/d' );
+  var src3 = _.uri.parseAtomic( '/a1/b2' );
+  var got = _.uri.common( [ src1, src2 ], src3 );
+  test.identical( got, '/a1/' );
+
+  /* */
+
+  test.case = 'equal protocols and local path';
+  var src1 = _.uri.parse( 'npm:///wprocedure#0.3.19' );
+  var src2 = _.uri.parse( 'npm:///wprocedure' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'npm:///wprocedure' );
+
+  test.case = 'equal protocols, local paths has anchor tags';
+  var src1 = _.uri.parseAtomic( 'npm:///wprocedure#0.3.19' );
+  var src2 = _.uri.parseAtomic( 'npm:///wprocedure#' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'npm:///wprocedure' );
+
+  test.case = 'equal complex protocols and local paths';
+  var src1 = _.uri.parseConsecutive( 'git+https:///github.com/repo/wTools#bd9094b83' );
+  var src2 = _.uri.parseConsecutive( 'git+https:///github.com/repo/wTools#master' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'git+https:///github.com/repo/wTools' );
+
+  test.case = 'without protocols, local paths is different';
+  var src1 = _.uri.parseFull( '://a1/b2' );
+  var src2 = _.uri.parseFull( '://some/staging/index.html' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '://.' );
+
+  test.case = 'without protocols, local paths partly equal';
+  var src1 = _.uri.parse( '://some/staging/index.html' );
+  var src2 = _.uri.parseFull( '://some/staging/' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '://some/staging/' );
+
+  test.case = 'without protocols, local paths partly equal, not full subpath';
+  var src1 = _.uri.parseAtomic( '://some/staging/index.html' );
+  var src2 = _.uri.parseFull( '://some/stagi' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '://some/' );
+
+  test.case = 'local paths partly equal, not full subpath';
+  var src1 = _.uri.parseConsecutive( 'file:///some/staging/index.html' );
+  var src2 = _.uri.parseFull( ':///some/stagi' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, ':///some/' );
+
+  test.case = 'local paths partly equal, not full subpath';
+  var src1 = _.uri.parse( 'file://some/staging/index.html' );
+  var src2 = _.uri.parseFull( '://some/stagi' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '://some/' );
+
+  test.case = 'local paths partly equal, not full subpath';
+  var src1 = _.uri.parseConsecutive( 'file:///some/staging/index.html' );
+  var src2 = _.uri.parseAtomic( '/some/stagi' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, ':///some/' );
+
+  test.case = 'equal protocols, local paths partly equal, not full subpath';
+  var src1 = _.uri.parseFull( 'file:///some/staging/index.html' );
+  var src2 = _.uri.parseConsecutive( 'file:///some/staging' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'file:///some/staging' );
+
+  test.case = 'path with protocol and without it, partly equal';
+  var src1 = _.uri.parse( 'http://some' );
+  var src2 = _.uri.parse( 'some/staging' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '://some' );
+
+  test.case = 'map with paths in keys, path with protocol and without it';
+  var src = { 'some/staging' : '', 'http://some' : '' };
+  var got = _.uri.common( src );
+  test.identical( got, '://some' );
+
+  test.case = 'map with paths in keys, path with protocol and without it';
+  var src = { 'http://some.come/staging/index.html' : '', 'some/staging' : '' };
+  var got = _.uri.common( src );
+  test.identical( got, '://.' );
+
+  test.case = 'path with protocol and without it, local paths is not equal';
+  var src1 = _.uri.parse( 'http:///some.come/staging/index.html' );
+  var src2 = _.uri.parseFull( '/some/staging' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, ':///' );
+
+  test.case = 'different protocols and local paths';
+  var src1 = _.uri.parseFull( 'http://some.come/staging/index.html' );
+  var src2 = _.uri.parseFull( 'file://some/staging' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '' );
+
+  test.case = 'path with protocol and without it, local paths is not equal';
+  var src1 = _.uri.parseConsecutive( 'http:///some.come/staging/index.html' );
+  var src2 = _.uri.parse( 'file:///some/staging' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, '' );
+
+  test.case = 'the same protocols';
+  var src1 = _.uri.parseAtomic( 'http:///some.come/staging/index.html' );
+  var src2 = _.uri.parseConsecutive( 'http:///some/staging/file.html' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'http:///' );
+
+  test.case = 'path with equal protocols, begin of local paths is equal';
+  var src1 = _.uri.parseFull( 'http://some.come/staging/index.html' );
+  var src2 = _.uri.parse( 'http://some.come/some/staging/file.html' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'http://some.come/' );
+
+  test.case = 'one path has queries and anchor';
+  var src1 = _.uri.parse( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
+  var src2 = _.uri.parseConsecutive( 'complex+protocol://www.site.com:13/path' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  
+  test.case = 'two paths has equal begin, second paths has not full query and anchor';
+  var src1 = _.uri.parse( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
+  var src2 = _.uri.parseAtomic( 'complex+protocol://www.site.com:13/path?query=here' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'complex+protocol://www.site.com:13/path' );
+  
+  test.case = 'paths with ports';
+  var src1 = _.uri.parseFull( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash' );
+  var src2 = _.uri.parseAtomic( 'https://user:pass@sub.host.com:8080/p/a' );
+  var got = _.uri.common( src1, src2 );
+  test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
+
+  test.case = 'three paths';
+  var src1 = _.uri.parse( '://some/staging/a/b/c' );
+  var src2 = _.uri.parse( '://some/staging/a/b/c/index.html' );
+  var got = _.uri.common( src1, src2, '://some/staging/a/x' );
+  test.identical( got, '://some/staging/a/' );
+
+  test.case = 'one map and one string path, only protocols';
+  var src = _.uri.parseAtomic( 'http:///' );
+  var got = _.uri.common( src, 'http:///' );
+  test.identical( got, 'http:///' );
+
+  test.case = 'one path';
+  var src = _.uri.parse( '/some/staging/a/b/c' );
+  var got = _.uri.common( src );
+  test.identical( got, '/some/staging/a/b/c' );
+
+  /* */
+
+  test.case = 'string and map path in longs, only protocols';
+  var src = _.uri.parse( 'http:///' );
+  var got = _.uri.common( [ 'http:///' ], [ src ] )
+  test.identical( got, 'http:///' );
+
+  test.case = 'string and map path in longs, protocols and local paths';
+  var src = _.uri.parseFull( 'http:///y' );
+  var got = _.uri.common( [ 'http:///x' ], [ src ] )
+  test.identical( got, 'http:///' );
+
+  test.case = 'string and map path in longs, protocols and local paths, local paths partly equal';
+  var src = _.uri.parseAtomic( 'http:///a/x' );
+  var got = _.uri.common( [ src ], [ 'http:///a/y' ] )
+  test.identical( got, 'http:///a/' );
+
+  test.case = 'paths nested in few levels';
+  var src = _.uri.parseConsecutive( 'http:///a/x' );
+  var got = _.uri.common( [ [ [ src ] ] ], 'http:///a/y' )
+  test.identical( got, 'http:///a/' );
+
+  test.case = 'complex structure of paths';
+  var src1 = { 'http:///a/x' : '' };
+  var src2 = { 'http:///a/y' : '' };
+  var got = _.uri.common( [ [ src1 ], src2 ], 'http:///a/z' )
+  test.identical( got, 'http:///a/' );
+}
+
+//
+
 function groupTextualReport( test )
 {
   let defaults =
@@ -10977,6 +11165,7 @@ var Self =
 
     commonLocalPaths,
     common,
+    commonMapsInArgs,
 
     groupTextualReport,
     commonTextualReport,

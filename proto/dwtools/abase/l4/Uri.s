@@ -1486,13 +1486,12 @@ function common()
     if( _.mapIs( uris[ s ] ) )
     {
       if( _.mapHasOnly( uris[ s ], this.UriComponents ) ) 
-      _.longBut( uris, [ s, s+1 ], this.str( uris[ s ] ) );
+      uris[ s ] = this.str( uris[ s ] );
       else
-      _.longBut( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
+      _.longBut_( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
     }
   }
 
-  // _.assert( uris.length, 'Expects at least one argument' );
   _.assert( _.strsAreAll( uris ), 'Expects only strings as arguments' );
 
   /* */
