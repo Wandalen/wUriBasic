@@ -23,6 +23,7 @@ if( typeof module !== 'undefined' )
   let _ = require( '../../Tools.s' );
 
   _.include( 'wPathBasic' );
+  _.include( 'wblueprint' );
 
 }
 
@@ -1961,7 +1962,6 @@ let Fields =
 
 let Extension =
 {
-  
   // internal
 
   _filterOnlyUrl,
@@ -2043,6 +2043,15 @@ _.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Extension );
 
 Self.Init();
+
+//
+
+let Uri = _.blueprint.defineConstructor
+({
+  typed : _.trait.typed(),
+  extendable : _.trait.extendable(),
+});
+_global_[ 'Uri' ] = Uri;
 
 // --
 // export
