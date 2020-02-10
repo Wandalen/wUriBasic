@@ -512,7 +512,7 @@ function parse_body( o )
     o.srcPath = this.str( o.srcPath );
   }
 
-  let e = _uriParseRegexp.exec( o.srcPath );
+  let e = this._uriParseRegexp.exec( o.srcPath );
   _.sure( !!e, 'Cant parse :',o.srcPath );
 
   if( _.strIs( e[ 1 ] ) )
@@ -1948,9 +1948,20 @@ function dequery( query )
 // declare routines
 // --
 
+let Parameters = 
+{
+  _uriParseRegexpStr,
+  _uriParseRegexp
+}
+
+let Fields =
+{
+  Parameters
+}
+
 let Extension =
 {
-
+  
   // internal
 
   _filterOnlyUrl,
@@ -2027,6 +2038,8 @@ let Extension =
 
 }
 
+_.mapSupplementOwn( Self, Parameters );
+_.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Extension );
 
 Self.Init();
