@@ -1476,7 +1476,6 @@ function common()
   let self = this;
   let uris = _.arrayFlatten( null, arguments );
 
-debugger;
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );

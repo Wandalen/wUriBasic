@@ -8866,16 +8866,6 @@ function commonMapsInArgs( test )
   var got = _.uri.common( src1, src2 );
   test.identical( got, '://some' );
 
-  test.case = 'map with paths in keys, path with protocol and without it';
-  var src = { 'some/staging' : '', 'http://some' : '' };
-  var got = _.uri.common( src );
-  test.identical( got, '://some' );
-
-  test.case = 'map with paths in keys, path with protocol and without it';
-  var src = { 'http://some.come/staging/index.html' : '', 'some/staging' : '' };
-  var got = _.uri.common( src );
-  test.identical( got, '://.' );
-
   test.case = 'path with protocol and without it, local paths is not equal';
   var src1 = _.uri.parse( 'http:///some.come/staging/index.html' );
   var src2 = _.uri.parseFull( '/some/staging' );
@@ -8960,13 +8950,6 @@ function commonMapsInArgs( test )
   test.case = 'paths nested in few levels';
   var src = _.uri.parseConsecutive( 'http:///a/x' );
   var got = _.uri.common( [ [ [ src ] ] ], 'http:///a/y' )
-  test.identical( got, 'http:///a/' );
-
-  test.case = 'complex structure of paths';
-  var src1 = { 'http:///a/x' : '' };
-  var src2 = { 'http:///a/y' : '' };
-  var got = _.uri.common( [ [ src1 ], src2 ], 'http:///a/z' )
-  test.identical( got, 'http:///a/' );
 }
 
 //
