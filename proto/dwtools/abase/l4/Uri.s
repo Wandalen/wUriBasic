@@ -1467,7 +1467,7 @@ let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
 //
 
 /*
-qqq : teach common to work with path maps and cover it by tests
+qqq : teach common to work with path maps and cover it by tests | Dmytro : new task was to teach common work with uri maps, done
 */
 
 function common()
@@ -1479,7 +1479,8 @@ function common()
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
-    /* Dmytro : added first condition for : 
+
+    /* Dmytro : added for : 
        _.uri.common( path1, path2 );
        _.uri.common( _.uri.parse( path1 ), _.uri.parse( path2 ) );
        має давати однаковий результат */
