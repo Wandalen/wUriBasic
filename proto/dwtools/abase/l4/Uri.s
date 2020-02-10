@@ -1476,6 +1476,7 @@ function common()
   let self = this;
   let uris = _.arrayFlatten( null, arguments );
 
+debugger;
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
@@ -1483,13 +1484,9 @@ function common()
        _.uri.common( path1, path2 );
        _.uri.common( _.uri.parse( path1 ), _.uri.parse( path2 ) );
        має давати однаковий результат */
+
     if( _.mapIs( uris[ s ] ) )
-    {
-      if( _.mapHasOnly( uris[ s ], this.UriComponents ) ) 
-      uris[ s ] = this.str( uris[ s ] );
-      else
-      _.longBut_( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
-    }
+    uris[ s ] = self.str( uris[ s ] );
   }
 
   _.assert( _.strsAreAll( uris ), 'Expects only strings as arguments' );
