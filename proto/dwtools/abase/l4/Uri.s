@@ -23,7 +23,7 @@ if( typeof module !== 'undefined' )
   let _ = require( '../../Tools.s' );
 
   _.include( 'wPathBasic' );
-  _.include( 'wblueprint' );
+  _.include( 'wBlueprint' );
 
 }
 
@@ -1481,7 +1481,7 @@ function common()
   {
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
 
-    /* Dmytro : added for : 
+    /* Dmytro : added for :
        _.uri.common( path1, path2 );
        _.uri.common( _.uri.parse( path1 ), _.uri.parse( path2 ) );
        має давати однаковий результат */
@@ -1949,7 +1949,7 @@ function dequery( query )
 // declare routines
 // --
 
-let Parameters = 
+let Parameters =
 {
   _uriParseRegexpStr,
   _uriParseRegexp
