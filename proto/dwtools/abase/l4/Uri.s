@@ -23,6 +23,7 @@ if( typeof module !== 'undefined' )
   let _ = require( '../../Tools.s' );
 
   _.include( 'wPathBasic' );
+  _.include( 'wblueprint' );
 
 }
 
@@ -1467,7 +1468,7 @@ let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
 //
 
 /*
-qqq : teach common to work with path maps and cover it by tests
+qqq : teach common to work with path maps and cover it by tests | Dmytro : new task was to teach common work with uri maps, done
 */
 
 function common()
@@ -1478,12 +1479,17 @@ function common()
 
   for( let s = uris.length-1 ; s >= 0 ; s-- )
   {
-    _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
+    // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
+
+    /* Dmytro : added for : 
+       _.uri.common( path1, path2 );
+       _.uri.common( _.uri.parse( path1 ), _.uri.parse( path2 ) );
+       має давати однаковий результат */
+
     if( _.mapIs( uris[ s ] ) )
-    _.longBut( uris, [ s, s+1 ], _.mapKeys( uris[ s ] ) );
+    uris[ s ] = self.str( uris[ s ] );
   }
 
-  // _.assert( uris.length, 'Expects at least one argument' );
   _.assert( _.strsAreAll( uris ), 'Expects only strings as arguments' );
 
   /* */
@@ -1956,7 +1962,6 @@ let Fields =
 
 let Extension =
 {
-  
   // internal
 
   _filterOnlyUrl,
@@ -2038,6 +2043,15 @@ _.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Extension );
 
 Self.Init();
+
+//
+
+let Uri = _.blueprint.defineConstructor
+({
+  typed : _.trait.typed(),
+  extendable : _.trait.extendable(),
+});
+_global_[ 'Uri' ] = Uri;
 
 // --
 // export
