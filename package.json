@@ -1,28 +1,54 @@
 {
-  "name" : "wuribasic", 
-  "version" : "0.6.155", 
-  "engine" : "node >= 8.0.0", 
-  "description" : "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.", 
-  "license" : "MIT", 
-  "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
-  "contributors" : 
-  [
-    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@willbe.so" }, 
-    { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" }
-  ], 
-  "main" : "proto/dwtools/abase/l4/Uri.s", 
-  "files" : [ "proto/dwtools/abase/l4", "proto/dwtools/abase/l5", "proto/dwtools/Tools.s", "out", "out" ], 
-  "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen proto" }, 
-  "repository" : 
-  {
-    "type" : "git", 
-    "url" : "https://github.com/Wandalen/wUriBasic.git"
-  }, 
-  "bugs" : 
-  {
-    "url" : "https://github.com/Wandalen/wUriBasic/issues"
-  }, 
-  "dependencies" : { "wTools" : "alpha", "wpathbasic" : "alpha" }, 
-  "devDependencies" : { "wFiles" : "alpha", "wTesting" : "alpha" }, 
-  "keywords" : [ "wTools", "wPath", "path", "URL", "URI", "path", "file" ]
+  "name": "wuribasic",
+  "version": "0.6.155",
+  "engine": "node >= 8.0.0",
+  "description": "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
+  "license": "MIT",
+  "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
+  "contributors": [
+    {
+      "name": "Kostiantyn Wandalen",
+      "email": "wanalen@willbe.so"
+    },
+    {
+      "name": "Volodymyr M.",
+      "email": "volodymyr.migdal@gmail.com"
+    }
+  ],
+  "main": "proto/dwtools/abase/l4/Uri.s",
+  "files": [
+    "proto/dwtools/abase/l4",
+    "proto/dwtools/abase/l5",
+    "proto/dwtools/Tools.s",
+    "out",
+    "out"
+  ],
+  "scripts": {
+    "test": "wtest .run proto/**",
+    "docgen": "wdocgen proto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wUriBasic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/wUriBasic/issues"
+  },
+  "dependencies": {
+    "wTools": "alpha",
+    "wpathbasic": "alpha"
+  },
+  "devDependencies": {
+    "wFiles": "alpha",
+    "wTesting": "alpha"
+  },
+  "keywords": [
+    "wTools",
+    "wPath",
+    "path",
+    "URL",
+    "URI",
+    "path",
+    "file"
+  ]
 }
