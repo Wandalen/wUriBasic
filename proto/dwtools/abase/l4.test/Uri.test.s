@@ -11095,6 +11095,19 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 //
 // }
 
+function uriConstructors( test ) 
+{
+  test.case = 'instance of _.Uri constructor, without map';
+  var got = new _.Uri();
+  var exp = 
+  {
+    protocol : null,
+    query : null,
+    hash : null,
+  };
+  test.identical( got.protocol, null );
+}
+
 // --
 // declare
 // --
@@ -11161,6 +11174,10 @@ var Self =
     changeExt,
     dir,
     dirFirst,
+
+    // constructors 
+
+    uriConstructors,
 
     // filter,
     // filterInplace
