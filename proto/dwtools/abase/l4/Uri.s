@@ -23,7 +23,7 @@ if( typeof module !== 'undefined' )
   let _ = require( '../../Tools.s' );
 
   _.include( 'wPathBasic' );
-  _.include( 'wblueprint' );
+  _.include( 'wBlueprint' );
 
 }
 
@@ -1946,6 +1946,64 @@ function dequery( query )
 }
 
 // --
+// Uri constructors
+// --
+
+let Uri = _.blueprint.defineConstructor
+({
+  protocol : null,
+  query : null,
+  hash : null,
+  typed : _.trait.typed(),
+  extendable : _.trait.extendable(),
+});
+
+//
+
+let UriFull =  
+({
+  localWebPath : null,
+  host : null,
+  port : null,
+  longPath : null,
+  protocols : null,
+  hostWithPort : null,
+  origin : null,
+  full : null,
+  extension : _.define.extension( Uri ),
+});
+
+//
+
+let UriAtomic = 
+({
+  localWebPath : null,
+  host : null,
+  extension : _.define.extension( Uri ),
+});
+
+//
+
+let UriConsequtive = 
+({
+  longPath : null,
+  extension : _.define.extension( Uri ),
+});
+
+let Constructors = 
+{
+   
+  // Uri map constructors
+
+  Uri,
+  UriFull,
+  UriAtomic,
+  UriConsequtive,
+}
+
+_.mapExtend( _, Constructors );
+
+// --
 // declare routines
 // --
 
@@ -2043,15 +2101,6 @@ _.mapSupplementOwn( Self, Fields );
 _.mapSupplementOwn( Self, Extension );
 
 Self.Init();
-
-//
-
-let Uri = _.blueprint.defineConstructor
-({
-  typed : _.trait.typed(),
-  extendable : _.trait.extendable(),
-});
-_global_[ 'Uri' ] = Uri;
 
 // --
 // export
