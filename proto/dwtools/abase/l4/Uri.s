@@ -1960,35 +1960,35 @@ let Uri = _.blueprint.defineConstructor
 
 //
 
-let UriFull =  
-({
-  localWebPath : null,
-  host : null,
-  port : null,
-  longPath : null,
-  protocols : null,
-  hostWithPort : null,
-  origin : null,
-  full : null,
-  extension : _.define.extension( Uri ),
-});
-
-//
-
-let UriAtomic = 
-({
-  localWebPath : null,
-  host : null,
-  extension : _.define.extension( Uri ),
-});
-
-//
-
-let UriConsequtive = 
-({
-  longPath : null,
-  extension : _.define.extension( Uri ),
-});
+// let UriFull =  
+// ({
+//   localWebPath : null,
+//   host : null,
+//   port : null,
+//   longPath : null,
+//   protocols : null,
+//   hostWithPort : null,
+//   origin : null,
+//   full : null,
+//   extension : _.define.extension( Uri ),
+// });
+// 
+// //
+// 
+// let UriAtomic = 
+// ({
+//   localWebPath : null,
+//   host : null,
+//   extension : _.define.extension( Uri ),
+// });
+// 
+// //
+// 
+// let UriConsequtive = 
+// ({
+//   longPath : null,
+//   extension : _.define.extension( Uri ),
+// });
 
 let Constructors = 
 {
@@ -1996,9 +1996,9 @@ let Constructors =
   // Uri map constructors
 
   Uri,
-  UriFull,
-  UriAtomic,
-  UriConsequtive,
+  // UriFull,
+  // UriAtomic,
+  // UriConsequtive,
 }
 
 _.mapExtend( _, Constructors );
