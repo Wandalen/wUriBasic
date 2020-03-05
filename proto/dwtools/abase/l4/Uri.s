@@ -1481,7 +1481,7 @@ function common()
   {
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
 
-    /* Dmytro : added for : 
+    /* Dmytro : added for :
        _.uri.common( path1, path2 );
        _.uri.common( _.uri.parse( path1 ), _.uri.parse( path2 ) );
        має давати однаковий результат */
@@ -2007,7 +2007,7 @@ _.mapExtend( _, Constructors );
 // declare routines
 // --
 
-let Parameters = 
+let Parameters =
 {
   _uriParseRegexpStr,
   _uriParseRegexp
