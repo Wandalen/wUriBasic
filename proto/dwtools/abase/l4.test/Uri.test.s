@@ -1907,7 +1907,7 @@ function parseAtomic( test )
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
-    'port' : '5000',
+    'port' : 5000,
     'localWebPath' : '/a/b',
     'query' : 'q=3',
     'hash' : 'anch'
@@ -1923,7 +1923,7 @@ function parseAtomic( test )
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
-    'port' : '5000',
+    'port' : 5000,
     'localWebPath' : '/a/b',
     'query' : 'q:3',
     'hash' : 'anch'
@@ -1960,7 +1960,7 @@ function parseAtomic( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -1976,7 +1976,7 @@ function parseAtomic( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -1992,7 +1992,7 @@ function parseAtomic( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -2009,7 +2009,7 @@ function parseAtomic( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -2141,7 +2141,7 @@ function parseAtomic( test )
   {
     protocol : 'complex+protocol',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -2156,7 +2156,7 @@ function parseAtomic( test )
   {
     protocol : '',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor'
@@ -3009,7 +3009,7 @@ function parseFull( test )
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
-    'port' : '5000',
+    'port' : 5000,
     'localWebPath' : '/a/b',
     'query' : 'q=3',
     'hash' : 'anch',
@@ -3030,7 +3030,7 @@ function parseFull( test )
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
-    'port' : '5000',
+    'port' : 5000,
     'localWebPath' : '/a/b',
     'query' : 'q:3',
     'hash' : 'anch',
@@ -3075,7 +3075,7 @@ function parseFull( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -3096,7 +3096,7 @@ function parseFull( test )
   {
     'protocol' : 'http',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/path/name',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -3116,7 +3116,7 @@ function parseFull( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -3139,7 +3139,7 @@ function parseFull( test )
   {
     'protocol' : 'http',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/path/name',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -3315,7 +3315,7 @@ function parseFull( test )
   {
     protocol : 'complex+protocol',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -3335,7 +3335,7 @@ function parseFull( test )
   {
     protocol : '',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -3353,7 +3353,7 @@ function parseFull( test )
   {
     'protocol' : '',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/path//name//',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -3943,11 +3943,11 @@ function parseGlob( test )
 
   var src = 'dir/@(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = 
+  var expected =
   {
-    localWebPath : 'dir/', 
+    localWebPath : 'dir/',
     tag : '(ab).js',
-    longPath : 'dir/', 
+    longPath : 'dir/',
     full : src
   }
   test.contains( got, expected );
@@ -3990,7 +3990,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'localWebPath' : '/!a.js?',
@@ -4009,7 +4009,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/a/!a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4028,7 +4028,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/a/^a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4047,7 +4047,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/a/+a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4066,7 +4066,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/a/!',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4085,7 +4085,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/a/^',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4104,7 +4104,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/a/+',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4123,7 +4123,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/?',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4142,7 +4142,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/*',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4161,7 +4161,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/**',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4180,7 +4180,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/?c.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4199,7 +4199,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/*.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4219,7 +4219,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/**/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4238,7 +4238,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir?c/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4257,7 +4257,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/*.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4276,7 +4276,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/**.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4295,7 +4295,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/**/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4314,7 +4314,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir?c/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4333,7 +4333,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/*.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4352,7 +4352,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/**/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4371,7 +4371,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/[a-c]',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4390,7 +4390,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/{a-c}',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4409,7 +4409,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/(a|b)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4428,7 +4428,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/',
     'tag' : '(ab)',
     'query' : 'query=here&and=here',
@@ -4448,7 +4448,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/!(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4467,7 +4467,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/?(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4486,7 +4486,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/*(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4505,7 +4505,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/+(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4524,7 +4524,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/[a-c].js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4543,7 +4543,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/{a,c}.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4562,7 +4562,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/(a|b).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4581,7 +4581,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4600,7 +4600,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4620,7 +4620,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/?(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4639,7 +4639,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/*(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4658,7 +4658,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/dir/+(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4677,7 +4677,7 @@ function parseGlob( test )
   {
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
-    'port' : '13',
+    'port' : 13,
     'localWebPath' : '/index/**',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4918,7 +4918,7 @@ function str( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -5337,7 +5337,7 @@ function full( test )
   {
     protocol : 'http',
     host : 'www.site.com',
-    port : '13',
+    port : 13,
     localWebPath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
@@ -8716,16 +8716,16 @@ function common( test )
   // xxx !!! : implement
   var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path' );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  
+
   var got = _.uri.common( 'complex+protocol://www.site.com:13/path', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  
+
   var got = _.uri.common( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor', 'complex+protocol://www.site.com:13/path?query=here' );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  
+
   var got = _.uri.common( 'complex+protocol://www.site.com:13/path?query=here', 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  
+
   var got = _.uri.common( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash', 'https://user:pass@sub.host.com:8080/p/a' );
   test.identical( got, 'https://user:pass@sub.host.com:8080/p/a' );
 
@@ -8783,7 +8783,7 @@ function common( test )
 
 //
 
-function commonMapsInArgs( test ) 
+function commonMapsInArgs( test )
 {
   test.case = 'array with paths';
   var src1 = _.uri.parseFull( '/a1/b2' );
@@ -8901,13 +8901,13 @@ function commonMapsInArgs( test )
   var src2 = _.uri.parseConsecutive( 'complex+protocol://www.site.com:13/path' );
   var got = _.uri.common( src1, src2 );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  
+
   test.case = 'two paths has equal begin, second paths has not full query and anchor';
   var src1 = _.uri.parse( 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor' );
   var src2 = _.uri.parseAtomic( 'complex+protocol://www.site.com:13/path?query=here' );
   var got = _.uri.common( src1, src2 );
   test.identical( got, 'complex+protocol://www.site.com:13/path' );
-  
+
   test.case = 'paths with ports';
   var src1 = _.uri.parseFull( 'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash' );
   var src2 = _.uri.parseAtomic( 'https://user:pass@sub.host.com:8080/p/a' );
@@ -10355,7 +10355,7 @@ function ext( test )
   var src = 'complex+protocol://www.site.com:13/path/name.html?query=here&and=here#anchor';
   var got = _.uri.ext( src );
   var exp = 'html';
-  
+
   test.case = 'complex path to file with parameters';
   var src = '://www.site.com:13/path/name.html?query=here&and=here#anchor';
   var got = _.uri.ext( src );
@@ -10387,7 +10387,7 @@ function ext( test )
   var got = _.uri.ext( src );
   var expected = 'js';
   test.identical( got, expected );
-  
+
   /* - */
 
   if( !Config.debug )
@@ -10497,11 +10497,11 @@ function changeExt( test )
 //
 
 /*
-qqq : improve style, remove array of expected values and array of inputs | Dmytro : improved 
+qqq : improve style, remove array of expected values and array of inputs | Dmytro : improved
  */
 
 function dir( test )
-{  
+{
   test.case = 'filename';
   var src = 'some.txt';
   var got = _.uri.dir( src );
@@ -10766,7 +10766,7 @@ function dirFirst( test )
   var src = ':///www.site.com:13/path/name.html?query=here&and=here#anchor';
   var got = _.uri.dirFirst( src );
   var exp = ':///www.site.com:13/path/?query=here&and=here#anchor';
-  test.identical( got, exp ); 
+  test.identical( got, exp );
 
   /* */
 
@@ -11095,11 +11095,11 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 //
 // }
 
-function uriConstructors( test ) 
+function uriConstructors( test )
 {
   test.case = 'instance of _.Uri constructor, without map';
   var got = new _.Uri();
-  var exp = 
+  var exp =
   {
     protocol : null,
     query : null,
@@ -11175,7 +11175,7 @@ var Self =
     dir,
     dirFirst,
 
-    // constructors 
+    // constructors
 
     uriConstructors,
 
