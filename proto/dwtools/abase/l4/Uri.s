@@ -24,6 +24,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wPathBasic' );
   _.include( 'wBlueprint' );
+  _.include( 'wStringsExtra' );
 
 }
 
@@ -481,6 +482,7 @@ let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
 function parse_pre( routine, args )
 {
   _.assert( args.length === 1, 'Expects single argument' );
+
   let o = { srcPath : args[ 0 ] };
 
   _.routineOptions( routine, o );
@@ -494,19 +496,12 @@ function parse_body( o )
 {
   let result = Object.create( null );
 
-  // _.routineOptions( this.parse_body, o );
-  // _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
-  // _.assert( arguments.length === 1, 'Expects single argument' );
-  // _.assert( _.longHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
-
   if( _.mapIs( o.srcPath ) )
   {
     _.assertMapHasOnly( o.srcPath, this.UriComponents );
+
     if( o.srcPath.protocols )
-    {
-      debugger;
-      return o.srcPath;
-    }
+    return o.srcPath;
     else if( o.srcPath.full )
     o.srcPath = o.srcPath.full;
     else
@@ -521,7 +516,8 @@ function parse_body( o )
   if( _.strIs( e[ 3 ] ) )
   result.host = e[ 3 ];
   if( _.strIs( e[ 4 ] ) )
-  result.port = e[ 4 ];
+  result.port = _.strToNumberMaybe( e[ 4 ] );
+  // result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
   {
     result.localWebPath = e[ 5 ];
@@ -1960,7 +1956,7 @@ let Uri = _.blueprint.defineConstructor
 
 //
 
-// let UriFull =  
+// let UriFull =
 // ({
 //   localWebPath : null,
 //   host : null,
@@ -1972,27 +1968,27 @@ let Uri = _.blueprint.defineConstructor
 //   full : null,
 //   extension : _.define.extension( Uri ),
 // });
-// 
+//
 // //
-// 
-// let UriAtomic = 
+//
+// let UriAtomic =
 // ({
 //   localWebPath : null,
 //   host : null,
 //   extension : _.define.extension( Uri ),
 // });
-// 
+//
 // //
-// 
-// let UriConsequtive = 
+//
+// let UriConsequtive =
 // ({
 //   longPath : null,
 //   extension : _.define.extension( Uri ),
 // });
 
-let Constructors = 
+let Constructors =
 {
-   
+
   // Uri map constructors
 
   Uri,
