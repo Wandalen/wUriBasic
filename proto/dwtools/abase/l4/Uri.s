@@ -24,7 +24,6 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wPathBasic' );
   _.include( 'wBlueprint' );
-  // _.include( 'wStringsExtra' );
 
 }
 
