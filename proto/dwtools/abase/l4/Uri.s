@@ -24,7 +24,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wPathBasic' );
   _.include( 'wBlueprint' );
-  _.include( 'wStringsExtra' );
+  // _.include( 'wStringsExtra' );
 
 }
 
@@ -516,7 +516,7 @@ function parse_body( o )
   if( _.strIs( e[ 3 ] ) )
   result.host = e[ 3 ];
   if( _.strIs( e[ 4 ] ) )
-  result.port = _.strToNumberMaybe( e[ 4 ] );
+  result.port = _.numberFromStrMaybe( e[ 4 ] );
   // result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
   {
