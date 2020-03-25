@@ -748,7 +748,7 @@ function str( c )
     host = c.origin;
     host = _.strIsolateRightOrAll( host, '://' )[ 2 ];
     host = _.strIsolateLeftOrAll( host, ':' )[ 0 ];
-    // host = _.strIsolateInsideLeft( c.origin, '://', ':' )[ 2 ];
+    // host = _.strIsolateInside( c.origin, '://', ':' )[ 2 ];
   }
 
   if( c.origin && ( port === null || port === undefined ) )
