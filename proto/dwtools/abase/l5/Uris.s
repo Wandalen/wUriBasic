@@ -15,7 +15,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../Tools.s' );
+  let _ = require( '../../../dwtools/Tools.s' );
 
   require( '../l4/Uri.s' );
 
@@ -99,7 +99,7 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
 
 /**
  * @summary Parses uris from array `src`. Looks only for atomic components of the uri. Writes results into array.
- * @description Atomic components: protocol,host,port,localWebPath,query,hash.
+ * @description Atomic components: protocol,host,port,resourcePath,query,hash.
  * @param {Array|String} src
  * @example
  * _.uri.s.parseAtomic( [ '/a', 'https:///stackoverflow.com' ] );
@@ -123,7 +123,7 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * @summary Assembles uris from array of components( src ).
  * @param {Array|Object} src
  * @example
- * _.uri.s.str( [ { localWebPath : '/a' }, { protocol : 'http', localWebPath : '/a' } ] );
+ * _.uri.s.str( [ { resourcePath : '/a' }, { protocol : 'http', resourcePath : '/a' } ] );
  * //['/a', 'http:///a' ]
  * @returns {Array} Returns array of strings, each element represent a uri.
  * @function str
@@ -134,7 +134,7 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * @summary Complements current window uri origin with array of components.
  * @param {Array|Object} src
  * @example
- * _.uri.s.full( [ { localWebPath : '/a' }, { protocol : 'http', localWebPath : '/a' } ] );
+ * _.uri.s.full( [ { resourcePath : '/a' }, { protocol : 'http', resourcePath : '/a' } ] );
  * @returns {Array} Returns array of strings, each element represent a uri.
  * @function full
  * @memberof module:Tools/base/Uri.wTools.uri.s

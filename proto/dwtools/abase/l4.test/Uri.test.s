@@ -5,7 +5,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../Tools.s' );
+  let _ = require( '../../../dwtools/Tools.s' );
 
   _.include( 'wTesting' );
   _.include( 'wStringer' );
@@ -1568,7 +1568,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
     tag : 'tag',
@@ -1583,7 +1583,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
@@ -1598,7 +1598,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -1613,7 +1613,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     longPath : '/somerepo.git',
     protocols : [ 'git' ],
@@ -1628,7 +1628,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -1643,7 +1643,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -1658,7 +1658,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     tag : 'tag',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -1673,7 +1673,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -1689,7 +1689,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -1705,7 +1705,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -1721,7 +1721,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -1737,7 +1737,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -1754,7 +1754,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -1771,7 +1771,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -1788,7 +1788,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -1805,7 +1805,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -1821,7 +1821,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -1837,7 +1837,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -1854,7 +1854,7 @@ function parse( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -1877,7 +1877,7 @@ function parseAtomic( test )
   {
     'protocol' : 'git',
     'host' : '..',
-    'localWebPath' : '/repo/Tools',
+    'resourcePath' : '/repo/Tools',
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master'
   }
@@ -1892,7 +1892,7 @@ function parseAtomic( test )
   {
     'protocol' : 'git',
     'host' : '',
-    'localWebPath' : '/../repo/Tools',
+    'resourcePath' : '/../repo/Tools',
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master'
   }
@@ -1908,7 +1908,7 @@ function parseAtomic( test )
     'protocol' : 'http',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'localWebPath' : '/a/b',
+    'resourcePath' : '/a/b',
     'query' : 'q=3',
     'hash' : 'anch'
   }
@@ -1924,7 +1924,7 @@ function parseAtomic( test )
     'protocol' : 'http',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'localWebPath' : '/a/b',
+    'resourcePath' : '/a/b',
     'query' : 'q:3',
     'hash' : 'anch'
   }
@@ -1939,14 +1939,14 @@ function parseAtomic( test )
 
   var expected =
   {
-    localWebPath : '127.0.0.1:61726/../path',
+    resourcePath : '127.0.0.1:61726/../path',
   }
   var got = _.uri.parseAtomic( uri );
   test.identical( got, expected );
 
   var expected =
   {
-    localWebPath : '127.0.0.1:61726/../path'
+    resourcePath : '127.0.0.1:61726/../path'
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -1961,7 +1961,7 @@ function parseAtomic( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1977,7 +1977,7 @@ function parseAtomic( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -1993,7 +1993,7 @@ function parseAtomic( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2010,7 +2010,7 @@ function parseAtomic( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2026,7 +2026,7 @@ function parseAtomic( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localWebPath : '/something/filePath/add',
+    resourcePath : '/something/filePath/add',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2040,7 +2040,7 @@ function parseAtomic( test )
   {
     protocol : 'file',
     host : '',
-    localWebPath : '/something/filePath/add',
+    resourcePath : '/something/filePath/add',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2054,7 +2054,7 @@ function parseAtomic( test )
   {
     protocol : 'svn+https',
     host : 'user@subversion.com',
-    localWebPath : '/svn/trunk',
+    resourcePath : '/svn/trunk',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2066,7 +2066,7 @@ function parseAtomic( test )
 
   var expected =
   {
-    localWebPath : '/some/file',
+    resourcePath : '/some/file',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2077,7 +2077,7 @@ function parseAtomic( test )
   var uri = '//some.domain.com/was';
   var expected =
   {
-    localWebPath : '//some.domain.com/was',
+    resourcePath : '//some.domain.com/was',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2090,7 +2090,7 @@ function parseAtomic( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
   }
 
   test.case = 'with ":" and protocol'; /* */
@@ -2100,7 +2100,7 @@ function parseAtomic( test )
   {
     protocol : 'protocol',
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2111,7 +2111,7 @@ function parseAtomic( test )
   var uri = '//';
   var expected =
   {
-    localWebPath : '//',
+    resourcePath : '//',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2120,7 +2120,7 @@ function parseAtomic( test )
   var uri = '///';
   var expected =
   {
-    localWebPath : '///',
+    resourcePath : '///',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2129,7 +2129,7 @@ function parseAtomic( test )
   var uri = '///a/b/c';
   var expected =
   {
-    localWebPath : '///a/b/c',
+    resourcePath : '///a/b/c',
   }
 
   var got = _.uri.parseAtomic( uri );
@@ -2142,7 +2142,7 @@ function parseAtomic( test )
     protocol : 'complex+protocol',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2157,7 +2157,7 @@ function parseAtomic( test )
     protocol : '',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path//name//',
+    resourcePath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor'
   }
@@ -2169,7 +2169,7 @@ function parseAtomic( test )
   {
     protocol : '',
     host : '',
-    localWebPath : '/www.site.com:13/path//name//',
+    resourcePath : '/www.site.com:13/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2179,7 +2179,7 @@ function parseAtomic( test )
 
   var expected =
   {
-    localWebPath : '///some.com:99/staging/index.html',
+    resourcePath : '///some.com:99/staging/index.html',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2190,7 +2190,7 @@ function parseAtomic( test )
 
   var expected =
   {
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     host : '',
     tag : 'tag',
     protocol : 'git',
@@ -2202,7 +2202,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
@@ -2212,7 +2212,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
@@ -2222,7 +2222,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git#hash' );
@@ -2232,7 +2232,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash'
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/#hash' );
@@ -2242,7 +2242,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/@tag' );
@@ -2252,7 +2252,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     tag : 'tag',
   }
   var got = _.uri.parseAtomic( 'git:///somerepo.git/@tag' );
@@ -2262,7 +2262,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag'
   }
@@ -2273,7 +2273,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag'
   }
@@ -2284,7 +2284,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     tag : 'tag',
   }
@@ -2295,7 +2295,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
   }
@@ -2306,7 +2306,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -2318,7 +2318,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -2330,7 +2330,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -2342,7 +2342,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -2354,7 +2354,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
   }
@@ -2365,7 +2365,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
   }
@@ -2376,7 +2376,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     tag : 'tag',
   }
@@ -2388,7 +2388,7 @@ function parseAtomic( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
   }
@@ -2624,7 +2624,7 @@ function parseConsecutive( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
     longPath : 'some.domain.com/was',
     protocols : [ '' ],
     hostWithPort : 'some.domain.com',
@@ -2969,7 +2969,7 @@ function parseFull( test )
   {
     'protocol' : 'git',
     'host' : '..',
-    'localWebPath' : '/repo/Tools',
+    'resourcePath' : '/repo/Tools',
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '../repo/Tools',
@@ -2989,7 +2989,7 @@ function parseFull( test )
   {
     'protocol' : 'git',
     'host' : '',
-    'localWebPath' : '/../repo/Tools',
+    'resourcePath' : '/../repo/Tools',
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '/../repo/Tools',
@@ -3010,7 +3010,7 @@ function parseFull( test )
     'protocol' : 'http',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'localWebPath' : '/a/b',
+    'resourcePath' : '/a/b',
     'query' : 'q=3',
     'hash' : 'anch',
     'longPath' : '127.0.0.1:5000/a/b',
@@ -3031,7 +3031,7 @@ function parseFull( test )
     'protocol' : 'http',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'localWebPath' : '/a/b',
+    'resourcePath' : '/a/b',
     'query' : 'q:3',
     'hash' : 'anch',
     'longPath' : '127.0.0.1:5000/a/b',
@@ -3049,7 +3049,7 @@ function parseFull( test )
   var uri = '127.0.0.1:61726/../path';
   var expected =
   {
-    localWebPath : '127.0.0.1:61726/../path',
+    resourcePath : '127.0.0.1:61726/../path',
     longPath : '127.0.0.1:61726/../path',
     protocols : [],
     full : '127.0.0.1:61726/../path'
@@ -3059,7 +3059,7 @@ function parseFull( test )
 
   var expected =
   {
-    'localWebPath' : '127.0.0.1:61726/../path',
+    'resourcePath' : '127.0.0.1:61726/../path',
     'longPath' : '127.0.0.1:61726/../path',
     'protocols' : [],
     'full' : '127.0.0.1:61726/../path'
@@ -3076,7 +3076,7 @@ function parseFull( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
@@ -3097,7 +3097,7 @@ function parseFull( test )
     'protocol' : 'http',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/path/name',
+    'resourcePath' : '/path/name',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/path/name',
@@ -3117,7 +3117,7 @@ function parseFull( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -3140,7 +3140,7 @@ function parseFull( test )
     'protocol' : 'http',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/path/name',
+    'resourcePath' : '/path/name',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/path/name',
@@ -3160,7 +3160,7 @@ function parseFull( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localWebPath : '/something/filePath/add',
+    resourcePath : '/something/filePath/add',
     longPath : 'some.domain.com/something/filePath/add',
     protocols : [],
     hostWithPort : 'some.domain.com',
@@ -3179,7 +3179,7 @@ function parseFull( test )
   {
     protocol : 'file',
     host : '',
-    localWebPath : '/something/filePath/add',
+    resourcePath : '/something/filePath/add',
     longPath : '/something/filePath/add',
     protocols : [ 'file' ],
     hostWithPort : '',
@@ -3198,7 +3198,7 @@ function parseFull( test )
   {
     protocol : 'svn+https',
     host : 'user@subversion.com',
-    localWebPath : '/svn/trunk',
+    resourcePath : '/svn/trunk',
     longPath : 'user@subversion.com/svn/trunk',
     protocols : [ 'svn','https' ],
     hostWithPort : 'user@subversion.com',
@@ -3215,7 +3215,7 @@ function parseFull( test )
 
   var expected =
   {
-    localWebPath : '/some/file',
+    resourcePath : '/some/file',
     longPath : '/some/file',
     protocols : [],
     full : '/some/file',
@@ -3229,7 +3229,7 @@ function parseFull( test )
   var uri = '//some.domain.com/was';
   var expected =
   {
-    localWebPath : '//some.domain.com/was',
+    resourcePath : '//some.domain.com/was',
     longPath : '//some.domain.com/was',
     protocols : [],
     full : '//some.domain.com/was'
@@ -3245,7 +3245,7 @@ function parseFull( test )
   {
     protocol : '',
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
     longPath : 'some.domain.com/was',
     protocols : [ '' ],
     hostWithPort : 'some.domain.com',
@@ -3260,7 +3260,7 @@ function parseFull( test )
   {
     protocol : 'protocol',
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
     longPath : 'some.domain.com/was',
     protocols : [ 'protocol' ],
     hostWithPort : 'some.domain.com',
@@ -3276,7 +3276,7 @@ function parseFull( test )
   var uri = '//';
   var expected =
   {
-    localWebPath : '//',
+    resourcePath : '//',
     longPath : '//',
     protocols : [],
     full : '//'
@@ -3288,7 +3288,7 @@ function parseFull( test )
   var uri = '///';
   var expected =
   {
-    localWebPath : '///',
+    resourcePath : '///',
     longPath : '///',
     protocols : [],
     full : '///'
@@ -3300,7 +3300,7 @@ function parseFull( test )
   var uri = '///a/b/c';
   var expected =
   {
-    localWebPath : '///a/b/c',
+    resourcePath : '///a/b/c',
     longPath : '///a/b/c',
     protocols : [],
     full : '///a/b/c'
@@ -3316,7 +3316,7 @@ function parseFull( test )
     protocol : 'complex+protocol',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
@@ -3336,7 +3336,7 @@ function parseFull( test )
     protocol : '',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path//name//',
+    resourcePath : '/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path//name//',
@@ -3354,7 +3354,7 @@ function parseFull( test )
     'protocol' : '',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/path//name//',
+    'resourcePath' : '/path//name//',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/path//name//',
@@ -3371,7 +3371,7 @@ function parseFull( test )
   {
     protocol : '',
     host : '',
-    localWebPath : '/www.site.com:13/path//name//',
+    resourcePath : '/www.site.com:13/path//name//',
     query : 'query=here&and=here',
     hash : 'anchor',
     protocols : [],
@@ -3388,7 +3388,7 @@ function parseFull( test )
   {
     'protocol' : '',
     'host' : '',
-    'localWebPath' : '/www.site.com:13/path//name//',
+    'resourcePath' : '/www.site.com:13/path//name//',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : '/www.site.com:13/path//name//',
@@ -3403,7 +3403,7 @@ function parseFull( test )
 
   var expected =
   {
-    localWebPath : '///some.com:99/staging/index.html',
+    resourcePath : '///some.com:99/staging/index.html',
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : '///some.com:99/staging/index.html',
@@ -3419,7 +3419,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
     hostWithPort : '',
@@ -3434,7 +3434,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
@@ -3449,7 +3449,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -3464,7 +3464,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     longPath : '/somerepo.git',
     protocols : [ 'git' ],
@@ -3479,7 +3479,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -3494,7 +3494,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -3509,7 +3509,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     tag : 'tag',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -3524,7 +3524,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -3540,7 +3540,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -3556,7 +3556,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -3572,7 +3572,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -3588,7 +3588,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -3605,7 +3605,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -3622,7 +3622,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -3639,7 +3639,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -3656,7 +3656,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -3672,7 +3672,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -3688,7 +3688,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -3705,7 +3705,7 @@ function parseFull( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -3751,44 +3751,44 @@ function parseGlob( test )
 
   var src = '!a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/!a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/!a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/^a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/+a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/!';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/???abc';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/???abc#';
   var got = _.uri.parseFull( src );
   var expected =
   {
-    'localWebPath' : '/a/???abc',
+    'resourcePath' : '/a/???abc',
     'hash' : '',
     'longPath' : '/a/???abc',
     'protocols' : [],
@@ -3798,154 +3798,154 @@ function parseGlob( test )
 
   var src = '/a/^';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/a/+';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '?';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '*';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '**';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '?c.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '*.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '**/a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir?c/a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/*.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/**.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/**/a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir?c/a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir/*.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir/**.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/dir/**/a.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '[a-c]';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '{a,c}';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '(a|b)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '(ab)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '@(ab)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '!(ab)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '?(ab)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '*(ab)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '+(ab)';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/[a-c].js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/{a,c}.js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/(a|b).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/@(ab).js';
   var got = _.uri.parseFull( src );
   var expected =
   {
-    localWebPath : 'dir/',
+    resourcePath : 'dir/',
     tag : '(ab).js',
     longPath : 'dir/',
     full : src
@@ -3954,27 +3954,27 @@ function parseGlob( test )
 
   var src = 'dir/!(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/?(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/*(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = 'dir/+(ab).js';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   var src = '/index/**';
   var got = _.uri.parseFull( src );
-  var expected = { localWebPath : src, longPath : src };
+  var expected = { resourcePath : src, longPath : src };
   test.contains( got, expected );
 
   test.close( 'local path' );
@@ -3993,7 +3993,7 @@ function parseGlob( test )
     'port' : 13,
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
-    'localWebPath' : '/!a.js?',
+    'resourcePath' : '/!a.js?',
     'longPath' : 'www.site.com:13/!a.js?',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
@@ -4010,7 +4010,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/a/!a.js',
+    'resourcePath' : '/a/!a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/!a.js',
@@ -4029,7 +4029,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/a/^a.js',
+    'resourcePath' : '/a/^a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/^a.js',
@@ -4048,7 +4048,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/a/+a.js',
+    'resourcePath' : '/a/+a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/+a.js',
@@ -4067,7 +4067,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/a/!',
+    'resourcePath' : '/a/!',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/!',
@@ -4086,7 +4086,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/a/^',
+    'resourcePath' : '/a/^',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/^',
@@ -4105,7 +4105,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/a/+',
+    'resourcePath' : '/a/+',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/+',
@@ -4124,7 +4124,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/?',
+    'resourcePath' : '/?',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/?',
@@ -4143,7 +4143,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/*',
+    'resourcePath' : '/*',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/*',
@@ -4162,7 +4162,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/**',
+    'resourcePath' : '/**',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/**',
@@ -4181,7 +4181,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/?c.js',
+    'resourcePath' : '/?c.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/?c.js',
@@ -4200,7 +4200,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/*.js',
+    'resourcePath' : '/*.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/*.js',
@@ -4220,7 +4220,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/**/a.js',
+    'resourcePath' : '/**/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/**/a.js',
@@ -4239,7 +4239,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir?c/a.js',
+    'resourcePath' : '/dir?c/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir?c/a.js',
@@ -4258,7 +4258,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/*.js',
+    'resourcePath' : '/dir/*.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/*.js',
@@ -4277,7 +4277,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/**.js',
+    'resourcePath' : '/dir/**.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/**.js',
@@ -4296,7 +4296,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/**/a.js',
+    'resourcePath' : '/dir/**/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/**/a.js',
@@ -4315,7 +4315,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir?c/a.js',
+    'resourcePath' : '/dir?c/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir?c/a.js',
@@ -4334,7 +4334,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/*.js',
+    'resourcePath' : '/dir/*.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/*.js',
@@ -4353,7 +4353,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/**/a.js',
+    'resourcePath' : '/dir/**/a.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/**/a.js',
@@ -4372,7 +4372,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/[a-c]',
+    'resourcePath' : '/[a-c]',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/[a-c]',
@@ -4391,7 +4391,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/{a-c}',
+    'resourcePath' : '/{a-c}',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/{a-c}',
@@ -4410,7 +4410,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/(a|b)',
+    'resourcePath' : '/(a|b)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/(a|b)',
@@ -4429,7 +4429,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/',
+    'resourcePath' : '/',
     'tag' : '(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
@@ -4449,7 +4449,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/!(ab)',
+    'resourcePath' : '/!(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/!(ab)',
@@ -4468,7 +4468,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/?(ab)',
+    'resourcePath' : '/?(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/?(ab)',
@@ -4487,7 +4487,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/*(ab)',
+    'resourcePath' : '/*(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/*(ab)',
@@ -4506,7 +4506,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/+(ab)',
+    'resourcePath' : '/+(ab)',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/+(ab)',
@@ -4525,7 +4525,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/[a-c].js',
+    'resourcePath' : '/dir/[a-c].js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/[a-c].js',
@@ -4544,7 +4544,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/{a,c}.js',
+    'resourcePath' : '/dir/{a,c}.js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/{a,c}.js',
@@ -4563,7 +4563,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/(a|b).js',
+    'resourcePath' : '/dir/(a|b).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/(a|b).js',
@@ -4582,7 +4582,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/(ab).js',
+    'resourcePath' : '/dir/(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/(ab).js',
@@ -4601,7 +4601,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/',
+    'resourcePath' : '/dir/',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'tag' : '(ab).js',
@@ -4621,7 +4621,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/?(ab).js',
+    'resourcePath' : '/dir/?(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/?(ab).js',
@@ -4640,7 +4640,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/*(ab).js',
+    'resourcePath' : '/dir/*(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/*(ab).js',
@@ -4659,7 +4659,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/dir/+(ab).js',
+    'resourcePath' : '/dir/+(ab).js',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/+(ab).js',
@@ -4678,7 +4678,7 @@ function parseGlob( test )
     'protocol' : 'complex+protocol',
     'host' : 'www.site.com',
     'port' : 13,
-    'localWebPath' : '/index/**',
+    'resourcePath' : '/index/**',
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/index/**',
@@ -4735,7 +4735,7 @@ function parseTagExperiment( test )
   {
     'protocol' : 'git',
     'host' : '',
-    'localWebPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'resourcePath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'hash' : 'master',
     'longPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'protocols' : [ 'git' ],
@@ -4750,7 +4750,7 @@ function parseTagExperiment( test )
   {
     'protocol' : 'git',
     'host' : '',
-    'localWebPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'resourcePath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'tag' : 'master',
     'longPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'protocols' : [ 'git' ],
@@ -4880,7 +4880,7 @@ function str( test )
 
   var components2 =
   {
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -4890,7 +4890,7 @@ function str( test )
   var components3 =
   {
     protocol : 'http',
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -4919,7 +4919,7 @@ function str( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -4945,7 +4945,7 @@ function str( test )
   var components =
   {
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
   }
   var got = _.uri.str( components );
   test.identical( got, expected );
@@ -4956,7 +4956,7 @@ function str( test )
 
   var components =
   {
-    localWebPath : '/some2',
+    resourcePath : '/some2',
     protocol : 'src',
   }
   var expected = 'src:///some2';
@@ -4965,7 +4965,7 @@ function str( test )
 
   var components =
   {
-    localWebPath : 'some2',
+    resourcePath : 'some2',
     protocol : 'src',
   }
   var expected = 'src://some2';
@@ -4993,7 +4993,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
@@ -5008,7 +5008,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -5023,7 +5023,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     longPath : '/somerepo.git',
     protocols : [ 'git' ],
@@ -5038,7 +5038,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -5053,7 +5053,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -5068,7 +5068,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     tag : 'tag',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -5083,7 +5083,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -5099,7 +5099,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -5115,7 +5115,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -5131,7 +5131,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -5147,7 +5147,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5164,7 +5164,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5181,7 +5181,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5198,7 +5198,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5215,7 +5215,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -5231,7 +5231,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -5247,7 +5247,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -5264,7 +5264,7 @@ function str( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -5299,7 +5299,7 @@ function full( test )
 
   var components2 =
   {
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -5309,7 +5309,7 @@ function full( test )
   var components3 =
   {
     protocol : 'http',
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
 
@@ -5338,7 +5338,7 @@ function full( test )
     protocol : 'http',
     host : 'www.site.com',
     port : 13,
-    localWebPath : '/path/name',
+    resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -5364,7 +5364,7 @@ function full( test )
   var components =
   {
     host : 'some.domain.com',
-    localWebPath : '/was',
+    resourcePath : '/was',
   }
   var got = _.uri.full( components );
   test.identical( got, expected );
@@ -5375,7 +5375,7 @@ function full( test )
 
   var components =
   {
-    localWebPath : '/some2',
+    resourcePath : '/some2',
     protocol : 'src',
   }
   var expected = 'src:///some2';
@@ -5384,7 +5384,7 @@ function full( test )
 
   var components =
   {
-    localWebPath : 'some2',
+    resourcePath : 'some2',
     protocol : 'src',
   }
   var expected = 'src://some2';
@@ -5410,7 +5410,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     protocols : [ 'git' ],
@@ -5425,7 +5425,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -5440,7 +5440,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     longPath : '/somerepo.git',
     protocols : [ 'git' ],
@@ -5455,7 +5455,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -5470,7 +5470,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
     protocols : [ 'git' ],
@@ -5485,7 +5485,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     tag : 'tag',
     longPath : '/somerepo.git/',
     protocols : [ 'git' ],
@@ -5500,7 +5500,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -5516,7 +5516,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -5532,7 +5532,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -5548,7 +5548,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -5564,7 +5564,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5581,7 +5581,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5598,7 +5598,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5615,7 +5615,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     hash : 'hash',
     tag : 'tag',
@@ -5632,7 +5632,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
@@ -5648,7 +5648,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
@@ -5664,7 +5664,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git',
+    resourcePath : '/somerepo.git',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
@@ -5680,7 +5680,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -5700,7 +5700,7 @@ function full( test )
   {
     protocol : 'git',
     host : '',
-    localWebPath : '/somerepo.git/',
+    resourcePath : '/somerepo.git/',
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
@@ -5890,7 +5890,7 @@ function parseAndStr( test )
   {
     'protocol' : 'ext',
     'host' : '..',
-    'localWebPath' : '/src',
+    'resourcePath' : '/src',
     'longPath' : '../src',
     'protocols' : [ 'ext' ],
     'hostWithPort' : '..',
@@ -5906,7 +5906,7 @@ function parseAndStr( test )
   // full: "ext://../src"
   // host: ".."
   // hostWithPort: ".."
-  // localWebPath: "/src"
+  // resourcePath: "/src"
   // longPath: "../src"
   // origin: "ext://.."
   // protocol: "ext"
@@ -6527,119 +6527,119 @@ function join( test )
   var got = _.uri.join( 'http://www.site.com:13/ab','y','z' );
   test.identical( got, 'http://www.site.com:13/ab/y/z' );
 
-  test.case = 'add relative filePath uri with no localWebPath';
+  test.case = 'add relative filePath uri with no resourcePath';
   var got = _.uri.join( 'https://some.domain.com/','something/filePath/add' );
   test.identical( got, 'https://some.domain.com/something/filePath/add' );
 
-  test.case = 'add relative filePath uri with localWebPath';
+  test.case = 'add relative filePath uri with resourcePath';
   var got = _.uri.join( 'https://some.domain.com/was','something/filePath/add' );
   test.identical( got, 'https://some.domain.com/was/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( 'https://some.domain.com/was','/something/filePath/add' );
   test.identical( got, 'https:///something/filePath/add' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '//some.domain.com/was','/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '://some.domain.com/was','/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '//some.domain.com/was', 'x', '/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '://some.domain.com/was', 'x', '/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '//some.domain.com/was', '/something/filePath/add', 'x' );
   test.identical( got, '/something/filePath/add/x' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '://some.domain.com/was', '/something/filePath/add', 'x' );
   test.identical( got, ':///something/filePath/add/x' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '//some.domain.com/was', '/something/filePath/add', '/x' );
   test.identical( got, '/x' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '://some.domain.com/was', '/something/filePath/add', '/x' );
   test.identical( got, ':///x' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '/some/staging/index.html','/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '/some/staging/index.html', 'x', '/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '/some/staging/index.html', 'x', '/something/filePath/add', 'y' );
   test.identical( got, '/something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '/some/staging/index.html','/something/filePath/add', '/y' );
   test.identical( got, '/y' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '///some/staging/index.html','/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( ':///some/staging/index.html','/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '///some/staging/index.html', 'x', '/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( ':///some/staging/index.html', 'x', '/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
   test.identical( got, '/something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( ':///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
   test.identical( got, ':///something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( '///some/staging/index.html','/something/filePath/add', '/y' );
   test.identical( got, '/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( ':///some/staging/index.html','/something/filePath/add', '/y' );
   test.identical( got, ':///y' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk','/something/filePath/add' );
   test.identical( got, 'svn+https:///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add' );
   test.identical( got, 'svn+https:///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add', 'y' );
   test.identical( got, 'svn+https:///something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( 'svn+https://user@subversion.com/svn/trunk','/something/filePath/add', '/y' );
   test.identical( got, 'svn+https:///y' );
 
@@ -6648,19 +6648,19 @@ function join( test )
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var parsed = _.uri.parse( uri );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( uri,'/something/filePath/add' );
   test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( uri, 'x', '/something/filePath/add' );
   test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( uri, 'x', '/something/filePath/add', 'y' );
   test.identical( got, 'complex+protocol:///something/filePath/add/y?query=here&and=here#anchor' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( uri,'/something/filePath/add', '/y' );
   test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
 
@@ -6717,7 +6717,7 @@ function join( test )
   var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
   test.identical( got, expected );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.join( 'file:///some/file','/something/filePath/add' );
   test.identical( got, 'file:///something/filePath/add' );
 
@@ -6950,119 +6950,119 @@ function joinRaw( test )
   var got = _.uri.joinRaw( 'http://www.site.com:13/ab','y','z' );
   test.identical( got, 'http://www.site.com:13/ab/y/z' );
 
-  test.case = 'add relative filePath uri with no localWebPath';
+  test.case = 'add relative filePath uri with no resourcePath';
   var got = _.uri.joinRaw( 'https://some.domain.com/','something/filePath/add' );
   test.identical( got, 'https://some.domain.com/something/filePath/add' );
 
-  test.case = 'add relative filePath uri with localWebPath';
+  test.case = 'add relative filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'https://some.domain.com/was','something/filePath/add' );
   test.identical( got, 'https://some.domain.com/was/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'https://some.domain.com/was','/something/filePath/add' );
   test.identical( got, 'https:///something/filePath/add' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '//some.domain.com/was','/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '://some.domain.com/was','/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '//some.domain.com/was', 'x', '/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '://some.domain.com/was', 'x', '/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '//some.domain.com/was', '/something/filePath/add', 'x' );
   test.identical( got, '/something/filePath/add/x' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '://some.domain.com/was', '/something/filePath/add', 'x' );
   test.identical( got, ':///something/filePath/add/x' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '//some.domain.com/was', '/something/filePath/add', '/x' );
   test.identical( got, '/x' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '://some.domain.com/was', '/something/filePath/add', '/x' );
   test.identical( got, ':///x' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '/some/staging/index.html','/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '/some/staging/index.html', 'x', '/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '/some/staging/index.html', 'x', '/something/filePath/add', 'y' );
   test.identical( got, '/something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '/some/staging/index.html','/something/filePath/add', '/y' );
   test.identical( got, '/y' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '///some/staging/index.html','/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( ':///some/staging/index.html','/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '///some/staging/index.html', 'x', '/something/filePath/add' );
   test.identical( got, '/something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( ':///some/staging/index.html', 'x', '/something/filePath/add' );
   test.identical( got, ':///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
   test.identical( got, '/something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( ':///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
   test.identical( got, ':///something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( '///some/staging/index.html','/something/filePath/add', '/y' );
   test.identical( got, '/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( ':///some/staging/index.html','/something/filePath/add', '/y' );
   test.identical( got, ':///y' );
 
   /* */
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk','/something/filePath/add' );
   test.identical( got, 'svn+https:///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add' );
   test.identical( got, 'svn+https:///something/filePath/add' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add', 'y' );
   test.identical( got, 'svn+https:///something/filePath/add/y' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'svn+https://user@subversion.com/svn/trunk','/something/filePath/add', '/y' );
   test.identical( got, 'svn+https:///y' );
 
@@ -7071,19 +7071,19 @@ function joinRaw( test )
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var parsed = _.uri.parse( uri );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( uri,'/something/filePath/add' );
   test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( uri, 'x', '/something/filePath/add' );
   test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( uri, 'x', '/something/filePath/add', 'y' );
   test.identical( got, 'complex+protocol:///something/filePath/add/y?query=here&and=here#anchor' );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( uri,'/something/filePath/add', '/y' );
   test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
 
@@ -7140,7 +7140,7 @@ function joinRaw( test )
   var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
   test.identical( got, expected );
 
-  test.case = 'add absolute filePath uri with localWebPath';
+  test.case = 'add absolute filePath uri with resourcePath';
   var got = _.uri.joinRaw( 'file:///some/file','/something/filePath/add' );
   test.identical( got, 'file:///something/filePath/add' );
 

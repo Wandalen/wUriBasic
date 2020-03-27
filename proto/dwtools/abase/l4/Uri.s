@@ -20,7 +20,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../Tools.s' );
+  let _ = require( '../../../dwtools/Tools.s' );
 
   _.include( 'wPathBasic' );
   _.include( 'wBlueprint' );
@@ -384,7 +384,7 @@ function isGlob( filePath )
  * @property {string} protocol the URI's protocol scheme.;
  * @property {string} host host portion of the URI;
  * @property {string} port property is the numeric port portion of the URI
- * @property {string} localWebPath the entire path section of the URI.
+ * @property {string} resourcePath the entire path section of the URI.
  * @property {string} query the entire "query string" portion of the URI, not including '?' character.
  * @property {string} hash property consists of the "fragment identifier" portion of the URI.
 
@@ -403,7 +403,7 @@ let UriComponents =
   protocol : null, /* 'svn+http' */
   host : null, /* 'www.site.com' */
   port : null, /* '13' */
-  localWebPath : null, /* '/path/name' */
+  resourcePath : null, /* '/path/name' */
   query : null, /* 'query=here&and=here' */
   hash : null, /* 'anchor' */
   tag : null, /* tag */
@@ -426,7 +426,7 @@ let UriComponents =
 http://www.site.com:13/path/name?query=here&and=here#anchor
 2 - protocol
 3 - hostWithPort( host + port )
-5 - localWebPath
+5 - resourcePath
 6 - query
 8 - hash
 */
@@ -437,7 +437,7 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
   'port' : '13',
   'query' : 'query=here&and=here',
   'hash' : 'anchor',
-  'localWebPath' : '/!a.js?',
+  'resourcePath' : '/!a.js?',
   'longPath' : 'www.site.com:13/!a.js?',
 }*/
 
@@ -519,15 +519,15 @@ function parse_body( o )
   // result.port = e[ 4 ];
   if( _.strIs( e[ 5 ] ) )
   {
-    result.localWebPath = e[ 5 ];
-    let isolatedSlash = _.strIsolateRightOrNone( result.localWebPath, '/' );
+    result.resourcePath = e[ 5 ];
+    let isolatedSlash = _.strIsolateRightOrNone( result.resourcePath, '/' );
     if( isolatedSlash[ 2 ] )
     {
       let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], '@' );
       if( isolated[ 2 ] )
       {
         result.tag = isolated[ 2 ];
-        result.localWebPath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
+        result.resourcePath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
       }
     }
   }
@@ -557,7 +557,7 @@ function parse_body( o )
   if( o.kind === 'full' )
   {
     let hostWithPort = e[ 2 ] || '';
-    result.longPath = hostWithPort + result.localWebPath;
+    result.longPath = hostWithPort + result.resourcePath;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
@@ -571,10 +571,10 @@ function parse_body( o )
   else if( o.kind === 'consecutive' )
   {
     let hostWithPort = e[ 2 ] || '';
-    result.longPath = hostWithPort + result.localWebPath;
+    result.longPath = hostWithPort + result.resourcePath;
     delete result.host;
     delete result.port;
-    delete result.localWebPath;
+    delete result.resourcePath;
   }
   return result;
 
@@ -612,7 +612,7 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
    // {
    //   protocol : 'http',
    //   hostWithPort : 'www.site.com:13',
-   //   localWebPath : /path/name,
+   //   resourcePath : /path/name,
    //   query : 'query=here&and=here',
    //   hash : 'anchor',
    //   host : 'www.site.com',
@@ -686,7 +686,7 @@ function localFromGlobal( globalPath )
        protocol : 'http',
        host : 'www.site.com',
        port : '13',
-       localWebPath : '/path/name',
+       resourcePath : '/path/name',
        query : 'query=here&and=here',
        hash : 'anchor',
      };
@@ -757,7 +757,7 @@ function str( c )
   // protocol : null, /* 'svn+http' */
   // host : null, /* 'www.site.com' */
   // port : null, /* '13' */
-  // localWebPath : null, /* '/path/name' */
+  // resourcePath : null, /* '/path/name' */
   // query : null, /* 'query=here&and=here' */
   // hash : null, /* 'anchor' */
   //
@@ -784,12 +784,12 @@ function str( c )
     if( !_.strIs( hostWithPort ) )
     hostWithPort = hostWithPortFrom( c );
 
-    if( _.strIs( c.localWebPath ) )
+    if( _.strIs( c.resourcePath ) )
     {
-      if( c.localWebPath && hostWithPort && !_.strBegins( c.localWebPath, self._upStr ) )
-      return hostWithPort + self._upStr + c.localWebPath;
+      if( c.resourcePath && hostWithPort && !_.strBegins( c.resourcePath, self._upStr ) )
+      return hostWithPort + self._upStr + c.resourcePath;
       else
-      return hostWithPort + c.localWebPath;
+      return hostWithPort + c.resourcePath;
     }
     else
     {
@@ -812,8 +812,8 @@ function str( c )
     if( !_.strHas( c.longPath, String( c.port ) ) )
     return false;
 
-    if( c.localWebPath )
-    if( !_.strEnds( c.longPath, c.localWebPath ) )
+    if( c.resourcePath )
+    if( !_.strEnds( c.longPath, c.resourcePath ) )
     return false;
 
     return true;
@@ -968,8 +968,8 @@ function str( c )
     if( !_.strHas( c.full, String( c.host ) ) )
     return false;
 
-    if( c.localWebPath )
-    if( !_.strHas( c.full, String( c.localWebPath ) ) )
+    if( c.resourcePath )
+    if( !_.strHas( c.full, String( c.resourcePath ) ) )
     return false;
 
     if( c.query )
@@ -1005,7 +1005,7 @@ str.components = UriComponents;
  * // current uri http://www.site.com:13/foo/baz
    let components =
    {
-     localWebPath : '/path/name',
+     resourcePath : '/path/name',
      query : 'query=here&and=here',
      hash : 'anchor',
    };
@@ -1271,7 +1271,7 @@ function join_functor( gen )
         else
         {
           isGlobal = arguments[ s ] !== null;
-          srcs[ s ] = { localWebPath : arguments[ s ] };
+          srcs[ s ] = { resourcePath : arguments[ s ] };
         }
       }
 
@@ -1299,7 +1299,7 @@ function join_functor( gen )
 
     if( web )
     {
-      result.localWebPath = undefined;
+      result.resourcePath = undefined;
     }
     else
     {
@@ -1331,12 +1331,12 @@ function join_functor( gen )
         if( !hostWas || !src.host || hostWas === src.host )
         result.port = src.port;
 
-        if( !result.localWebPath && src.localWebPath !== undefined )
-        result.localWebPath = src.localWebPath;
-        else if( src.localWebPath )
-        result.localWebPath = parent[ routineName ]( src.localWebPath, result.localWebPath );
+        if( !result.resourcePath && src.resourcePath !== undefined )
+        result.resourcePath = src.resourcePath;
+        else if( src.resourcePath )
+        result.resourcePath = parent[ routineName ]( src.resourcePath, result.resourcePath );
 
-        if( src.localWebPath === null )
+        if( src.resourcePath === null )
         break;
 
       }
@@ -1371,7 +1371,7 @@ function join_functor( gen )
     if( !isGlobal )
     {
       if( web )
-      return result.localWebPath;
+      return result.resourcePath;
       else
       return result.longPath;
     }
@@ -1606,7 +1606,7 @@ function rebase( srcPath, oldPath, newPath )
   //   delete dstPath.host;
   // }
 
-  // dstPath.localWebPath = null; xxx
+  // dstPath.resourcePath = null; xxx
   dstPath.longPath = parent.rebase.call( this, srcPath.longPath, oldPath.longPath, newPath.longPath );
 
   return this.str( dstPath );
@@ -1957,7 +1957,7 @@ let Uri = _.blueprint.defineConstructor
 
 // let UriFull =
 // ({
-//   localWebPath : null,
+//   resourcePath : null,
 //   host : null,
 //   port : null,
 //   longPath : null,
@@ -1972,7 +1972,7 @@ let Uri = _.blueprint.defineConstructor
 //
 // let UriAtomic =
 // ({
-//   localWebPath : null,
+//   resourcePath : null,
 //   host : null,
 //   extension : _.define.extension( Uri ),
 // });
