@@ -1564,6 +1564,24 @@ function urisRefine( test )
 
 function parse( test )
 {
+
+  /* */
+
+  test.case = 'query only';
+  var remotePath = '?entry:1&format:null';
+  var expected =
+  {
+    'resourcePath' : '',
+    'query' : 'entry:1&format:null',
+    'longPath' : '',
+    'protocols' : [],
+    'full' : '?entry:1&format:null'
+  }
+  var got = _.uri.parse( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
   var expected =
   {
     protocol : 'git',
@@ -1871,8 +1889,19 @@ function parse( test )
 
 function parseAtomic( test )
 {
+
+  /* */
+
+  test.case = 'query only';
+  var remotePath = '?entry:1&format:null';
+  var expected = { 'resourcePath' : '', 'query' : 'entry:1&format:null' }
+  var got = _.uri.parseAtomic( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
   test.case = 'global, relative, with hash, with query';
-  var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
+  var remotePath = 'git://../repo/Tools?out=out/wTools.out.will#master';
   var expected =
   {
     'protocol' : 'git',
@@ -2424,6 +2453,21 @@ function parseAtomic( test )
 
 function parseConsecutive( test )
 {
+
+  /* */
+
+  test.case = 'query only';
+  var remotePath = '?entry:1&format:null';
+  var expected =
+  {
+    'query' : 'entry:1&format:null',
+    'longPath' : '',
+  }
+  var got = _.uri.parseConsecutive( remotePath );
+  test.identical( got, expected );
+
+  /* */
+
   test.case = 'global, relative, with hash, with query';
   var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
   var expected =
@@ -2960,6 +3004,21 @@ function parseConsecutive( test )
 
 function parseFull( test )
 {
+
+  /* */
+
+  test.case = 'query only';
+  var remotePath = '?entry:1&format:null';
+  var expected =
+  {
+    'resourcePath' : '',
+    'query' : 'entry:1&format:null',
+    'longPath' : '',
+    'protocols' : [],
+    'full' : '?entry:1&format:null'
+  }
+  var got = _.uri.parseFull( remotePath );
+  test.identical( got, expected );
 
   /* */
 
@@ -6730,7 +6789,6 @@ function join( test )
 
   var got = _.uri.join( 'b://c', 'd://e', 'f' );
   test.identical( got, 'd://c/e/f' );
-  // test.identical( got, 'd://e/f' );
 
   var got = _.uri.join( 'a://b', 'c://d/e', '//f/g' );
   test.identical( got, 'c:////f/g' )
@@ -6816,6 +6874,16 @@ function join( test )
 
   var paths = [ 'git+https:///github.com/repo/wTools#master1', 'git+https://../wTools/**#master2' ];
   var expected = 'git+https:///github.com/repo/wTools/**#master2';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'http://127.0.0.1:15000/F1.html', '://?entry:1&format:null' ];
+  var expected = 'http://127.0.0.1:15000/F1.html?entry:1&format:null';
+  var got = _.uri.join.apply( _.uri, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'http://127.0.0.1:15000/F1.html', '?entry:1&format:null' ];
+  var expected = 'http://127.0.0.1:15000/F1.html/?entry:1&format:null';
   var got = _.uri.join.apply( _.uri, paths );
   test.identical( got, expected );
 
@@ -11132,6 +11200,7 @@ var Self =
     refine,
     urisRefine,
 
+    /* qqq : refactor test routines parse, parseAtomic, parseConsecutive, parseFull. ask how to */
     parse,
     parseAtomic,
     parseConsecutive,
