@@ -9,7 +9,8 @@
 /**
  * Collection of routines to operate multiple uris in the reliable and consistent way.
  * @namespace "wTools.uri.s"
- * @memberof module:Tools/base/Uri
+ * @extends Tools.uri
+ * @module Tools/base/Uri
  */
 
 if( typeof module !== 'undefined' )
@@ -94,7 +95,8 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * _.uri.s.parse( [ '/a', 'https:///stackoverflow.com' ] );
  * @returns {Array} Returns array with results of parse operation.
  * @function parse
- * @memberof module:Tools/base/Uri.wTools.uri.s
+ * @module Tools/base/Uri.wTools
+ * @namespace uri.s
  */
 
 /**
@@ -105,7 +107,8 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * _.uri.s.parseAtomic( [ '/a', 'https:///stackoverflow.com' ] );
  * @returns {Array} Returns array with results of parse operation.
  * @function parseAtomic
- * @memberof module:Tools/base/Uri.wTools.uri.s
+ * @module Tools/base/Uri.wTools
+ * @namespace uri.s
  */
 
 /**
@@ -116,7 +119,8 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * _.uri.s.parseConsecutive( [ '/a', 'https:///stackoverflow.com' ] );
  * @returns {Array} Returns array with results of parse operation.
  * @function parseConsecutive
- * @memberof module:Tools/base/Uri.wTools.uri.s
+ * @module Tools/base/Uri.wTools
+ * @namespace uri.s
  */
 
  /**
@@ -127,7 +131,8 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * //['/a', 'http:///a' ]
  * @returns {Array} Returns array of strings, each element represent a uri.
  * @function str
- * @memberof module:Tools/base/Uri.wTools.uri.s
+ * @module Tools/base/Uri.wTools
+ * @namespace uri.s
  */
 
 /**
@@ -137,7 +142,8 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * _.uri.s.full( [ { resourcePath : '/a' }, { protocol : 'http', resourcePath : '/a' } ] );
  * @returns {Array} Returns array of strings, each element represent a uri.
  * @function full
- * @memberof module:Tools/base/Uri.wTools.uri.s
+ * @module Tools/base/Uri.wTools
+ * @namespace uri.s
  */
 
 // --
