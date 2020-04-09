@@ -14,7 +14,8 @@
 /**
  * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way.
   @namespace "wTools.uri"
-  @memberof module:Tools/base/Uri
+  @extends Tools
+  @module Tools/base/Uri
 */
 
 if( typeof module !== 'undefined' )
@@ -102,7 +103,8 @@ function is( path )
  *
  * @returns {Boolean} Returns result of check for safetiness.
  * @function isSafe
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isSafe( path, level )
@@ -130,7 +132,8 @@ qqq : module:Tools? | Dmytro : changed similar to module wPathBasic
  *
  * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
  * @function isRefined
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isRefined( filePath )
@@ -154,7 +157,8 @@ function isRefined( filePath )
 //  *
 //  * @returns {Boolean} Returns true if {filePath} is refined, otherwise false.
 //  * @function isRefined
-//  * @memberof module:Tools/UriBasic.wTools.uri
+//  * @module Tools/UriBasic
+// * @namespace Tools.uri
 //  */
 //
 // function isRefined( filePath )
@@ -178,7 +182,8 @@ function isRefined( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
  * @function isNormalized
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isNormalized( filePath )
@@ -208,7 +213,8 @@ function isNormalized( filePath )
 //  *
 //  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
 //  * @function isNormalized
-//  * @memberof module:Tools/UriBasic.wTools.uri
+//  * @module Tools/UriBasic
+// * @namespace Tools.uri
 //  */
 //
 // function isNormalized( path )
@@ -232,7 +238,8 @@ function isNormalized( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is absolute, otherwise false.
  * @function isAbsolute
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isAbsolute( path )
@@ -256,7 +263,8 @@ function isAbsolute( path )
  *
  * @returns {Boolean} Returns true if {filePath} is relative, otherwise false.
  * @function isRelative
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isRelative( filePath )
@@ -286,7 +294,8 @@ function isRelative( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is root, otherwise false.
  * @function isRoot
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isRoot( filePath )
@@ -309,7 +318,8 @@ function isRoot( filePath )
  *
  * @returns {Boolean} Returns true if path begins with dot, otherwise false.
  * @function isDotted
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isDotted( filePath )
@@ -333,7 +343,8 @@ function isDotted( filePath )
  *
  * @returns {Boolean} Returns true if path ends with slash, otherwise false.
  * @function isTrailed
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isTrailed( filePath )
@@ -357,7 +368,8 @@ function isTrailed( filePath )
  *
  * @returns {Boolean} Returns true if {filePath} is glob, otherwise false.
  * @function isGlob
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function isGlob( filePath )
@@ -392,7 +404,8 @@ function isGlob( filePath )
  * @property {string} hostWithPort host portion of the URI, including the port if specified.
  * @property {string} origin protocol + host + port
  * @private
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 let UriComponents =
@@ -626,7 +639,8 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
  * @returns {UrlComponents} Result object with parsed uri components
  * @throws {Error} If passed `path` parameter is not string
  * @function parse
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 let parse = _.routineFromPreAndBody( parse_pre, parse_body );
@@ -697,7 +711,8 @@ function localFromGlobal( globalPath )
  * @throws {Error} If `components` is not UrlComponents map
  * @see {@link UrlComponents}
  * @function str
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function str( c )
@@ -1014,7 +1029,8 @@ str.components = UriComponents;
  *
  * @returns {string} composed uri
  * @function full
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function full( o )
@@ -1779,7 +1795,8 @@ let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.m
  * @param {boolean} o.withoutProtocol if true rejects protocol part from result uri
  * @returns {string} Return document uri.
  * @function documentGet
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function documentGet( path, o )
@@ -1833,7 +1850,8 @@ documentGet.defaults =
  * @param {string} [path] uri
  * @returns {string} Origin part of uri.
  * @function server
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function server( path )
@@ -1869,7 +1887,8 @@ function server( path )
  * @param {string } [path] uri
  * @returns {string}
  * @function query
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function query( path )
@@ -1899,7 +1918,8 @@ function query( path )
  * @param {string} query query string
  * @returns {Object}
  * @function dequery
- * @memberof module:Tools/UriBasic.wTools.uri
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
  */
 
 function dequery( query )
