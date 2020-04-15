@@ -13,7 +13,7 @@
 
 /**
  * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way.
-  @namespace "wTools.uri"
+  @namespace wTools.uri
   @extends Tools
   @module Tools/base/Uri
 */
