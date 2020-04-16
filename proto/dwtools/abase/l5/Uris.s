@@ -8,7 +8,7 @@
 
 /**
  * Collection of routines to operate multiple uris in the reliable and consistent way.
- * @namespace "wTools.uri.s"
+ * @namespace wTools.uri.s
  * @extends Tools.uri
  * @module Tools/base/Uri
  */
