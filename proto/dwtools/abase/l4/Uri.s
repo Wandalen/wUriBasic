@@ -426,6 +426,7 @@ let UriComponents =
   // qqq !!! : implement queries
   // queries : null, /* { query : here, and : here } */
   longPath : null, /* www.site.com:13/path/name */
+  longPathWithParams : null, /* www.site.com:13/path/name?query=here#anchor@tag */
   protocols : null, /* [ 'svn','http' ] */
   hostWithPort : null, /* 'www.site.com:13' */
   origin : null, /* 'svn+http://www.site.com:13' */
@@ -522,6 +523,8 @@ function parse_body( o )
 
   let e = this._uriParseRegexp.exec( o.srcPath );
   _.sure( !!e, 'Cant parse :',o.srcPath );
+  
+  let params = '';
 
   if( _.strIs( e[ 1 ] ) )
   result.protocol = e[ 1 ];
@@ -541,12 +544,14 @@ function parse_body( o )
       {
         result.tag = isolated[ 2 ];
         result.resourcePath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
+        params += '@' + result.tag;
       }
     }
   }
   if( _.strIs( e[ 6 ] ) )
   {
     result.query = e[ 6 ];
+    params += '?' + result.query;
     let isolated = _.strIsolateRightOrNone( result.query, '@' );
     if( isolated[ 2 ] )
     {
@@ -557,6 +562,7 @@ function parse_body( o )
   if( _.strIs( e[ 7 ] ) )
   {
     result.hash = e[ 7 ];
+    params += '#' + result.hash;
     let isolated = _.strIsolateRightOrNone( result.hash, '@' );
     if( isolated[ 2 ] )
     {
@@ -571,6 +577,7 @@ function parse_body( o )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.resourcePath;
+    result.longPathWithParams = result.longPath + params;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
@@ -585,13 +592,27 @@ function parse_body( o )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.resourcePath;
+    result.longPathWithParams = result.longPath + params;
     delete result.host;
     delete result.port;
     delete result.resourcePath;
   }
+  
   return result;
 
   /*  */
+  
+  function longPathWithParamsForm()
+  { 
+    let longPathWithParams = result.longPath;
+    if( result.query )
+    longPathWithParams += '?' + result.query;
+    if( result.hash )
+    longPathWithParams += '#' + result.hash;
+    if( result.tag )
+    longPathWithParams += '@' + result.tag;
+    return longPathWithParams;
+  }
 
   function isolateTagFrom( src )
   {
