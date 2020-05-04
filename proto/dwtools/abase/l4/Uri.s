@@ -500,7 +500,7 @@ function parse_pre( routine, args )
 
   _.routineOptions( routine, o );
   _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
-  _.assert( _.longHas( parse_body.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
+  _.assert( _.longHas( routine.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
 
   return o;
 }
@@ -523,7 +523,7 @@ function parse_body( o )
 
   let e = this._uriParseRegexp.exec( o.srcPath );
   _.sure( !!e, 'Cant parse :',o.srcPath );
-  
+
   let params = '';
 
   if( _.strIs( e[ 1 ] ) )
@@ -592,18 +592,18 @@ function parse_body( o )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.resourcePath;
-    result.longPathWithParams = result.longPath + params;
+    result.longPathWithParams = result.longPath + params; /* xxx : redundat! */
     delete result.host;
     delete result.port;
     delete result.resourcePath;
   }
-  
+
   return result;
 
   /*  */
-  
+
   function longPathWithParamsForm()
-  { 
+  {
     let longPathWithParams = result.longPath;
     if( result.query )
     longPathWithParams += '?' + result.query;
