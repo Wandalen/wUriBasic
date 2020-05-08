@@ -426,7 +426,7 @@ let UriComponents =
   // qqq !!! : implement queries
   // queries : null, /* { query : here, and : here } */
   longPath : null, /* www.site.com:13/path/name */
-  longPathWithParams : null, /* www.site.com:13/path/name?query=here#anchor@tag */
+  parametrizedPath : null, /* www.site.com:13/path/name?query=here#anchor@tag */
   protocols : null, /* [ 'svn','http' ] */
   hostWithPort : null, /* 'www.site.com:13' */
   origin : null, /* 'svn+http://www.site.com:13' */
@@ -577,7 +577,7 @@ function parse_body( o )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.resourcePath;
-    result.longPathWithParams = result.longPath + params;
+    result.parametrizedPath = result.longPath + params;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
@@ -592,7 +592,7 @@ function parse_body( o )
   {
     let hostWithPort = e[ 2 ] || '';
     result.longPath = hostWithPort + result.resourcePath;
-    result.longPathWithParams = result.longPath + params; /* xxx : redundat! */
+    result.parametrizedPath = result.longPath + params; /* xxx : redundat! */
     delete result.host;
     delete result.port;
     delete result.resourcePath;
@@ -604,14 +604,14 @@ function parse_body( o )
 
   function longPathWithParamsForm()
   {
-    let longPathWithParams = result.longPath;
+    let parametrizedPath = result.longPath;
     if( result.query )
-    longPathWithParams += '?' + result.query;
+    parametrizedPath += '?' + result.query;
     if( result.hash )
-    longPathWithParams += '#' + result.hash;
+    parametrizedPath += '#' + result.hash;
     if( result.tag )
-    longPathWithParams += '@' + result.tag;
-    return longPathWithParams;
+    parametrizedPath += '@' + result.tag;
+    return parametrizedPath;
   }
 
   function isolateTagFrom( src )

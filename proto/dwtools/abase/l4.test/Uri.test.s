@@ -1622,7 +1622,7 @@ function parse( test )
     'resourcePath' : '',
     'query' : 'entry:1&format:null',
     'longPath' : '',
-    'longPathWithParams' : '?entry:1&format:null',
+    'parametrizedPath' : '?entry:1&format:null',
     'protocols' : [],
     'full' : '?entry:1&format:null'
   }
@@ -1637,7 +1637,7 @@ function parse( test )
     host : '',
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
     protocols : [ 'git' ],
     tag : 'tag',
     hostWithPort : '',
@@ -1654,7 +1654,7 @@ function parse( test )
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git#hash',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1670,7 +1670,7 @@ function parse( test )
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/#hash',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1686,7 +1686,7 @@ function parse( test )
     resourcePath : '/somerepo.git',
     hash : 'hash',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git#hash',
+    parametrizedPath : '/somerepo.git#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1702,7 +1702,7 @@ function parse( test )
     resourcePath : '/somerepo.git/',
     hash : 'hash',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/#hash',
+    parametrizedPath : '/somerepo.git/#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1718,7 +1718,7 @@ function parse( test )
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1734,7 +1734,7 @@ function parse( test )
     resourcePath : '/somerepo.git/',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/@tag',
+    parametrizedPath : '/somerepo.git/@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1751,7 +1751,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1768,7 +1768,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1785,7 +1785,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git#hash@tag',
+    parametrizedPath : '/somerepo.git#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1802,7 +1802,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/#hash@tag',
+    parametrizedPath : '/somerepo.git/#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1820,7 +1820,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1838,7 +1838,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1856,7 +1856,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git?query=1#hash@tag',
+    parametrizedPath : '/somerepo.git?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1874,7 +1874,7 @@ function parse( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/?query=1#hash@tag',
+    parametrizedPath : '/somerepo.git/?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1891,7 +1891,7 @@ function parse( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git?query=1@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1908,7 +1908,7 @@ function parse( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/?query=1@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1925,7 +1925,7 @@ function parse( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git?query=1@tag',
+    parametrizedPath : '/somerepo.git?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -1943,7 +1943,7 @@ function parse( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/?query=1@tag',
+    parametrizedPath : '/somerepo.git/?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -2548,7 +2548,7 @@ function parseConsecutive( test )
   {
     'query' : 'entry:1&format:null',
     'longPath' : '',
-    'longPathWithParams' : '?entry:1&format:null',
+    'parametrizedPath' : '?entry:1&format:null',
   }
   var got = _.uri.parseConsecutive( remotePath );
   test.identical( got, expected );
@@ -2563,7 +2563,7 @@ function parseConsecutive( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '../repo/Tools',
-    'longPathWithParams' : '../repo/Tools?out=out/wTools.out.will#master'
+    'parametrizedPath' : '../repo/Tools?out=out/wTools.out.will#master'
   }
   var got = _.uri.parseConsecutive( remotePath );
   test.identical( got, expected );
@@ -2578,7 +2578,7 @@ function parseConsecutive( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '/../repo/Tools',
-    'longPathWithParams' : '/../repo/Tools?out=out/wTools.out.will#master'
+    'parametrizedPath' : '/../repo/Tools?out=out/wTools.out.will#master'
   }
   var got = _.uri.parseConsecutive( remotePath );
   test.identical( got, expected );
@@ -2593,7 +2593,7 @@ function parseConsecutive( test )
     'query' : 'q=3',
     'hash' : 'anch',
     'longPath' : '127.0.0.1:5000/a/b',
-    'longPathWithParams' : '127.0.0.1:5000/a/b?q=3#anch'
+    'parametrizedPath' : '127.0.0.1:5000/a/b?q=3#anch'
   }
   var got = _.uri.parseConsecutive( remotePath );
   test.identical( got, expected );
@@ -2608,7 +2608,7 @@ function parseConsecutive( test )
     'query' : 'q:3',
     'hash' : 'anch',
     'longPath' : '127.0.0.1:5000/a/b',
-    'longPathWithParams' : '127.0.0.1:5000/a/b?q:3#anch'
+    'parametrizedPath' : '127.0.0.1:5000/a/b?q:3#anch'
   }
   var got = _.uri.parseConsecutive( remotePath );
   test.identical( got, expected );
@@ -2620,7 +2620,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '127.0.0.1:61726/../path',
-    longPathWithParams : '127.0.0.1:61726/../path',
+    parametrizedPath : '127.0.0.1:61726/../path',
   }
   var got = _.uri.parseConsecutive( uri );
   test.identical( got, expected );
@@ -2628,7 +2628,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '127.0.0.1:61726/../path',
-    longPathWithParams : '127.0.0.1:61726/../path',
+    parametrizedPath : '127.0.0.1:61726/../path',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2644,7 +2644,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
   }
 
   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
@@ -2659,7 +2659,7 @@ function parseConsecutive( test )
   {
     protocol : 'http',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
     query : 'query=here&and=here',
     hash : 'anchor',
   }
@@ -2676,7 +2676,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
   }
 
   var parsed = got;
@@ -2692,7 +2692,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
   }
 
   var got = _.uri.parseConsecutive( uri1 );
@@ -2708,7 +2708,7 @@ function parseConsecutive( test )
   {
     protocol : '',
     longPath : 'some.domain.com/something/filePath/add',
-    longPathWithParams : 'some.domain.com/something/filePath/add',
+    parametrizedPath : 'some.domain.com/something/filePath/add',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2724,7 +2724,7 @@ function parseConsecutive( test )
   {
     protocol : 'file',
     longPath : '/something/filePath/add',
-    longPathWithParams : '/something/filePath/add',
+    parametrizedPath : '/something/filePath/add',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2740,7 +2740,7 @@ function parseConsecutive( test )
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com/svn/trunk',
-    longPathWithParams : 'user@subversion.com/svn/trunk',
+    parametrizedPath : 'user@subversion.com/svn/trunk',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2755,7 +2755,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '/some/file',
-    longPathWithParams : '/some/file',
+    parametrizedPath : '/some/file',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2769,7 +2769,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '//some.domain.com/was',
-    longPathWithParams : '//some.domain.com/was',
+    parametrizedPath : '//some.domain.com/was',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2786,7 +2786,7 @@ function parseConsecutive( test )
     host : 'some.domain.com',
     resourcePath : '/was',
     longPath : 'some.domain.com/was',
-    longPathWithParams : 'some.domain.com/was',
+    parametrizedPath : 'some.domain.com/was',
     protocols : [ '' ],
     hostWithPort : 'some.domain.com',
     origin : '://some.domain.com',
@@ -2802,7 +2802,7 @@ function parseConsecutive( test )
   {
     protocol : 'protocol',
     longPath : 'some.domain.com/was',
-    longPathWithParams : 'some.domain.com/was',
+    parametrizedPath : 'some.domain.com/was',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2816,7 +2816,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '//',
-    longPathWithParams : '//',
+    parametrizedPath : '//',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2826,7 +2826,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '///',
-    longPathWithParams : '///',
+    parametrizedPath : '///',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2836,7 +2836,7 @@ function parseConsecutive( test )
   var expected =
   {
     longPath : '///a/b/c',
-    longPathWithParams : '///a/b/c',
+    parametrizedPath : '///a/b/c',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2850,7 +2850,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
   }
 
   var got = _.uri.parseConsecutive( uri );
@@ -2864,7 +2864,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path//name//',
-    longPathWithParams : 'www.site.com:13/path//name//?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path//name//?query=here&and=here#anchor',
   }
   test.identical( got, expected );
 
@@ -2876,7 +2876,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path//name//',
-    longPathWithParams : 'www.site.com:13/path//name//?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path//name//?query=here&and=here#anchor',
   }
   test.identical( got, expected );
 
@@ -2888,7 +2888,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : '/www.site.com:13/path//name//',
-    longPathWithParams : '/www.site.com:13/path//name//?query=here&and=here#anchor',
+    parametrizedPath : '/www.site.com:13/path//name//?query=here&and=here#anchor',
   }
   test.identical( got, expected );
 
@@ -2900,7 +2900,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : '/www.site.com:13/path//name//',
-    longPathWithParams : '/www.site.com:13/path//name//?query=here&and=here#anchor',
+    parametrizedPath : '/www.site.com:13/path//name//?query=here&and=here#anchor',
   }
   test.identical( got, expected );
 
@@ -2911,7 +2911,7 @@ function parseConsecutive( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : '///some.com:99/staging/index.html',
-    longPathWithParams : '///some.com:99/staging/index.html?query=here&and=here#anchor',
+    parametrizedPath : '///some.com:99/staging/index.html?query=here&and=here#anchor',
   }
   var got = _.uri.parseConsecutive( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
   test.identical( got, expected );
@@ -2922,7 +2922,7 @@ function parseConsecutive( test )
   {
     protocol : 'git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
     tag : 'tag'
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git@tag' );
@@ -2932,7 +2932,7 @@ function parseConsecutive( test )
   {
     protocol : 'git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git#hash',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git#hash',
     hash : 'hash'
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
@@ -2943,7 +2943,7 @@ function parseConsecutive( test )
     protocol : 'git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/#hash',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/#hash',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
   test.identical( got, expected );
@@ -2953,7 +2953,7 @@ function parseConsecutive( test )
     protocol : 'git',
     hash : 'hash',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git#hash',
+    parametrizedPath : '/somerepo.git#hash',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git#hash' );
   test.identical( got, expected );
@@ -2963,7 +2963,7 @@ function parseConsecutive( test )
     protocol : 'git',
     hash : 'hash',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/#hash',
+    parametrizedPath : '/somerepo.git/#hash',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/#hash' );
   test.identical( got, expected );
@@ -2973,7 +2973,7 @@ function parseConsecutive( test )
     protocol : 'git',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/@tag' );
   test.identical( got, expected );
@@ -2983,7 +2983,7 @@ function parseConsecutive( test )
     protocol : 'git',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/@tag',
+    parametrizedPath : '/somerepo.git/@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/@tag' );
   test.identical( got, expected );
@@ -2994,7 +2994,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git#hash@tag' );
   test.identical( got, expected );
@@ -3005,7 +3005,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash@tag' );
   test.identical( got, expected );
@@ -3016,7 +3016,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git#hash@tag',
+    parametrizedPath : '/somerepo.git#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git#hash@tag' );
   test.identical( got, expected );
@@ -3027,7 +3027,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/#hash@tag',
+    parametrizedPath : '/somerepo.git/#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/#hash@tag' );
   test.identical( got, expected );
@@ -3039,7 +3039,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag' );
   test.identical( got, expected );
@@ -3051,7 +3051,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag' );
   test.identical( got, expected );
@@ -3063,7 +3063,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git?query=1#hash@tag',
+    parametrizedPath : '/somerepo.git?query=1#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git?query=1#hash@tag' );
   test.identical( got, expected );
@@ -3075,7 +3075,7 @@ function parseConsecutive( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/?query=1#hash@tag',
+    parametrizedPath : '/somerepo.git/?query=1#hash@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/?query=1#hash@tag' );
   test.identical( got, expected );
@@ -3086,7 +3086,7 @@ function parseConsecutive( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git?query=1@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1@tag' );
   test.identical( got, expected );
@@ -3097,7 +3097,7 @@ function parseConsecutive( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/?query=1@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/?query=1@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1@tag' );
   test.identical( got, expected );
@@ -3108,7 +3108,7 @@ function parseConsecutive( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git?query=1@tag',
+    parametrizedPath : '/somerepo.git?query=1@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git?query=1@tag' );
   test.identical( got, expected );
@@ -3120,7 +3120,7 @@ function parseConsecutive( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/?query=1@tag',
+    parametrizedPath : '/somerepo.git/?query=1@tag',
   }
   var got = _.uri.parseConsecutive( 'git:///somerepo.git/?query=1@tag' );
   test.identical( got, expected );
@@ -3164,7 +3164,7 @@ function parseFull( test )
     'resourcePath' : '',
     'query' : 'entry:1&format:null',
     'longPath' : '',
-    'longPathWithParams' : '?entry:1&format:null',
+    'parametrizedPath' : '?entry:1&format:null',
     'protocols' : [],
     'full' : '?entry:1&format:null'
   }
@@ -3183,7 +3183,7 @@ function parseFull( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '../repo/Tools',
-    'longPathWithParams' : '../repo/Tools?out=out/wTools.out.will#master',
+    'parametrizedPath' : '../repo/Tools?out=out/wTools.out.will#master',
     'protocols' : [ 'git' ],
     'hostWithPort' : '..',
     'origin' : 'git://..',
@@ -3204,7 +3204,7 @@ function parseFull( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master',
     'longPath' : '/../repo/Tools',
-    'longPathWithParams' : '/../repo/Tools?out=out/wTools.out.will#master',
+    'parametrizedPath' : '/../repo/Tools?out=out/wTools.out.will#master',
     'protocols' : [ 'git' ],
     'hostWithPort' : '',
     'origin' : 'git://',
@@ -3226,7 +3226,7 @@ function parseFull( test )
     'query' : 'q=3',
     'hash' : 'anch',
     'longPath' : '127.0.0.1:5000/a/b',
-    'longPathWithParams' : '127.0.0.1:5000/a/b?q=3#anch',
+    'parametrizedPath' : '127.0.0.1:5000/a/b?q=3#anch',
     'protocols' : [ 'http' ],
     'hostWithPort' : '127.0.0.1:5000',
     'origin' : 'http://127.0.0.1:5000',
@@ -3248,7 +3248,7 @@ function parseFull( test )
     'query' : 'q:3',
     'hash' : 'anch',
     'longPath' : '127.0.0.1:5000/a/b',
-    'longPathWithParams' : '127.0.0.1:5000/a/b?q:3#anch',
+    'parametrizedPath' : '127.0.0.1:5000/a/b?q:3#anch',
     'protocols' : [ 'http' ],
     'hostWithPort' : '127.0.0.1:5000',
     'origin' : 'http://127.0.0.1:5000',
@@ -3265,7 +3265,7 @@ function parseFull( test )
   {
     resourcePath : '127.0.0.1:61726/../path',
     longPath : '127.0.0.1:61726/../path',
-    longPathWithParams : '127.0.0.1:61726/../path',
+    parametrizedPath : '127.0.0.1:61726/../path',
     protocols : [],
     full : '127.0.0.1:61726/../path'
   }
@@ -3276,7 +3276,7 @@ function parseFull( test )
   {
     'resourcePath' : '127.0.0.1:61726/../path',
     'longPath' : '127.0.0.1:61726/../path',
-    'longPathWithParams' : '127.0.0.1:61726/../path',
+    'parametrizedPath' : '127.0.0.1:61726/../path',
     'protocols' : [],
     'full' : '127.0.0.1:61726/../path'
   }
@@ -3296,7 +3296,7 @@ function parseFull( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
     protocols : [ 'http' ],
     hostWithPort : 'www.site.com:13',
     origin : 'http://www.site.com:13',
@@ -3320,7 +3320,7 @@ function parseFull( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/path/name',
-    'longPathWithParams' : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/path/name?query=here&and=here#anchor',
     'protocols' : [ 'http' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'http://www.site.com:13',
@@ -3342,7 +3342,7 @@ function parseFull( test )
     hash : 'anchor',
 
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
     protocols : [ 'http' ],
     hostWithPort : 'www.site.com:13',
     origin : 'http://www.site.com:13',
@@ -3365,7 +3365,7 @@ function parseFull( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/path/name',
-    'longPathWithParams' : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/path/name?query=here&and=here#anchor',
     'protocols' : [ 'http' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'http://www.site.com:13',
@@ -3386,7 +3386,7 @@ function parseFull( test )
     host : 'some.domain.com',
     resourcePath : '/something/filePath/add',
     longPath : 'some.domain.com/something/filePath/add',
-    longPathWithParams : 'some.domain.com/something/filePath/add',
+    parametrizedPath : 'some.domain.com/something/filePath/add',
     protocols : [],
     hostWithPort : 'some.domain.com',
     origin : '://some.domain.com',
@@ -3408,7 +3408,7 @@ function parseFull( test )
     host : '',
     resourcePath : '/something/filePath/add',
     longPath : '/something/filePath/add',
-    longPathWithParams : '/something/filePath/add',
+    parametrizedPath : '/something/filePath/add',
     protocols : [ 'file' ],
     hostWithPort : '',
     origin : 'file://',
@@ -3430,7 +3430,7 @@ function parseFull( test )
     host : 'user@subversion.com',
     resourcePath : '/svn/trunk',
     longPath : 'user@subversion.com/svn/trunk',
-    longPathWithParams : 'user@subversion.com/svn/trunk',
+    parametrizedPath : 'user@subversion.com/svn/trunk',
     protocols : [ 'svn','https' ],
     hostWithPort : 'user@subversion.com',
     origin : 'svn+https://user@subversion.com',
@@ -3450,7 +3450,7 @@ function parseFull( test )
   {
     resourcePath : '/some/file',
     longPath : '/some/file',
-    longPathWithParams : '/some/file',
+    parametrizedPath : '/some/file',
     protocols : [],
     full : '/some/file',
   }
@@ -3467,7 +3467,7 @@ function parseFull( test )
   {
     resourcePath : '//some.domain.com/was',
     longPath : '//some.domain.com/was',
-    longPathWithParams : '//some.domain.com/was',
+    parametrizedPath : '//some.domain.com/was',
     protocols : [],
     full : '//some.domain.com/was'
   }
@@ -3486,7 +3486,7 @@ function parseFull( test )
     host : 'some.domain.com',
     resourcePath : '/was',
     longPath : 'some.domain.com/was',
-    longPathWithParams : 'some.domain.com/was',
+    parametrizedPath : 'some.domain.com/was',
     protocols : [ '' ],
     hostWithPort : 'some.domain.com',
     origin : '://some.domain.com',
@@ -3504,7 +3504,7 @@ function parseFull( test )
     host : 'some.domain.com',
     resourcePath : '/was',
     longPath : 'some.domain.com/was',
-    longPathWithParams : 'some.domain.com/was',
+    parametrizedPath : 'some.domain.com/was',
     protocols : [ 'protocol' ],
     hostWithPort : 'some.domain.com',
     origin : 'protocol://some.domain.com',
@@ -3523,7 +3523,7 @@ function parseFull( test )
   {
     resourcePath : '//',
     longPath : '//',
-    longPathWithParams : '//',
+    parametrizedPath : '//',
     protocols : [],
     full : '//'
   }
@@ -3536,7 +3536,7 @@ function parseFull( test )
   {
     resourcePath : '///',
     longPath : '///',
-    longPathWithParams : '///',
+    parametrizedPath : '///',
     protocols : [],
     full : '///'
   }
@@ -3549,7 +3549,7 @@ function parseFull( test )
   {
     resourcePath : '///a/b/c',
     longPath : '///a/b/c',
-    longPathWithParams : '///a/b/c',
+    parametrizedPath : '///a/b/c',
     protocols : [],
     full : '///a/b/c'
   }
@@ -3568,7 +3568,7 @@ function parseFull( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path/name',
-    longPathWithParams : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
     protocols : [ 'complex', 'protocol' ],
     hostWithPort : 'www.site.com:13',
     origin : 'complex+protocol://www.site.com:13',
@@ -3589,7 +3589,7 @@ function parseFull( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : 'www.site.com:13/path//name//',
-    longPathWithParams : 'www.site.com:13/path//name//?query=here&and=here#anchor',
+    parametrizedPath : 'www.site.com:13/path//name//?query=here&and=here#anchor',
     protocols : [],
     hostWithPort : 'www.site.com:13',
     origin : '://www.site.com:13',
@@ -3608,7 +3608,7 @@ function parseFull( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/path//name//',
-    'longPathWithParams' : 'www.site.com:13/path//name//?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/path//name//?query=here&and=here#anchor',
     'protocols' : [],
     'hostWithPort' : 'www.site.com:13',
     'origin' : '://www.site.com:13',
@@ -3630,7 +3630,7 @@ function parseFull( test )
     origin : '://',
     full : uri,
     longPath : '/www.site.com:13/path//name//',
-    longPathWithParams : '/www.site.com:13/path//name//?query=here&and=here#anchor',
+    parametrizedPath : '/www.site.com:13/path//name//?query=here&and=here#anchor',
   }
   test.identical( got, expected );
 
@@ -3644,7 +3644,7 @@ function parseFull( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : '/www.site.com:13/path//name//',
-    'longPathWithParams' : '/www.site.com:13/path//name//?query=here&and=here#anchor',
+    'parametrizedPath' : '/www.site.com:13/path//name//?query=here&and=here#anchor',
     'protocols' : [],
     'hostWithPort' : '',
     'origin' : '://',
@@ -3660,7 +3660,7 @@ function parseFull( test )
     query : 'query=here&and=here',
     hash : 'anchor',
     longPath : '///some.com:99/staging/index.html',
-    longPathWithParams : '///some.com:99/staging/index.html?query=here&and=here#anchor',
+    parametrizedPath : '///some.com:99/staging/index.html?query=here&and=here#anchor',
     protocols : [],
     full : '///some.com:99/staging/index.html?query=here&and=here#anchor',
   }
@@ -3675,7 +3675,7 @@ function parseFull( test )
     host : '',
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     tag : 'tag',
@@ -3692,7 +3692,7 @@ function parseFull( test )
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git#hash',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3708,7 +3708,7 @@ function parseFull( test )
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     hash : 'hash',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/#hash',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3724,7 +3724,7 @@ function parseFull( test )
     resourcePath : '/somerepo.git',
     hash : 'hash',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git#hash',
+    parametrizedPath : '/somerepo.git#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3740,7 +3740,7 @@ function parseFull( test )
     resourcePath : '/somerepo.git/',
     hash : 'hash',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/#hash',
+    parametrizedPath : '/somerepo.git/#hash',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3756,7 +3756,7 @@ function parseFull( test )
     resourcePath : '/git@bitbucket.org:someorg/somerepo.git/',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3772,7 +3772,7 @@ function parseFull( test )
     resourcePath : '/somerepo.git/',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/@tag',
+    parametrizedPath : '/somerepo.git/@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3789,7 +3789,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3806,7 +3806,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3823,7 +3823,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git#hash@tag',
+    parametrizedPath : '/somerepo.git#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3840,7 +3840,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/#hash@tag',
+    parametrizedPath : '/somerepo.git/#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3858,7 +3858,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3876,7 +3876,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3894,7 +3894,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git?query=1#hash@tag',
+    parametrizedPath : '/somerepo.git?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3912,7 +3912,7 @@ function parseFull( test )
     hash : 'hash',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/?query=1#hash@tag',
+    parametrizedPath : '/somerepo.git/?query=1#hash@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3929,7 +3929,7 @@ function parseFull( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git?query=1@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3946,7 +3946,7 @@ function parseFull( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    longPathWithParams : '/git@bitbucket.org:someorg/somerepo.git/?query=1@tag',
+    parametrizedPath : '/git@bitbucket.org:someorg/somerepo.git/?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3963,7 +3963,7 @@ function parseFull( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git',
-    longPathWithParams : '/somerepo.git?query=1@tag',
+    parametrizedPath : '/somerepo.git?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -3981,7 +3981,7 @@ function parseFull( test )
     query : 'query=1',
     tag : 'tag',
     longPath : '/somerepo.git/',
-    longPathWithParams : '/somerepo.git/?query=1@tag',
+    parametrizedPath : '/somerepo.git/?query=1@tag',
     protocols : [ 'git' ],
     hostWithPort : '',
     origin : 'git://',
@@ -4064,7 +4064,7 @@ function parseGlob( test )
     'resourcePath' : '/a/???abc',
     'hash' : '',
     'longPath' : '/a/???abc',
-    'longPathWithParams' : '/a/???abc#',
+    'parametrizedPath' : '/a/???abc#',
     'protocols' : [],
     'full' : '/a/???abc#'
   }
@@ -4269,7 +4269,7 @@ function parseGlob( test )
     'hash' : 'anchor',
     'resourcePath' : '/!a.js?',
     'longPath' : 'www.site.com:13/!a.js?',
-    'longPathWithParams' : 'www.site.com:13/!a.js??query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/!a.js??query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4289,7 +4289,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/!a.js',
-    'longPathWithParams' : 'www.site.com:13/a/!a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/a/!a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4309,7 +4309,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/^a.js',
-    'longPathWithParams' : 'www.site.com:13/a/^a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/a/^a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4329,7 +4329,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/+a.js',
-    'longPathWithParams' : 'www.site.com:13/a/+a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/a/+a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4349,7 +4349,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/!',
-    'longPathWithParams' : 'www.site.com:13/a/!?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/a/!?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4369,7 +4369,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/^',
-    'longPathWithParams' : 'www.site.com:13/a/^?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/a/^?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4389,7 +4389,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/a/+',
-    'longPathWithParams' : 'www.site.com:13/a/+?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/a/+?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4409,7 +4409,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/?',
-    'longPathWithParams' : 'www.site.com:13/??query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/??query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4429,7 +4429,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/*',
-    'longPathWithParams' : 'www.site.com:13/*?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/*?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4449,7 +4449,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/**',
-    'longPathWithParams' : 'www.site.com:13/**?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/**?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4469,7 +4469,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/?c.js',
-    'longPathWithParams' : 'www.site.com:13/?c.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/?c.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4489,7 +4489,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/*.js',
-    'longPathWithParams' : 'www.site.com:13/*.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/*.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4510,7 +4510,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/**/a.js',
-    'longPathWithParams' : 'www.site.com:13/**/a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/**/a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4530,7 +4530,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir?c/a.js',
-    'longPathWithParams' : 'www.site.com:13/dir?c/a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir?c/a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4550,7 +4550,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/*.js',
-    'longPathWithParams' : 'www.site.com:13/dir/*.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/*.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4570,7 +4570,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/**.js',
-    'longPathWithParams' : 'www.site.com:13/dir/**.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/**.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4590,7 +4590,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/**/a.js',
-    'longPathWithParams' : 'www.site.com:13/dir/**/a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/**/a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4610,7 +4610,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir?c/a.js',
-    'longPathWithParams' : 'www.site.com:13/dir?c/a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir?c/a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4630,7 +4630,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/*.js',
-    'longPathWithParams' : 'www.site.com:13/dir/*.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/*.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4650,7 +4650,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/**/a.js',
-    'longPathWithParams' : 'www.site.com:13/dir/**/a.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/**/a.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4670,7 +4670,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/[a-c]',
-    'longPathWithParams' : 'www.site.com:13/[a-c]?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/[a-c]?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4690,7 +4690,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/{a-c}',
-    'longPathWithParams' : 'www.site.com:13/{a-c}?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/{a-c}?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4710,7 +4710,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/(a|b)',
-    'longPathWithParams' : 'www.site.com:13/(a|b)?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/(a|b)?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4731,7 +4731,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/',
-    'longPathWithParams' : 'www.site.com:13/@(ab)?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/@(ab)?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4751,7 +4751,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/!(ab)',
-    'longPathWithParams' : 'www.site.com:13/!(ab)?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/!(ab)?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4771,7 +4771,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/?(ab)',
-    'longPathWithParams' : 'www.site.com:13/?(ab)?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/?(ab)?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4791,7 +4791,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/*(ab)',
-    'longPathWithParams' : 'www.site.com:13/*(ab)?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/*(ab)?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4811,7 +4811,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/+(ab)',
-    'longPathWithParams' : 'www.site.com:13/+(ab)?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/+(ab)?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4831,7 +4831,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/[a-c].js',
-    'longPathWithParams' : 'www.site.com:13/dir/[a-c].js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/[a-c].js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4851,7 +4851,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/{a,c}.js',
-    'longPathWithParams' : 'www.site.com:13/dir/{a,c}.js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/{a,c}.js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4871,7 +4871,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/(a|b).js',
-    'longPathWithParams' : 'www.site.com:13/dir/(a|b).js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/(a|b).js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4891,7 +4891,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/(ab).js',
-    'longPathWithParams' : 'www.site.com:13/dir/(ab).js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/(ab).js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4912,7 +4912,7 @@ function parseGlob( test )
     'hash' : 'anchor',
     'tag' : '(ab).js',
     'longPath' : 'www.site.com:13/dir/',
-    'longPathWithParams' : 'www.site.com:13/dir/@(ab).js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/@(ab).js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4932,7 +4932,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/?(ab).js',
-    'longPathWithParams' : 'www.site.com:13/dir/?(ab).js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/?(ab).js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4952,7 +4952,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/*(ab).js',
-    'longPathWithParams' : 'www.site.com:13/dir/*(ab).js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/*(ab).js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4972,7 +4972,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/dir/+(ab).js',
-    'longPathWithParams' : 'www.site.com:13/dir/+(ab).js?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/dir/+(ab).js?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -4992,7 +4992,7 @@ function parseGlob( test )
     'query' : 'query=here&and=here',
     'hash' : 'anchor',
     'longPath' : 'www.site.com:13/index/**',
-    'longPathWithParams' : 'www.site.com:13/index/**?query=here&and=here#anchor',
+    'parametrizedPath' : 'www.site.com:13/index/**?query=here&and=here#anchor',
     'protocols' : [ 'complex', 'protocol' ],
     'hostWithPort' : 'www.site.com:13',
     'origin' : 'complex+protocol://www.site.com:13',
@@ -5049,7 +5049,7 @@ function parseTagExperiment( test )
     'resourcePath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'hash' : 'master',
     'longPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
-    'longPathWithParams' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'parametrizedPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'protocols' : [ 'git' ],
     'hostWithPort' : '',
     'origin' : 'git://',
@@ -5065,7 +5065,7 @@ function parseTagExperiment( test )
     'resourcePath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'tag' : 'master',
     'longPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
-    'longPathWithParams' : '/git@bitbucket.org:org/repo.git/some/long/path',
+    'parametrizedPath' : '/git@bitbucket.org:org/repo.git/some/long/path',
     'protocols' : [ 'git' ],
     'hostWithPort' : '',
     'origin' : 'git://',
@@ -6205,7 +6205,7 @@ function parseAndStr( test )
     'host' : '..',
     'resourcePath' : '/src',
     'longPath' : '../src',
-    'longPathWithParams' : '../src',
+    'parametrizedPath' : '../src',
     'protocols' : [ 'ext' ],
     'hostWithPort' : '..',
     'origin' : 'ext://..',
