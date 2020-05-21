@@ -53,13 +53,13 @@
 - конвертація в нижній регістр\
 HTTP://www.Example.com/ -> http://www.example.com/
 - додавання кінцевої похилої риски\
-http://www.example.com/alice -> http://www.example.com/alice/
+\Program Files\Custom\Utilities -> \Program Files\Custom\Utilities\
 - видалення сегментів-крапок\
-http://www.example.com/../a/b/../c/./d.html -> http://www.example.com/a/c/d.html
-- видалення дублюючих слешів\
-http://www.example.com/foo//bar.html -> http://www.example.com/foo/bar.html
+Projects\\..\apilibrary\\.\apilibrary.sln -> Projects\apilibrary\apilibrary.sln
 - заміна IP адреси ім'ям домену\
 http://208.77.188.166/ -> http://www.example.com/
+- видалення дублюючих слешів\
+/home/mthomas//class_stuff/foo//file.txt -> /home/mthomas/class_stuff/foo/file.txt
 
 #### Нативізація шляху
 
