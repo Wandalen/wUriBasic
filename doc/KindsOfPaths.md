@@ -48,19 +48,53 @@
 сторінки в порядку значимості. Пошукові роботи виконують нормалізацію URL для того, щоб уникнути повторного 
 сканування ресурсу. Браузери можуть виконувати нормалізацію, щоб визначити, чи було відвідування або чи є сторінка в кеші.
 
-Існує багато способів нормалізації, що приводять до еквівалентних шляхів.
-Ось декілька прикладів:
-- конвертація в нижній регістр\
-HTTP://www.Example.com/ -> http://www.example.com/
-- додавання кінцевої похилої риски\
-\Program Files\Custom\Utilities -> \Program Files\Custom\Utilities\
-- видалення сегментів-крапок\
-Projects\\..\apilibrary\\.\apilibrary.sln -> Projects\apilibrary\apilibrary.sln
-- заміна IP адреси ім'ям домену\
-http://208.77.188.166/ -> http://www.example.com/
-- видалення дублюючих слешів\
-/home/mthomas//class_stuff/foo//file.txt -> /home/mthomas/class_stuff/foo/file.txt
+Ось деякі із способів нормалізації, що реалізовані в цьому пакеті:
+- "." на початку шляху\
+././foo/bar/z -> ./foo/bar/\
+.//.//foo/bar/ -> .///foo/bar/\
+.x/foo/bar -> .x/foo/bar
+- "." в середині шляху\
+foo/./bar/baz -> foo/bar/baz\
+foo/././bar/././baz/ -> foo/bar/baz/\
+/foo/.x./baz/ -> /foo/.x./baz/
+- "." в кінці шляху\
+ext:///. -> ext:///\
+://some/staging/index.html/. -> ://some/staging/index.html\
+foo/bar/./. -> foo/bar
+- ".." на початку шляху\
+..//..//foo/bar/ -> ..//foo/bar/\
+/..//..//foo/bar/ -> /..//foo/bar/\
+..x../foo/bar -> ..x../foo/bar
+- ".." в середині шляху\
+foo/../bar/baz -> bar/baz\
+foo/../../bar/baz/ -> ../bar/baz/\
+foo/../../bar/../../baz/ -> ../../baz/
+- ".." в кінці шляху\
+foo/bar/.. -> foo\
+foo/bar/../.. -> .\
+foo/bar/../../../.. -> ../..
+- шляхи з комбінацією ".." та "."\
+/abc/./.././a/b -> /a/b\
+/a/b/abc/./.. -> /a/b\
+./../. -> ..
+- шляхи в ОС windows\
+C:\\temp\\\\foo\\bar\\..\\ -> /C/temp/foo/\
+C:\\temp\\\\foo\\bar\\..\\\\ -> /C/temp/foo/\
+C:\\temp\\\\foo\\bar\\..\\..\\ -> /C/temp/
+- POSIX шляхи\
+/foo/bar//baz/asdf/quux/.. -> /foo/bar/baz/asdf\
+//foo/bar//baz/asdf/quux/..// -> /foo/bar/baz/asdf/\
+foo/bar//baz/asdf/quux/..//. -> foo/bar/baz/asdf
+- порожні шляхи\
+// -> /\
+/. -> /\
+/./. -> /\
+./. -> .
+
+
 
 #### Нативізація шляху
+
+
 
 #### Канонізація шляху
