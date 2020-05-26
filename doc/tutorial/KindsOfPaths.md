@@ -42,7 +42,8 @@
 #### Нормалізація шляху
 
 Це процес, при якому шлях приводиться до однакового виду. Мета процесу нормалізації полягає в перетворенні шляху 
-в нормалізований вигляд, з тим, щоб визначити еквівалентність двох синтаксично різних шляхів.\
+в нормалізований вигляд, з тим, щоб визначити еквівалентність двох синтаксично різних шляхів.
+
 Рутина `normalize` нормалізує шлях, шляхом видалення надлишкових роздільників, вирішенням '..' та '.' сегментів так,
 що A//B, A/./B та A/foo/../B - всі приводяться до A/B.
 Така маніпуляція рядком може змінити значення шляху, що містить символічні посилання.
@@ -50,37 +51,63 @@
 що являє собою поточний робочий каталог.
 
 ```js
+const _ = require( 'wTools' );
+require( 'wuribasic' );
+
 let path = '://some/staging/index.html/.';
-console.log( wTools.normalize( path ) ); 
+console.log( _.uri.normalize( path ) ); 
 // ://some/staging/index.html
 
 path = '/foo/bar//baz1/baz2//some/..';
-console.log( wTools.normalize( path ) ); 
+console.log( _.uri.normalize( path ) ); 
 // /foo/bar/baz1/baz2
 
 path = ':///some/staging/./index.html/./';
-console.log( wTools.normalize( path ) ); 
+console.log( _.uri.normalize( path ) ); 
 // :///some/staging/index.html/
 
 path = 'C:\\Projects\\apilibrary\\index.html\\..\\';
-console.log( wTools.normalize( path ) ); 
+console.log( _.uri.normalize( path ) ); 
 // /C/Projects/apilibrary/
 
 path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking/./.';
-console.log( wTools.normalize( path ) ); 
+console.log( _.uri.normalize( path ) ); 
 // https://web.archive.org/web/*\/http://index/ranking
 ```
 
 #### Нативізація шляху
 
-Мета процесу нативізації полягає в перетворенні шляху в нативізований вигляд, з тим, щоб 
-визначити еквівалентний шлях в ОС Windows шляху в ОС UNIX.
+Мета процесу нативізації полягає в приведенні шляху в нативізований вигляд, з тим, щоб 
+визначити еквівалентний шлях в ОС Windows та в POSIX.
 
-Приклад виконання нативізації з допомогою цього пакету:\
-/A/ -> A:\\\
-/A/b/ -> A:\\b\\\
-/home/mthomas/class_stuff/foo -> \\home\\mthomas\\class_stuff\\foo\
-A:\\ -> A:\\
+Рутина `nativize` виконає нативізацію шляхів, як показано нижче.
+
+```js
+const _ = require( 'wTools' );
+require( 'wuribasic' );
+
+// process.platform === 'win32'
+let path = '/A';
+console.log( _.uri.nativize( path ) ); 
+// A:\
+
+path = '/C/Documents/Newsletters/Summer2018.pdf';
+console.log( _.uri.nativize( path ) ); 
+// C:\Documents\Newsletters\Summer2018.pdf
+
+path = '/Documents/Newsletters/Summer2018.pdf';
+console.log( _.uri.nativize( path ) ); 
+// \Documents\Newsletters\Summer2018.pdf
+
+// process.platform !== 'win32'
+path = '/bin';
+console.log( _.uri.nativize( path ) ); 
+// /bin
+
+path = '/home/mthomas/class_stuff/foo';
+console.log( _.uri.nativize( path ) ); 
+// /home/mthomas/class_stuff/foo
+```
 
 #### Канонізація шляху
 
