@@ -78,7 +78,7 @@ console.log( _.uri.normalize( path ) );
 #### Нативізація шляху
 
 Мета процесу нативізації полягає в приведенні шляху в нативізований вигляд, з тим, щоб 
-визначити еквівалентний шлях в ОС Windows та в POSIX.
+визначити еквівалентний шлях в ОС Windows до заданого.
 
 Рутина `nativize` виконає нативізацію шляхів, як показано нижче.
 
@@ -111,3 +111,22 @@ console.log( _.uri.nativize( path ) );
 
 #### Канонізація шляху
 
+Це процес аналогічний до нормалізації, проте шлях у канонічний формі є більш строгим та простим.
+Рутина `canonize` повертає шлях без "/" у кінці, якщо такий був до цього.
+
+```js
+const _ = require( 'wTools' );
+require( 'wuribasic' );
+
+let path = '/foo/bar//baz/asdf/quux/./';
+console.log( _.uri.canonize( path ) ); 
+// /foo/bar//baz/asdf/quux
+
+path = '/C:\\temp\\\\foo\\bar\\..\\';
+console.log( _.uri.canonize( path ) ); 
+// /C:/temp//foo
+
+path = 'foo/././bar/././baz/';
+console.log( _.uri.canonize( path ) ); 
+// foo/bar/baz
+```
