@@ -11,7 +11,7 @@ console.log( _.uri.normalize( path ) );
 
 path = '/foo/bar//baz1/baz2//some/..';
 console.log( _.uri.normalize( path ) ); 
-// /foo/bar/baz1/baz2
+// /foo/bar//baz1/baz2/
 
 path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking/./.';
 console.log( _.uri.normalize( path ) ); 

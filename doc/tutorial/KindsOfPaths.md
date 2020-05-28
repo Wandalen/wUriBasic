@@ -3,8 +3,8 @@
 
 **Шляхи бувають:**
 
-- *глобальними* або *локальними*
-- *абсолютними* або *відносними*
+- `глобальними` або `локальними`
+- `абсолютними` або `відносними`
 
 ### Глобальний та локальний шлях
 Глобальний шлях - це шлях до файлу, який містить у собі протокол - ім'я сайту в мережі, підкаталог(або кілька підкаталогів), 
@@ -37,38 +37,38 @@
 
 ### Нормалізація шляху
 
-Це процес, при якому шлях приводиться до однакового виду. Мета процесу нормалізації полягає в перетворенні шляху 
+Це процес, при якому шлях приводиться до однакового вигляду. Мета процесу нормалізації полягає в перетворенні шляху 
 в нормалізований вигляд, з тим, щоб визначити еквівалентність двох синтаксично різних шляхів.
 
 Рутина `normalize` нормалізує шлях, шляхом видалення надлишкових роздільників, опрацюванням '..' та '.' сегментів так,
 що A//B, A/./B та A/foo/../B - всі приводяться до A/B. Така маніпуляція рядком може змінити значення шляху, 
 що містить символічні посилання.
 
-Видалення "." у кінці шляху:
-```js
-let path = '://some/staging/index.html/.';
-console.log( _.uri.normalize( path ) ); 
-// ://some/staging/index.html
-```
-Опрацювання сегменту ".":
+Видалення "." в середині та у кінці шляху:
 ```js
 let path = ':///some/staging/./index.html/./';
 console.log( _.uri.normalize( path ) ); 
 // :///some/staging/index.html/
 ```
-Опрацювання сегменту "..":
+
+```js
+let path = '://some/staging/index.html/.';
+console.log( _.uri.normalize( path ) ); 
+// ://some/staging/index.html
+```
+Видалення ".." та директорії перед ним:
 ```js
 let path = '/foo/bar//baz1/baz2//some/..';
 console.log( _.uri.normalize( path ) ); 
-// /foo/bar/baz1/baz2
+// /foo/bar//baz1/baz2/
 ```
-Опрацювання комбінації сегментів "." та "..":
+Видалення комбінації "." та "..":
 ```js
 let path = 'https://web.archive.org/web/*\/http://www.heritage.org/.././index/ranking/./.';
 console.log( _.uri.normalize( path ) ); 
 // https://web.archive.org/web/*\/http://index/ranking
 ```
-Заміна оберененого слешу на прямий:
+Заміна "\\" на "/":
 ```js
 let path = 'C:\\Projects\\apilibrary\\index.html\\..\\';
 console.log( _.uri.normalize( path ) ); 
@@ -97,7 +97,7 @@ let path = '/C/Documents/Newsletters/Summer2018.pdf';
 console.log( _.uri.nativize( path ) ); 
 // C:\Documents\Newsletters\Summer2018.pdf
 ```
-оберенний слеш замінено на прямий:
+Заміна "/" на "\\":
 ```js
 // process.platform === 'win32'
 let path = '/Documents/Newsletters/Summer2018.pdf';
@@ -124,18 +124,19 @@ console.log( _.uri.nativize( path ) );
 Це процес аналогічний до нормалізації, проте шлях у канонічний формі є більш строгим та простим.
 Рутина `canonize` повертає шлях без "/" у кінці, якщо такий був до цього.
 
+Видалення "\\" у кінці шляху:
 ```js
-let path = '/foo/bar//baz/asdf/quux/./';
+path = '/C:\\temp\\\\foo\\bar\\';
 console.log( _.uri.canonize( path ) ); 
-// /foo/bar//baz/asdf/quux
+// /C:/temp//foo/bar
 ```
-
+Видалення ".." із директорією перед ним та "/" у кінці шляху:
 ```js
-let path = '/C:\\temp\\\\foo\\bar\\..\\';
+let path = '/C:\\temp\\\\foo\\\\bar\\..\\';
 console.log( _.uri.canonize( path ) ); 
 // /C:/temp//foo
 ```
-
+Видалення "." та "/" у кінці шляху:
 ```js
 let path = 'foo/././bar/././baz/';
 console.log( _.uri.canonize( path ) ); 
