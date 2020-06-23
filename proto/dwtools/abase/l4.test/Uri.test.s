@@ -2457,6 +2457,19 @@ function parseAtomic( test )
 
   /* */
 
+  test.case = 'longpath with dot after host, user, slash tag';
+
+  var expected =
+  {
+    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+    tag : 'tag',
+    protocol : 'git',
+  }
+  var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/!tag' );
+  test.identical( got, expected );
+
+  /* */
+
   test.case = 'longpath with dot after host, user, hash';
 
   var expected =
@@ -2507,8 +2520,7 @@ function parseAtomic( test )
   var got = _.uriNew.parseAtomic( 'git:///somerepo.git/#hash' );
   test.identical( got, expected );
 
-  /* */
-
+  /* COPY */
   // test.case = '???';
 
   // var expected =
@@ -2522,7 +2534,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = 'protocol, host and tag only';
+  test.case = 'protocol, host and slash tag only';
 
   var expected =
   {
