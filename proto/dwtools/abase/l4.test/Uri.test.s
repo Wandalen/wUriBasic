@@ -1612,7 +1612,7 @@ function parse( test )
   /* */
 
   test.case = 'query only';
-  var remotePath = '?entry:1&format:null';
+  var src = '?entry:1&format:null';
   var expected =
   {
     'resourcePath' : '',
@@ -1622,7 +1622,7 @@ function parse( test )
     'protocols' : [],
     'full' : '?entry:1&format:null'
   }
-  var got = _.uriNew.parse( remotePath );
+  var got = _.uriNew.parse( src );
   test.identical( got, expected );
 
   /* */
@@ -1951,35 +1951,14 @@ function parse( test )
 
 //
 
-function parseAtomic( test )
+function TESTSTOSHOW( test )
 {
 
-  /* */
+  // origin : git:///.. or git://param-desc && host, hostFull ? && RESOURCEPATH
+  test.case = 'global, absolute, with hash, with query: RESOURCEPATH WHAT IS IT ? host, hostFull ?';
+  var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
 
-  test.case = 'query only';
-  var remotePath = '?entry:1&format:null';
-  var expected = { 'longPath' : '', 'query' : 'entry:1&format:null' }
-  var got = _.uriNew.parseAtomic( remotePath );
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'global, relative, with hash, with query';
-  var remotePath = 'git://../repo/Tools?out=out/wTools.out.will#master';
-  var expected =
-  {
-    'protocol' : 'git',
-    'longPath' : '../repo/Tools',
-    'query' : 'out=out/wTools.out.will',
-    'hash' : 'master'
-  }
-  var got = _.uriNew.parseAtomic( remotePath );
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'global, absolute, with hash, with query';
-  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  test.description = 'atomic';
   var expected =
   {
     'protocol' : 'git',
@@ -1987,13 +1966,222 @@ function parseAtomic( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master'
   }
-  var got = _.uriNew.parseAtomic( remotePath );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'git',
+    'host' : '',
+    'resourcePath' : '/../repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '/../repo/Tools',
+    'postfixedPath' : '/../repo/Tools?out=out/wTools.out.will#master',
+    'protocols' : [ 'git' ],
+    'hostFull' : '',
+    'origin' : 'git://',
+    'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
+  }
+  var got = _.uriNew.parseFull( src );
+  console.log( got );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+
+
+  // test.case = 'query with equal. relative: RESOURCEPATH = a/b or /a/b';
+  // var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
+
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   'protocol' : 'http',
+  //   'longPath' : '127.0.0.1:5000/a/b',
+  //   'query' : 'q=3',
+  //   'hash' : 'anch'
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  // test.description = 'full';
+  // var expected = 
+  // {
+  //   'protocol' : 'http',
+  //   'host' : '127.0.0.1',
+  //   'port' : 5000,
+  //   'resourcePath' : '/a/b',
+  //   'query' : 'q=3',
+  //   'hash' : 'anch',
+  //   'longPath' : '127.0.0.1:5000/a/b',
+  //   'postfixedPath' : '127.0.0.1:5000/a/b?q=3#anch',
+  //   'protocols' : [ 'http' ],
+  //   'hostFull' : '127.0.0.1:5000',
+  //   'origin' : 'http://127.0.0.1:5000',
+  //   'full' : 'http://127.0.0.1:5000/a/b?q=3#anch'
+  // }
+  // var got = _.uriNew.parseFull( src );
+  // console.log( got );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+
+  // ORIGIN MUST BE ABSENT ?
+  // test.case = 'no protocol';
+  // var src = '127.0.0.1:61726/../path';
+  // test.description = 'atomic';
+
+  // var expected =
+  // {
+  //   longPath : '127.0.0.1:61726/../path',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  // test.description = 'full';
+  // var expected = 
+  // {
+  //   'longPath' : '127.0.0.1:61726/../path',
+  //   'postfixedPath' : '127.0.0.1:61726/../path',
+  //   'hostFull' : '127.0.0.1:61726',
+  //   'resourcePath' : '../path',
+  //   'host' : '127.0.0.1',
+  //   'port' : 61726,
+  //   'protocols' : [],
+  //   'origin' : '127.0.0.1:61726',
+  //   'full' : '127.0.0.1:61726/../path'
+  // }
+  // var got = _.uriNew.parseFull( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+}
+
+//
+
+function parseAtomic( test )
+{
+
+  test.case = 'query only';
+  var src = '?entry:1&format:null';
+
+  test.description = 'atomic';
+  var expected = 
+  { 
+    'longPath' : '',
+    'query' : 'entry:1&format:null'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'query' : 'entry:1&format:null',
+    'longPath' : '',
+    'postfixedPath' : '?entry:1&format:null',
+    'protocols' : [],
+    'full' : '?entry:1&format:null'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+  
   /* */
 
+  test.case = 'global, relative, with hash, with query';
+  var src = 'git://../repo/Tools?out=out/wTools.out.will#master';
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'git',
+    'longPath' : '../repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'git',
+    'longPath' : '../repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'postfixedPath' : '../repo/Tools?out=out/wTools.out.will#master',
+    'hostFull' : '..',
+    'resourcePath' : 'repo/Tools',
+    'host' : '..',
+    'protocols' : [ 'git' ],
+    'origin' : 'git://..',
+    'full' : 'git://../repo/Tools?out=out/wTools.out.will#master',
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  /* */
+  // !!!
+  test.case = 'global, absolute, with hash, with query';
+  var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'git',
+    'longPath' : '/../repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'git',
+    'host' : '..',
+    'resourcePath' : 'repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'longPath' : '/../repo/Tools',
+    'postfixedPath' : '/../repo/Tools?out=out/wTools.out.will#master',
+    'protocols' : [ 'git' ],
+    'hostFull' : '/..',
+    'origin' : 'git:///..',
+    'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  /* */
+  // !!!
   test.case = 'query with equal. relative';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
+
+  test.description = 'atomic';
   var expected =
   {
     'protocol' : 'http',
@@ -2001,13 +2189,38 @@ function parseAtomic( test )
     'query' : 'q=3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseAtomic( remotePath );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'postfixedPath' : '127.0.0.1:5000/a/b?q=3#anch',
+    'protocols' : [ 'http' ],
+    'hostFull' : '127.0.0.1:5000',
+    'origin' : 'http://127.0.0.1:5000',
+    'full' : 'http://127.0.0.1:5000/a/b?q=3#anch'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'query with equal. absolute';
-  var remotePath = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+
+  test.description = 'atomic';
   var expected =
   {
     'protocol' : 'http',
@@ -2015,13 +2228,37 @@ function parseAtomic( test )
     'query' : 'q=3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseAtomic( remotePath );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'postfixedPath' : '/127.0.0.1:5000/a/b?q=3#anch',
+    'protocols' : [ 'http' ],
+    'hostFull' : '/127.0.0.1:5000',
+    'origin' : 'http:///127.0.0.1:5000',
+    'full' : 'http:///127.0.0.1:5000/a/b?q=3#anch'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
   /* */
 
   test.case = 'query with colon. relative';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  test.description = 'atomic';
+
   var expected =
   {
     'protocol' : 'http',
@@ -2029,13 +2266,38 @@ function parseAtomic( test )
     'query' : 'q:3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseAtomic( remotePath );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'postfixedPath' : '127.0.0.1:5000/a/b?q:3#anch',
+    'protocols' : [ 'http' ],
+    'hostFull' : '127.0.0.1:5000',
+    'origin' : 'http://127.0.0.1:5000',
+    'full' : 'http://127.0.0.1:5000/a/b?q:3#anch'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'query with colon. absolute';
-  var remotePath = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  test.description = 'atomic';
+
   var expected =
   {
     'protocol' : 'http',
@@ -2043,23 +2305,70 @@ function parseAtomic( test )
     'query' : 'q:3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseAtomic( remotePath );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'postfixedPath' : '/127.0.0.1:5000/a/b?q:3#anch',
+    'protocols' : [ 'http' ],
+    'hostFull' : '/127.0.0.1:5000',
+    'origin' : 'http:///127.0.0.1:5000',
+    'full' : 'http:///127.0.0.1:5000/a/b?q:3#anch'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
-
+  // !!! no origin if no protocol ?
   test.case = 'no protocol';
-  var uri = '127.0.0.1:61726/../path';
+  var src = '127.0.0.1:61726/../path';
+  test.description = 'atomic';
+
   var expected =
   {
     longPath : '127.0.0.1:61726/../path',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    'longPath' : '127.0.0.1:61726/../path',
+    'postfixedPath' : '127.0.0.1:61726/../path',
+    'hostFull' : '127.0.0.1:61726',
+    'resourcePath' : '../path',
+    'host' : '127.0.0.1',
+    'port' : 61726,
+    'protocols' : [],
+    'full' : '127.0.0.1:61726/../path'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'full uri with all components';
+  var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  test.description = 'atomic';
+
   var expected =
   {
     protocol : 'http',
@@ -2067,13 +2376,37 @@ function parseAtomic( test )
     query : 'query=here&and=here',
     hash : 'anchor',
   }
-  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.parseAtomic( uri1 );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    protocol : 'http',
+    longPath : 'www.site.com:13/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    postfixedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull : 'www.site.com:13',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+    origin : 'http://www.site.com:13',
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'full uri with all components, primitiveOnly';
+  var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  test.description = 'atomic';
 
   var expected =
   {
@@ -2083,14 +2416,38 @@ function parseAtomic( test )
     hash : 'anchor',
   }
 
-  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.parseAtomic( uri1 );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    protocol: 'http',
+    longPath: 'www.site.com:13/path/name',
+    query: 'query=here&and=here',
+    hash: 'anchor',
+    postfixedPath: 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull: 'www.site.com:13',
+    resourcePath: 'path/name',
+    host: 'www.site.com',
+    port: 13,
+    protocols: [ 'http' ],
+    origin: 'http://www.site.com:13',
+    full: 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'reparse with non primitives';
-
+  
+  test.description = 'atomic';
+  var got = _.uriNew.parseAtomic( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
   var expected =
   {
     protocol : 'http',
@@ -2102,12 +2459,38 @@ function parseAtomic( test )
   var parsed = got;
   var got = _.uriNew.parseAtomic( parsed );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var got = _.uriNew.parseFull( 'http://www.site.com:13/path/name?query=here&and=here#anchor' )
+  var expected = 
+  {
+    protocol: 'http',
+    longPath: 'www.site.com:13/path/name',
+    query: 'query=here&and=here',
+    hash: 'anchor',
+    postfixedPath: 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull: 'www.site.com:13',
+    resourcePath: 'path/name',
+    host: 'www.site.com',
+    port: 13,
+    protocols: [ 'http' ],
+    origin: 'http://www.site.com:13',
+    full: 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+  }
+  var parsed = got;
+  var got = _.uriNew.parseFull( parsed );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'reparse with primitives';
+  var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
 
-  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  test.description = 'atomic';
   var expected =
   {
     protocol : 'http',
@@ -2116,49 +2499,117 @@ function parseAtomic( test )
     hash : 'anchor',
   }
 
-  var got = _.uriNew.parseAtomic( uri1 );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
+  test.description = 'full';
+  var expected = 
+  {
+    protocol: 'http',
+    longPath: 'www.site.com:13/path/name',
+    query: 'query=here&and=here',
+    hash: 'anchor',
+    postfixedPath: 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull: 'www.site.com:13',
+    resourcePath: 'path/name',
+    host: 'www.site.com',
+    port: 13,
+    protocols: [ 'http' ],
+    origin: 'http://www.site.com:13',
+    full: 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+  
   /* */
 
   test.case = 'uri with zero length protocol';
-  var uri = '://some.domain.com/something/filePath/add';
+  var src = '://some.domain.com/something/filePath/add';
+
+  test.description = 'atomic';
   var expected =
   {
     protocol : '',
     longPath : 'some.domain.com/something/filePath/add',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    protocol: '',
+    longPath: 'some.domain.com/something/filePath/add',
+    postfixedPath: 'some.domain.com/something/filePath/add',
+    hostFull: 'some.domain.com',
+    resourcePath: 'something/filePath/add',
+    host: 'some.domain.com',
+    protocols: [],
+    origin: '://some.domain.com',
+    full: '://some.domain.com/something/filePath/add'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'uri with zero length hostFull';
-  var uri = 'file:///something/filePath/add';
+  var src = 'file:///something/filePath/add';
+
+  test.description = 'atomic';
   var expected =
   {
     protocol : 'file',
     longPath : '/something/filePath/add',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected = 
+  {
+    protocol: 'file',
+    longPath: '/something/filePath/add',
+    postfixedPath: '/something/filePath/add',
+    hostFull: '/something',
+    resourcePath: 'filePath/add',
+    host: 'something',
+    protocols: [ 'file' ],
+    origin: 'file:///something',
+    full: 'file:///something/filePath/add'
+  }
+  var got = _.uriNew.parseFull( src );
+  console.log( got )
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'uri with double protocol, user';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk';
+  var src = 'svn+https://user@subversion.com:13/svn/trunk';
   var expected =
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com:13/svn/trunk',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'uri with double protocol, user. full';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk';
+  var src = 'svn+https://user@subversion.com:13/svn/trunk';
   var expected =
   {
     protocol : 'svn+https',
@@ -2173,7 +2624,7 @@ function parseAtomic( test )
     resourcePath : 'svn/trunk',
     full : 'svn+https://user@subversion.com:13/svn/trunk',
   }
-  var got = _.uriNew.parseFull( uri );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
@@ -2879,7 +3330,7 @@ function parseFull( test )
   /* */
 
   test.case = 'query only';
-  var remotePath = '?entry:1&format:null';
+  var src = '?entry:1&format:null';
   var expected =
   {
     'longPath' : '',
@@ -2888,13 +3339,13 @@ function parseFull( test )
     'protocols' : [],
     'full' : '?entry:1&format:null',
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, relative, with hash, with query';
-  var remotePath = 'git://../repo/Tools?out=out/wTools.out.will#master';
+  var src = 'git://../repo/Tools?out=out/wTools.out.will#master';
   var expected =
   {
     'protocol' : 'git',
@@ -2909,13 +3360,13 @@ function parseFull( test )
     'origin' : 'git://..',
     'full' : 'git://../repo/Tools?out=out/wTools.out.will#master',
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, absolute, with hash, with query';
-  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
   var expected =
   {
     'protocol' : 'git',
@@ -2930,13 +3381,13 @@ function parseFull( test )
     'origin' : 'git:///..',
     'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master',
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with equal. relative';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -2944,13 +3395,13 @@ function parseFull( test )
     'query' : 'q=3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseAtomic( remotePath );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with equal. absolute';
-  var remotePath = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -2966,13 +3417,13 @@ function parseFull( test )
     'origin' : 'http:///127.0.0.1:5000',
     'full' : 'http:///127.0.0.1:5000/a/b?q=3#anch',
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with colon. relative';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -2988,13 +3439,13 @@ function parseFull( test )
     'origin' : 'http://127.0.0.1:5000',
     'full' : 'http://127.0.0.1:5000/a/b?q:3#anch'
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with colon. absolute';
-  var remotePath = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -3010,7 +3461,7 @@ function parseFull( test )
     'origin' : 'http:///127.0.0.1:5000',
     'full' : 'http:///127.0.0.1:5000/a/b?q:3#anch',
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
@@ -3044,7 +3495,7 @@ function parseFull( test )
     query : 'query=here&and=here',
     hash : 'anchor',
   }
-  var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var got = _.uriNew.parseFull( uri1 );
   test.identical( got, expected );
 
@@ -3645,7 +4096,7 @@ function parseFull2( test )
   /* */
 
   test.case = 'query only';
-  var remotePath = '?entry:1&format:null';
+  var src = '?entry:1&format:null';
   var expected =
   {
     'resourcePath' : '',
@@ -3655,13 +4106,13 @@ function parseFull2( test )
     'protocols' : [],
     'full' : '?entry:1&format:null'
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, relative, with hash, with query';
-  var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
+  var src = "git://../repo/Tools?out=out/wTools.out.will#master"
   var expected =
   {
     'protocol' : 'git',
@@ -3676,13 +4127,13 @@ function parseFull2( test )
     'origin' : 'git://..',
     'full' : 'git://../repo/Tools?out=out/wTools.out.will#master'
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, absolute, with hash, with query';
-  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
   var expected =
   {
     'protocol' : 'git',
@@ -3697,13 +4148,13 @@ function parseFull2( test )
     'origin' : 'git://',
     'full' : 'git:///../repo/Tools?out=out/wTools.out.will#master'
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with equal';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -3719,13 +4170,13 @@ function parseFull2( test )
     'origin' : 'http://127.0.0.1:5000',
     'full' : 'http://127.0.0.1:5000/a/b?q=3#anch'
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with colon';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -3741,7 +4192,7 @@ function parseFull2( test )
     'origin' : 'http://127.0.0.1:5000',
     'full' : 'http://127.0.0.1:5000/a/b?q:3#anch'
   }
-  var got = _.uriNew.parseFull( remotePath );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
 
   /* */
@@ -4510,15 +4961,15 @@ function parseConsecutive( test )
   /* */
 
   test.case = 'query only';
-  var remotePath = '?entry:1&format:null';
+  var src = '?entry:1&format:null';
   var expected = { 'longPath' : '', 'query' : 'entry:1&format:null' }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, relative, with hash, with query';
-  var remotePath = 'git://../repo/Tools?out=out/wTools.out.will#master';
+  var src = 'git://../repo/Tools?out=out/wTools.out.will#master';
   var expected =
   {
     'protocol' : 'git',
@@ -4526,13 +4977,13 @@ function parseConsecutive( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, absolute, with hash, with query';
-  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
   var expected =
   {
     'protocol' : 'git',
@@ -4540,13 +4991,13 @@ function parseConsecutive( test )
     'query' : 'out=out/wTools.out.will',
     'hash' : 'master'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with equal. relative';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -4554,13 +5005,13 @@ function parseConsecutive( test )
     'query' : 'q=3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with equal. absolute';
-  var remotePath = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -4568,13 +5019,13 @@ function parseConsecutive( test )
     'query' : 'q=3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with colon. relative';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -4582,13 +5033,13 @@ function parseConsecutive( test )
     'query' : 'q:3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with colon. absolute';
-  var remotePath = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -4596,7 +5047,7 @@ function parseConsecutive( test )
     'query' : 'q:3',
     'hash' : 'anch'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
@@ -5264,20 +5715,20 @@ function parseConsecutive2( test )
   /* */
 
   test.case = 'query only';
-  var remotePath = '?entry:1&format:null';
+  var src = '?entry:1&format:null';
   var expected =
   {
     'query' : 'entry:1&format:null',
     'longPath' : '',
     'postfixedPath' : '?entry:1&format:null',
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, relative, with hash, with query';
-  var remotePath = "git://../repo/Tools?out=out/wTools.out.will#master"
+  var src = "git://../repo/Tools?out=out/wTools.out.will#master"
   var expected =
   {
     'protocol' : 'git',
@@ -5286,13 +5737,13 @@ function parseConsecutive2( test )
     'longPath' : '../repo/Tools',
     'postfixedPath' : '../repo/Tools?out=out/wTools.out.will#master'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'global, absolute, with hash, with query';
-  var remotePath = "git:///../repo/Tools?out=out/wTools.out.will#master"
+  var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
   var expected =
   {
     'protocol' : 'git',
@@ -5301,13 +5752,13 @@ function parseConsecutive2( test )
     'longPath' : '/../repo/Tools',
     'postfixedPath' : '/../repo/Tools?out=out/wTools.out.will#master'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with equal';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -5316,13 +5767,13 @@ function parseConsecutive2( test )
     'longPath' : '127.0.0.1:5000/a/b',
     'postfixedPath' : '127.0.0.1:5000/a/b?q=3#anch'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'query with colon';
-  var remotePath = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
   var expected =
   {
     'protocol' : 'http',
@@ -5331,7 +5782,7 @@ function parseConsecutive2( test )
     'longPath' : '127.0.0.1:5000/a/b',
     'postfixedPath' : '127.0.0.1:5000/a/b?q:3#anch'
   }
-  var got = _.uriNew.parseConsecutive( remotePath );
+  var got = _.uriNew.parseConsecutive( src );
   test.identical( got, expected );
 
   /* */
@@ -13615,6 +14066,7 @@ var Self =
     /* qqq2 : refactor test routines parse, parseAtomic, parseConsecutive, parseFull. make sure all cases are similar */
     // parse,
     parseAtomic,
+    TESTSTOSHOW,
     // parseFull,
     // parseFull2,
     // parseConsecutive,
