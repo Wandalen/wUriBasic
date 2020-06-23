@@ -32,6 +32,106 @@ let Parent = _.path;
 let Self = _.uriNew = _.uriNew || Object.create( Parent );
 
 // --
+// relation
+// --
+
+let Uri = _.blueprint
+({
+  typed : _.trait.typed(),
+  extendable : _.trait.extendable(),
+
+  protocol : null,
+  query : null,
+  hash : null,
+  tag : null,
+
+});
+
+//
+
+let UriFull = _.blueprint
+({
+  extension : _.define.extension( Uri ),
+
+  protocols : null,
+  postfixedPath : null,
+  resourcePath : null,
+  longPath : null,
+  full : null,
+
+  hostFull : null,
+  host : null,
+  port : null,
+  user : null,
+  origin : null,
+
+});
+
+//
+
+let UriAtomic = _.blueprint
+({
+  extension : _.define.extension( Uri ),
+
+  // resourcePath : null,
+  // host : null,
+});
+
+//
+
+let UriConsequtive = _.blueprint
+({
+  extension : _.define.extension( Uri ),
+
+  longPath : null,
+});
+
+/**
+ *
+ * The URI component object.
+ * @typedef {Object} UrlComponents
+ * @property {string} protocol the URI's protocol scheme.;
+ * @property {string} host host portion of the URI;
+ * @property {string} port property is the numeric port portion of the URI
+ * @property {string} resourcePath the entire path section of the URI.
+ * @property {string} query the entire "query string" portion of the URI, not including '?' character.
+ * @property {string} hash property consists of the "fragment identifier" portion of the URI.
+
+ * @property {string} uri the whole URI
+ * @property {string} hostFull host portion of the URI, including the port if specified.
+ * @property {string} origin protocol + host + port
+ * @private
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
+ */
+
+// let UriComponents =
+// {
+//
+//   /* atomic */
+//
+//   protocol : null, /* 'svn+http' */
+//   host : null, /* 'www.site.com' */
+//   port : null, /* '13' */
+//   resourcePath : null, /* '/path/name' */
+//   query : null, /* 'query=here&and=here' */
+//   hash : null, /* 'anchor' */
+//   tag : null, /* tag */
+//
+//   /* composite */
+//
+//   // qqq !!! : implement queries
+//   // queries : null, /* { query : here, and : here } */
+//   longPath : null, /* www.site.com:13/path/name */
+//   postfixedPath : null, /* www.site.com:13/path/name?query=here#anchor@tag */
+//   protocols : null, /* [ 'svn','http' ] */
+//   hostFull : null, /* 'www.site.com:13' */
+//   origin : null, /* 'svn+http://www.site.com:13' */
+//   full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
+//
+// }
+
+// --
 // internal
 // --
 
@@ -385,53 +485,6 @@ function isGlob( filePath )
 // transformer
 // --
 
-/**
- *
- * The URI component object.
- * @typedef {Object} UrlComponents
- * @property {string} protocol the URI's protocol scheme.;
- * @property {string} host host portion of the URI;
- * @property {string} port property is the numeric port portion of the URI
- * @property {string} resourcePath the entire path section of the URI.
- * @property {string} query the entire "query string" portion of the URI, not including '?' character.
- * @property {string} hash property consists of the "fragment identifier" portion of the URI.
-
- * @property {string} uri the whole URI
- * @property {string} hostFull host portion of the URI, including the port if specified.
- * @property {string} origin protocol + host + port
- * @private
- * @module Tools/UriBasic
- * @namespace Tools.uri
- */
-
-let UriComponents =
-{
-
-  /* atomic */
-
-  protocol : null, /* 'svn+http' */
-  host : null, /* 'www.site.com' */
-  port : null, /* '13' */
-  resourcePath : null, /* '/path/name' */
-  query : null, /* 'query=here&and=here' */
-  hash : null, /* 'anchor' */
-  tag : null, /* tag */
-
-  /* composite */
-
-  // qqq !!! : implement queries
-  // queries : null, /* { query : here, and : here } */
-  longPath : null, /* www.site.com:13/path/name */
-  postfixedPath : null, /* www.site.com:13/path/name?query=here#anchor@tag */
-  protocols : null, /* [ 'svn','http' ] */
-  hostFull : null, /* 'www.site.com:13' */
-  origin : null, /* 'svn+http://www.site.com:13' */
-  full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
-
-}
-
-//
-
 /*
 http://www.site.com:13/path/name?query=here&and=here#anchor
 2 - protocol
@@ -500,7 +553,8 @@ function parse_body( o )
 
   if( _.mapIs( o.srcPath ) )
   {
-    _.assertMapHasOnly( o.srcPath, this.UriComponents );
+    debugger;
+    _.assertMapHasOnly( o.srcPath, this.UriFull.fields );
     if( o.srcPath.protocols )
     return o.srcPath;
     else if( o.srcPath.full )
@@ -525,7 +579,7 @@ function parse_body( o )
   // _.assert( splits.length <= 6 ); /* yyy */
   // if( _.strIs( splits[ 5 ] ) )
 
-  let delimeter = [ self._tagToken, self._hashToken, self._queryToken ];
+  let delimeter = [ self.tagToken, self.hashToken, self.queryToken ];
   if( _.strHasAny( result.longPath, delimeter ) )
   postfixesParse( delimeter );
 
@@ -538,23 +592,14 @@ function parse_body( o )
 
     hostParse();
 
-    // let hostFull = splits[ 2 ] || '';
-    // result.longPath = hostFull + result.resourcePath;
-    // result.postfixedPath = result.longPath + postfixes;
-
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
     result.protocols = [];
 
-    // if( _.strIs( splits[ 2 ] ) )
-    // result.hostFull = splits[ 2 ];
-
-    if( _.strDefined( result.protocol ) || _.strIs( result.hostFull ) )
-    result.origin = result.protocol + '://' + result.hostFull;
-
-    // if( _.strIs( result.protocol ) || _.strIs( result.hostFull ) )
-    // result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostFull;
+    // if( _.strDefined( result.protocol ) || _.strDefined( result.hostFull ) )
+    if( _.strIs( result.protocol ) )
+    result.origin = result.protocol + self.protocolToken + result.hostFull;
 
     result.full = o.srcPath;
 
@@ -583,7 +628,7 @@ function parse_body( o )
     let isolates = _.strIsolateLeftOrNone.body
     ({
       src : o.srcPath,
-      delimeter : '://',
+      delimeter : self.protocolToken,
       times : 1,
       quote : false,
     });
@@ -598,7 +643,6 @@ function parse_body( o )
 
   function hostParse()
   {
-    debugger;
     let isAbsolute = false;
     let longPath = result.longPath;
 
@@ -632,18 +676,19 @@ function parse_body( o )
     let isolates2 = _.strIsolateRightOrNone.body
     ({
       src : result.hostFull,
-      delimeter : ':',
+      delimeter : self.portToken,
       times : 1,
       quote : false,
     });
     result.host = isolates2[ 0 ];
+
     if( isolates2[ 1 ] )
     result.port = _.numberFromStrMaybe( isolates2[ 2 ] );
 
     let isolates3 = _.strIsolateLeftOrNone.body
     ({
       src : result.host,
-      delimeter : self._userToken,
+      delimeter : self.userToken,
       times : 1,
       quote : false,
     });
@@ -705,11 +750,11 @@ function parse_body( o )
 
     let isolates = _.strIsolateLeftOrAll( rest, delimeter );
 
-    if( entry === self._queryToken )
+    if( entry === self.queryToken )
     result.query = isolates[ 0 ];
-    else if( entry === self._hashToken )
+    else if( entry === self.hashToken )
     result.hash = isolates[ 0 ];
-    else if( entry === self._tagToken )
+    else if( entry === self.tagToken )
     result.tag = isolates[ 0 ];
 
     postfixes += entry + isolates[ 0 ];
@@ -724,218 +769,7 @@ function parse_body( o )
 
   /* */
 
-  // function isolateLeftOrNone( src, delimeter )
-  // {
-  //   _.strIsolateLeftOrNone.body
-  //   ({
-  //     src : src,
-  //     delimeter : delimeter,
-  //     times : 1,
-  //     quote : false,
-  //   });
-  // }
-
 }
-
-// function parse_body( o )
-// {
-//   let self = this;
-//   let result = Object.create( null );
-//
-//   if( _.mapIs( o.srcPath ) )
-//   {
-//     _.assertMapHasOnly( o.srcPath, this.UriComponents );
-//     if( o.srcPath.protocols )
-//     return o.srcPath;
-//     else if( o.srcPath.full )
-//     o.srcPath = o.srcPath.full;
-//     else
-//     o.srcPath = this.str( o.srcPath );
-//   }
-//
-//   let splits = this._uriParseRegexp.exec( o.srcPath );
-//   _.sure( !!splits, 'Cant parse :',o.srcPath );
-//
-//   let params = '';
-//
-//   if( _.strIs( splits[ 1 ] ) )
-//   result.protocol = splits[ 1 ];
-//   if( _.strIs( splits[ 3 ] ) )
-//   result.host = splits[ 3 ];
-//   if( _.strIs( splits[ 4 ] ) )
-//   result.port = _.numberFromStrMaybe( splits[ 4 ] );
-//
-//   _.assert( splits.length <= 6 ); /* yyy */
-//   if( _.strIs( splits[ 5 ] ) )
-//   {
-//     let delimeter = [ self._tagToken, self._hashToken, self._queryToken ];
-//     result.resourcePath = splits[ 5 ];
-//     if( _.strHasAny( result.resourcePath, delimeter ) )
-//     postfixesParse( delimeter );
-//   }
-//
-//   // if( _.strIs( splits[ 5 ] ) ) /* yyy */
-//   // {
-//   //   result.resourcePath = splits[ 5 ];
-//   //   let isolatedSlash = _.strIsolateRightOrNone( result.resourcePath, '/' );
-//   //   if( isolatedSlash[ 2 ] )
-//   //   {
-//   //     let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], self._tagToken );
-//   //     if( isolated[ 2 ] )
-//   //     {
-//   //       result.tag = isolated[ 2 ];
-//   //       result.resourcePath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
-//   //       params += self._tagToken + result.tag;
-//   //     }
-//   //   }
-//   // }
-//   // if( _.strIs( splits[ 6 ] ) )
-//   // {
-//   //   result.query = splits[ 6 ];
-//   //   params += self._queryToken + result.query;
-//   //   let isolated = _.strIsolateRightOrNone( result.query, self._tagToken );
-//   //   if( isolated[ 2 ] )
-//   //   {
-//   //     result.tag = isolated[ 2 ];
-//   //     result.query = isolated[ 0 ]
-//   //   }
-//   // }
-//   // if( _.strIs( splits[ 7 ] ) )
-//   // {
-//   //   result.hash = splits[ 7 ];
-//   //   params += self._hashToken + result.hash;
-//   //   let isolated = _.strIsolateRightOrNone( result.hash, self._tagToken );
-//   //   if( isolated[ 2 ] )
-//   //   {
-//   //     result.tag = isolated[ 2 ];
-//   //     result.hash = isolated[ 0 ]
-//   //   }
-//   // }
-//
-//   /* */
-//
-//   if( o.kind === 'full' )
-//   {
-//     if( splits[ 2 ] )
-//     debugger;
-//     let hostFull = splits[ 2 ] || '';
-//     result.longPath = hostFull + result.resourcePath;
-//     result.postfixedPath = result.longPath + params;
-//     if( result.protocol )
-//     result.protocols = result.protocol.split( '+' );
-//     else
-//     result.protocols = [];
-//     if( _.strIs( splits[ 2 ] ) )
-//     result.hostFull = splits[ 2 ];
-//     if( _.strIs( result.protocol ) || _.strIs( result.hostFull ) )
-//     result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostFull;
-//     result.full = o.srcPath;
-//   }
-//   else if( o.kind === 'consecutive' )
-//   {
-//     let hostFull = splits[ 2 ] || '';
-//     result.longPath = hostFull + result.resourcePath;
-//     result.postfixedPath = result.longPath + params; /* xxx : redundat! */
-//     delete result.host;
-//     delete result.port;
-//     delete result.resourcePath;
-//   }
-//
-//   return result;
-//
-//   /*  */
-//
-//   // function longPathWithParamsForm()
-//   // {
-//   //   let postfixedPath = result.longPath;
-//   //   if( result.query )
-//   //   postfixedPath += self._queryToken + result.query;
-//   //   if( result.hash )
-//   //   postfixedPath += self._hashToken + result.hash;
-//   //   if( result.tag )
-//   //   postfixedPath += self._tagToken + result.tag;
-//   //   return postfixedPath;
-//   // }
-//
-//   // function isolateTagFrom( src )
-//   // {
-//   //   let result = _.strIsolateRightOrNone( src, self._tagToken );
-//   //   if( result[ 2 ] )
-//   //   result.tag = result[ 2 ];
-//   //   return result[ 0 ];
-//   // }
-//
-//   /* */
-//
-//   function postfixesParse( delimeter )
-//   {
-//
-//     let rest = '';
-//     let splits2 = _.path.split( result.resourcePath );
-//     let left;
-//
-//     // debugger;
-//
-//     let s;
-//     for( s = 0 ; s < splits2.length ; s++ )
-//     {
-//       let split = splits2[ s ];
-//       if( _.path._unescape( split ).wasEscaped )
-//       continue;
-//       left = _.strLeft( split, delimeter );
-//       // debugger;
-//       if( left.entry )
-//       {
-//         // debugger;
-//         if( s > 0 )
-//         {
-//           result.resourcePath = splits2.slice( 0, s ).join( self.upToken );
-//           result.resourcePath += self.upToken + split.slice( 0, left.index );
-//         }
-//         else
-//         {
-//           result.resourcePath = split.slice( 0, left.index );
-//         }
-//         split = split.slice( left.index + 1 );
-//         splits2[ s ] = split
-//         rest = splits2.slice( s ).join( self.upToken );
-//         break;
-//       }
-//     }
-//
-//     if( left && left.entry )
-//     restParse( rest, left.entry, delimeter );
-//
-//   }
-//
-//   /* */
-//
-//   function restParse( rest, entry, delimeter )
-//   {
-//     // debugger;
-//
-//     _.arrayRemoveOnceStrictly( delimeter, entry );
-//
-//     let isolates = _.strIsolateRightOrNone( rest, delimeter );
-//
-//     rest = isolates[ 0 ];
-//
-//     if( isolates[ 1 ] )
-//     {
-//       restParse( isolates[ 2 ], isolates[ 1 ], delimeter );
-//     }
-//
-//     if( entry === self._queryToken )
-//     result.query = rest;
-//     else if( entry === self._hashToken )
-//     result.hash = rest;
-//     else if( entry === self._tagToken )
-//     result.tag = rest;
-//
-//     // debugger;
-//   }
-//
-// }
 
 parse_body.defaults =
 {
@@ -943,7 +777,7 @@ parse_body.defaults =
   kind : 'full',
 }
 
-parse_body.components = UriComponents;
+parse_body.components = UriFull;
 
 parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
@@ -980,20 +814,20 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
 let parse = _.routineFromPreAndBody( parse_pre, parse_body );
 
-parse.components = UriComponents;
+parse.components = UriFull;
 
 //
 
 let parseFull = _.routineFromPreAndBody( parse_pre, parse_body );
 parseFull.defaults.kind = 'full';
-parseFull.components = UriComponents;
+parseFull.components = UriFull;
 
 //
 
 let parseAtomic = _.routineFromPreAndBody( parse_pre, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
-parseAtomic.components = UriComponents;
+parseAtomic.components = UriFull;
 
 //
 
@@ -1055,19 +889,21 @@ function str( c )
   let self = this;
   let result = '';
 
-  _.assert( c.longPath === undefined || c.longPath === null || longPathHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
-  _.assert( c.protocols === undefined || c.protocols === null || protocolsHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
-  _.assert( c.hostFull === undefined || c.hostFull === null || hostFullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}' );
-  _.assert( c.origin === undefined || c.origin === null || originHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
-  _.assert( c.full === undefined || c.full === null || fullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
-
-  _.assert( _.strIs( c ) || _.mapIs( c ) );
-  _.assert( arguments.length === 1, 'Expects single argument' );
+  if( Config.debug )
+  {
+    _.assert( c.longPath === undefined || c.longPath === null || longPathHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
+    _.assert( c.protocols === undefined || c.protocols === null || protocolsHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
+    _.assert( c.hostFull === undefined || c.hostFull === null || hostFullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}' );
+    _.assert( c.origin === undefined || c.origin === null || originHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
+    _.assert( c.full === undefined || c.full === null || fullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
+    _.assert( _.strIs( c ) || _.mapIs( c ) );
+    _.assert( arguments.length === 1, 'Expects single argument' );
+  }
 
   if( _.strIs( c ) )
   return c;
 
-  _.assertMapHasOnly( c, this.UriComponents );
+  _.assertMapHasOnly( c, this.UriFull.fields );
 
   if( c.full )
   {
@@ -1075,49 +911,45 @@ function str( c )
     return c.full;
   }
 
+  debugger;
   var protocol = c.protocol;
+  let user = c.user;
   var host = c.host;
   var port = c.port;
 
   if( c.origin && ( protocol === null || protocol === undefined ) )
-  if( _.strHas( c.origin, '://' ) )
+  if( _.strHas( c.origin, self.protocolToken ) )
   {
-    protocol = _.strIsolateLeftOrNone( c.origin, '://' )[ 0 ];
+    protocol = _.strIsolateLeftOrNone( c.origin, self.protocolToken )[ 0 ];
   }
 
   if( ( protocol === null || protocol === undefined ) && c.protocols && c.protocols.length )
   protocol = c.protocols.join( '+' );
 
-  if( c.origin && ( host === null || host === undefined ) )
+  if( c.origin )
+  if
+  (
+       ( user === null || user === undefined )
+    || ( host === null || host === undefined )
+    || ( port === null || port === undefined )
+  )
   {
-    host = c.origin;
-    host = _.strIsolateRightOrAll( host, '://' )[ 2 ];
-    host = _.strIsolateLeftOrAll( host, ':' )[ 0 ];
-    // host = _.strIsolateInside( c.origin, '://', ':' )[ 2 ];
-  }
+    let origin = c.origin;
+    origin = _.strIsolateRightOrAll( origin, self.protocolToken )[ 2 ];
 
-  if( c.origin && ( port === null || port === undefined ) )
-  if( _.strHas( c.origin, ':' ) )
-  {
-    port = _.strIsolateRightOrNone( c.origin, ':' )[ 2 ];
-  }
+    let isolates = _.strIsolateLeftOrAll( origin, self.portToken );
+    if( port === null || port === undefined )
+    if( isolates[ 1 ] )
+    port = isolates[ 2 ];
 
-  // /* atomic */
-  //
-  // protocol : null, /* 'svn+http' */
-  // host : null, /* 'www.site.com' */
-  // port : null, /* '13' */
-  // resourcePath : null, /* '/path/name' */
-  // query : null, /* 'query=here&and=here' */
-  // hash : null, /* 'anchor' */
-  //
-  // /* composite */
-  //
-  // longPath : null, /* www.site.com:13/path/name */
-  // protocols : null, /* [ 'svn','http' ] */
-  // hostFull : null, /* 'www.site.com:13' */
-  // origin : null, /* 'svn+http://www.site.com:13' */
-  // full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
+    let isolates2 = _.strIsolateLeftOrNone( isolates[ 0 ], self.userToken );
+    if( host === null || host === undefined )
+    host = isolates2[ 2 ];
+    if( user === null || user === undefined )
+    if( isolates2[ 1 ] )
+    user = isolates2[ 0 ];
+
+  }
 
   return fullFrom( c );
 
@@ -1155,7 +987,11 @@ function str( c )
   {
 
     if( c.host )
-    if( !_.strBegins( c.longPath, c.host ) )
+    if( !_.strHas( c.longPath, c.host ) )
+    return false;
+
+    if( c.user )
+    if( !_.strHas( c.longPath, c.user + self.userToken ) )
     return false;
 
     if( c.port !== undefined && c.port !== null )
@@ -1191,17 +1027,28 @@ function str( c )
   function hostFullFrom( c )
   {
 
-    // if( host === undefined || host === null )
-    // return c.hostFull;
-
     let hostFull = '';
+
+
     if( _.strIs( host ) )
-    hostFull = host;
+    {
+      if( user )
+      hostFull = user + self.userToken + host;
+      else
+      hostFull = host;
+    }
+    else
+    {
+      if( _.strIs( user ) )
+      hostFull = user;
+    }
+
     if( port !== undefined && port !== null )
     if( hostFull )
-    hostFull += ':' + port;
+    hostFull += self.portToken + port;
     else
-    hostFull = ':' + port;
+    hostFull = self.portToken + port;
+
     return hostFull;
   }
 
@@ -1211,7 +1058,11 @@ function str( c )
   {
 
     if( c.host )
-    if( !_.strBegins( c.hostFull, c.host ) )
+    if( !_.strHas( c.hostFull, c.host ) )
+    return false;
+
+    if( c.user )
+    if( !_.strBegins( c.hostFull, c.user + self.userToken ) )
     return false;
 
     if( c.port !== null && c.port !== undefined )
@@ -1241,7 +1092,8 @@ function str( c )
     hostFull = '';
 
     if( _.strIs( protocol ) || _.strIs( hostFull ) )
-    result += ( _.strIs( protocol ) ? protocol + '://' : '//' ) + hostFull;
+    result += ( protocol || '' ) + self.protocolToken + hostFull;
+    // result += ( _.strIs( protocol ) ? protocol + self.protocolToken : '//' ) + hostFull;
 
     return result;
   }
@@ -1272,7 +1124,8 @@ function str( c )
   {
 
     if( _.strIs( protocol ) || _.strIs( c.hostFull ) || _.strIs( host ) )
-    result += _.strIs( protocol ) ? protocol + '://' : '//';
+    result += ( protocol || '' ) + self.protocolToken;
+    // result += _.strIs( protocol ) ? protocol + '://' : '//';
 
     if( c.longPath )
     {
@@ -1291,13 +1144,13 @@ function str( c )
     _.assert( !c.query || _.strIs( c.query ) );
 
     if( c.query !== undefined && c.query !== undefined )
-    result += self._queryToken + c.query;
+    result += self.queryToken + c.query;
 
     if( c.hash !== undefined && c.hash !== null )
-    result += self._hashToken + c.hash;
+    result += self.hashToken + c.hash;
 
     if( c.tag !== undefined && c.tag !== null )
-    result += self.tagStr + c.tag;
+    result += self.tagToken + c.tag;
 
     return result;
   }
@@ -1343,7 +1196,7 @@ function str( c )
 
 }
 
-str.components = UriComponents;
+str.components = UriFull;
 
 //
 
@@ -1377,13 +1230,12 @@ function full( o )
   if( _.strIs( o ) )
   o = this.parseAtomic( o )
 
-  _.assertMapHasOnly( o, this.UriComponents );
-
-  // if( o.full )
-  // return this.str( o );
+  _.assertMapHasOnly( o, this.UriFull.fields );
 
   if( !_realGlobal_.location )
   return this.str( o );
+
+  debugger;
 
   let serverUri = this.server();
   let serverParsed = this.parseAtomic( serverUri );
@@ -1756,7 +1608,8 @@ function resolve()
   if( joined === null )
   return joined;
   let parsed = this.parseConsecutive( joined );
-  parsed.longPath = parent.resolve.call( this, parsed.longPath );
+  // parsed.longPath = parent.resolve.call( this, parsed.longPath ); /* xxx */
+  parsed.longPath = parent.resolve( parsed.longPath );
   return this.str( parsed );
 }
 
@@ -2136,6 +1989,8 @@ let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.m
 
 function documentGet( path, o )
 {
+  let self = this;
+
   o = o || Object.create( null );
 
   if( path === undefined )
@@ -2147,7 +2002,7 @@ function documentGet( path, o )
   }
 
   let a = path.split( '//' );
-  let b = a[ 1 ].split( self._queryToken );
+  let b = a[ 1 ].split( self.queryToken );
 
   /* */
 
@@ -2228,10 +2083,12 @@ function server( path )
 
 function query( path )
 {
+  let self = this;
   if( path === undefined )
   path = _realGlobal_.location.href;
-  if( path.indexOf( self._queryToken ) === -1 ) return '';
-  return path.split( self._queryToken )[ 1 ];
+  if( path.indexOf( self.queryToken ) === -1 )
+  return '';
+  return path.split( self.queryToken )[ 1 ];
 }
 
 //
@@ -2261,7 +2118,7 @@ function dequery( query )
 {
 
   let result = Object.create( null );
-  query = query || _global.location.search.split(self._queryToken)[1];
+  query = query || _global.location.search.split(self.queryToken)[1];
   if( !query || !query.length )
   return result;
   let vars = query.split( '&' );
@@ -2296,81 +2153,40 @@ function dequery( query )
 }
 
 // --
-// Uri constructors
+// relations
 // --
 
-let Uri = _.blueprint.defineConstructor
-({
-  protocol : null,
-  query : null,
-  hash : null,
-  typed : _.trait.typed(),
-  extendable : _.trait.extendable(),
-});
-
+// let Constructors =
+// {
 //
+//   // Uri map constructors
 //
-// let UriFull =
-// ({
-//   resourcePath : null,
-//   host : null,
-//   port : null,
-//   longPath : null,
-//   protocols : null,
-//   hostFull : null,
-//   origin : null,
-//   full : null,
-//   extension : _.define.extension( Uri ),
-// });
+//   Uri,
+//   // UriFull,
+//   // UriAtomic,
+//   // UriConsequtive,
+//
+// }
+//
+// _.mapExtend( _, Constructors );
 //
 // //
-//
-// let UriAtomic =
-// ({
-//   resourcePath : null,
-//   host : null,
-//   extension : _.define.extension( Uri ),
-// });
-//
-// //
-//
-// let UriConsequtive =
-// ({
-//   longPath : null,
-//   extension : _.define.extension( Uri ),
-// });
-
-let Constructors =
-{
-
-  // Uri map constructors
-
-  Uri,
-  // UriFull,
-  // UriAtomic,
-  // UriConsequtive,
-
-}
-
-_.mapExtend( _, Constructors );
-
-// --
-// declare routines
-// --
 
 let Parameters =
 {
   // _uriParseRegexpStr,
   // _uriParseRegexp,
 
-  _protocolToken : '://',
-  _portToken : ':',
-  _userToken : '@',
-  _tagToken : '!',
-  _hashToken : '#',
-  _queryToken : '?',
+  protocolToken : '://',
+  portToken : ':',
+  userToken : '@',
+  tagToken : '!',
+  hashToken : '#',
+  queryToken : '?',
 
 }
+
+//
 
 let Extension =
 {
@@ -2447,7 +2263,12 @@ let Extension =
   // fields
 
   single : Self,
-  UriComponents,
+  // UriComponents,
+
+  Uri,
+  UriFull,
+  UriAtomic,
+  UriConsequtive,
 
   // _uriParseRegexpStr,
   // _uriParseRegexp,
