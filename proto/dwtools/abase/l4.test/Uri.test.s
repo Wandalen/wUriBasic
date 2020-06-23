@@ -2285,7 +2285,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???'; /* qqq : describe cases without description ( short! ) */
+  test.case = 'double protocol, query and hash'; /* qqq : describe cases without description ( short! ) */
   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var expected =
   {
@@ -2300,7 +2300,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'colon, double slash';
   var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
   var got = _.uriNew.parseAtomic( uri );
   var expected =
@@ -2314,7 +2314,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'colon, triple slash';
   var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
   var got = _.uriNew.parseAtomic( uri );
   var expected =
@@ -2354,7 +2354,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'protocol, colon, triple slash';
 
   var expected =
   {
@@ -2366,7 +2366,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'protocol, colon, triple slash, tag';
 
   var expected =
   {
@@ -2379,7 +2379,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'longpath with dot after host, tag';
 
   var expected =
   {
@@ -2392,7 +2392,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'longpath with dot after host, user, tag';
 
   var expected =
   {
@@ -2405,7 +2405,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'longpath with dot after host, user, hash';
 
   var expected =
   {
@@ -2418,7 +2418,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'longpath with dot after host, user, slash hash';
 
   var expected =
   {
@@ -2431,7 +2431,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'protocol, host and hash only';
 
   var expected =
   {
@@ -2444,7 +2444,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'protocol, host and slash hash only';
 
   var expected =
   {
@@ -2457,20 +2457,20 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  // test.case = '???';
 
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    tag : 'tag',
-  }
-  var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/!tag' );
-  test.identical( got, expected );
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+  //   tag : 'tag',
+  // }
+  // var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/!tag' );
+  // test.identical( got, expected );
 
   /* */
 
-  test.case = '???';
+  test.case = 'protocol, host and tag only';
 
   var expected =
   {
@@ -2483,7 +2483,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'user, hash and tag';
 
   var expected =
   {
@@ -2497,7 +2497,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'user, hash and tag after slash';
 
   var expected =
   {
@@ -2511,7 +2511,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'hash and tag';
 
   var expected =
   {
@@ -2525,7 +2525,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'hash and tag after slash';
 
   var expected =
   {
@@ -2539,7 +2539,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'name, query, hash and tag';
 
   var expected =
   {
@@ -2554,7 +2554,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'name, slash before query, hash and tag';
 
   var expected =
   {
@@ -2569,7 +2569,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'query, hash and tag';
 
   var expected =
   {
@@ -2584,7 +2584,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'slash before query, hash and tag';
 
   var expected =
   {
@@ -2599,7 +2599,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'name, query and tag';
 
   var expected =
   {
@@ -2613,7 +2613,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'name, slash before query and tag';
 
   var expected =
   {
@@ -2627,7 +2627,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'query and tag';
 
   var expected =
   {
@@ -2641,7 +2641,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = '???';
+  test.case = 'slash before query and tag';
 
   var expected =
   {
