@@ -2424,18 +2424,18 @@ function parseAtomic( test )
   test.description = 'full';
   var expected = 
   {
-    protocol: 'http',
-    longPath: 'www.site.com:13/path/name',
-    query: 'query=here&and=here',
-    hash: 'anchor',
-    postfixedPath: 'www.site.com:13/path/name?query=here&and=here#anchor',
-    hostFull: 'www.site.com:13',
-    resourcePath: 'path/name',
-    host: 'www.site.com',
-    port: 13,
-    protocols: [ 'http' ],
-    origin: 'http://www.site.com:13',
-    full: 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+    protocol : 'http',
+    longPath : 'www.site.com:13/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    postfixedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull : 'www.site.com:13',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+    origin : 'http://www.site.com:13',
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2466,18 +2466,18 @@ function parseAtomic( test )
   var got = _.uriNew.parseFull( 'http://www.site.com:13/path/name?query=here&and=here#anchor' )
   var expected = 
   {
-    protocol: 'http',
-    longPath: 'www.site.com:13/path/name',
-    query: 'query=here&and=here',
-    hash: 'anchor',
-    postfixedPath: 'www.site.com:13/path/name?query=here&and=here#anchor',
-    hostFull: 'www.site.com:13',
-    resourcePath: 'path/name',
-    host: 'www.site.com',
-    port: 13,
-    protocols: [ 'http' ],
-    origin: 'http://www.site.com:13',
-    full: 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+    protocol : 'http',
+    longPath : 'www.site.com:13/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    postfixedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull : 'www.site.com:13',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+    origin : 'http://www.site.com:13',
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
   }
   var parsed = got;
   var got = _.uriNew.parseFull( parsed );
@@ -2507,18 +2507,18 @@ function parseAtomic( test )
   test.description = 'full';
   var expected = 
   {
-    protocol: 'http',
-    longPath: 'www.site.com:13/path/name',
-    query: 'query=here&and=here',
-    hash: 'anchor',
-    postfixedPath: 'www.site.com:13/path/name?query=here&and=here#anchor',
-    hostFull: 'www.site.com:13',
-    resourcePath: 'path/name',
-    host: 'www.site.com',
-    port: 13,
-    protocols: [ 'http' ],
-    origin: 'http://www.site.com:13',
-    full: 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+    protocol : 'http',
+    longPath : 'www.site.com:13/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    postfixedPath : 'www.site.com:13/path/name?query=here&and=here#anchor',
+    hostFull : 'www.site.com:13',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+    origin : 'http://www.site.com:13',
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2544,15 +2544,15 @@ function parseAtomic( test )
   test.description = 'full';
   var expected = 
   {
-    protocol: '',
-    longPath: 'some.domain.com/something/filePath/add',
-    postfixedPath: 'some.domain.com/something/filePath/add',
-    hostFull: 'some.domain.com',
-    resourcePath: 'something/filePath/add',
-    host: 'some.domain.com',
-    protocols: [],
-    origin: '://some.domain.com',
-    full: '://some.domain.com/something/filePath/add'
+    protocol : '',
+    longPath : 'some.domain.com/something/filePath/add',
+    postfixedPath : 'some.domain.com/something/filePath/add',
+    hostFull : 'some.domain.com',
+    resourcePath : 'something/filePath/add',
+    host : 'some.domain.com',
+    protocols : [],
+    origin : '://some.domain.com',
+    full : '://some.domain.com/something/filePath/add'
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2578,18 +2578,17 @@ function parseAtomic( test )
   test.description = 'full';
   var expected = 
   {
-    protocol: 'file',
-    longPath: '/something/filePath/add',
-    postfixedPath: '/something/filePath/add',
-    hostFull: '/something',
-    resourcePath: 'filePath/add',
-    host: 'something',
-    protocols: [ 'file' ],
-    origin: 'file:///something',
-    full: 'file:///something/filePath/add'
+    protocol : 'file',
+    longPath : '/something/filePath/add',
+    postfixedPath : '/something/filePath/add',
+    hostFull : '/something',
+    resourcePath : 'filePath/add',
+    host : 'something',
+    protocols : [ 'file' ],
+    origin : 'file:///something',
+    full : 'file:///something/filePath/add'
   }
   var got = _.uriNew.parseFull( src );
-  console.log( got )
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2598,6 +2597,8 @@ function parseAtomic( test )
 
   test.case = 'uri with double protocol, user';
   var src = 'svn+https://user@subversion.com:13/svn/trunk';
+
+  test.description = 'atomic';
   var expected =
   {
     protocol : 'svn+https',
@@ -2605,11 +2606,10 @@ function parseAtomic( test )
   }
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
-  /* */
-
-  test.case = 'uri with double protocol, user. full';
-  var src = 'svn+https://user@subversion.com:13/svn/trunk';
+  test.description = 'full';
   var expected =
   {
     protocol : 'svn+https',
@@ -2626,24 +2626,27 @@ function parseAtomic( test )
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'uri with double protocol, user and tag';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
+  var src = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
+
+  test.description = 'atomic';
   var expected =
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com:13/svn/trunk',
     tag : 'tag1',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
-  /* */
-
-  test.case = 'uri with double protocol, user and tag. full';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
+  test.description = 'full';
   var expected =
   {
     protocol : 'svn+https',
@@ -2659,97 +2662,119 @@ function parseAtomic( test )
     resourcePath : 'svn/trunk',
     full : 'svn+https://user@subversion.com:13/svn/trunk!tag1',
   }
-  var got = _.uriNew.parseFull( uri );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'simple path';
-  var uri = '/some/file';
+  var src = '/some/file';
+
+  test.description = 'atomic';
   var expected =
   {
     longPath : '/some/file',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected =
+  {
+    longPath : '/some/file',
+    postfixedPath : '/some/file',
+    hostFull : '/some',
+    resourcePath : 'file',
+    host : 'some',
+    protocols : [],
+    full : '/some/file'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
   test.case = 'without ":"';
-  var uri = '//some.domain.com/was';
+  var src = '//some.domain.com/was';
   var expected =
   {
     longPath : '//some.domain.com/was',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'with ":"';
-  var uri = '://some.domain.com/was';
+  var src = '://some.domain.com/was';
   var expected =
   {
     protocol : '',
     longPath : 'some.domain.com/was',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'with ":" and protocol';
 
-  var uri = 'protocol://some.domain.com/was';
+  var src = 'protocol://some.domain.com/was';
   var expected =
   {
     protocol : 'protocol',
     longPath : 'some.domain.com/was',
   }
 
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'double slash';
-  var uri = '//';
+  var src = '//';
   var expected =
   {
     longPath : '//',
   }
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   /* */
 
   test.case = 'triple slash';
 
-  var uri = '///';
+  var src = '///';
   var expected =
   {
     longPath : '///',
   }
 
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'triple slash with long path';
 
-  var uri = '///a/b/c';
+  var src = '///a/b/c';
   var expected =
   {
     longPath : '///a/b/c',
   }
 
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'double protocol, query and hash'; /* qqq : describe cases without description ( short! ) */
-  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var src = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
   var expected =
   {
     protocol : 'complex+protocol',
@@ -2758,14 +2783,14 @@ function parseAtomic( test )
     hash : 'anchor',
   }
 
-  var got = _.uriNew.parseAtomic( uri );
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'colon, double slash';
-  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uriNew.parseAtomic( uri );
+  var src = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( src );
   var expected =
   {
     protocol : '',
@@ -2778,8 +2803,8 @@ function parseAtomic( test )
   /* */
 
   test.case = 'colon, triple slash';
-  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  var got = _.uriNew.parseAtomic( uri );
+  var src = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( src );
   var expected =
   {
     protocol : '',
