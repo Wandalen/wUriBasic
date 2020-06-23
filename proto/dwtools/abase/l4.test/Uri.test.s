@@ -2467,6 +2467,7 @@ function parseAtomic( test )
   // }
   // var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git/!tag' );
   // test.identical( got, expected );
+  // xxx : clean
 
   /* */
 

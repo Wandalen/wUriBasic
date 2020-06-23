@@ -86,6 +86,8 @@ let UriConsequtive = _.blueprint
   longPath : null,
 });
 
+/* qqq jsdoc structures Uri*. ask how to */
+
 /**
  *
  * The URI component object.
