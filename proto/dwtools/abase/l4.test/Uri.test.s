@@ -2756,6 +2756,8 @@ function parseAtomic( test )
   }
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   test.description = 'full';
   var expected =
@@ -2772,6 +2774,8 @@ function parseAtomic( test )
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
@@ -2786,6 +2790,8 @@ function parseAtomic( test )
   }
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   test.description = 'full';
   var expected =
@@ -2804,6 +2810,8 @@ function parseAtomic( test )
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
 
   /* */
 
