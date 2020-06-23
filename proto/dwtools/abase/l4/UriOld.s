@@ -1,18 +1,6 @@
-( function _Uri_s_() {
+( function _UriOld_s_() {
 
 'use strict';
-
-/**
- * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way. Path leverages parsing, joining, extracting, normalizing, nativizing, resolving paths. Use the module to get uniform experience from playing with paths on different platforms.
-  @module Tools/base/Uri
-*/
-
-/**
- * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way.
-  @namespace wTools.uri
-  @extends Tools
-  @module Tools/base/Uri
-*/
 
 if( typeof module !== 'undefined' )
 {
@@ -29,7 +17,8 @@ if( typeof module !== 'undefined' )
 let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.path;
-let Self = _.uriNew = _.uriNew || Object.create( Parent );
+let Self = _.uriOld = _.uriOld || Object.create( Parent );
+_.uri = _.uriOld;
 
 // --
 // internal
@@ -92,10 +81,10 @@ function is( path )
  * @param {Number} level Level of check
  *
  * @example
- * _.uriNew.isSafe( 'https:///web.archive.org' )// false
+ * _.ur2.isSafe( 'https:///web.archive.org' )// false
  *
  * @example
- * _.uriNew.isSafe( 'https:///web.archive.org/root' )// true
+ * _.ur2.isSafe( 'https:///web.archive.org/root' )// true
  *
  * @returns {Boolean} Returns result of check for safetiness.
  * @function isSafe
@@ -202,10 +191,10 @@ function isNormalized( filePath )
 //  * @param {String} filePath Source uri
 //  *
 //  * @example
-//  * _.uriNew.isNormalized( 'https:///web.archive.org' ); // returns true
+//  * _.ur2.isNormalized( 'https:///web.archive.org' ); // returns true
 //  *
 //  * @example
-//  * _.uriNew.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
+//  * _.ur2.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
 //  *
 //  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
 //  * @function isNormalized
@@ -227,10 +216,10 @@ function isNormalized( filePath )
  * @param {String} filePath Source uri
  *
  * @example
- * _.uriNew.isAbsolute( 'https:/web.archive.org' )// false
+ * _.ur2.isAbsolute( 'https:/web.archive.org' )// false
  *
  * @example
- * _.uriNew.isAbsolute( 'https:///web.archive.org' )// true
+ * _.ur2.isAbsolute( 'https:///web.archive.org' )// true
  *
  * @returns {Boolean} Returns true if {filePath} is absolute, otherwise false.
  * @function isAbsolute
@@ -283,10 +272,10 @@ function isRelative( filePath )
  * @param {String} filePath Source uri
  *
  * @example
- * _.uriNew.isRoot( 'https:/web.archive.org' )// false
+ * _.ur2.isRoot( 'https:/web.archive.org' )// false
  *
  * @example
- * _.uriNew.isRoot( 'https:///' )// true
+ * _.ur2.isRoot( 'https:///' )// true
  *
  * @returns {Boolean} Returns true if {filePath} is root, otherwise false.
  * @function isRoot
@@ -451,34 +440,32 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
   'longPath' : 'www.site.com:13/!a.js?',
 }*/
 
-// // let _uriParseRegexpStr = '^';
-// // _uriParseRegexpStr += '(?:([^:/\\?#]*):)?'; /* protocol */
-// // _uriParseRegexpStr += '(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?'; /* host and port */
-// // _uriParseRegexpStr += '([^\\?#]*)'; /* local path */
-// // _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
-// // _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
-// // _uriParseRegexpStr += '$';
-//
-// let _uriParseRegexpStr = '^'; /* begin */
-//
-// let _uriParseRegexpProtocolStr = '([^:/\\?#]*)'; /* protocol */
-// let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
-// // let _uriParseRegexpHostAndPortStr = ':\/\/((\/?[^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
-//
-// _uriParseRegexpStr += '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
-//
+// let _uriParseRegexpStr = '^';
+// _uriParseRegexpStr += '(?:([^:/\\?#]*):)?'; /* protocol */
+// _uriParseRegexpStr += '(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?'; /* host and port */
+// _uriParseRegexpStr += '([^\\?#]*)'; /* local path */
+// _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+// _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
+// _uriParseRegexpStr += '$';
+
+let _uriParseRegexpStr = '^'; /* begin */
+
+let _uriParseRegexpProtocolStr = '([^:/\\?#]*)'; /* protocol */
+let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
+// let _uriParseRegexpHostAndPortStr = ':\/\/((\/?[^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
+
+_uriParseRegexpStr += '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
+
 // _uriParseRegexpStr += '(.*?)'; /* rest yyy */
-//
-// // _uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */ /* yyy */
-// // _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
-// // _uriParseRegexpStr += '(?:#([^]*))?'; /* hash */
-// // // _uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
-//
-// _uriParseRegexpStr += '$'; /* end */
-//
-// let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
-//
-// // let _uriHostAndPortRegexp = new RegExp( '(([^:/\\?#]*)(?::([^/\\?#]*))?)' ); /* host and port */
+
+_uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */ /* yyy */
+_uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+_uriParseRegexpStr += '(?:#([^]*))?'; /* hash */
+// _uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
+
+_uriParseRegexpStr += '$'; /* end */
+
+let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
 
 function parse_pre( routine, args )
 {
@@ -509,152 +496,115 @@ function parse_body( o )
     o.srcPath = this.str( o.srcPath );
   }
 
-  // let splits = this._uriParseRegexp.exec( o.srcPath );
-  // _.sure( !!splits, 'Cant parse :',o.srcPath );
-  let postfixes = '';
+  let splits = this._uriParseRegexp.exec( o.srcPath );
+  _.sure( !!splits, 'Cant parse :',o.srcPath );
 
-  longPathParse();
+  let params = '';
 
-  // if( _.strIs( splits[ 1 ] ) )
-  // result.protocol = splits[ 1 ];
-  // if( _.strIs( splits[ 3 ] ) )
-  // result.host = splits[ 3 ];
-  // if( _.strIs( splits[ 4 ] ) )
-  // result.port = _.numberFromStrMaybe( splits[ 4 ] );
+  if( _.strIs( splits[ 1 ] ) )
+  result.protocol = splits[ 1 ];
+  if( _.strIs( splits[ 3 ] ) )
+  result.host = splits[ 3 ];
+  if( _.strIs( splits[ 4 ] ) )
+  result.port = _.numberFromStrMaybe( splits[ 4 ] );
 
   // _.assert( splits.length <= 6 ); /* yyy */
   // if( _.strIs( splits[ 5 ] ) )
+  // {
+  //   let delimeter = [ '@', '#', '?' ];
+  //   result.resourcePath = splits[ 5 ];
+  //   if( _.strHasAny( result.resourcePath, delimeter ) )
+  //   postfixesParse( delimeter );
+  // }
 
-  let delimeter = [ self._tagToken, self._hashToken, self._queryToken ];
-  if( _.strHasAny( result.longPath, delimeter ) )
-  postfixesParse( delimeter );
+  if( _.strIs( splits[ 5 ] ) ) /* yyy */
+  {
+    result.resourcePath = splits[ 5 ];
+    let isolatedSlash = _.strIsolateRightOrNone( result.resourcePath, '/' );
+    if( isolatedSlash[ 2 ] )
+    {
+      let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], '@' );
+      if( isolated[ 2 ] )
+      {
+        result.tag = isolated[ 2 ];
+        result.resourcePath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
+        params += '@' + result.tag;
+      }
+    }
+  }
+  if( _.strIs( splits[ 6 ] ) )
+  {
+    result.query = splits[ 6 ];
+    params += '?' + result.query;
+    let isolated = _.strIsolateRightOrNone( result.query, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.query = isolated[ 0 ]
+    }
+  }
+  if( _.strIs( splits[ 7 ] ) )
+  {
+    result.hash = splits[ 7 ];
+    params += '#' + result.hash;
+    let isolated = _.strIsolateRightOrNone( result.hash, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.hash = isolated[ 0 ]
+    }
+  }
 
   /* */
 
   if( o.kind === 'full' )
   {
-
-    result.postfixedPath = result.longPath + postfixes;
-
-    hostParse();
-
-    // let hostFull = splits[ 2 ] || '';
-    // result.longPath = hostFull + result.resourcePath;
-    // result.postfixedPath = result.longPath + postfixes;
-
+    let hostFull = splits[ 2 ] || '';
+    result.longPath = hostFull + result.resourcePath;
+    result.postfixedPath = result.longPath + params;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
     result.protocols = [];
-
-    // if( _.strIs( splits[ 2 ] ) )
-    // result.hostFull = splits[ 2 ];
-
-    if( _.strDefined( result.protocol ) || _.strIs( result.hostFull ) )
-    result.origin = result.protocol + '://' + result.hostFull;
-
-    // if( _.strIs( result.protocol ) || _.strIs( result.hostFull ) )
-    // result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostFull;
-
+    if( _.strIs( splits[ 2 ] ) )
+    result.hostFull = splits[ 2 ];
+    if( _.strIs( result.protocol ) || _.strIs( result.hostFull ) )
+    result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostFull;
     result.full = o.srcPath;
-
   }
   else if( o.kind === 'consecutive' )
   {
-    // let hostFull = splits[ 2 ] || '';
-    // result.longPath = hostFull + result.resourcePath;
-    // result.postfixedPath = result.longPath + postfixes; /* xxx : redundat! */
-    // delete result.host;
-    // delete result.port;
-    // delete result.resourcePath;
+    let hostFull = splits[ 2 ] || '';
+    result.longPath = hostFull + result.resourcePath;
+    result.postfixedPath = result.longPath + params; /* xxx : redundat! */
+    delete result.host;
+    delete result.port;
+    delete result.resourcePath;
   }
-  else if( o.kind === 'atomic' )
-  {
-  }
-  else _.assert( 0 );
 
   return result;
 
-  /* */
+  /*  */
 
-  function longPathParse()
-  {
+  // function longPathWithParamsForm()
+  // {
+  //   let postfixedPath = result.longPath;
+  //   if( result.query )
+  //   postfixedPath += '?' + result.query;
+  //   if( result.hash )
+  //   postfixedPath += '#' + result.hash;
+  //   if( result.tag )
+  //   postfixedPath += '@' + result.tag;
+  //   return postfixedPath;
+  // }
 
-    let isolates = _.strIsolateLeftOrNone.body
-    ({
-      src : o.srcPath,
-      delimeter : '://',
-      times : 1,
-      quote : false,
-    });
-
-    if( isolates[ 1 ] )
-    result.protocol = isolates[ 0 ];
-
-    result.longPath = isolates[ 2 ];
-  }
-
-  /* */
-
-  function hostParse()
-  {
-    debugger;
-    let isAbsolute = false;
-    let longPath = result.longPath;
-
-    if( !longPath )
-    return;
-
-    if( _.strBegins( longPath[ 0 ], self.rootToken ) )
-    {
-      longPath = longPath.slice( self.rootToken.length );
-      isAbsolute = true;
-    }
-
-    let isolates = _.strIsolateLeftOrAll.body
-    ({
-      src : longPath,
-      delimeter : self.upToken,
-      times : 1,
-      quote : false,
-    });
-
-    result.hostFull = isolates[ 0 ];
-    result.resourcePath = isolates[ 2 ];
-
-    if( !result.hostFull )
-    {
-      if( isAbsolute )
-      result.hostFull = self.rootToken + result.hostFull;
-      return;
-    }
-
-    let isolates2 = _.strIsolateRightOrNone.body
-    ({
-      src : result.hostFull,
-      delimeter : ':',
-      times : 1,
-      quote : false,
-    });
-    result.host = isolates2[ 0 ];
-    if( isolates2[ 1 ] )
-    result.port = _.numberFromStrMaybe( isolates2[ 2 ] );
-
-    let isolates3 = _.strIsolateLeftOrNone.body
-    ({
-      src : result.host,
-      delimeter : self._userToken,
-      times : 1,
-      quote : false,
-    });
-    if( isolates3[ 1 ] )
-    result.user = isolates3[ 0 ];
-    result.host = isolates3[ 2 ];
-
-    if( isAbsolute )
-    result.hostFull = self.rootToken + result.hostFull;
-
-  }
+  // function isolateTagFrom( src )
+  // {
+  //   let result = _.strIsolateRightOrNone( src, '@' );
+  //   if( result[ 2 ] )
+  //   result.tag = result[ 2 ];
+  //   return result[ 0 ];
+  // }
 
   /* */
 
@@ -662,8 +612,10 @@ function parse_body( o )
   {
 
     let rest = '';
-    let splits2 = _.path.split( result.longPath );
+    let splits2 = _.path.split( result.resourcePath );
     let left;
+
+    debugger;
 
     let s;
     for( s = 0 ; s < splits2.length ; s++ )
@@ -672,16 +624,18 @@ function parse_body( o )
       if( _.path._unescape( split ).wasEscaped )
       continue;
       left = _.strLeft( split, delimeter );
+      debugger;
       if( left.entry )
       {
+        debugger;
         if( s > 0 )
         {
-          result.longPath = splits2.slice( 0, s ).join( self.upToken );
-          result.longPath += self.upToken + split.slice( 0, left.index );
+          result.resourcePath = splits2.slice( 0, s ).join( self.upToken );
+          result.resourcePath += self.upToken + split.slice( 0, left.index );
         }
         else
         {
-          result.longPath = split.slice( 0, left.index );
+          result.resourcePath = split.slice( 0, left.index );
         }
         split = split.slice( left.index + 1 );
         splits2[ s ] = split
@@ -690,7 +644,6 @@ function parse_body( o )
       }
     }
 
-    // debugger;
     if( left && left.entry )
     restParse( rest, left.entry, delimeter );
 
@@ -700,242 +653,30 @@ function parse_body( o )
 
   function restParse( rest, entry, delimeter )
   {
+    debugger;
 
     _.arrayRemoveOnceStrictly( delimeter, entry );
 
-    let isolates = _.strIsolateLeftOrAll( rest, delimeter );
+    let isolates = _.strIsolateRightOrNone( rest, delimeter );
 
-    if( entry === self._queryToken )
-    result.query = isolates[ 0 ];
-    else if( entry === self._hashToken )
-    result.hash = isolates[ 0 ];
-    else if( entry === self._tagToken )
-    result.tag = isolates[ 0 ];
+    rest = isolates[ 0 ];
 
-    postfixes += entry + isolates[ 0 ];
-
-    rest = isolates[ 2 ]; /* xxx : remove variable? */
     if( isolates[ 1 ] )
     {
       restParse( isolates[ 2 ], isolates[ 1 ], delimeter );
     }
 
+    if( entry === '?' )
+    result.query = rest;
+    else if( entry === '#' )
+    result.hash = rest;
+    else if( entry === '@' )
+    result.tag = rest;
+
+    debugger;
   }
 
-  /* */
-
-  // function isolateLeftOrNone( src, delimeter )
-  // {
-  //   _.strIsolateLeftOrNone.body
-  //   ({
-  //     src : src,
-  //     delimeter : delimeter,
-  //     times : 1,
-  //     quote : false,
-  //   });
-  // }
-
 }
-
-// function parse_body( o )
-// {
-//   let self = this;
-//   let result = Object.create( null );
-//
-//   if( _.mapIs( o.srcPath ) )
-//   {
-//     _.assertMapHasOnly( o.srcPath, this.UriComponents );
-//     if( o.srcPath.protocols )
-//     return o.srcPath;
-//     else if( o.srcPath.full )
-//     o.srcPath = o.srcPath.full;
-//     else
-//     o.srcPath = this.str( o.srcPath );
-//   }
-//
-//   let splits = this._uriParseRegexp.exec( o.srcPath );
-//   _.sure( !!splits, 'Cant parse :',o.srcPath );
-//
-//   let params = '';
-//
-//   if( _.strIs( splits[ 1 ] ) )
-//   result.protocol = splits[ 1 ];
-//   if( _.strIs( splits[ 3 ] ) )
-//   result.host = splits[ 3 ];
-//   if( _.strIs( splits[ 4 ] ) )
-//   result.port = _.numberFromStrMaybe( splits[ 4 ] );
-//
-//   _.assert( splits.length <= 6 ); /* yyy */
-//   if( _.strIs( splits[ 5 ] ) )
-//   {
-//     let delimeter = [ self._tagToken, self._hashToken, self._queryToken ];
-//     result.resourcePath = splits[ 5 ];
-//     if( _.strHasAny( result.resourcePath, delimeter ) )
-//     postfixesParse( delimeter );
-//   }
-//
-//   // if( _.strIs( splits[ 5 ] ) ) /* yyy */
-//   // {
-//   //   result.resourcePath = splits[ 5 ];
-//   //   let isolatedSlash = _.strIsolateRightOrNone( result.resourcePath, '/' );
-//   //   if( isolatedSlash[ 2 ] )
-//   //   {
-//   //     let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], self._tagToken );
-//   //     if( isolated[ 2 ] )
-//   //     {
-//   //       result.tag = isolated[ 2 ];
-//   //       result.resourcePath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
-//   //       params += self._tagToken + result.tag;
-//   //     }
-//   //   }
-//   // }
-//   // if( _.strIs( splits[ 6 ] ) )
-//   // {
-//   //   result.query = splits[ 6 ];
-//   //   params += self._queryToken + result.query;
-//   //   let isolated = _.strIsolateRightOrNone( result.query, self._tagToken );
-//   //   if( isolated[ 2 ] )
-//   //   {
-//   //     result.tag = isolated[ 2 ];
-//   //     result.query = isolated[ 0 ]
-//   //   }
-//   // }
-//   // if( _.strIs( splits[ 7 ] ) )
-//   // {
-//   //   result.hash = splits[ 7 ];
-//   //   params += self._hashToken + result.hash;
-//   //   let isolated = _.strIsolateRightOrNone( result.hash, self._tagToken );
-//   //   if( isolated[ 2 ] )
-//   //   {
-//   //     result.tag = isolated[ 2 ];
-//   //     result.hash = isolated[ 0 ]
-//   //   }
-//   // }
-//
-//   /* */
-//
-//   if( o.kind === 'full' )
-//   {
-//     if( splits[ 2 ] )
-//     debugger;
-//     let hostFull = splits[ 2 ] || '';
-//     result.longPath = hostFull + result.resourcePath;
-//     result.postfixedPath = result.longPath + params;
-//     if( result.protocol )
-//     result.protocols = result.protocol.split( '+' );
-//     else
-//     result.protocols = [];
-//     if( _.strIs( splits[ 2 ] ) )
-//     result.hostFull = splits[ 2 ];
-//     if( _.strIs( result.protocol ) || _.strIs( result.hostFull ) )
-//     result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostFull;
-//     result.full = o.srcPath;
-//   }
-//   else if( o.kind === 'consecutive' )
-//   {
-//     let hostFull = splits[ 2 ] || '';
-//     result.longPath = hostFull + result.resourcePath;
-//     result.postfixedPath = result.longPath + params; /* xxx : redundat! */
-//     delete result.host;
-//     delete result.port;
-//     delete result.resourcePath;
-//   }
-//
-//   return result;
-//
-//   /*  */
-//
-//   // function longPathWithParamsForm()
-//   // {
-//   //   let postfixedPath = result.longPath;
-//   //   if( result.query )
-//   //   postfixedPath += self._queryToken + result.query;
-//   //   if( result.hash )
-//   //   postfixedPath += self._hashToken + result.hash;
-//   //   if( result.tag )
-//   //   postfixedPath += self._tagToken + result.tag;
-//   //   return postfixedPath;
-//   // }
-//
-//   // function isolateTagFrom( src )
-//   // {
-//   //   let result = _.strIsolateRightOrNone( src, self._tagToken );
-//   //   if( result[ 2 ] )
-//   //   result.tag = result[ 2 ];
-//   //   return result[ 0 ];
-//   // }
-//
-//   /* */
-//
-//   function postfixesParse( delimeter )
-//   {
-//
-//     let rest = '';
-//     let splits2 = _.path.split( result.resourcePath );
-//     let left;
-//
-//     // debugger;
-//
-//     let s;
-//     for( s = 0 ; s < splits2.length ; s++ )
-//     {
-//       let split = splits2[ s ];
-//       if( _.path._unescape( split ).wasEscaped )
-//       continue;
-//       left = _.strLeft( split, delimeter );
-//       // debugger;
-//       if( left.entry )
-//       {
-//         // debugger;
-//         if( s > 0 )
-//         {
-//           result.resourcePath = splits2.slice( 0, s ).join( self.upToken );
-//           result.resourcePath += self.upToken + split.slice( 0, left.index );
-//         }
-//         else
-//         {
-//           result.resourcePath = split.slice( 0, left.index );
-//         }
-//         split = split.slice( left.index + 1 );
-//         splits2[ s ] = split
-//         rest = splits2.slice( s ).join( self.upToken );
-//         break;
-//       }
-//     }
-//
-//     if( left && left.entry )
-//     restParse( rest, left.entry, delimeter );
-//
-//   }
-//
-//   /* */
-//
-//   function restParse( rest, entry, delimeter )
-//   {
-//     // debugger;
-//
-//     _.arrayRemoveOnceStrictly( delimeter, entry );
-//
-//     let isolates = _.strIsolateRightOrNone( rest, delimeter );
-//
-//     rest = isolates[ 0 ];
-//
-//     if( isolates[ 1 ] )
-//     {
-//       restParse( isolates[ 2 ], isolates[ 1 ], delimeter );
-//     }
-//
-//     if( entry === self._queryToken )
-//     result.query = rest;
-//     else if( entry === self._hashToken )
-//     result.hash = rest;
-//     else if( entry === self._tagToken )
-//     result.tag = rest;
-//
-//     // debugger;
-//   }
-//
-// }
 
 parse_body.defaults =
 {
@@ -1291,13 +1032,13 @@ function str( c )
     _.assert( !c.query || _.strIs( c.query ) );
 
     if( c.query !== undefined && c.query !== undefined )
-    result += self._queryToken + c.query;
+    result += '?' + c.query;
 
     if( c.hash !== undefined && c.hash !== null )
-    result += self._hashToken + c.hash;
+    result += '#' + c.hash;
 
     if( c.tag !== undefined && c.tag !== null )
-    result += self.tagStr + c.tag;
+    result += '@' + c.tag;
 
     return result;
   }
@@ -1828,8 +1569,8 @@ function common()
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
 
     /* Dmytro : added for :
-       _.uriNew.common( path1, path2 );
-       _.uriNew.common( _.uriNew.parse( path1 ), _.uriNew.parse( path2 ) );
+       _.ur2.common( path1, path2 );
+       _.ur2.common( _.ur2.parse( path1 ), _.ur2.parse( path2 ) );
        має давати однаковий результат */
 
     if( _.mapIs( uris[ s ] ) )
@@ -2147,7 +1888,7 @@ function documentGet( path, o )
   }
 
   let a = path.split( '//' );
-  let b = a[ 1 ].split( self._queryToken );
+  let b = a[ 1 ].split( '?' );
 
   /* */
 
@@ -2230,8 +1971,8 @@ function query( path )
 {
   if( path === undefined )
   path = _realGlobal_.location.href;
-  if( path.indexOf( self._queryToken ) === -1 ) return '';
-  return path.split( self._queryToken )[ 1 ];
+  if( path.indexOf( '?' ) === -1 ) return '';
+  return path.split( '?' )[ 1 ];
 }
 
 //
@@ -2261,7 +2002,7 @@ function dequery( query )
 {
 
   let result = Object.create( null );
-  query = query || _global.location.search.split(self._queryToken)[1];
+  query = query || _global.location.search.split('?')[1];
   if( !query || !query.length )
   return result;
   let vars = query.split( '&' );
@@ -2309,7 +2050,7 @@ let Uri = _.blueprint.defineConstructor
 });
 
 //
-//
+
 // let UriFull =
 // ({
 //   resourcePath : null,
@@ -2349,7 +2090,6 @@ let Constructors =
   // UriFull,
   // UriAtomic,
   // UriConsequtive,
-
 }
 
 _.mapExtend( _, Constructors );
@@ -2360,21 +2100,17 @@ _.mapExtend( _, Constructors );
 
 let Parameters =
 {
-  // _uriParseRegexpStr,
-  // _uriParseRegexp,
+  _uriParseRegexpStr,
+  _uriParseRegexp
+}
 
-  _protocolToken : '://',
-  _portToken : ':',
-  _userToken : '@',
-  _tagToken : '!',
-  _hashToken : '#',
-  _queryToken : '?',
-
+let Fields =
+{
+  Parameters
 }
 
 let Extension =
 {
-
   // internal
 
   _filterOnlyUrl,
@@ -2449,14 +2185,11 @@ let Extension =
   single : Self,
   UriComponents,
 
-  // _uriParseRegexpStr,
-  // _uriParseRegexp,
-
 }
 
-_.mapSupplementOwn( Self, Extension );
 _.mapSupplementOwn( Self, Parameters );
-_.mapSupplementOwn( Self.Parameters, Parameters );
+_.mapSupplementOwn( Self, Fields );
+_.mapSupplementOwn( Self, Extension );
 
 Self.Init();
 
@@ -2467,8 +2200,6 @@ Self.Init();
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
-if( typeof module !== 'undefined' )
-require( '../l4/UriOld.s' );
 if( typeof module !== 'undefined' )
 require( '../l5/Uris.s' );
 
