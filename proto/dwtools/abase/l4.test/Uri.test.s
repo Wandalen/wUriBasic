@@ -2179,12 +2179,12 @@ function parseAtomic( test )
   /* */
 
   test.case = 'uri with double protocol, user and tag';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!nottag';
+  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
   var expected =
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com:13/svn/trunk',
-    tag : 'nottag',
+    tag : 'tag1',
   }
   var got = _.uriNew.parseAtomic( uri );
   test.identical( got, expected );
@@ -2192,7 +2192,7 @@ function parseAtomic( test )
   /* */
 
   test.case = 'uri with double protocol, user and tag. full';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!nottag';
+  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
   var expected =
   {
     protocol : 'svn+https',
@@ -2201,12 +2201,12 @@ function parseAtomic( test )
     port : 13,
     hostFull : 'user@subversion.com:13',
     longPath : 'user@subversion.com:13/svn/trunk',
-    tag : 'nottag',
+    tag : 'tag1',
     protocols : [ 'svn', 'https' ],
     origin : 'svn+https://user@subversion.com:13',
-    postfixedPath : 'user@subversion.com:13/svn/trunk!nottag',
+    postfixedPath : 'user@subversion.com:13/svn/trunk!tag1',
     resourcePath : 'svn/trunk',
-    full : 'svn+https://user@subversion.com:13/svn/trunk!nottag',
+    full : 'svn+https://user@subversion.com:13/svn/trunk!tag1',
   }
   var got = _.uriNew.parseFull( uri );
   test.identical( got, expected );
@@ -2249,7 +2249,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = 'simple path';
+  test.case = 'double slash';
   var uri = '//';
   var expected =
   {
@@ -2259,7 +2259,7 @@ function parseAtomic( test )
   test.identical( got, expected );
   /* */
 
-  test.case = 'simple path';
+  test.case = 'triple slash';
 
   var uri = '///';
   var expected =
@@ -2272,7 +2272,7 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = 'simple path';
+  test.case = 'triple slash with long path';
 
   var uri = '///a/b/c';
   var expected =
@@ -2967,12 +2967,12 @@ function parseFull( test )
   /* */
 
   test.case = 'uri with double protocol, user and tag';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!nottag';
+  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
   var expected =
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com:13/svn/trunk',
-    tag : 'nottag',
+    tag : 'tag1',
   }
   var got = _.uriNew.parseFull( uri );
   test.identical( got, expected );
@@ -4564,12 +4564,12 @@ function parseConsecutive( test )
   /* */
 
   test.case = 'uri with double protocol, user and tag';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!nottag';
+  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
   var expected =
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com:13/svn/trunk',
-    tag : 'nottag',
+    tag : 'tag1',
   }
   var got = _.uriNew.parseConsecutive( uri );
   test.identical( got, expected );
@@ -4577,7 +4577,7 @@ function parseConsecutive( test )
   /* */
 
   test.case = 'uri with double protocol, user and tag. full';
-  var uri = 'svn+https://user@subversion.com:13/svn/trunk!nottag';
+  var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
   var expected =
   {
     protocol : 'svn+https',
@@ -4586,12 +4586,12 @@ function parseConsecutive( test )
     port : 13,
     hostFull : 'user@subversion.com:13',
     longPath : 'user@subversion.com:13/svn/trunk',
-    tag : 'nottag',
+    tag : 'tag1',
     protocols : [ 'svn', 'https' ],
     origin : 'svn+https://user@subversion.com:13',
-    postfixedPath : 'user@subversion.com:13/svn/trunk!nottag',
+    postfixedPath : 'user@subversion.com:13/svn/trunk!tag1',
     resourcePath : 'svn/trunk',
-    full : 'svn+https://user@subversion.com:13/svn/trunk!nottag',
+    full : 'svn+https://user@subversion.com:13/svn/trunk!tag1',
   }
   var got = _.uriNew.parseFull( uri );
   test.identical( got, expected );
