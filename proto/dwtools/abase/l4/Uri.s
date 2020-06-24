@@ -1064,7 +1064,7 @@ function str( c )
     return false;
 
     if( c.user )
-    if( !_.strBegins( c.hostFull, c.user + self.userToken ) )
+    if( !_.strHas( c.hostFull, c.user + self.userToken ) )
     return false;
 
     if( c.port !== null && c.port !== undefined )
