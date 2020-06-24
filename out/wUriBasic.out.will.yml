@@ -169,8 +169,10 @@ module:
           - ../proto/dwtools/abase
           - ../proto/dwtools/abase/l4
           - ../proto/dwtools/abase/l4/Uri.s
+          - ../proto/dwtools/abase/l4/UriOld.s
           - ../proto/dwtools/abase/l4.test
           - ../proto/dwtools/abase/l4.test/Uri.test.s
+          - ../proto/dwtools/abase/l4.test/UriOld.test.s
           - ../proto/dwtools/abase/l5
           - ../proto/dwtools/abase/l5/Uris.s
           - ../proto/dwtools/abase/l5.test
@@ -1523,6 +1525,4 @@ module:
       ../.im.will.yml:
         hash: c62fb45ce0acefc544710b5b98743247
         size: 5100
-      wUriBasic.out.will.yml:
-        hash: 34c49519c774b19462f049ed292937d0
-        size: 38778
+      wUriBasic.out.will.yml: *ref_0
