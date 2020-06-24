@@ -8714,44 +8714,49 @@ function full( test )
 
   /* qqq : bad practice. please resolve that */
 
-  var uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var components0 =
-  {
-    full : uri
-  }
+  // var uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  // var components0 =
+  // {
+  //   full : uri
+  // }
 
-  var components2 =
-  {
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
+  // var components2 =
+  // {
+  //   resourcePath : '/path/name',
+  //   query : 'query=here&and=here',
+  //   hash : 'anchor',
 
-    origin: 'http://www.site.com:13'
-  }
+  //   origin: 'http://www.site.com:13'
+  // }
 
-  var components3 =
-  {
-    protocol : 'http',
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
+  // var components3 =
+  // {
+  //   protocol : 'http',
+  //   resourcePath : '/path/name',
+  //   query : 'query=here&and=here',
+  //   hash : 'anchor',
 
-    hostFull : 'www.site.com:13'
-  }
+  //   hostFull : 'www.site.com:13'
+  // }
 
   /* */
 
   test.case = 'string basePath string';
+  var components = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.full( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
+  var got = _.uriNew.full( components );
   test.identical( got, expected );
 
   /* */
 
   test.case = 'make uri basePath components uri';
-  var expected1 = uri; /* xxx */
-  var got = _.uriNew.full( components0 );
-  test.identical( got, expected1 );
+  var components = 
+  {
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
+  }
+  var got = _.uriNew.full( components );
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor'; /* xxx */
+  test.identical( got, expected );
 
   /* */
 
@@ -8765,20 +8770,40 @@ function full( test )
     query : 'query=here&and=here',
     hash : 'anchor',
   }
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var got = _.uriNew.full( components );
-  test.identical( got, expected1 );
+  test.identical( got, expected );
 
   /* */
 
   test.case = 'make uri basePath composites components: origin';
-  var got = _.uriNew.full( components2 );
-  test.identical( got, expected1 );
+  var components =
+  {
+    resourcePath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+
+    origin: 'http://www.site.com:13'
+  }
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uriNew.full( components );
+  test.identical( got, expected );
 
   /* */
 
   test.case = 'make uri basePath composites components: hostFull';
-  var got = _.uriNew.full( components3 );
-  test.identical( got, expected1 );
+  var components =
+  {
+    protocol : 'http',
+    resourcePath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+
+    hostFull : 'www.site.com:13'
+  }
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uriNew.full( components );
+  test.identical( got, expected );
 
   /* */
 
