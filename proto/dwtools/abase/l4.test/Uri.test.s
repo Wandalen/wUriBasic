@@ -7477,7 +7477,6 @@ function full( test )
     resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
-
     origin: 'http://www.site.com:13'
   }
 
@@ -7487,7 +7486,6 @@ function full( test )
     resourcePath : '/path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
-
     hostFull : 'www.site.com:13'
   }
 
@@ -13066,6 +13064,13 @@ function dir( test )
   var exp = ':///www.site.com:13/path?query=here&and=here#anchor';
   test.identical( got, exp );
 
+  /* xxx qqq : add such test case to each test group and test routine */
+  test.case = 'path to file with options';
+  var src = 'current:///pro/"a1#"/"a2@"/"a3!"/"a4?"/"#a5"/"@a6"/"!a7"/"?a8"/File1.txt';
+  var got = _.uriNew.dir( src );
+  var exp = `current:///pro/"a1#"/"a2@"/"a3!"/"a4?"/"#a5"/"@a6"/"!a7"/"?a8"`;
+  test.identical( got, exp );
+
   /* */
 
   test.open( 'trailing slash' );
@@ -13670,7 +13675,6 @@ var Self =
 }
 
 Self = wTestSuite( Self );
-
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self );
 
