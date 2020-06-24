@@ -1954,15 +1954,13 @@ function parse( test )
 function TESTSTOSHOW( test )
 {
 
-  // user - git, port - someorg
-  // is this right ?
-  test.case = 'tag and user';
-  var src = 'git://git@bitbucket.org:someorg/somerepo.git!tag';
+  test.case = 'absolute, user and tag';
+  var src = 'git:///git@bitbucket.org:someorg/somerepo.git!tag';
 
   test.description = 'atomic';
   var expected =
   {
-    longPath : 'git@bitbucket.org:someorg/somerepo.git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
     tag : 'tag',
     protocol : 'git',
   }
@@ -1975,23 +1973,61 @@ function TESTSTOSHOW( test )
   var expected =
   {
     protocol : 'git',
-    longPath : 'git@bitbucket.org:someorg/somerepo.git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
     tag : 'tag',
-    postfixedPath : 'git@bitbucket.org:someorg/somerepo.git!tag',
-    hostFull : 'git@bitbucket.org:someorg',
+    postfixedPath : '/git@bitbucket.org:someorg/somerepo.git!tag',
+    hostFull : '/git@bitbucket.org:someorg',
     resourcePath : 'somerepo.git',
     host : 'bitbucket.org',
     port : 'someorg',
     user : 'git',
     protocols : [ 'git' ],
-    origin : 'git://git@bitbucket.org:someorg',
-    full : 'git://git@bitbucket.org:someorg/somerepo.git!tag'
+    origin : 'git:///git@bitbucket.org:someorg',
+    full : 'git:///git@bitbucket.org:someorg/somerepo.git!tag'
   }
   var got = _.uriNew.parseFull( src );
-  console.log( got );
   test.identical( got, expected );
-  var str = _.uriNew.str( got );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
+
+  // user - git, port - someorg
+  // is this right ?
+  // test.case = 'tag and user';
+  // var src = 'git://git@bitbucket.org:someorg/somerepo.git!tag';
+
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   longPath : 'git@bitbucket.org:someorg/somerepo.git',
+  //   tag : 'tag',
+  //   protocol : 'git',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  // test.description = 'full';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : 'git@bitbucket.org:someorg/somerepo.git',
+  //   tag : 'tag',
+  //   postfixedPath : 'git@bitbucket.org:someorg/somerepo.git!tag',
+  //   hostFull : 'git@bitbucket.org:someorg',
+  //   resourcePath : 'somerepo.git',
+  //   host : 'bitbucket.org',
+  //   port : 'someorg',
+  //   user : 'git',
+  //   protocols : [ 'git' ],
+  //   origin : 'git://git@bitbucket.org:someorg',
+  //   full : 'git://git@bitbucket.org:someorg/somerepo.git!tag'
+  // }
+  // var got = _.uriNew.parseFull( src );
+  // console.log( got );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
 
   // origin : git:///.. or git://param-desc && host, hostFull ? && RESOURCEPATH
@@ -2179,7 +2215,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   /* */
-  // !!!
+
   test.case = 'global, absolute, with hash, with query';
   var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
 
@@ -2217,7 +2253,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   /* */
-  // !!!
+
   test.case = 'query with equal. relative';
   var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
 
@@ -2293,6 +2329,7 @@ function parseAtomic( test )
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
+
   /* */
 
   test.case = 'query with colon. relative';
@@ -2372,7 +2409,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   /* */
-  // !!! no origin if no protocol ?
+
   test.case = 'no protocol';
   var src = '127.0.0.1:61726/../path';
   test.description = 'atomic';
@@ -3191,9 +3228,9 @@ function parseAtomic( test )
   //   full : 'git:///git@bitbucket.org:someorg/somerepo.git!tag'
   // }
   // var got = _.uriNew.parseFull( src );
-  // console.log( got );
   // test.identical( got, expected );
-  // var str = _.uriNew.str( got );
+  // var str = _.uriNew.str( expected );
+  // // console.log(str)
   // test.identical( str, src );
 
   /* */
@@ -3237,141 +3274,142 @@ function parseAtomic( test )
 
   /* */
 
-  test.case = 'protocol, colon, triple slash';
-  var src = 'git:///git@bitbucket.org';
+  // test.case = 'protocol, colon, triple slash';
+  // var src = 'git:///git@bitbucket.org';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    longPath : '/git@bitbucket.org',
-    protocol : 'git',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   longPath : '/git@bitbucket.org',
+  //   protocol : 'git',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
-  test.description = 'full';
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org',
-    postfixedPath : '/git@bitbucket.org',
-    hostFull : '/git@bitbucket.org',
-    resourcePath : '',
-    host : 'bitbucket.org',
-    user : 'git',
-    protocols : [ 'git' ],
-    origin : 'git:///git@bitbucket.org',
-    full : 'git:///git@bitbucket.org'    
-  }
-  var got = _.uriNew.parseFull( src );
-  console.log( got )
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
-
-  /* */
-
-  test.case = 'protocol, colon, triple slash, tag';
-  var src = 'git:///git@bitbucket.org!tag';
-
-  test.description = 'atomic';
-  var expected =
-  {
-    longPath : '/git@bitbucket.org',
-    tag : 'tag',
-    protocol : 'git',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'full';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org',
+  //   postfixedPath : '/git@bitbucket.org',
+  //   hostFull : '/git@bitbucket.org',
+  //   resourcePath : '',
+  //   host : 'bitbucket.org',
+  //   user : 'git',
+  //   protocols : [ 'git' ],
+  //   origin : 'git:///git@bitbucket.org',
+  //   full : 'git:///git@bitbucket.org'    
+  // }
+  // var got = _.uriNew.parseFull( src );
+  // console.log( got )
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // console.log( str );
+  // test.identical( str, src );
 
   /* */
 
-  test.case = 'longpath with dot after host, tag';
-  var src = 'git:///git@bitbucket.org/somerepo.git!tag';
+  // test.case = 'protocol, colon, triple slash, tag';
+  // var src = 'git:///git@bitbucket.org!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    longPath : '/git@bitbucket.org/somerepo.git',
-    tag : 'tag',
-    protocol : 'git',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   longPath : '/git@bitbucket.org',
+  //   tag : 'tag',
+  //   protocol : 'git',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
-  /* */
+  // /* */
 
-  test.case = 'longpath with dot after host, user, tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git!tag';
+  // test.case = 'longpath with dot after host, tag';
+  // var src = 'git:///git@bitbucket.org/somerepo.git!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    tag : 'tag',
-    protocol : 'git',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   longPath : '/git@bitbucket.org/somerepo.git',
+  //   tag : 'tag',
+  //   protocol : 'git',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
-  /* */
+  // /* */
 
-  test.case = 'longpath with dot after host, user, slash tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git/!tag';
+  // test.case = 'longpath with dot after host, user, tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    tag : 'tag',
-    protocol : 'git',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   tag : 'tag',
+  //   protocol : 'git',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
-  /* */
+  // /* */
 
-  test.case = 'longpath with dot after host, user, hash';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git#hash';
+  // test.case = 'longpath with dot after host, user, slash tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git/!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    hash : 'hash'
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+  //   tag : 'tag',
+  //   protocol : 'git',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
-  /* */
+  // /* */
 
-  test.case = 'longpath with dot after host, user, slash hash';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash';
+  // test.case = 'longpath with dot after host, user, hash';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git#hash';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    hash : 'hash'
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   hash : 'hash'
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  // /* */
+
+  // test.case = 'longpath with dot after host, user, slash hash';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash';
+
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+  //   hash : 'hash'
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
   /* */
 
@@ -3390,6 +3428,25 @@ function parseAtomic( test )
   var str = _.uriNew.str( got );
   test.identical( str, src );
 
+  test.description = 'full';
+  var expected =
+  {
+    'longPath' : '/somerepo.git',
+    'hash' : 'hash',
+    'postfixedPath' : '/somerepo.git#hash',
+    'hostFull' : '/somerepo.git',
+    'resourcePath' : '',
+    'host' : 'somerepo.git',
+    'origin' : 'git:///somerepo.git',
+    'full' : 'git:///somerepo.git#hash',
+    'protocol' : 'git',
+    'protocols' : [ 'git' ]
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
+  test.identical( str, src );
+
   /* */
 
   test.case = 'protocol, host and slash hash only';
@@ -3405,6 +3462,25 @@ function parseAtomic( test )
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/somerepo.git/',
+    hash : 'hash',
+    postfixedPath : '/somerepo.git/#hash',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git/#hash'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* COPY */
@@ -3437,41 +3513,83 @@ function parseAtomic( test )
   var str = _.uriNew.str( got );
   test.identical( str, src );
 
-  /* */
-
-  test.case = 'user, hash and tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git#hash!tag';
-
-  test.description = 'atomic';
+  test.description = 'full';
   var expected =
   {
     protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    hash : 'hash',
-    tag : 'tag'
+    longPath : '/somerepo.git/',
+    tag : 'tag',
+    postfixedPath : '/somerepo.git/!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git/!tag'
   }
-  var got = _.uriNew.parseAtomic( src );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
-  var str = _.uriNew.str( got );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
+
+  /* */ 
+  // HOST FULL
+  // test.case = 'user, hash and tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git#hash!tag';
+
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   hash : 'hash',
+  //   tag : 'tag'
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  // test.description = 'full';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   hash : 'hash',
+  //   tag : 'tag',
+  //   postfixedPath : '/git@bitbucket.org:someorg/somerepo.git#hash!tag',
+  //   hostFull : '/git@bitbucket.org:someorg',
+  //   resourcePath : 'somerepo.git',
+  //   host : 'bitbucket.org',
+  //   port : 'someorg',
+  //   user : 'git',
+  //   protocols : [ 'git' ],
+  //   origin : 'git:///git@bitbucket.org:someorg',
+  //   full : 'git:///git@bitbucket.org:someorg/somerepo.git#hash!tag'
+  // }
+  // var got = _.uriNew.parseFull( src );
+  // console.log( got );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( expected );
+  // test.identical( str, src );
 
   /* */
 
-  test.case = 'user, hash and tag after slash';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash!tag';
+  // test.case = 'user, hash and tag after slash';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git/#hash!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    hash : 'hash',
-    tag : 'tag'
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+  //   hash : 'hash',
+  //   tag : 'tag'
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
   /* */
 
@@ -3489,6 +3607,26 @@ function parseAtomic( test )
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/somerepo.git',
+    hash : 'hash',
+    tag : 'tag',
+    postfixedPath : '/somerepo.git#hash!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git#hash!tag'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* */
@@ -3509,43 +3647,63 @@ function parseAtomic( test )
   var str = _.uriNew.str( got );
   test.identical( str, src );
 
-  /* */
-
-  test.case = 'name, query, hash and tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag';
-
-  test.description = 'atomic';
+  test.description = 'full';
   var expected =
   {
     protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git',
-    query : 'query=1',
+    longPath : '/somerepo.git/',
     hash : 'hash',
     tag : 'tag',
+    postfixedPath : '/somerepo.git/#hash!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git/#hash!tag'
   }
-  var got = _.uriNew.parseAtomic( src );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
-  var str = _.uriNew.str( got );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* */
 
-  test.case = 'name, slash before query, hash and tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash!tag';
+  // test.case = 'name, query, hash and tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    query : 'query=1',
-    hash : 'hash',
-    tag : 'tag',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   query : 'query=1',
+  //   hash : 'hash',
+  //   tag : 'tag',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  /* */
+
+  // test.case = 'name, slash before query, hash and tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash!tag';
+
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+  //   query : 'query=1',
+  //   hash : 'hash',
+  //   tag : 'tag',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
   /* */
 
@@ -3564,6 +3722,27 @@ function parseAtomic( test )
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+    postfixedPath : '/somerepo.git?query=1#hash!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git?query=1#hash!tag'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* */
@@ -3585,41 +3764,85 @@ function parseAtomic( test )
   var str = _.uriNew.str( got );
   test.identical( str, src );
 
-  /* */
-
-  test.case = 'name, query and tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1!tag';
-
-  test.description = 'atomic';
+  test.description = 'full';
   var expected =
   {
     protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    longPath : '/somerepo.git/',
     query : 'query=1',
+    hash : 'hash',
     tag : 'tag',
+    postfixedPath : '/somerepo.git/?query=1#hash!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git/?query=1#hash!tag'
   }
-  var got = _.uriNew.parseAtomic( src );
+  var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
-  var str = _.uriNew.str( got );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* */
 
-  test.case = 'name, slash before query and tag';
-  var src = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1!tag';
+  // test.case = 'name, query and tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1!tag';
 
-  test.description = 'atomic';
-  var expected =
-  {
-    protocol : 'git',
-    longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-    query : 'query=1',
-    tag : 'tag',
-  }
-  var got = _.uriNew.parseAtomic( src );
-  test.identical( got, expected );
-  var str = _.uriNew.str( got );
-  test.identical( str, src );
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   query : 'query=1',
+  //   tag : 'tag',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
+
+  // test.description = 'full';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git',
+  //   query : 'query=1',
+  //   tag : 'tag',
+  //   postfixedPath : '/git@bitbucket.org:someorg/somerepo.git?query=1!tag',
+  //   hostFull : '/git@bitbucket.org:someorg',
+  //   resourcePath : 'somerepo.git',
+  //   host : 'bitbucket.org',
+  //   port : 'someorg',
+  //   user : 'git',
+  //   protocols : [ 'git' ],
+  //   origin : 'git:///git@bitbucket.org:someorg',
+  //   full : 'git:///git@bitbucket.org:someorg/somerepo.git?query=1!tag'
+  // }
+  // var got = _.uriNew.parseFull( src );
+  // test.identical( got, expected );
+  // console.log(got);
+  // var str = _.uriNew.str( expected );
+  // test.identical( str, src );
+
+  /* */
+
+  // test.case = 'name, slash before query and tag';
+  // var src = 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1!tag';
+
+  // test.description = 'atomic';
+  // var expected =
+  // {
+  //   protocol : 'git',
+  //   longPath : '/git@bitbucket.org:someorg/somerepo.git/',
+  //   query : 'query=1',
+  //   tag : 'tag',
+  // }
+  // var got = _.uriNew.parseAtomic( src );
+  // test.identical( got, expected );
+  // var str = _.uriNew.str( got );
+  // test.identical( str, src );
 
   /* */
 
@@ -3639,6 +3862,26 @@ function parseAtomic( test )
   var str = _.uriNew.str( got );
   test.identical( str, src );
 
+  test.description = 'full';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/somerepo.git',
+    query : 'query=1',
+    tag : 'tag',
+    postfixedPath : '/somerepo.git?query=1!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git?query=1!tag'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
+  test.identical( str, src );
+
   /* */
 
   test.case = 'slash before query and tag';
@@ -3655,6 +3898,26 @@ function parseAtomic( test )
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/somerepo.git/',
+    query : 'query=1',
+    tag : 'tag',
+    postfixedPath : '/somerepo.git/?query=1!tag',
+    hostFull : '/somerepo.git',
+    resourcePath : '',
+    host : 'somerepo.git',
+    protocols : [ 'git' ],
+    origin : 'git:///somerepo.git',
+    full : 'git:///somerepo.git/?query=1!tag'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* */
@@ -3676,6 +3939,24 @@ function parseAtomic( test )
   var str = _.uriNew.str( got );
   test.identical( str, src );
 
+  test.description = 'full';
+  var expected =
+  {
+    protocol : '',
+    longPath : '',
+    query : 'query1',
+    hash : 'hash1/',
+    tag : 'tag1/',
+    postfixedPath : '?query1#hash1/!tag1/',
+    protocols : [],
+    origin : '://undefined',
+    full : '://?query1#hash1/!tag1/'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
+  test.identical( str, src );
+
   /* */
 
   test.case = 'escaped # @ ?';
@@ -3690,6 +3971,24 @@ function parseAtomic( test )
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'full';
+  var expected =
+  {
+    protocol : '',
+    longPath : '"#hash1"/"!tag1"/"?query1"',
+    postfixedPath : '"#hash1"/"!tag1"/"?query1"',
+    hostFull : '"#hash1"',
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocols : [],
+    origin : '://"#hash1"',
+    full : '://"#hash1"/"!tag1"/"?query1"'
+  }
+  var got = _.uriNew.parseFull( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( expected );
   test.identical( str, src );
 
   /* */
