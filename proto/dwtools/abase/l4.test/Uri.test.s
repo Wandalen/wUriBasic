@@ -1958,8 +1958,8 @@ function parseAtomic( test )
   var src = '?entry:1&format:null';
 
   test.description = 'atomic';
-  var expected = 
-  { 
+  var expected =
+  {
     'longPath' : '',
     'query' : 'entry:1&format:null'
   }
@@ -1969,7 +1969,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'query' : 'entry:1&format:null',
     'longPath' : '',
@@ -1981,7 +1981,7 @@ function parseAtomic( test )
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
-  
+
   /* */
 
   test.case = 'global, relative, with hash, with query';
@@ -2001,7 +2001,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'protocol' : 'git',
     'longPath' : '../repo/Tools',
@@ -2039,7 +2039,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'protocol' : 'git',
     'host' : '..',
@@ -2077,7 +2077,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
@@ -2116,7 +2116,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
@@ -2155,7 +2155,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
@@ -2194,7 +2194,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'protocol' : 'http',
     'host' : '127.0.0.1',
@@ -2230,7 +2230,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     'longPath' : '127.0.0.1:61726/../path',
     'postfixedPath' : '127.0.0.1:61726/../path',
@@ -2265,7 +2265,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     protocol : 'http',
     longPath : 'www.site.com:13/path/name',
@@ -2305,7 +2305,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     protocol : 'http',
     longPath : 'www.site.com:13/path/name',
@@ -2328,7 +2328,7 @@ function parseAtomic( test )
   /* */
 
   test.case = 'reparse with non primitives';
-  
+
   test.description = 'atomic';
   var got = _.uriNew.parseAtomic( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
   var expected =
@@ -2347,7 +2347,7 @@ function parseAtomic( test )
 
   test.description = 'full';
   var got = _.uriNew.parseFull( 'http://www.site.com:13/path/name?query=here&and=here#anchor' )
-  var expected = 
+  var expected =
   {
     protocol : 'http',
     longPath : 'www.site.com:13/path/name',
@@ -2388,7 +2388,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     protocol : 'http',
     longPath : 'www.site.com:13/path/name',
@@ -2407,7 +2407,7 @@ function parseAtomic( test )
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
-  
+
   /* */
 
   test.case = 'uri with zero length protocol';
@@ -2425,7 +2425,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     protocol : '',
     longPath : 'some.domain.com/something/filePath/add',
@@ -2459,7 +2459,7 @@ function parseAtomic( test )
   test.identical( str, src );
 
   test.description = 'full';
-  var expected = 
+  var expected =
   {
     protocol : 'file',
     longPath : '/something/filePath/add',
@@ -2599,10 +2599,10 @@ function parseAtomic( test )
   test.description = 'full';
   var expected =
   {
-    longPath : '//some.domain.com/was',     
+    longPath : '//some.domain.com/was',
     postfixedPath : '//some.domain.com/was',
     hostFull : '/',
-    resourcePath : 'some.domain.com/was',   
+    resourcePath : 'some.domain.com/was',
     protocols : [],
     full : '//some.domain.com/was'
   }
@@ -2684,7 +2684,7 @@ function parseAtomic( test )
 
   test.case = 'double slash';
   var src = '//';
-  
+
   test.description = 'atomic';
   var expected =
   {
@@ -2776,7 +2776,7 @@ function parseAtomic( test )
 
   test.case = 'double protocol, query and hash'; /* qqq : describe cases without description ( short! ) */
   var src = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
-  
+
   test.description = 'atomic';
   var expected =
   {
@@ -2816,7 +2816,7 @@ function parseAtomic( test )
 
   test.case = 'colon, double slash';
   var src = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-  
+
   test.description = 'atomic';
   var got = _.uriNew.parseAtomic( src );
   var expected =
@@ -2855,7 +2855,7 @@ function parseAtomic( test )
 
   test.case = 'colon, triple slash';
   var src = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-  
+
   test.description = 'atomic';
   var got = _.uriNew.parseAtomic( src );
   var expected =
@@ -2940,7 +2940,7 @@ function parseAtomic( test )
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
-  
+
   test.description = 'full';
   var expected =
   {
@@ -3020,7 +3020,7 @@ function parseAtomic( test )
   test.description = 'full';
   var expected =
   {
-    protocol : 'git',        
+    protocol : 'git',
     longPath : '/git@bitbucket.org:someorg/somerepo.git',
     tag : 'tag',
     postfixedPath : '/git@bitbucket.org:someorg/somerepo.git!tag',
@@ -3104,7 +3104,7 @@ function parseAtomic( test )
     user : 'git',
     protocols : [ 'git' ],
     origin : 'git:///git@bitbucket.org',
-    full : 'git:///git@bitbucket.org'    
+    full : 'git:///git@bitbucket.org'
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3330,7 +3330,7 @@ function parseAtomic( test )
     user : 'git',
     protocols : [ 'git' ],
     origin : 'git:///git@bitbucket.org:someorg',
-    full : 'git:///git@bitbucket.org:someorg/somerepo.git/#hash'    
+    full : 'git:///git@bitbucket.org:someorg/somerepo.git/#hash'
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3458,7 +3458,7 @@ function parseAtomic( test )
   var str = _.uriNew.str( expected );
   test.identical( str, src );
 
-  /* */ 
+  /* */
 
   test.case = 'user, hash and tag';
   var src = 'git:///git@bitbucket.org:someorg/somerepo.git#hash!tag';
@@ -3856,7 +3856,7 @@ function parseAtomic( test )
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
   var str = _.uriNew.str( expected );
-  test.identical( str, src );  
+  test.identical( str, src );
 
   /* */
 
@@ -3974,7 +3974,7 @@ function parseAtomic( test )
   /* */
 
   test.case = 'escaped # @ ?';
-  var src = '://"#hash1"/"!tag1"/"?query1"';  
+  var src = '://"#hash1"/"!tag1"/"?query1"';
 
   test.description = 'atomic';
   var expected =
@@ -8764,7 +8764,7 @@ function full( test )
   /* */
 
   test.case = 'make uri basePath components uri';
-  var components = 
+  var components =
   {
     full : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
   }
@@ -14909,7 +14909,6 @@ var Self =
     /* qqq2 : refactor test routines parse, parseAtomic, parseConsecutive, parseFull. make sure all cases are similar */
     // parse,
     parseAtomic,
-    TESTSTOSHOW,
     // parseFull,
     // parseFull2,
     // parseConsecutive,
