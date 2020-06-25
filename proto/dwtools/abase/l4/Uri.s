@@ -30,6 +30,7 @@ let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.path;
 let Self = _.uriNew = _.uriNew || Object.create( Parent );
+// _.uri = _.uriNew;
 
 // --
 // relation
@@ -913,7 +914,6 @@ function str( c )
     return c.full;
   }
 
-  debugger;
   var protocol = c.protocol;
   let user = c.user;
   var host = c.host;
