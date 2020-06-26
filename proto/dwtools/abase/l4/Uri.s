@@ -943,8 +943,14 @@ function str( c )
     }
     else
     {
-      _.assert( _.strBegins( c.longPath, hostFull ) );
-      return c.longPath;
+      if( c.longPath )
+      {
+        _.assert( _.strBegins( c.longPath, hostFull ) );
+        return c.longPath;
+      }
+      return '';
+      // _.assert( _.strBegins( c.longPath, hostFull ) );
+      // return c.longPath;
     }
 
   }
