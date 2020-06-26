@@ -18,7 +18,7 @@ let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.path;
 let Self = _.uriOld = _.uriOld || Object.create( Parent );
-_.uri = _.uriOld;
+// _.uri = _.uriOld;
 
 // --
 // internal

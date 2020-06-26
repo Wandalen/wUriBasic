@@ -30,7 +30,7 @@ let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.path;
 let Self = _.uriNew = _.uriNew || Object.create( Parent );
-// _.uri = _.uriNew;
+_.uri = _.uriNew;
 
 // --
 // relation
@@ -507,35 +507,6 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
   'longPath' : 'www.site.com:13/!a.js?',
 }*/
 
-// // let _uriParseRegexpStr = '^';
-// // _uriParseRegexpStr += '(?:([^:/\\?#]*):)?'; /* protocol */
-// // _uriParseRegexpStr += '(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?'; /* host and port */
-// // _uriParseRegexpStr += '([^\\?#]*)'; /* local path */
-// // _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
-// // _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
-// // _uriParseRegexpStr += '$';
-//
-// let _uriParseRegexpStr = '^'; /* begin */
-//
-// let _uriParseRegexpProtocolStr = '([^:/\\?#]*)'; /* protocol */
-// let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
-// // let _uriParseRegexpHostAndPortStr = ':\/\/((\/?[^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
-//
-// _uriParseRegexpStr += '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
-//
-// _uriParseRegexpStr += '(.*?)'; /* rest yyy */
-//
-// // _uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */ /* yyy */
-// // _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
-// // _uriParseRegexpStr += '(?:#([^]*))?'; /* hash */
-// // // _uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
-//
-// _uriParseRegexpStr += '$'; /* end */
-//
-// let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
-//
-// // let _uriHostAndPortRegexp = new RegExp( '(([^:/\\?#]*)(?::([^/\\?#]*))?)' ); /* host and port */
-
 function parse_pre( routine, args )
 {
   _.assert( args.length === 1, 'Expects single argument' );
@@ -566,21 +537,9 @@ function parse_body( o )
     o.srcPath = this.str( o.srcPath );
   }
 
-  // let splits = this._uriParseRegexp.exec( o.srcPath );
-  // _.sure( !!splits, 'Cant parse :',o.srcPath );
   let postfixes = '';
 
   longPathParse();
-
-  // if( _.strIs( splits[ 1 ] ) )
-  // result.protocol = splits[ 1 ];
-  // if( _.strIs( splits[ 3 ] ) )
-  // result.host = splits[ 3 ];
-  // if( _.strIs( splits[ 4 ] ) )
-  // result.port = _.numberFromStrMaybe( splits[ 4 ] );
-
-  // _.assert( splits.length <= 6 ); /* yyy */
-  // if( _.strIs( splits[ 5 ] ) )
 
   let delimeter = [ self.tagToken, self.hashToken, self.queryToken ];
   if( _.strHasAny( result.longPath, delimeter ) )
@@ -600,7 +559,6 @@ function parse_body( o )
     else
     result.protocols = [];
 
-    // if( _.strDefined( result.protocol ) || _.strDefined( result.hostFull ) )
     if( _.strIs( result.protocol ) )
     result.origin = result.protocol + self.protocolToken + result.hostFull;
 
@@ -738,7 +696,6 @@ function parse_body( o )
       }
     }
 
-    // debugger;
     if( left && left.entry )
     restParse( rest, left.entry, delimeter );
 
@@ -1606,14 +1563,55 @@ let reroot = join_functor({ routineName : 'reroot', web : 0 });
 function resolve()
 {
   let parent = this.path;
-  let joined = this.join.apply( this, arguments );
-  if( joined === null )
-  return joined;
-  let parsed = this.parseConsecutive( joined );
-  // parsed.longPath = parent.resolve.call( this, parsed.longPath ); /* xxx */
-  parsed.longPath = parent.resolve( parsed.longPath );
+  let args = []
+  let hasNull;
+
+  for( let i = arguments.length - 1 ; i >= 0 ; i-- )
+  {
+    let arg = arguments[ i ];
+    if( arg !== null )
+    {
+      args.unshift( arg );
+    }
+    else
+    {
+      hasNull = true;
+      break;
+    }
+  }
+
+  if( args.length === 0 )
+  {
+    if( hasNull )
+    return null;
+    else
+    return parent.resolve.call( this );
+  }
+
+  let result = this.join.apply( this, args );
+  if( hasNull || this.isAbsolute( result ) )
+  return result;
+
+  let parsed = this.parseConsecutive( result );
+  parsed.longPath = parent.join.call( this, parent.resolve.call( this, '.' ), parsed.longPath );
   return this.str( parsed );
 }
+
+// {
+//   let parent = this.path;
+//   return this.join( parent.resolve.call( this, '.' ), ... arguments );
+// }
+
+// {
+//   let parent = this.path;
+//   let joined = this.join.apply( this, arguments );
+//   if( joined === null )
+//   return joined;
+//   let parsed = this.parseConsecutive( joined );
+//   parsed.longPath = parent.resolve.call( this, parsed.longPath ); /* xxx yyy */
+//   // parsed.longPath = parent.resolve( parsed.longPath );
+//   return this.str( parsed );
+// }
 
 //
 
@@ -2158,31 +2156,14 @@ function dequery( query )
 // relations
 // --
 
-// let Constructors =
-// {
-//
-//   // Uri map constructors
-//
-//   Uri,
-//   // UriFull,
-//   // UriAtomic,
-//   // UriConsequtive,
-//
-// }
-//
-// _.mapExtend( _, Constructors );
-//
-// //
-
 let Parameters =
 {
-  // _uriParseRegexpStr,
-  // _uriParseRegexp,
 
   protocolToken : '://',
   portToken : ':',
   userToken : '@',
-  tagToken : '!',
+  tagToken : '!', /* xxx : enable */
+  // tagToken : '@',
   hashToken : '#',
   queryToken : '?',
 
@@ -2265,15 +2246,11 @@ let Extension =
   // fields
 
   single : Self,
-  // UriComponents,
 
   Uri,
   UriFull,
   UriAtomic,
   UriConsequtive,
-
-  // _uriParseRegexpStr,
-  // _uriParseRegexp,
 
 }
 
