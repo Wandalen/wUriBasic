@@ -1959,13 +1959,24 @@ function parseCommon( test )
   test.case = 'query only';
   var src = '?entry:1&format:null';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     'longPath' : '',
     'query' : 'entry:1&format:null'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'query' : 'entry:1&format:null',
+    'protocols' : [],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -1989,7 +2000,7 @@ function parseCommon( test )
   test.case = 'global, relative, with hash, with query';
   var src = 'git://../repo/Tools?out=out/wTools.out.will#master';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     'protocol' : 'git',
@@ -1998,6 +2009,21 @@ function parseCommon( test )
     'hash' : 'master'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'git',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'resourcePath' : 'repo/Tools',
+    'host' : '..',
+    'protocols' : [ 'git' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2027,7 +2053,7 @@ function parseCommon( test )
   test.case = 'global, absolute, with hash, with query';
   var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     'protocol' : 'git',
@@ -2036,6 +2062,21 @@ function parseCommon( test )
     'hash' : 'master'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'git',
+    'host' : '..',
+    'resourcePath' : 'repo/Tools',
+    'query' : 'out=out/wTools.out.will',
+    'hash' : 'master',
+    'protocols' : [ 'git' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2065,7 +2106,7 @@ function parseCommon( test )
   test.case = 'query with equal. relative';
   var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     'protocol' : 'http',
@@ -2074,6 +2115,22 @@ function parseCommon( test )
     'hash' : 'anch'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch',
+    'protocols' : [ 'http' ]
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2104,7 +2161,7 @@ function parseCommon( test )
   test.case = 'query with equal. absolute';
   var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     'protocol' : 'http',
@@ -2113,6 +2170,22 @@ function parseCommon( test )
     'hash' : 'anch'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch',
+    'protocols' : [ 'http' ]
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2142,7 +2215,7 @@ function parseCommon( test )
 
   test.case = 'query with colon. relative';
   var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
-  test.description = 'atomic';
+  test.description = 'consecutive';
 
   var expected =
   {
@@ -2152,6 +2225,22 @@ function parseCommon( test )
     'hash' : 'anch'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch',
+    'protocols' : [ 'http' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2181,7 +2270,7 @@ function parseCommon( test )
 
   test.case = 'query with colon. absolute';
   var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
-  test.description = 'atomic';
+  test.description = 'consecutive';
 
   var expected =
   {
@@ -2191,6 +2280,22 @@ function parseCommon( test )
     'hash' : 'anch'
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch',
+    'protocols' : [ 'http' ]
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2220,13 +2325,26 @@ function parseCommon( test )
 
   test.case = 'no protocol';
   var src = '127.0.0.1:61726/../path';
-  test.description = 'atomic';
+  test.description = 'consecutive';
 
   var expected =
   {
     longPath : '127.0.0.1:61726/../path',
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    'resourcePath' : '../path',
+    'host' : '127.0.0.1',
+    'port' : 61726,
+    'protocols' : [],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2252,7 +2370,7 @@ function parseCommon( test )
 
   test.case = 'full uri with all components';
   var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  test.description = 'atomic';
+  test.description = 'consecutive';
 
   var expected =
   {
@@ -2262,6 +2380,22 @@ function parseCommon( test )
     hash : 'anchor',
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2291,7 +2425,7 @@ function parseCommon( test )
 
   test.case = 'full uri with all components, primitiveOnly';
   var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  test.description = 'atomic';
+  test.description = 'consecutive';
 
   var expected =
   {
@@ -2302,6 +2436,22 @@ function parseCommon( test )
   }
 
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2331,7 +2481,7 @@ function parseCommon( test )
 
   test.case = 'reparse with non primitives';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var got = _.uriNew.parseConsecutive( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
   var expected =
   {
@@ -2343,6 +2493,22 @@ function parseCommon( test )
 
   var parsed = got;
   var got = _.uriNew.parseConsecutive( parsed );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2375,7 +2541,7 @@ function parseCommon( test )
   test.case = 'reparse with primitives';
   var src = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     protocol : 'http',
@@ -2385,6 +2551,22 @@ function parseCommon( test )
   }
 
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : 'http',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    resourcePath : 'path/name',
+    host : 'www.site.com',
+    port : 13,
+    protocols : [ 'http' ],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2415,13 +2597,26 @@ function parseCommon( test )
   test.case = 'uri with zero length protocol';
   var src = '://some.domain.com/something/filePath/add';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     protocol : '',
     longPath : 'some.domain.com/something/filePath/add',
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : '',
+    resourcePath : 'something/filePath/add',
+    host : 'some.domain.com',
+    protocols : [],
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2449,13 +2644,26 @@ function parseCommon( test )
   test.case = 'uri with zero length hostFull';
   var src = 'file:///something/filePath/add';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     protocol : 'file',
     longPath : '/something/filePath/add',
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : 'file',
+    host : 'something',
+    protocols : [ 'file' ],
+    resourcePath : 'filePath/add'
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );
@@ -2483,13 +2691,28 @@ function parseCommon( test )
   test.case = 'uri with double protocol, user';
   var src = 'svn+https://user@subversion.com:13/svn/trunk';
 
-  test.description = 'atomic';
+  test.description = 'consecutive';
   var expected =
   {
     protocol : 'svn+https',
     longPath : 'user@subversion.com:13/svn/trunk',
   }
   var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+  var str = _.uriNew.str( got );
+  test.identical( str, src );
+
+  test.description = 'atomic';
+  var expected =
+  {
+    protocol : 'svn+https',
+    host : 'subversion.com',
+    port : 13,
+    user : 'user',
+    protocols : [ 'svn', 'https' ],
+    resourcePath : 'svn/trunk'
+  }
+  var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
   test.identical( str, src );

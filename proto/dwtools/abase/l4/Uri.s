@@ -576,6 +576,15 @@ function parse_body( o )
   }
   else if( o.kind === 'atomic' )
   {
+    hostParse();
+
+    if( result.protocol )
+    result.protocols = result.protocol.split( '+' );
+    else
+    result.protocols = [];
+
+    delete result.hostFull;
+    delete result.longPath;
   }
   else _.assert( 0 );
 
