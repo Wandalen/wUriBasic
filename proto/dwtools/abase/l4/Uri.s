@@ -2162,8 +2162,8 @@ let Parameters =
   protocolToken : '://',
   portToken : ':',
   userToken : '@',
-  tagToken : '!', /* xxx : enable */
-  // tagToken : '@',
+  // tagToken : '!', /* xxx : enable */
+  tagToken : '@',
   hashToken : '#',
   queryToken : '?',
 
