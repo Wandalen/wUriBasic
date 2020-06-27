@@ -655,6 +655,8 @@ function parse_body( o )
 
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
+    else
+    result.protocols = [];
 
     if( _.strIs( result.protocol ) )
     result.origin = result.protocol + self.protocolToken + result.hostFull;
@@ -751,7 +753,7 @@ function parse_body( o )
 
     postfixes += entry + isolates[ 0 ];
 
-    rest = isolates[ 2 ]; /* xxx : remove variable? */
+    // rest = isolates[ 2 ]; /* xxx : remove variable? */
     if( isolates[ 1 ] )
     {
       restParse( isolates[ 2 ], isolates[ 1 ], delimeter );
