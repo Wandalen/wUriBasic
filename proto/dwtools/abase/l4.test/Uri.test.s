@@ -1986,7 +1986,8 @@ function parseCommon( test )
     'query' : 'entry:1&format:null',
     'longPath' : '',
     'postfixedPath' : '?entry:1&format:null',
-    'full' : '?entry:1&format:null'
+    'full' : '?entry:1&format:null',
+    'protocols' : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2349,7 +2350,8 @@ function parseCommon( test )
     'resourcePath' : '../path',
     'host' : '127.0.0.1',
     'port' : 61726,
-    'full' : '127.0.0.1:61726/../path'
+    'full' : '127.0.0.1:61726/../path',
+    'protocols' : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2617,7 +2619,8 @@ function parseCommon( test )
     resourcePath : 'something/filePath/add',
     host : 'some.domain.com',
     origin : '://some.domain.com',
-    full : '://some.domain.com/something/filePath/add'
+    full : '://some.domain.com/something/filePath/add',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2806,7 +2809,8 @@ function parseCommon( test )
     hostFull : '/some',
     resourcePath : 'file',
     host : '/some',
-    full : '/some/file'
+    full : '/some/file',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2846,7 +2850,8 @@ function parseCommon( test )
     host : '/',
     hostFull : '/',
     resourcePath : 'some.domain.com/was',
-    full : '//some.domain.com/was'
+    full : '//some.domain.com/was',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2889,7 +2894,8 @@ function parseCommon( test )
     resourcePath : 'was',
     host : 'some.domain.com',
     origin : '://some.domain.com',
-    full : '://some.domain.com/was'
+    full : '://some.domain.com/was',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -2975,6 +2981,7 @@ function parseCommon( test )
     hostFull : '/',
     resourcePath : '',
     full : '//',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3015,7 +3022,8 @@ function parseCommon( test )
     host : '/',
     hostFull : '/',
     resourcePath : '/',
-    full : '///'
+    full : '///',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3056,7 +3064,8 @@ function parseCommon( test )
     host : '/',
     hostFull : '/',
     resourcePath : '/a/b/c',
-    full : '///a/b/c'
+    full : '///a/b/c',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3163,7 +3172,8 @@ function parseCommon( test )
     host : 'www.site.com',
     port : 13,
     origin : '://www.site.com:13',
-    full : '://www.site.com:13/path//name//?query=here&and=here#anchor'
+    full : '://www.site.com:13/path//name//?query=here&and=here#anchor',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3216,7 +3226,8 @@ function parseCommon( test )
     host : '/www.site.com',
     port : 13,
     origin : ':///www.site.com:13',
-    full : ':///www.site.com:13/path//name//?query=here&and=here#anchor'
+    full : ':///www.site.com:13/path//name//?query=here&and=here#anchor',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -3263,7 +3274,8 @@ function parseCommon( test )
     host : '/',
     hostFull : '/',
     resourcePath : '/some.com:99/staging/index.html',
-    full : '///some.com:99/staging/index.html?query=here&and=here#anchor'
+    full : '///some.com:99/staging/index.html?query=here&and=here#anchor',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -4681,7 +4693,8 @@ function parseCommon( test )
     tag : 'tag1/',
     postfixedPath : '?query1#hash1/!tag1/',
     origin : '://undefined',
-    full : '://?query1#hash1/!tag1/'
+    full : '://?query1#hash1/!tag1/',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -4726,7 +4739,8 @@ function parseCommon( test )
     resourcePath : '"!tag1"/"?query1"',
     host : '"#hash1"',
     origin : '://"#hash1"',
-    full : '://"#hash1"/"!tag1"/"?query1"'
+    full : '://"#hash1"/"!tag1"/"?query1"',
+    protocols : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -4822,6 +4836,7 @@ function parseCommon( test )
     'user' : 'user:pass',
     'origin' : '://user:pass@sub.host.com:8080',
     'full' : '://user:pass@sub.host.com:8080/p/a/t/h',
+    'protocols' : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -4865,7 +4880,8 @@ function parseCommon( test )
     'hostFull' : '/a',
     'resourcePath' : '',
     'host' : '/a',
-    'full' : '/a/!a.js'
+    'full' : '/a/!a.js',
+    'protocols' : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -4907,7 +4923,8 @@ function parseCommon( test )
     'resourcePath' : '/resource1',
     'host' : '/server1',
     'origin' : ':///server1',
-    'full' : ':///server1//resource1'
+    'full' : ':///server1//resource1',
+    'protocols' : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
@@ -4953,6 +4970,7 @@ function parseCommon( test )
     'host' : '/',
     'origin' : ':///',
     'full' : '://///',
+    'protocols' : [],
   }
   var got = _.uriNew.parseFull( src );
   test.identical( got, expected );
