@@ -1,4 +1,4 @@
-# wUriBasic [![Build Status](https://travis-ci.org/Wandalen/wUriBasic.svg?branch=master)](https://travis-ci.org/Wandalen/wUriBasic)
+# module::UriBasic [![Status](https://github.com/Wandalen/wUriBasic/workflows/Test/badge.svg)](https://github.com/Wandalen/wUriBasic}/actions?query=workflow%3ATest)
 
 Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.
 
