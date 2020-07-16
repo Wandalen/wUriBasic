@@ -1,7 +1,7 @@
 
 if( typeof module !== 'undefined' )
 require( 'wuribasic' );
-var _ = wTools;
+let _ = wTools;
 
 var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
 var parsed = _.uri.parse( uri );

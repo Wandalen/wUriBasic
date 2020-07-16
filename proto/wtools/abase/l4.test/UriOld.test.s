@@ -13,8 +13,8 @@ if( typeof module !== 'undefined' )
 
 }
 
-var _global = _global_;
-var _ = _global_.wTools;
+let _global = _global_;
+let _ = _global_.wTools;
 
 /*
 qqq : improve style, remove array of expected values and array of inputs | Dmytro : improved
@@ -11794,7 +11794,7 @@ function uriConstructors( test )
 // declare
 // --
 
-var Self =
+let Self =
 {
 
   name : 'Tools.base.l4.Uri',
