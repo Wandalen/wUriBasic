@@ -15727,7 +15727,7 @@ function uriConstructors( test )
 let Self =
 {
 
-  name : 'Tools.base.l4.Uri',
+  name : 'Tools.l4.Uri',
   silencing : 1,
 
   tests :

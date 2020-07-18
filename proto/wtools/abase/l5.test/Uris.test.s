@@ -427,7 +427,7 @@ function common( test )
 let Self =
 {
 
-  name : 'Tools.base.l4.Uri.S',
+  name : 'Tools.l4.Uri.S',
   silencing : 1,
 
   tests :
