@@ -3,8 +3,7 @@
 'use strict';
 
 /**
- * @file Uris.s.
- */
+ *  */
 
 /**
  * Collection of routines to operate multiple uris in the reliable and consistent way.
