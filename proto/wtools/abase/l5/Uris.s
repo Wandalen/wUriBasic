@@ -3,8 +3,7 @@
 'use strict';
 
 /**
- * @file Uris.s.
- */
+ *  */
 
 /**
  * Collection of routines to operate multiple uris in the reliable and consistent way.
@@ -16,7 +15,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../dwtools/Tools.s' );
+  let _ = require( '../../../wtools/Tools.s' );
 
   require( '../l4/Uri.s' );
 

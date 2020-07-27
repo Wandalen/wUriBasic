@@ -1,23 +1,11 @@
-( function _Uri_s_() {
+( function _UriOld_s_() {
 
 'use strict';
-
-/**
- * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way. Path leverages parsing, joining, extracting, normalizing, nativizing, resolving paths. Use the module to get uniform experience from playing with paths on different platforms.
-  @module Tools/base/Uri
-*/
-
-/**
- * Collection of routines to operate URIs ( URLs ) in the reliable and consistent way.
-  @namespace wTools.uri
-  @extends Tools
-  @module Tools/base/Uri
-*/
 
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../dwtools/Tools.s' );
+  let _ = require( '../../../wtools/Tools.s' );
 
   _.include( 'wPathBasic' );
   _.include( 'wBlueprint' );
@@ -29,110 +17,8 @@ if( typeof module !== 'undefined' )
 let _global = _global_;
 let _ = _global_.wTools;
 let Parent = _.path;
-let Self = _.uriNew = _.uriNew || Object.create( Parent );
-_.uri = _.uriNew;
-
-// --
-// relation
-// --
-
-let Uri = _.blueprint
-({
-  typed : _.trait.typed(),
-  extendable : _.trait.extendable(),
-
-  protocol : null,
-  query : null,
-  hash : null,
-  tag : null,
-
-});
-
-//
-
-let UriFull = _.blueprint
-({
-  extension : _.define.extension( Uri ),
-
-  protocols : null,
-  postfixedPath : null,
-  resourcePath : null,
-  longPath : null,
-  full : null,
-
-  hostFull : null,
-  host : null,
-  port : null,
-  user : null,
-  origin : null,
-
-});
-
-//
-
-let UriAtomic = _.blueprint
-({
-  extension : _.define.extension( Uri ),
-
-  // resourcePath : null,
-  // host : null,
-});
-
-//
-
-let UriConsequtive = _.blueprint
-({
-  extension : _.define.extension( Uri ),
-
-  longPath : null,
-});
-
-/* qqq jsdoc structures Uri*. ask how to */
-
-/**
- *
- * The URI component object.
- * @typedef {Object} UrlComponents
- * @property {string} protocol the URI's protocol scheme.;
- * @property {string} host host portion of the URI;
- * @property {string} port property is the numeric port portion of the URI
- * @property {string} resourcePath the entire path section of the URI.
- * @property {string} query the entire "query string" portion of the URI, not including '?' character.
- * @property {string} hash property consists of the "fragment identifier" portion of the URI.
-
- * @property {string} uri the whole URI
- * @property {string} hostFull host portion of the URI, including the port if specified.
- * @property {string} origin protocol + host + port
- * @private
- * @module Tools/UriBasic
- * @namespace Tools.uri
- */
-
-// let UriComponents =
-// {
-//
-//   /* atomic */
-//
-//   protocol : null, /* 'svn+http' */
-//   host : null, /* 'www.site.com' */
-//   port : null, /* '13' */
-//   resourcePath : null, /* '/path/name' */
-//   query : null, /* 'query=here&and=here' */
-//   hash : null, /* 'anchor' */
-//   tag : null, /* tag */
-//
-//   /* composite */
-//
-//   // qqq !!! : implement queries
-//   // queries : null, /* { query : here, and : here } */
-//   longPath : null, /* www.site.com:13/path/name */
-//   postfixedPath : null, /* www.site.com:13/path/name?query=here#anchor@tag */
-//   protocols : null, /* [ 'svn','http' ] */
-//   hostFull : null, /* 'www.site.com:13' */
-//   origin : null, /* 'svn+http://www.site.com:13' */
-//   full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
-//
-// }
+let Self = _.uriOld = _.uriOld || Object.create( Parent );
+// _.uri = _.uriOld;
 
 // --
 // internal
@@ -195,10 +81,10 @@ function is( path )
  * @param {Number} level Level of check
  *
  * @example
- * _.uriNew.isSafe( 'https:///web.archive.org' )// false
+ * _.ur2.isSafe( 'https:///web.archive.org' )// false
  *
  * @example
- * _.uriNew.isSafe( 'https:///web.archive.org/root' )// true
+ * _.ur2.isSafe( 'https:///web.archive.org/root' )// true
  *
  * @returns {Boolean} Returns result of check for safetiness.
  * @function isSafe
@@ -305,10 +191,10 @@ function isNormalized( filePath )
 //  * @param {String} filePath Source uri
 //  *
 //  * @example
-//  * _.uriNew.isNormalized( 'https:///web.archive.org' ); // returns true
+//  * _.ur2.isNormalized( 'https:///web.archive.org' ); // returns true
 //  *
 //  * @example
-//  * _.uriNew.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
+//  * _.ur2.isNormalized( 'https:/\\\\web.archive.org' ); // returns false
 //  *
 //  * @returns {Boolean} Returns true if {filePath} is normalized, otherwise false.
 //  * @function isNormalized
@@ -330,10 +216,10 @@ function isNormalized( filePath )
  * @param {String} filePath Source uri
  *
  * @example
- * _.uriNew.isAbsolute( 'https:/web.archive.org' )// false
+ * _.ur2.isAbsolute( 'https:/web.archive.org' )// false
  *
  * @example
- * _.uriNew.isAbsolute( 'https:///web.archive.org' )// true
+ * _.ur2.isAbsolute( 'https:///web.archive.org' )// true
  *
  * @returns {Boolean} Returns true if {filePath} is absolute, otherwise false.
  * @function isAbsolute
@@ -386,10 +272,10 @@ function isRelative( filePath )
  * @param {String} filePath Source uri
  *
  * @example
- * _.uriNew.isRoot( 'https:/web.archive.org' )// false
+ * _.ur2.isRoot( 'https:/web.archive.org' )// false
  *
  * @example
- * _.uriNew.isRoot( 'https:///' )// true
+ * _.ur2.isRoot( 'https:///' )// true
  *
  * @returns {Boolean} Returns true if {filePath} is root, otherwise false.
  * @function isRoot
@@ -488,101 +374,48 @@ function isGlob( filePath )
 // transformer
 // --
 
-function _parseOrigin( map, originPath )
+/**
+ *
+ * The URI component object.
+ * @typedef {Object} UrlComponents
+ * @property {string} protocol the URI's protocol scheme.;
+ * @property {string} host host portion of the URI;
+ * @property {string} port property is the numeric port portion of the URI
+ * @property {string} resourcePath the entire path section of the URI.
+ * @property {string} query the entire "query string" portion of the URI, not including '?' character.
+ * @property {string} hash property consists of the "fragment identifier" portion of the URI.
+
+ * @property {string} uri the whole URI
+ * @property {string} hostFull host portion of the URI, including the port if specified.
+ * @property {string} origin protocol + host + port
+ * @private
+ * @module Tools/UriBasic
+ * @namespace Tools.uri
+ */
+
+let UriComponents =
 {
-  let self = this;
 
-  let isolates = _.strIsolateLeftOrNone.body
-  ({
-    src : originPath,
-    delimeter : self.protocolToken,
-    times : 1,
-    quote : false,
-  });
+  /* atomic */
 
-  map.portocol = isolates[ 0 ];
-  map.hostFull = isolates[ 2 ];
+  protocol : null, /* 'svn+http' */
+  host : null, /* 'www.site.com' */
+  port : null, /* '13' */
+  resourcePath : null, /* '/path/name' */
+  query : null, /* 'query=here&and=here' */
+  hash : null, /* 'anchor' */
+  tag : null, /* tag */
 
-  self._parseHostFull( map, map.hostFull );
-}
+  /* composite */
 
-//
-
-function _parseLongPath( map, longPath )
-{
-  let self = this;
-  let isAbsolute = false;
-
-  if( !longPath )
-  return;
-
-  if( _.strBegins( longPath[ 0 ], self.rootToken ) )
-  {
-    longPath = longPath.slice( self.rootToken.length );
-    isAbsolute = true;
-  }
-
-  let isolates = _.strIsolateLeftOrAll.body
-  ({
-    src : longPath,
-    delimeter : self.upToken,
-    times : 1,
-    quote : false,
-  });
-
-  map.hostFull = isolates[ 0 ];
-  if( isolates[ 1 ] )
-  map.resourcePath = isolates[ 2 ];
-
-  if( isAbsolute )
-  map.hostFull = self.rootToken + map.hostFull;
-
-  self._parseHostFull( map, map.hostFull );
-
-}
-
-//
-
-function _parseHostFull( map, hostFull )
-{
-  let self = this;
-  let isAbsolute = false;
-
-  // if( !hostFull )
-  // return;
-
-  if( _.strBegins( hostFull, self.rootToken ) )
-  isAbsolute = true;
-
-  let isolates2 = _.strIsolateRightOrNone.body
-  ({
-    src : hostFull,
-    delimeter : self.portToken,
-    times : 1,
-    quote : false,
-  });
-  map.host = isolates2[ 0 ];
-
-  if( isolates2[ 1 ] )
-  map.port = _.numberFromStrMaybe( isolates2[ 2 ] );
-
-  let isolates3 = _.strIsolateLeftOrNone.body
-  ({
-    src : map.host,
-    delimeter : self.userToken,
-    times : 1,
-    quote : false,
-  });
-
-  if( isAbsolute && isolates3[ 1 ] )
-  {
-    isolates3[ 0 ] = isolates3[ 0 ].slice( self.rootToken.length );
-    isolates3[ 2 ] = self.rootToken + isolates3[ 2 ];
-  }
-
-  if( isolates3[ 1 ] )
-  map.user = isolates3[ 0 ];
-  map.host = isolates3[ 2 ];
+  // qqq !!! : implement queries
+  // queries : null, /* { query : here, and : here } */
+  longPath : null, /* www.site.com:13/path/name */
+  postfixedPath : null, /* www.site.com:13/path/name?query=here#anchor@tag */
+  protocols : null, /* [ 'svn','http' ] */
+  hostFull : null, /* 'www.site.com:13' */
+  origin : null, /* 'svn+http://www.site.com:13' */
+  full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
 
 }
 
@@ -607,6 +440,33 @@ http://www.site.com:13/path/name?query=here&and=here#anchor
   'longPath' : 'www.site.com:13/!a.js?',
 }*/
 
+// let _uriParseRegexpStr = '^';
+// _uriParseRegexpStr += '(?:([^:/\\?#]*):)?'; /* protocol */
+// _uriParseRegexpStr += '(?:\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?))?'; /* host and port */
+// _uriParseRegexpStr += '([^\\?#]*)'; /* local path */
+// _uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+// _uriParseRegexpStr += '(?:#(.*))?'; /* hash */
+// _uriParseRegexpStr += '$';
+
+let _uriParseRegexpStr = '^'; /* begin */
+
+let _uriParseRegexpProtocolStr = '([^:/\\?#]*)'; /* protocol */
+let _uriParseRegexpHostAndPortStr = ':\/\/(([^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
+// let _uriParseRegexpHostAndPortStr = ':\/\/((\/?[^:/\\?#]*)(?::([^/\\?#]*))?)'; /* host and port */
+
+_uriParseRegexpStr += '(?:' + _uriParseRegexpProtocolStr + _uriParseRegexpHostAndPortStr + ')?';
+
+// _uriParseRegexpStr += '(.*?)'; /* rest yyy */
+
+_uriParseRegexpStr += '([^?]*\\?[^:=#]*|[^?#]*)'; /* local path */ /* yyy */
+_uriParseRegexpStr += '(?:\\?([^#]*))?'; /* query */
+_uriParseRegexpStr += '(?:#([^]*))?'; /* hash */
+// _uriParseRegexpStr += '(?:@([^#]*))?'; /* tag */
+
+_uriParseRegexpStr += '$'; /* end */
+
+let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
+
 function parse_pre( routine, args )
 {
   _.assert( args.length === 1, 'Expects single argument' );
@@ -627,7 +487,7 @@ function parse_body( o )
 
   if( _.mapIs( o.srcPath ) )
   {
-    _.assertMapHasOnly( o.srcPath, this.UriFull.fields );
+    _.assertMapHasOnly( o.srcPath, this.UriComponents );
     if( o.srcPath.protocols )
     return o.srcPath;
     else if( o.srcPath.full )
@@ -636,65 +496,115 @@ function parse_body( o )
     o.srcPath = this.str( o.srcPath );
   }
 
-  let postfixes = '';
+  let splits = this._uriParseRegexp.exec( o.srcPath );
+  _.sure( !!splits, 'Cant parse :',o.srcPath );
 
-  longPathParse();
+  let params = '';
 
-  let delimeter = [ self.tagToken, self.hashToken, self.queryToken ];
-  if( _.strHasAny( result.longPath, delimeter ) )
-  postfixesParse( delimeter );
+  if( _.strIs( splits[ 1 ] ) )
+  result.protocol = splits[ 1 ];
+  if( _.strIs( splits[ 3 ] ) )
+  result.host = splits[ 3 ];
+  if( _.strIs( splits[ 4 ] ) )
+  result.port = _.numberFromStrMaybe( splits[ 4 ] );
+
+  // _.assert( splits.length <= 6 ); /* yyy */
+  // if( _.strIs( splits[ 5 ] ) )
+  // {
+  //   let delimeter = [ '@', '#', '?' ];
+  //   result.resourcePath = splits[ 5 ];
+  //   if( _.strHasAny( result.resourcePath, delimeter ) )
+  //   postfixesParse( delimeter );
+  // }
+
+  if( _.strIs( splits[ 5 ] ) ) /* yyy */
+  {
+    result.resourcePath = splits[ 5 ];
+    let isolatedSlash = _.strIsolateRightOrNone( result.resourcePath, '/' );
+    if( isolatedSlash[ 2 ] )
+    {
+      let isolated = _.strIsolateRightOrNone( isolatedSlash[ 2 ], '@' );
+      if( isolated[ 2 ] )
+      {
+        result.tag = isolated[ 2 ];
+        result.resourcePath = isolatedSlash[ 0 ] + isolatedSlash[ 1 ] + isolated[ 0 ]
+        params += '@' + result.tag;
+      }
+    }
+  }
+  if( _.strIs( splits[ 6 ] ) )
+  {
+    result.query = splits[ 6 ];
+    params += '?' + result.query;
+    let isolated = _.strIsolateRightOrNone( result.query, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.query = isolated[ 0 ]
+    }
+  }
+  if( _.strIs( splits[ 7 ] ) )
+  {
+    result.hash = splits[ 7 ];
+    params += '#' + result.hash;
+    let isolated = _.strIsolateRightOrNone( result.hash, '@' );
+    if( isolated[ 2 ] )
+    {
+      result.tag = isolated[ 2 ];
+      result.hash = isolated[ 0 ]
+    }
+  }
 
   /* */
 
   if( o.kind === 'full' )
   {
-
-    result.postfixedPath = result.longPath + postfixes;
-
-    self._parseLongPath( result, result.longPath );
-
+    let hostFull = splits[ 2 ] || '';
+    result.longPath = hostFull + result.resourcePath;
+    result.postfixedPath = result.longPath + params;
     if( result.protocol )
     result.protocols = result.protocol.split( '+' );
     else
     result.protocols = [];
-
-    if( _.strIs( result.protocol ) )
-    result.origin = result.protocol + self.protocolToken + result.hostFull;
-
+    if( _.strIs( splits[ 2 ] ) )
+    result.hostFull = splits[ 2 ];
+    if( _.strIs( result.protocol ) || _.strIs( result.hostFull ) )
+    result.origin = ( _.strIs( result.protocol ) ? result.protocol + '://' : '//' ) + result.hostFull;
     result.full = o.srcPath;
-
   }
   else if( o.kind === 'consecutive' )
   {
+    let hostFull = splits[ 2 ] || '';
+    result.longPath = hostFull + result.resourcePath;
+    result.postfixedPath = result.longPath + params; /* xxx : redundat! */
+    delete result.host;
+    delete result.port;
+    delete result.resourcePath;
   }
-  else if( o.kind === 'atomic' )
-  {
-    self._parseLongPath( result, result.longPath );
-    delete result.hostFull;
-    delete result.longPath;
-  }
-  else _.assert( 0 );
 
   return result;
 
-  /* */
+  /*  */
 
-  function longPathParse()
-  {
+  // function longPathWithParamsForm()
+  // {
+  //   let postfixedPath = result.longPath;
+  //   if( result.query )
+  //   postfixedPath += '?' + result.query;
+  //   if( result.hash )
+  //   postfixedPath += '#' + result.hash;
+  //   if( result.tag )
+  //   postfixedPath += '@' + result.tag;
+  //   return postfixedPath;
+  // }
 
-    let isolates = _.strIsolateLeftOrNone.body
-    ({
-      src : o.srcPath,
-      delimeter : self.protocolToken,
-      times : 1,
-      quote : false,
-    });
-
-    if( isolates[ 1 ] )
-    result.protocol = isolates[ 0 ];
-
-    result.longPath = isolates[ 2 ];
-  }
+  // function isolateTagFrom( src )
+  // {
+  //   let result = _.strIsolateRightOrNone( src, '@' );
+  //   if( result[ 2 ] )
+  //   result.tag = result[ 2 ];
+  //   return result[ 0 ];
+  // }
 
   /* */
 
@@ -702,8 +612,10 @@ function parse_body( o )
   {
 
     let rest = '';
-    let splits2 = _.path.split( result.longPath );
+    let splits2 = _.path.split( result.resourcePath );
     let left;
+
+    debugger;
 
     let s;
     for( s = 0 ; s < splits2.length ; s++ )
@@ -712,16 +624,18 @@ function parse_body( o )
       if( _.path._unescape( split ).wasEscaped )
       continue;
       left = _.strLeft( split, delimeter );
+      debugger;
       if( left.entry )
       {
+        debugger;
         if( s > 0 )
         {
-          result.longPath = splits2.slice( 0, s ).join( self.upToken );
-          result.longPath += self.upToken + split.slice( 0, left.index );
+          result.resourcePath = splits2.slice( 0, s ).join( self.upToken );
+          result.resourcePath += self.upToken + split.slice( 0, left.index );
         }
         else
         {
-          result.longPath = split.slice( 0, left.index );
+          result.resourcePath = split.slice( 0, left.index );
         }
         split = split.slice( left.index + 1 );
         splits2[ s ] = split
@@ -739,29 +653,28 @@ function parse_body( o )
 
   function restParse( rest, entry, delimeter )
   {
+    debugger;
 
     _.arrayRemoveOnceStrictly( delimeter, entry );
 
-    let isolates = _.strIsolateLeftOrAll( rest, delimeter );
+    let isolates = _.strIsolateRightOrNone( rest, delimeter );
 
-    if( entry === self.queryToken )
-    result.query = isolates[ 0 ];
-    else if( entry === self.hashToken )
-    result.hash = isolates[ 0 ];
-    else if( entry === self.tagToken )
-    result.tag = isolates[ 0 ];
+    rest = isolates[ 0 ];
 
-    postfixes += entry + isolates[ 0 ];
-
-    // rest = isolates[ 2 ]; /* xxx : remove variable? */
     if( isolates[ 1 ] )
     {
       restParse( isolates[ 2 ], isolates[ 1 ], delimeter );
     }
 
-  }
+    if( entry === '?' )
+    result.query = rest;
+    else if( entry === '#' )
+    result.hash = rest;
+    else if( entry === '@' )
+    result.tag = rest;
 
-  /* */
+    debugger;
+  }
 
 }
 
@@ -771,7 +684,7 @@ parse_body.defaults =
   kind : 'full',
 }
 
-parse_body.components = UriFull;
+parse_body.components = UriComponents;
 
 parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
@@ -808,20 +721,20 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
 let parse = _.routineFromPreAndBody( parse_pre, parse_body );
 
-parse.components = UriFull;
+parse.components = UriComponents;
 
 //
 
 let parseFull = _.routineFromPreAndBody( parse_pre, parse_body );
 parseFull.defaults.kind = 'full';
-parseFull.components = UriFull;
+parseFull.components = UriComponents;
 
 //
 
 let parseAtomic = _.routineFromPreAndBody( parse_pre, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
-parseAtomic.components = UriFull;
+parseAtomic.components = UriComponents;
 
 //
 
@@ -878,124 +791,120 @@ function localFromGlobal( globalPath )
  * @namespace Tools.uri
  */
 
-function str( map )
+function str( c )
 {
   let self = this;
   let result = '';
 
+  _.assert( c.longPath === undefined || c.longPath === null || longPathHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
+  _.assert( c.protocols === undefined || c.protocols === null || protocolsHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
+  _.assert( c.hostFull === undefined || c.hostFull === null || hostFullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}' );
+  _.assert( c.origin === undefined || c.origin === null || originHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
+  _.assert( c.full === undefined || c.full === null || fullHas( c ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
+
+  _.assert( _.strIs( c ) || _.mapIs( c ) );
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  if( _.strIs( map ) )
-  return map;
+  if( _.strIs( c ) )
+  return c;
 
-  if( Config.debug )
+  _.assertMapHasOnly( c, this.UriComponents );
+
+  if( c.full )
   {
-    _.assert( map.longPath === undefined || map.longPath === null || longPathHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
-    _.assert( map.protocols === undefined || map.protocols === null || protocolsHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
-    _.assert( map.hostFull === undefined || map.hostFull === null || hostFullHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}' );
-    _.assert( map.origin === undefined || map.origin === null || originHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
-    _.assert( map.full === undefined || map.full === null || fullHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
-    _.assert( _.strIs( map ) || _.mapIs( map ) );
+    _.assert( _.strDefined( c.full ) );
+    return c.full;
   }
 
-  _.assertMapHasOnly( map, this.UriFull.fields );
+  var protocol = c.protocol;
+  var host = c.host;
+  var port = c.port;
 
-  if( map.full )
+  if( c.origin && ( protocol === null || protocol === undefined ) )
+  if( _.strHas( c.origin, '://' ) )
   {
-    _.assert( _.strDefined( map.full ) );
-    return map.full;
+    protocol = _.strIsolateLeftOrNone( c.origin, '://' )[ 0 ];
   }
 
-  map = _.mapExtend( null, map );
+  if( ( protocol === null || protocol === undefined ) && c.protocols && c.protocols.length )
+  protocol = c.protocols.join( '+' );
 
-  if( map.origin && ( map.protocol === null || map.protocol === undefined ) )
-  if( _.strHas( map.origin, self.protocolToken ) )
+  if( c.origin && ( host === null || host === undefined ) )
   {
-    map.protocol = _.strIsolateLeftOrNone( map.origin, self.protocolToken )[ 0 ];
+    host = c.origin;
+    host = _.strIsolateRightOrAll( host, '://' )[ 2 ];
+    host = _.strIsolateLeftOrAll( host, ':' )[ 0 ];
+    // host = _.strIsolateInside( c.origin, '://', ':' )[ 2 ];
   }
 
-  if( ( map.protocol === null || map.protocol === undefined ) && map.protocols && map.protocols.length )
-  map.protocol = map.protocols.join( '+' );
+  if( c.origin && ( port === null || port === undefined ) )
+  if( _.strHas( c.origin, ':' ) )
+  {
+    port = _.strIsolateRightOrNone( c.origin, ':' )[ 2 ];
+  }
 
-  if( map.origin )
-  if
-  (
-       ( map.user === null || map.user === undefined )
-    || ( map.host === null || map.host === undefined )
-    || ( map.port === null || map.port === undefined )
-  )
-  componentsFromOrigin( map );
+  // /* atomic */
+  //
+  // protocol : null, /* 'svn+http' */
+  // host : null, /* 'www.site.com' */
+  // port : null, /* '13' */
+  // resourcePath : null, /* '/path/name' */
+  // query : null, /* 'query=here&and=here' */
+  // hash : null, /* 'anchor' */
+  //
+  // /* composite */
+  //
+  // longPath : null, /* www.site.com:13/path/name */
+  // protocols : null, /* [ 'svn','http' ] */
+  // hostFull : null, /* 'www.site.com:13' */
+  // origin : null, /* 'svn+http://www.site.com:13' */
+  // full : null, /* 'svn+http://www.site.com:13/path/name?query=here&and=here#anchor' */
 
-  if( map.longPath === undefined )
-  map.longPath = longPathFrom( map );
-
-  return fullFrom( map );
+  return fullFrom( c );
 
   /* */
 
   return result;
 
-  /* */
+  /**/
 
-  function componentsFromOrigin( map )
+  function longPathFrom( c )
   {
-    self._parseOrigin( map, map.origin );
-  }
 
-  /* */
+    let hostFull = c.hostFull;
+    if( !_.strIs( hostFull ) )
+    hostFull = hostFullFrom( c );
 
-  function longPathFrom( map )
-  {
-    let hostFull = map.hostFull;
-
-    if( _.strIs( map.resourcePath ) )
+    if( _.strIs( c.resourcePath ) )
     {
-      if( !_.strIs( hostFull ) )
-      hostFull = hostFullFrom( map );
-      if( hostFull === undefined )
-      return map.resourcePath;
+      if( c.resourcePath && hostFull && !_.strBegins( c.resourcePath, self.upToken ) )
+      return hostFull + self.upToken + c.resourcePath;
       else
-      return hostFull + self.upToken + map.resourcePath;
-    }
-    else if( map.longPath !== undefined )
-    {
-      if( Config.debug )
-      {
-        if( !_.strIs( hostFull ) )
-        hostFull = hostFullFrom( map );
-        if( hostFull )
-        _.assert( _.strBegins( map.longPath, hostFull ) );
-      }
-      return map.longPath;
+      return hostFull + c.resourcePath;
     }
     else
     {
-      if( !_.strIs( hostFull ) )
-      hostFull = hostFullFrom( map );
-      return hostFull || '';
+      _.assert( _.strBegins( c.longPath, hostFull ) );
+      return c.longPath;
     }
 
   }
 
   /* */
 
-  function longPathHas( map )
+  function longPathHas( c )
   {
 
-    if( map.host )
-    if( !_.strHas( map.longPath, _.strRemoveBegin( map.host, self.rootToken ) ) )
+    if( c.host )
+    if( !_.strBegins( c.longPath, c.host ) )
     return false;
 
-    if( map.user )
-    if( !_.strHas( map.longPath, map.user + self.userToken ) )
+    if( c.port !== undefined && c.port !== null )
+    if( !_.strHas( c.longPath, String( c.port ) ) )
     return false;
 
-    if( map.port !== undefined && map.port !== null )
-    if( !_.strHas( map.longPath, String( map.port ) ) )
-    return false;
-
-    if( map.resourcePath )
-    if( !_.strEnds( map.longPath, map.resourcePath ) )
+    if( c.resourcePath )
+    if( !_.strEnds( c.longPath, c.resourcePath ) )
     return false;
 
     return true;
@@ -1003,72 +912,51 @@ function str( map )
 
   /* */
 
-  function protocolsFrom( map )
+  function protocolsFrom( c )
   {
-    return map.protocol.split( '+' );
+    return protocol.split( '+' );
   }
 
   /* */
 
-  function protocolsHas( map )
+  function protocolsHas( c )
   {
-    if( map.protocol !== null && map.protocol !== undefined )
-    if( map.protocols.join( '+' ) !== map.protocol )
+    if( c.protocol !== null && c.protocol !== undefined )
+    if( c.protocols.join( '+' ) !== c.protocol )
     return false;
     return true;
   }
 
   /* */
 
-  function hostFullFrom( map )
+  function hostFullFrom( c )
   {
+
+    // if( host === undefined || host === null )
+    // return c.hostFull;
+
     let hostFull = '';
-    let host = map.host || '';
-
-    if( map.host === undefined && map.user === undefined && map.port === undefined )
-    {
-      return;
-    }
-
-    if( _.strIs( map.user ) )
-    {
-      let prefix = '';
-      if( _.strBegins( host, self.rootToken ) )
-      {
-        prefix = self.rootToken;
-        host = host.slice( self.rootToken.length );
-      }
-      hostFull = prefix + map.user + self.userToken + host;
-    }
-    else
-    {
-      hostFull = host;
-    }
-
-    if( map.port !== undefined && map.port !== null )
+    if( _.strIs( host ) )
+    hostFull = host;
+    if( port !== undefined && port !== null )
     if( hostFull )
-    hostFull += self.portToken + map.port;
+    hostFull += ':' + port;
     else
-    hostFull = self.portToken + map.port;
-
+    hostFull = ':' + port;
     return hostFull;
   }
 
   /* */
 
-  function hostFullHas( map )
+  function hostFullHas( c )
   {
 
-    if( map.host )
-    if( !_.strHas( map.hostFull, _.strRemoveBegin( map.host, self.rootToken ) ) )
+    if( c.host )
+    if( !_.strBegins( c.hostFull, c.host ) )
     return false;
 
-    if( map.user )
-    if( !_.strHas( map.hostFull, map.user + self.userToken ) )
-    return false;
-
-    if( map.port !== null && map.port !== undefined )
-    if( !_.strHas( map.hostFull, String( map.port ) ) )
+    if( c.port !== null && c.port !== undefined )
+    if( !_.strHas( c.hostFull, String( c.port ) ) )
     return false;
 
     return true;
@@ -1076,44 +964,44 @@ function str( map )
 
   /* */
 
-  function originFrom( map )
+  function originFrom( c )
   {
     let result = '';
     let hostFull;
 
-    if( map.hostFull )
+    if( c.hostFull )
     {
-      hostFull = map.hostFull;
+      hostFull = c.hostFull;
     }
     else
     {
-      hostFull = hostFullFrom( map );
+      hostFull = hostFullFrom( c );
     }
 
-    if( _.strIs( map.protocol ) && !hostFull )
+    if( _.strIs( protocol ) && !hostFull )
     hostFull = '';
 
-    if( _.strIs( map.protocol ) || _.strIs( hostFull ) )
-    result += ( map.protocol || '' ) + self.protocolToken + ( hostFull || '' );
+    if( _.strIs( protocol ) || _.strIs( hostFull ) )
+    result += ( _.strIs( protocol ) ? protocol + '://' : '//' ) + hostFull;
 
     return result;
   }
 
   /* */
 
-  function originHas( map )
+  function originHas( c )
   {
 
-    if( map.protocol )
-    if( !_.strBegins( map.origin, map.protocol ) )
+    if( c.protocol )
+    if( !_.strBegins( c.origin, c.protocol ) )
     return false;
 
-    if( map.host )
-    if( !_.strHas( map.origin, _.strRemoveBegin( map.host, self.rootToken ) ) )
+    if( c.host )
+    if( !_.strHas( c.origin, c.host ) )
     return false;
 
-    if( map.port !== null && map.port !== undefined )
-    if( !_.strHas( map.origin, String( map.port ) ) )
+    if( c.port !== null && c.port !== undefined )
+    if( !_.strHas( c.origin, String( c.port ) ) )
     return false;
 
     return true;
@@ -1121,68 +1009,74 @@ function str( map )
 
   /* */
 
-  function fullFrom( map )
+  function fullFrom( c )
   {
-    _.assert( _.strIs( map.longPath ) );
 
-    if( _.strIs( map.protocol ) )
-    result += ( map.protocol || '' ) + self.protocolToken;
+    if( _.strIs( protocol ) || _.strIs( c.hostFull ) || _.strIs( host ) )
+    result += _.strIs( protocol ) ? protocol + '://' : '//';
 
-    result += map.longPath;
+    if( c.longPath )
+    {
+      result += c.longPath;
+    }
+    else
+    {
+      result += longPathFrom( c );
+    }
 
     /**/
 
-    if( _.mapIs( map.query ) )
-    map.query = _.strWebQueryStr({ src : map.query });
+    if( _.mapIs( c.query ) )
+    c.query = _.strWebQueryStr({ src : c.query });
 
-    _.assert( !map.query || _.strIs( map.query ) );
+    _.assert( !c.query || _.strIs( c.query ) );
 
-    if( map.query !== undefined && map.query !== undefined )
-    result += self.queryToken + map.query;
+    if( c.query !== undefined && c.query !== undefined )
+    result += '?' + c.query;
 
-    if( map.hash !== undefined && map.hash !== null )
-    result += self.hashToken + map.hash;
+    if( c.hash !== undefined && c.hash !== null )
+    result += '#' + c.hash;
 
-    if( map.tag !== undefined && map.tag !== null )
-    result += self.tagToken + map.tag;
+    if( c.tag !== undefined && c.tag !== null )
+    result += '@' + c.tag;
 
     return result;
   }
 
   /* */
 
-  function fullHas( map )
+  function fullHas( c )
   {
-    if( map.protocol )
-    if( !_.strBegins( map.full, map.protocol ) )
+    if( c.protocol )
+    if( !_.strBegins( c.full, c.protocol ) )
     return false;
 
-    if( map.host )
-    if( !_.strHas( map.full, _.strRemoveBegin( map.host, self.rootToken ) ) )
+    if( c.host )
+    if( !_.strHas( c.full, c.host ) )
     return false;
 
-    if( map.port !== null && map.port !== undefined )
-    if( !_.strHas( map.full, String( map.port ) ) )
+    if( c.port !== null && c.port !== undefined )
+    if( !_.strHas( c.full, String( c.host ) ) )
     return false;
 
-    if( map.resourcePath )
-    if( !_.strHas( map.full, map.resourcePath ) )
+    if( c.resourcePath )
+    if( !_.strHas( c.full, String( c.resourcePath ) ) )
     return false;
 
-    if( map.query )
-    if( !_.strHas( map.full, map.query ) )
+    if( c.query )
+    if( !_.strHas( c.full, String( c.query ) ) )
     return false;
 
-    if( map.hash )
-    if( !_.strHas( map.full, map.hash ) )
+    if( c.hash )
+    if( !_.strHas( c.full, String( c.hash ) ) )
     return false;
 
-    if( map.tag )
-    if( !_.strHas( map.full, map.tag ) )
+    if( c.tag )
+    if( !_.strHas( c.full, String( c.tag ) ) )
     return false;
 
-    if( map.longPath )
-    if( !_.strHas( map.full, map.longPath ) )
+    if( c.longPath )
+    if( !_.strHas( c.full, String( c.longPath ) ) )
     return false;
 
     return true;
@@ -1190,7 +1084,7 @@ function str( map )
 
 }
 
-str.components = UriFull; /* xxx : remove */
+str.components = UriComponents;
 
 //
 
@@ -1224,12 +1118,13 @@ function full( o )
   if( _.strIs( o ) )
   o = this.parseAtomic( o )
 
-  _.assertMapHasOnly( o, this.UriFull.fields );
+  _.assertMapHasOnly( o, this.UriComponents );
+
+  // if( o.full )
+  // return this.str( o );
 
   if( !_realGlobal_.location )
   return this.str( o );
-
-  debugger;
 
   let serverUri = this.server();
   let serverParsed = this.parseAtomic( serverUri );
@@ -1598,55 +1493,13 @@ let reroot = join_functor({ routineName : 'reroot', web : 0 });
 function resolve()
 {
   let parent = this.path;
-  let args = []
-  let hasNull;
-
-  for( let i = arguments.length - 1 ; i >= 0 ; i-- )
-  {
-    let arg = arguments[ i ];
-    if( arg !== null )
-    {
-      args.unshift( arg );
-    }
-    else
-    {
-      hasNull = true;
-      break;
-    }
-  }
-
-  if( args.length === 0 )
-  {
-    if( hasNull )
-    return null;
-    else
-    return parent.resolve.call( this );
-  }
-
-  let result = this.join.apply( this, args );
-  if( hasNull || this.isAbsolute( result ) )
-  return result;
-
-  let parsed = this.parseConsecutive( result );
-  parsed.longPath = parent.join.call( this, parent.resolve.call( this, '.' ), parsed.longPath );
+  let joined = this.join.apply( this, arguments );
+  if( joined === null )
+  return joined;
+  let parsed = this.parseConsecutive( joined );
+  parsed.longPath = parent.resolve.call( this, parsed.longPath );
   return this.str( parsed );
 }
-
-// {
-//   let parent = this.path;
-//   return this.join( parent.resolve.call( this, '.' ), ... arguments );
-// }
-
-// {
-//   let parent = this.path;
-//   let joined = this.join.apply( this, arguments );
-//   if( joined === null )
-//   return joined;
-//   let parsed = this.parseConsecutive( joined );
-//   parsed.longPath = parent.resolve.call( this, parsed.longPath ); /* xxx yyy */
-//   // parsed.longPath = parent.resolve( parsed.longPath );
-//   return this.str( parsed );
-// }
 
 //
 
@@ -1716,8 +1569,8 @@ function common()
     // _.assert( !_.mapIs( uris[ s ] ), 'not tested' );
 
     /* Dmytro : added for :
-       _.uriNew.common( path1, path2 );
-       _.uriNew.common( _.uriNew.parse( path1 ), _.uriNew.parse( path2 ) );
+       _.ur2.common( path1, path2 );
+       _.ur2.common( _.ur2.parse( path1 ), _.ur2.parse( path2 ) );
        має давати однаковий результат */
 
     if( _.mapIs( uris[ s ] ) )
@@ -2024,8 +1877,6 @@ let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.m
 
 function documentGet( path, o )
 {
-  let self = this;
-
   o = o || Object.create( null );
 
   if( path === undefined )
@@ -2037,7 +1888,7 @@ function documentGet( path, o )
   }
 
   let a = path.split( '//' );
-  let b = a[ 1 ].split( self.queryToken );
+  let b = a[ 1 ].split( '?' );
 
   /* */
 
@@ -2118,12 +1969,10 @@ function server( path )
 
 function query( path )
 {
-  let self = this;
   if( path === undefined )
   path = _realGlobal_.location.href;
-  if( path.indexOf( self.queryToken ) === -1 )
-  return '';
-  return path.split( self.queryToken )[ 1 ];
+  if( path.indexOf( '?' ) === -1 ) return '';
+  return path.split( '?' )[ 1 ];
 }
 
 //
@@ -2153,7 +2002,7 @@ function dequery( query )
 {
 
   let result = Object.create( null );
-  query = query || _global.location.search.split(self.queryToken)[1];
+  query = query || _global.location.search.split('?')[1];
   if( !query || !query.length )
   return result;
   let vars = query.split( '&' );
@@ -2188,27 +2037,80 @@ function dequery( query )
 }
 
 // --
-// relations
+// Uri constructors
+// --
+
+let Uri = _.blueprint.defineConstructor
+({
+  protocol : null,
+  query : null,
+  hash : null,
+  typed : _.trait.typed(),
+  extendable : _.trait.extendable(),
+});
+
+//
+
+// let UriFull =
+// ({
+//   resourcePath : null,
+//   host : null,
+//   port : null,
+//   longPath : null,
+//   protocols : null,
+//   hostFull : null,
+//   origin : null,
+//   full : null,
+//   extension : _.define.extension( Uri ),
+// });
+//
+// //
+//
+// let UriAtomic =
+// ({
+//   resourcePath : null,
+//   host : null,
+//   extension : _.define.extension( Uri ),
+// });
+//
+// //
+//
+// let UriConsequtive =
+// ({
+//   longPath : null,
+//   extension : _.define.extension( Uri ),
+// });
+
+let Constructors =
+{
+
+  // Uri map constructors
+
+  Uri,
+  // UriFull,
+  // UriAtomic,
+  // UriConsequtive,
+}
+
+_.mapExtend( _, Constructors );
+
+// --
+// declare routines
 // --
 
 let Parameters =
 {
-
-  protocolToken : '://',
-  portToken : ':',
-  userToken : '@',
-  tagToken : '!', /* xxx : enable */
-  // tagToken : '@',
-  hashToken : '#',
-  queryToken : '?',
-
+  _uriParseRegexpStr,
+  _uriParseRegexp
 }
 
-//
+let Fields =
+{
+  Parameters
+}
 
 let Extension =
 {
-
   // internal
 
   _filterOnlyUrl,
@@ -2228,10 +2130,6 @@ let Extension =
   isGlob,
 
   // transformer
-
-  _parseOrigin,
-  _parseLongPath,
-  _parseHostFull,
 
   parse,
   parseFull,
@@ -2285,17 +2183,13 @@ let Extension =
   // fields
 
   single : Self,
-
-  Uri,
-  UriFull,
-  UriAtomic,
-  UriConsequtive,
+  UriComponents,
 
 }
 
-_.mapSupplementOwn( Self, Extension );
 _.mapSupplementOwn( Self, Parameters );
-_.mapSupplementOwn( Self.Parameters, Parameters );
+_.mapSupplementOwn( Self, Fields );
+_.mapSupplementOwn( Self, Extension );
 
 Self.Init();
 
@@ -2306,8 +2200,6 @@ Self.Init();
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
-if( typeof module !== 'undefined' )
-require( '../l4/UriOld.s' );
 if( typeof module !== 'undefined' )
 require( '../l5/Uris.s' );
 

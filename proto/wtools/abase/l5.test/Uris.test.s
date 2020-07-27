@@ -5,15 +5,15 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../../dwtools/Tools.s' );
+  let _ = require( '../../../wtools/Tools.s' );
 
   _.include( 'wTesting' );
   require( '../l5/Uris.s' );
 
 }
 
-var _global = _global_;
-var _ = _global_.wTools;
+let _global = _global_;
+let _ = _global_.wTools;
 
 /*
 qqq : fix style problems and non-style problems in the test | Dmytro : fixed
@@ -424,10 +424,10 @@ function common( test )
 // declare
 // --
 
-var Self =
+let Self =
 {
 
-  name : 'Tools.base.l4.Uri.S',
+  name : 'Tools.l4.Uri.S',
   silencing : 1,
 
   tests :
