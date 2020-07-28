@@ -14073,222 +14073,225 @@ function commonTextualReport( test )
 
 function moveTextualReport( test )
 {
-  test.open( 'globals' );
-
+  // test.open( 'globals' );
+  // console.log( _.ct );
+  debugger
   test.case = 'same';
   var expected = 'npm:///wprocedure#0.3.19 : . <- .';
   var dst = 'npm:///wprocedure#0.3.19';
   var src = 'npm:///wprocedure#0.3.19';
   var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // console.log( got );
+  // console.log( _.ct._format( got, {} ) );
+  test.identical( _.ct._format( got, {} ), expected );
+  debugger
+  // test.case = 'dst with hash, src without hash';
+  // var expected = 'npm:///wprocedure : .#0.3.19 <- .';
+  // var dst = 'npm:///wprocedure#0.3.19';
+  // var src = 'npm:///wprocedure';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst with hash, src without hash';
-  var expected = 'npm:///wprocedure : .#0.3.19 <- .';
-  var dst = 'npm:///wprocedure#0.3.19';
-  var src = 'npm:///wprocedure';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst without hash, src with hash';
+  // var expected = 'npm:///wprocedure : . <- .#0.3.19';
+  // var dst = 'npm:///wprocedure';
+  // var src = 'npm:///wprocedure#0.3.19';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst without hash, src with hash';
-  var expected = 'npm:///wprocedure : . <- .#0.3.19';
-  var dst = 'npm:///wprocedure';
-  var src = 'npm:///wprocedure#0.3.19';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst with hash, src with hash';
+  // var expected = 'npm:///wprocedure : .#0.3.20 <- .#0.3.19';
+  // var dst = 'npm:///wprocedure#0.3.20';
+  // var src = 'npm:///wprocedure#0.3.19';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst with hash, src with hash';
-  var expected = 'npm:///wprocedure : .#0.3.20 <- .#0.3.19';
-  var dst = 'npm:///wprocedure#0.3.20';
-  var src = 'npm:///wprocedure#0.3.19';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst without hash, src without hash';
+  // var expected = 'npm:///wprocedure : . <- .';
+  // var dst = 'npm:///wprocedure';
+  // var src = 'npm:///wprocedure';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst without hash, src without hash';
-  var expected = 'npm:///wprocedure : . <- .';
-  var dst = 'npm:///wprocedure';
-  var src = 'npm:///wprocedure';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'common protocol, different paths';
+  // var expected = 'npm:/// : wprocedure <- wfiles';
+  // var dst = 'npm:///wprocedure';
+  // var src = 'npm:///wfiles';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'common protocol, different paths';
-  var expected = 'npm:/// : wprocedure <- wfiles';
-  var dst = 'npm:///wprocedure';
-  var src = 'npm:///wfiles';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different paths';
+  // var expected = 'npm1:///wprocedure <- npm2:///wfiles';
+  // var dst = 'npm1:///wprocedure';
+  // var src = 'npm2:///wfiles';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different paths';
-  var expected = 'npm1:///wprocedure <- npm2:///wfiles';
-  var dst = 'npm1:///wprocedure';
-  var src = 'npm2:///wfiles';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative, src relative, with common';
+  // var expected = 'npm://. : wprocedure <- wfiles';
+  // var dst = 'npm://wprocedure';
+  // var src = 'npm://wfiles';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative, src relative, with common';
-  var expected = 'npm://. : wprocedure <- wfiles';
-  var dst = 'npm://wprocedure';
-  var src = 'npm://wfiles';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative, src relative, same';
+  // var expected = 'npm://wfiles : . <- .';
+  // var dst = 'npm://wfiles';
+  // var src = 'npm://wfiles';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative, src relative, same';
-  var expected = 'npm://wfiles : . <- .';
-  var dst = 'npm://wfiles';
-  var src = 'npm://wfiles';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative with hash, src relative with hash, same';
+  // var expected = 'npm://wprocedure#0.3.20 : . <- .';
+  // var dst = 'npm://wprocedure#0.3.20';
+  // var src = 'npm://wprocedure#0.3.20';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative with hash, src relative with hash, same';
-  var expected = 'npm://wprocedure#0.3.20 : . <- .';
-  var dst = 'npm://wprocedure#0.3.20';
-  var src = 'npm://wprocedure#0.3.20';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative with hash, src relative with hash, with common';
+  // var expected = 'npm://wprocedure : .#0.3.20 <- .#0.3.19';
+  // var dst = 'npm://wprocedure#0.3.20';
+  // var src = 'npm://wprocedure#0.3.19';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative with hash, src relative with hash, with common';
-  var expected = 'npm://wprocedure : .#0.3.20 <- .#0.3.19';
-  var dst = 'npm://wprocedure#0.3.20';
-  var src = 'npm://wprocedure#0.3.19';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative, src relative, with common';
+  // var expected = 'npm://. : b/dst <- a/src';
+  // var dst = 'npm://b/dst';
+  // var src = 'npm://a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative, src relative, with common';
-  var expected = 'npm://. : b/dst <- a/src';
-  var dst = 'npm://b/dst';
-  var src = 'npm://a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative, src relative, with common';
+  // var expected = 'npm://a/ : ./dst <- ./src';
+  // var dst = 'npm://a/dst';
+  // var src = 'npm://a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative, src relative, with common';
-  var expected = 'npm://a/ : ./dst <- ./src';
-  var dst = 'npm://a/dst';
-  var src = 'npm://a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.close( 'globals' );
 
-  test.close( 'globals' );
+  // /* */
 
-  /* */
+  // test.open( 'locals' );
 
-  test.open( 'locals' );
+  // test.case = 'same, absolute';
+  // var expected = '/a : . <- .';
+  // var dst = '/a';
+  // var src = '/a';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'same, absolute';
-  var expected = '/a : . <- .';
-  var dst = '/a';
-  var src = '/a';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different, absolute, with common';
+  // var expected = '/a/ : ./dst <- ./src';
+  // var dst = '/a/dst';
+  // var src = '/a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different, absolute, with common';
-  var expected = '/a/ : ./dst <- ./src';
-  var dst = '/a/dst';
-  var src = '/a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different, absolute, without common';
+  // var expected = '/b/dst <- /a/src';
+  // var dst = '/b/dst';
+  // var src = '/a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different, absolute, without common';
-  var expected = '/b/dst <- /a/src';
-  var dst = '/b/dst';
-  var src = '/a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'same, relative';
+  // var expected = 'a/src : . <- .';
+  // var dst = 'a/src';
+  // var src = 'a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'same, relative';
-  var expected = 'a/src : . <- .';
-  var dst = 'a/src';
-  var src = 'a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different, relative, with common';
+  // var expected = 'a/ : ./dst <- ./src';
+  // var dst = 'a/dst';
+  // var src = 'a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different, relative, with common';
-  var expected = 'a/ : ./dst <- ./src';
-  var dst = 'a/dst';
-  var src = 'a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different, relative, without common';
+  // var expected = 'b/dst <- a/src';
+  // var dst = 'b/dst';
+  // var src = 'a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different, relative, without common';
-  var expected = 'b/dst <- a/src';
-  var dst = 'b/dst';
-  var src = 'a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'same, relative dotted';
+  // var expected = 'a/src : . <- .';
+  // var dst = './a/src';
+  // var src = './a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'same, relative dotted';
-  var expected = 'a/src : . <- .';
-  var dst = './a/src';
-  var src = './a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different, relative dotted, with common';
+  // var expected = 'a/ : ./dst <- ./src';
+  // var dst = './a/dst';
+  // var src = './a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different, relative dotted, with common';
-  var expected = 'a/ : ./dst <- ./src';
-  var dst = './a/dst';
-  var src = './a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'different, relative dotted, without common';
+  // var expected = './b/dst <- ./a/src';
+  // var dst = './b/dst';
+  // var src = './a/src';
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'different, relative dotted, without common';
-  var expected = './b/dst <- ./a/src';
-  var dst = './b/dst';
-  var src = './a/src';
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.close( 'locals' );
 
-  test.close( 'locals' );
+  // test.open( 'null' );
 
-  test.open( 'null' );
+  // test.case = 'both null';
+  // var expected = '{null} : . <- .';
+  // var dst = null;
+  // var src = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'both null';
-  var expected = '{null} : . <- .';
-  var dst = null;
-  var src = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst global, src null';
+  // var expected = ':/// : npm://wprocedure#0.3.19 <- {null}';
+  // var dst = 'npm:///wprocedure#0.3.19';
+  // var src = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst global, src null';
-  var expected = ':/// : npm://wprocedure#0.3.19 <- {null}';
-  var dst = 'npm:///wprocedure#0.3.19';
-  var src = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst null, src global';
+  // var expected = ':/// : {null} <- npm://wprocedure#0.3.19';
+  // var src = 'npm:///wprocedure#0.3.19';
+  // var dst = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst null, src global';
-  var expected = ':/// : {null} <- npm://wprocedure#0.3.19';
-  var src = 'npm:///wprocedure#0.3.19';
-  var dst = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst relative, src null';
+  // var expected = './a/dst <- {null}';
+  // var dst = './a/dst';
+  // var src = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst relative, src null';
-  var expected = './a/dst <- {null}';
-  var dst = './a/dst';
-  var src = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'src relative, dst null';
+  // var expected = '{null} <- ./a/src';
+  // var src = './a/src';
+  // var dst = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'src relative, dst null';
-  var expected = '{null} <- ./a/src';
-  var src = './a/src';
-  var dst = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'src absolute, dst null';
+  // var expected = '/{null} <- /a/src';
+  // var src = '/a/src';
+  // var dst = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'src absolute, dst null';
-  var expected = '/{null} <- /a/src';
-  var src = '/a/src';
-  var dst = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
+  // test.case = 'dst absolute, src null';
+  // var expected = '/a/dst <- /{null}';
+  // var dst = '/a/dst';
+  // var src = null;
+  // var got = _.uriNew.moveTextualReport( dst, src );
+  // test.identical( got, expected );
 
-  test.case = 'dst absolute, src null';
-  var expected = '/a/dst <- /{null}';
-  var dst = '/a/dst';
-  var src = null;
-  var got = _.uriNew.moveTextualReport( dst, src );
-  test.identical( got, expected );
-
-  test.close( 'null' );
+  // test.close( 'null' );
 
 
 }
