@@ -2025,7 +2025,7 @@ function dequery( query )
     }
     else if( _.strIs( result[ w[ 0 ] ] ) )
     {
-      result[ w[ 0 ] ] = result[ result[ w[ 0 ] ], w[ 1 ] ]
+      result[ w[ 0 ] ] = result[ w[ 1 ] ]
     }
     else
     {
