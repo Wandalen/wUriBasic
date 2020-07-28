@@ -14083,7 +14083,7 @@ function moveTextualReport( test )
   var got = _.uriNew.moveTextualReport( dst, src );
   // console.log( got );
   // console.log( _.ct._format( got, {} ) );
-  test.identical( _.ct._format( got, {} ), expected );
+  test.identical( _.ct.strip( got ), expected );
   debugger
   // test.case = 'dst with hash, src without hash';
   // var expected = 'npm:///wprocedure : .#0.3.19 <- .';
