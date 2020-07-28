@@ -4,13 +4,10 @@
 
 if( typeof module !== 'undefined' )
 {
-
   let _ = require( '../../../wtools/Tools.s' );
-
   _.include( 'wTesting' );
-  _.include( 'wStringer' );
+  // _.include( 'wStringer' );
   require( '../l4/Uri.s' );
-
 }
 
 let _global = _global_;
@@ -13648,18 +13645,21 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 5
   }
+  debugger;
   var got = _.uriNew.groupTextualReport( _.mapExtend( null,defaults, o ) );
   var expected =
-`  '/a'
-            '/a/b'
-            '/b'
-            '/b/c'
-             4 at /
-             2 at ./a
-             2 at ./b
-          - Deleted 4 file(s), at /, in 5.000s
+`
+'/a'
+'/a/b'
+'/b'
+'/b/c'
+ 4 at /
+ 2 at ./a
+ 2 at ./b
+- Deleted 4 file(s), at /, in 5.000s
 `
   test.equivalent( got, expected );
+  debugger;
 
   test.case = 'relative, explanation + groupsMap + spentTime, verbosity : 5';
   var o =

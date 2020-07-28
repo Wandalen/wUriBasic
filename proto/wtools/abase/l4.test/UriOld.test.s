@@ -4,13 +4,10 @@
 
 if( typeof module !== 'undefined' )
 {
-
   let _ = require( '../../../wtools/Tools.s' );
-
   _.include( 'wTesting' );
-  _.include( 'wStringer' );
-  require( '../l4/UriOld.s' );
-
+  // _.include( 'wStringer' );
+  require( '../l4/Uri.s' );
 }
 
 let _global = _global_;
@@ -11797,7 +11794,7 @@ function uriConstructors( test )
 let Self =
 {
 
-  name : 'Tools.l4.Uri',
+  name : 'Tools.l4.Uri.Old',
   silencing : 1,
 
   tests :

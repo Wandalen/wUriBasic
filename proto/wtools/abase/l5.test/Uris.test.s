@@ -4,12 +4,10 @@
 
 if( typeof module !== 'undefined' )
 {
-
   let _ = require( '../../../wtools/Tools.s' );
-
   _.include( 'wTesting' );
+  // _.include( 'wStringer' );
   require( '../l5/Uris.s' );
-
 }
 
 let _global = _global_;
