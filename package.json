@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "wTools": "alpha",
-    "wpathbasic": "alpha"
+    "wpathbasic": "alpha",
+    "wstringer": "alpha"
   },
   "devDependencies": {
     "wuribasic": "file:.",
