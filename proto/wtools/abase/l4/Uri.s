@@ -1,4 +1,5 @@
-( function _Uri_s_() {
+( function _Uri_s_()
+{
 
 'use strict';
 
@@ -19,6 +20,7 @@ if( typeof module !== 'undefined' )
 
   let _ = require( '../../../wtools/Tools.s' );
 
+  _.include( 'wStringer' );
   _.include( 'wPathBasic' );
   _.include( 'wBlueprint' );
 
@@ -138,11 +140,11 @@ let UriConsequtive = _.blueprint
 // internal
 // --
 
-function _filterOnlyUrl( e,k,c )
+function _filterOnlyUrl( e, k, c )
 {
   if( _.strIs( k ) )
   {
-    if( _.strEnds( k,'Url' ) )
+    if( _.strEnds( k, 'Url' ) )
     return true;
     else
     return false
@@ -161,14 +163,14 @@ function _filterNoInnerArray( arr )
 // checker
 // --
 
-  // '^(https?:\\/\\/)?'                                     // protocol
-  // + '(\\/)?'                                              // relative
-  // + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
-  // + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
-  // + '(\\:\\d+)?'                                          // port
-  // + '(\\/[-a-z\\d%_.~+]*)*'                               // path
-  // + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
-  // + '(\\#[-a-z\\d_]*)?$';                                 // anchor
+// '^(https?:\\/\\/)?'                                     // protocol
+// + '(\\/)?'                                              // relative
+// + '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'    // domain
+// + '((\\d{1,3}\\.){3}\\d{1,3}))'                         // ip
+// + '(\\:\\d+)?'                                          // port
+// + '(\\/[-a-z\\d%_.~+]*)*'                               // path
+// + '(\\?[;&a-z\\d%_.~+=-]*)?'                            // query
+// + '(\\#[-a-z\\d_]*)?$';                                 // anchor
 
 let isRegExpString =
   '^([\w\d]*:\\/\\/)?'                                    // protocol
@@ -703,9 +705,8 @@ function parse_body( o )
 
     let rest = '';
     let splits2 = _.path.split( result.longPath );
-    let left;
+    let left, s;
 
-    let s;
     for( s = 0 ; s < splits2.length ; s++ )
     {
       let split = splits2[ s ];
@@ -1372,7 +1373,7 @@ function name( o )
 
   let path = this.parseConsecutive( o.path );
 
-  let o2 = _.mapExtend( null,o );
+  let o2 = _.mapExtend( null, o );
   o2.path = path.longPath;
   return parent.name.call( this, o2 );
 }
@@ -1930,8 +1931,8 @@ function commonTextualReport( filePath )
   let basePathParsed;
   let o =
   {
-    filePath : filePath,
-    onRelative : onRelative
+    filePath,
+    onRelative
   }
   return parent._commonTextualReport.call( self, o );
 
@@ -2049,7 +2050,7 @@ function documentGet( path, o )
   }
   else
   {
-    if( o.withoutProtocol ) return b[0];
+    if( o.withoutProtocol )return b[ 0 ];
     else return a[ 0 ] + '//' + b[ 0 ];
   }
 
@@ -2081,15 +2082,15 @@ documentGet.defaults =
 
 function server( path )
 {
-  let a,b;
+  let a, b;
 
   if( path === undefined )
   path = _realGlobal_.location.origin;
 
   if( path.indexOf( '//' ) === -1 )
   {
-    if( path[ 0 ] === '/' ) return '/';
-    a = [ '',path ]
+    if( path[ 0 ] === '/' )return '/';
+    a = [ '', path ]
   }
   else
   {
@@ -2153,7 +2154,7 @@ function dequery( query )
 {
 
   let result = Object.create( null );
-  query = query || _global.location.search.split(self.queryToken)[1];
+  query = query || _global.location.search.split( self.queryToken )[ 1 ];
   if( !query || !query.length )
   return result;
   let vars = query.split( '&' );
@@ -2166,8 +2167,8 @@ function dequery( query )
     if( w[ 1 ] === undefined ) w[ 1 ] = '';
     else w[ 1 ] = decodeURIComponent( w[ 1 ] );
 
-    if( (w[ 1 ][ 0 ] == w[ 1 ][ w[ 1 ].length-1 ] ) && ( w[ 1 ][ 0 ] == '"') )
-    w[ 1 ] = w[ 1 ].substr( 1,w[ 1 ].length-1 );
+    if( ( w[ 1 ][ 0 ] === w[ 1 ][ w[ 1 ].length-1 ] ) && ( w[ 1 ][ 0 ] === '"' ) )
+    w[ 1 ] = w[ 1 ].substr( 1, w[ 1 ].length-1 );
 
     if( result[ w[ 0 ] ] === undefined )
     {
@@ -2175,7 +2176,7 @@ function dequery( query )
     }
     else if( _.strIs( result[ w[ 0 ] ] ) )
     {
-      result[ w[ 0 ] ] = result[ result[ w[ 0 ] ], w[ 1 ] ]
+      result[ w[ 0 ] ] = result[ w[ 1 ] ]
     }
     else
     {
