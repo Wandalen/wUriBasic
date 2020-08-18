@@ -8,7 +8,7 @@ var parsed = _.uri.parse( uri );
 console.log( 'Uri : ', uri );
 console.log( 'Parsed ( full ) : \n', parsed );
 
-/* log 
+/* log
 Parsed ( full ) :
  [Object: null prototype] {
   'protocol' : 'complex+protocol',
@@ -27,7 +27,7 @@ Parsed ( full ) :
 
 /* */
 
-var uri = "git://../repo/Tools?out=out/wTools.out.will#master"
+var uri = 'git://../repo/Tools?out=out/wTools.out.will#master'
 var parsed = _.uri.parseAtomic( uri );
 console.log( 'Uri : ', uri );
 console.log( 'Parsed ( atomic ) :\n', parsed );

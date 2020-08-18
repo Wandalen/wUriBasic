@@ -1,4 +1,5 @@
-( function _Uris_test_s_( ) {
+( function _Uris_test_s_( )
+{
 
 'use strict';
 

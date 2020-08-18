@@ -1,4 +1,5 @@
-( function _Uris_s_() {
+( function _Uris_s_()
+{
 
 'use strict';
 
@@ -122,17 +123,17 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  * @namespace uri.s
  */
 
- /**
- * @summary Assembles uris from array of components( src ).
- * @param {Array|Object} src
- * @example
- * _.uri.s.str( [ { resourcePath : '/a' }, { protocol : 'http', resourcePath : '/a' } ] );
- * //['/a', 'http:///a' ]
- * @returns {Array} Returns array of strings, each element represent a uri.
- * @function str
- * @module Tools/base/Uri.wTools
- * @namespace uri.s
- */
+/**
+* @summary Assembles uris from array of components( src ).
+* @param {Array|Object} src
+* @example
+* _.uri.s.str( [ { resourcePath : '/a' }, { protocol : 'http', resourcePath : '/a' } ] );
+* //['/a', 'http:///a' ]
+* @returns {Array} Returns array of strings, each element represent a uri.
+* @function str
+* @module Tools/base/Uri.wTools
+* @namespace uri.s
+*/
 
 /**
  * @summary Complements current window uri origin with array of components.
