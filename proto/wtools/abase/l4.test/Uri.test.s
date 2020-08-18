@@ -14073,6 +14073,7 @@ function commonTextualReport( test )
 
 function moveTextualReport( test )
 {
+
   test.open( 'globals' );
   test.case = 'same';
   var expected = 'npm:///wprocedure#0.3.19 : . <- .';
