@@ -1,19 +1,14 @@
 {
-  "name": "wuribasic",
-  "version": "0.6.211",
-  "engine": "node >= 10.0.0",
-  "description": "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
-  "license": "MIT",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "contributors": [
-    {
-      "name": "Kostiantyn Wandalen",
-      "email": "wanalen@01.school"
-    },
-    {
-      "name": "Volodymyr M.",
-      "email": "volodymyr.migdal@gmail.com"
-    }
+  "name" : "wuribasic",
+  "version" : "0.6.213",
+  "engine" : "node >= 10.0.0",
+  "description" : "Collection of routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
+  "license" : "MIT",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "contributors" :
+  [
+    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
+    { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" }
   ],
   "main": "proto/wtools/abase/l4/Uri.s",
   "files": [
@@ -39,18 +34,11 @@
     "wpathbasic": "alpha",
     "wstringer": "alpha"
   },
-  "devDependencies": {
-    "wuribasic": "file:.",
-    "eslint": "7.1.0",
-    "wTesting": "alpha"
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/wUriBasic/issues"
   },
-  "keywords": [
-    "wTools",
-    "wPath",
-    "path",
-    "URL",
-    "URI",
-    "path",
-    "file"
-  ]
+  "dependencies" : { "wTools" : "alpha", "wpathbasic" : "alpha" },
+  "devDependencies" : { "eslint" : "7.1.0", "wuribasic" : "file:.", "wTesting" : "alpha" },
+  "keywords" : [ "wTools", "wPath", "path", "URL", "URI", "path", "file" ]
 }
