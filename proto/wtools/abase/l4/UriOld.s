@@ -468,7 +468,7 @@ _uriParseRegexpStr += '$'; /* end */
 
 let _uriParseRegexp = new RegExp( _uriParseRegexpStr );
 
-function parse_pre( routine, args )
+function parse_head( routine, args )
 {
   _.assert( args.length === 1, 'Expects single argument' );
 
@@ -720,26 +720,26 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
  * @namespace Tools.uri
  */
 
-let parse = _.routineFromPreAndBody( parse_pre, parse_body );
+let parse = _.routineUnite( parse_head, parse_body );
 
 parse.components = UriComponents;
 
 //
 
-let parseFull = _.routineFromPreAndBody( parse_pre, parse_body );
+let parseFull = _.routineUnite( parse_head, parse_body );
 parseFull.defaults.kind = 'full';
 parseFull.components = UriComponents;
 
 //
 
-let parseAtomic = _.routineFromPreAndBody( parse_pre, parse_body );
+let parseAtomic = _.routineUnite( parse_head, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
 parseAtomic.components = UriComponents;
 
 //
 
-let parseConsecutive = _.routineFromPreAndBody( parse_pre, parse_body );
+let parseConsecutive = _.routineUnite( parse_head, parse_body );
 parseConsecutive.defaults.kind = 'consecutive';
 
 //
@@ -1551,7 +1551,7 @@ function relative_body( o )
 var defaults = relative_body.defaults = Object.create( Parent.relative.defaults );
 defaults.global = 1; /* qqq : why is this option here? */
 
-let relative = _.routineFromPreAndBody( Parent.relative.pre, relative_body );
+let relative = _.routineUnite( Parent.relative.head, relative_body );
 
 //
 
@@ -1725,15 +1725,15 @@ function dir_body( o )
 
 _.routineExtend( dir_body, Parent.dir );
 
-let dir = _.routineFromPreAndBody( Parent.dir.pre, dir_body );
+let dir = _.routineUnite( Parent.dir.head, dir_body );
 _.mapExtend( dir.defaults, Parent.dir.defaults );
 
-let dirFirst = _.routineFromPreAndBody( Parent.dirFirst.pre, dir_body );
+let dirFirst = _.routineUnite( Parent.dirFirst.head, dir_body );
 _.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
 
-function groupTextualReport_pre( routine, args )
+function groupTextualReport_head( routine, args )
 {
   let self = this;
   let parent = this.path;
@@ -1767,10 +1767,10 @@ function groupTextualReport_pre( routine, args )
     return self.str( strOptions );
   }
 
-  return parent.groupTextualReport.pre.call( self, routine, [ o ] );
+  return parent.groupTextualReport.head.call( self, routine, [ o ] );
 }
 
-let groupTextualReport = _.routineFromPreAndBody( groupTextualReport_pre, Parent.groupTextualReport.body );
+let groupTextualReport = _.routineUnite( groupTextualReport_head, Parent.groupTextualReport.body );
 
 //
 
@@ -1816,7 +1816,7 @@ function commonTextualReport( filePath )
 
 //
 
-function moveTextualReport_pre( routine, args )
+function moveTextualReport_head( routine, args )
 {
   let self = this;
   let parent = this.path;
@@ -1852,10 +1852,10 @@ function moveTextualReport_pre( routine, args )
     return self.str( strOptions );
   }
 
-  return parent.moveTextualReport.pre.call( self, routine, [ o ] );
+  return parent.moveTextualReport.head.call( self, routine, [ o ] );
 }
 
-let moveTextualReport = _.routineFromPreAndBody( moveTextualReport_pre, Parent.moveTextualReport.body );
+let moveTextualReport = _.routineUnite( moveTextualReport_head, Parent.moveTextualReport.body );
 
 //
 

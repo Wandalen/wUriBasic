@@ -7,7 +7,7 @@
  *  */
 
 /**
- * Collection of routines to operate multiple uris in the reliable and consistent way.
+ * Collection of cross-platform routines to operate multiple uris in the reliable and consistent way.
  * @namespace wTools.uri.s
  * @extends Tools.uri
  * @module Tools/base/Uri
