@@ -1547,6 +1547,9 @@ function join_functor( gen )
         if( !result.host && src.host !== undefined )
         result.host = src.host;
 
+        if( !result.user && src.user !== undefined )
+        result.user = src.user;
+
         if( !result.port && src.port !== undefined )
         if( !hostWas || !src.host || hostWas === src.host )
         result.port = src.port;
