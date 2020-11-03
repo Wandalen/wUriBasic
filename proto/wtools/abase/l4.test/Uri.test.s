@@ -9189,6 +9189,19 @@ function str( test )
 
   /* */
 
+  test.case = 'from atomic parsed path, resourcePath - global';
+  var components =
+  {
+    host: 'www.site.com',
+    protocol: 'http',
+    resourcePath: '/z',
+  };
+  var expected = 'http://www.site.com/z';
+  var got = _.uriNew.str( components );
+  test.identical( got, expected );
+
+  /* */
+
   test.case = 'from atomic parsed path, resourcePath - local';
   var components =
   {
@@ -9215,7 +9228,7 @@ function str( test )
     query : 'query=here&and=here',
     hash : 'anchor',
   };
-  var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
@@ -9229,7 +9242,7 @@ function str( test )
     hash : 'anchor',
     origin : 'http://www.site.com:13'
   };
-  var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 

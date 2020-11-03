@@ -855,25 +855,26 @@ function localFromGlobal( globalPath )
 //
 
 /**
- * Assembles uri string from components
+ * Routine str() assembles URI string from components.
  *
  * @example
+ * let components =
+ * {
+ *   protocol : 'http',
+ *   host : 'www.site.com',
+ *   port : '13',
+ *   resourcePath : '/path/name',
+ *   query : 'query=here&and=here',
+ *   hash : 'anchor',
+ * };
+ * _.uri.str( UrlComponents );
+ * // returns : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
  *
-   let components =
-     {
-       protocol : 'http',
-       host : 'www.site.com',
-       port : '13',
-       resourcePath : '/path/name',
-       query : 'query=here&and=here',
-       hash : 'anchor',
-     };
-   wTools.uri.str( UrlComponents );
-   // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
- * @param {UrlComponents} components Components for uri
- * @returns {string} Complete uri string
- * @throws {Error} If `components` is not UrlComponents map
- * @see {@link UrlComponents}
+ * @param { Map|MapLike|String } map - Map with URI components.
+ * @returns { String } - Returns complete URI string.
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-map-} has incompatible type.
+ * @see { @link UrlComponents }
  * @function str
  * @module Tools/UriBasic
  * @namespace Tools.uri
@@ -975,10 +976,13 @@ function str( map )
     {
       if( !_.strIs( hostFull ) )
       hostFull = hostFullFrom( map );
+
+      let upToken = _.strBegins( map.resourcePath, self.upToken ) ? '' : self.upToken;
+
       if( hostFull === undefined )
       return map.resourcePath;
       else
-      return hostFull + self.upToken + map.resourcePath;
+      return hostFull + upToken + map.resourcePath;
     }
     else if( map.longPath !== undefined )
     {
