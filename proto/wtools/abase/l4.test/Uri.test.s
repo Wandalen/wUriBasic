@@ -9168,66 +9168,28 @@ function localFromGlobal( test )
 
 function str( test )
 {
+  /* aaa : normalize test */ /* Dmytro : normalized */
 
-  // var uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var components0 =
-  {
-    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
-  }
-
-  var components2 =
-  {
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-
-    origin : 'http://www.site.com:13'
-  }
-
-  var components3 =
-  {
-    protocol : 'http',
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-
-    hostFull : 'www.site.com:13'
-  }
-
-  /* qqq : normalize test */
-
-  /* */
-
-  test.case = 'string basePath string';
+  test.case = 'map is a String';
+  var components = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'make uri basePath components uri';
-  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( components0 );
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'make uri basePath atomic components';
-  var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
-  var components =
-  {
-    protocol : 'http',
-    host : 'www.site.com',
-    port : 13,
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-  }
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
-  test.case = 'make uri basePath atomic components';
+  /* */
+
+  test.case = 'only full field in map';
+  var components =
+  {
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
+  };
   var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uriNew.str( components );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'from atomic parsed path, resourcePath - local';
   var components =
   {
     protocol : 'http',
@@ -9236,64 +9198,78 @@ function str( test )
     resourcePath : 'path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
-  }
+  };
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'make uri basePath composites components: origin';
+  test.case = 'from atomic parsed path, resourcePath - global';
+  var components =
+  {
+    protocol : 'http',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
   var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( components2 );
+  var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
+  test.case = 'from composites components with field origin';
+  var components =
+  {
+    resourcePath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    origin : 'http://www.site.com:13'
+  };
   var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( components3 );
+  var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
-  var expected = 'some.domain.com/was';
+  test.case = 'from host and resourcePath';
   var components =
   {
     host : 'some.domain.com',
     resourcePath : 'was',
-  }
+  };
+  var expected = 'some.domain.com/was';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'no host, but protocol'
-
+  test.case = 'no host, but protocol, resourcePath - global';
   var components =
   {
     resourcePath : '/some2',
     protocol : 'src',
-  }
+  };
   var expected = 'src:///some2';
-  debugger;
   var got = _.uriNew.str( components );
   test.identical( got, expected );
-  debugger;
 
+  test.case = 'no host, but protocol, resourcePath - local';
   var components =
   {
     resourcePath : 'some2',
     protocol : 'src',
-  }
+  };
   var expected = 'src://some2';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'hash and protocol null, but protocols presents'
-
+  test.case = 'hash and protocol - null, from longPath and protocols';
   var components =
   {
     protocol : null,
@@ -9307,6 +9283,7 @@ function str( test )
 
   /* */
 
+  test.case = 'from full parsed, resourcePath - global';
   var components =
   {
     protocol : 'git',
@@ -9322,6 +9299,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, resourcePath - global, resourcePath ends by upToken';
   var components =
   {
     protocol : 'git',
@@ -9367,6 +9345,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, with tag, resourcePath - global, resourcePath ends by upToken';
   var components =
   {
     protocol : 'git',
@@ -9397,6 +9376,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, longPath - global';
   var components =
   {
     protocol : 'git',
@@ -9413,6 +9393,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, longPath - global, longPath ends by upToken';
   var components =
   {
     protocol : 'git',
@@ -9461,6 +9442,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, with query';
   var components =
   {
     protocol : 'git',
@@ -9572,11 +9554,10 @@ function str( test )
     protocols : [ 'git' ],
     hostFull : '',
     origin : 'git://',
-  }
+  };
   var expected = 'git:///somerepo.git?query=1!tag'
   var got = _.uriNew.str( components );
   test.identical( got, expected );
-
 
   var components =
   {
@@ -9589,7 +9570,7 @@ function str( test )
     protocols : [ 'git' ],
     hostFull : '',
     origin : 'git://',
-  }
+  };
   var expected = 'git:///somerepo.git/?query=1!tag'
   var got = _.uriNew.str( components );
   test.identical( got, expected );
@@ -9599,8 +9580,13 @@ function str( test )
   if( !Config.debug )
   return;
 
+  test.case = 'without arguments';
   test.shouldThrowErrorSync( () => _.uriNew.str() );
+
+  test.case = 'extra arguments';
   test.shouldThrowErrorSync( () => _.uriNew.str( 'a', 'b' ) );
+
+  test.case = 'unknown field in map';
   test.shouldThrowErrorSync( () => _.uriNew.str({ x : 'x' }) );
 
 }

@@ -891,15 +891,37 @@ function str( map )
 
   if( Config.debug )
   {
-    _.assert( map.longPath === undefined || map.longPath === null || longPathHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
-    _.assert( map.protocols === undefined || map.protocols === null || protocolsHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
-    _.assert( map.hostFull === undefined || map.hostFull === null || hostFullHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}' );
-    _.assert( map.origin === undefined || map.origin === null || originHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
-    _.assert( map.full === undefined || map.full === null || fullHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
+    _.assert
+    (
+      map.longPath === undefined || map.longPath === null || longPathHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}'
+    );
+    _.assert
+    (
+      map.protocols === undefined || map.protocols === null || protocolsHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}'
+    );
+    _.assert
+    (
+      map.hostFull === undefined || map.hostFull === null || hostFullHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}'
+    );
+    _.assert
+    (
+      map.origin === undefined || map.origin === null || originHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-origin-}'
+    );
+    _.assert
+    (
+      map.full === undefined || map.full === null || fullHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-full-}'
+    );
     _.assert( _.strIs( map ) || _.mapIs( map ) );
   }
 
   _.assertMapHasOnly( map, this.UriFull.fields );
+
+  /* */
 
   if( map.full )
   {
@@ -921,7 +943,7 @@ function str( map )
   if( map.origin )
   if
   (
-       ( map.user === null || map.user === undefined )
+    ( map.user === null || map.user === undefined )
     || ( map.host === null || map.host === undefined )
     || ( map.port === null || map.port === undefined )
   )
