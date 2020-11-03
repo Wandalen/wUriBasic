@@ -3006,7 +3006,8 @@ function parseCommon( test )
   {
     'resourcePath' : '/',
     'host' : '/',
-  }
+  };
+  debugger;
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
@@ -9196,7 +9197,7 @@ function str( test )
     protocol: 'http',
     resourcePath: '/z',
   };
-  var expected = 'http://www.site.com/z';
+  var expected = 'http://www.site.com//z';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 

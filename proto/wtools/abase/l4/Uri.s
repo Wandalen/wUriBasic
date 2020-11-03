@@ -976,13 +976,10 @@ function str( map )
     {
       if( !_.strIs( hostFull ) )
       hostFull = hostFullFrom( map );
-
-      let upToken = _.strBegins( map.resourcePath, self.upToken ) ? '' : self.upToken;
-
       if( hostFull === undefined )
       return map.resourcePath;
       else
-      return hostFull + upToken + map.resourcePath;
+      return hostFull + self.upToken + map.resourcePath;
     }
     else if( map.longPath !== undefined )
     {
