@@ -6980,7 +6980,8 @@ function parseAtomic( test )
     'protocol' : 'http',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q=3',
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -6993,7 +6994,8 @@ function parseAtomic( test )
     'protocol' : 'http',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7006,7 +7008,8 @@ function parseAtomic( test )
     'protocol' : 'http',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7149,7 +7152,7 @@ function parseAtomic( test )
   test.case = 'escaped hash, tag and query';
   var expected =
   {
-    resourcePath: '"!tag1"/"?query1"',
+    resourcePath : '"!tag1"/"?query1"',
     host : '"#hash1"',
     protocol : 'https',
   }
@@ -7482,7 +7485,8 @@ function parseAtomicWithoutProtocol( test )
     'protocol' : '',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q=3',
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7495,7 +7499,8 @@ function parseAtomicWithoutProtocol( test )
     'protocol' : '',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7508,7 +7513,8 @@ function parseAtomicWithoutProtocol( test )
     'protocol' : '',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7600,7 +7606,7 @@ function parseAtomicWithoutProtocol( test )
   test.case = 'escaped hash, tag and query';
   var expected =
   {
-    resourcePath: '"!tag1"/"?query1"',
+    resourcePath : '"!tag1"/"?query1"',
     host : '"#hash1"',
     protocol : '',
   }
@@ -7960,7 +7966,8 @@ function parseAtomicWithComplexProtocol( test )
     'protocol' : 'http+hd',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q=3',
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7973,7 +7980,8 @@ function parseAtomicWithComplexProtocol( test )
     'protocol' : 'http+hd',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -7986,7 +7994,8 @@ function parseAtomicWithComplexProtocol( test )
     'protocol' : 'http+hd',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   }
   var got = _.uriNew.parseAtomic( src );
@@ -8078,7 +8087,7 @@ function parseAtomicWithComplexProtocol( test )
   test.case = 'escaped hash, tag and query';
   var expected =
   {
-    resourcePath: '"!tag1"/"?query1"',
+    resourcePath : '"!tag1"/"?query1"',
     host : '"#hash1"',
     protocol : 'https+hd',
   }
@@ -11271,9 +11280,9 @@ function str( test )
   test.case = 'from atomic parsed path, resourcePath - global';
   var components =
   {
-    host: 'www.site.com',
-    protocol: 'http',
-    resourcePath: '/z',
+    host : 'www.site.com',
+    protocol : 'http',
+    resourcePath : '/z',
   };
   var expected = 'http://www.site.com//z';
   var got = _.uriNew.str( components );
@@ -12034,7 +12043,8 @@ function strConvertMapFromParseAtomic( test )
     'protocol' : 'http',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q=3',
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
     'hash' : 'anch'
   };
   var expected = 'http:///127.0.0.1:5000/a/b?q=3#anch';
@@ -12047,7 +12057,8 @@ function strConvertMapFromParseAtomic( test )
     'protocol' : 'http',
     'host' : '127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   };
   var expected = 'http://127.0.0.1:5000/a/b?q:3#anch';
@@ -12060,7 +12071,8 @@ function strConvertMapFromParseAtomic( test )
     'protocol' : 'http',
     'host' : '/127.0.0.1',
     'port' : 5000,
-    'resourcePath' : 'a/b','query' : 'q:3',
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
     'hash' : 'anch'
   };
   var expected = 'http:///127.0.0.1:5000/a/b?q:3#anch';
@@ -12209,7 +12221,7 @@ function strConvertMapFromParseAtomic( test )
   test.case = 'escaped hash, tag and query';
   var map =
   {
-    resourcePath: '"!tag1"/"?query1"',
+    resourcePath : '"!tag1"/"?query1"',
     host : '"#hash1"',
     protocol : 'https',
   };
@@ -12260,7 +12272,7 @@ function full( test )
 
   /* */
 
-  test.case = 'make uri basePath composites components: origin';
+  test.case = 'make uri basePath composites components : origin';
   var components =
   {
     resourcePath : 'path/name',
@@ -12274,7 +12286,7 @@ function full( test )
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
+  test.case = 'make uri basePath composites components : hostFull';
   var components =
   {
     protocol : 'http',
@@ -12290,7 +12302,7 @@ function full( test )
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
+  test.case = 'make uri basePath composites components : hostFull';
   var expected = 'some.domain.com/was';
   var components =
   {
