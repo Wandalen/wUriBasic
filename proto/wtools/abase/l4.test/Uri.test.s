@@ -12232,6 +12232,448 @@ function strConvertMapFromParseAtomic( test )
 
 //
 
+function strConvertMapFromParseAtomicWithoutProtocol( test )
+{
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'host' : 'site.com' };
+  var expected = '://site.com';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var map = { 'protocol' : '', 'port' : 13, 'host' : '' };
+  var expected = '://:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag' };
+  var expected = '://!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash' };
+  var expected = '://#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null' };
+  var expected = '://?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var expected = '://site.com/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var map = { 'protocol' : '', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'host' : 'site.com' };
+  var expected = '://site.com!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'host' : 'site.com' };
+  var expected = '://site.com#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'host' : 'site.com' };
+  var expected = '://site.com?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'resourcePath' : 'some/page', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var expected = '://site.com:13/some/page?entry:1&format:null!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var expected = '://site.com:13/some/page?entry:1&format:null#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var map =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var expected = '://user@site.com:13/some/page?entry:1&format:null!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var expected = '://user@site.com:13/some/page?entry:1&format:null#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var map =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var expected = '://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '..',
+    'query' : 'query',
+  };
+  var expected = '://../site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '/..',
+    'query' : 'query',
+  };
+  var expected = ':///../site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '/site.com',
+    'port' : 13,
+    'resourcePath' : 'some/page',
+    'query' : 'query',
+  };
+  var expected = ':///site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  };
+  var expected = '://127.0.0.1:5000/a/b?q=3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  };
+  var expected = ':///127.0.0.1:5000/a/b?q=3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  };
+  var expected = '://127.0.0.1:5000/a/b?q:3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  };
+  var expected = ':///127.0.0.1:5000/a/b?q:3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var map =
+  {
+    protocol : '',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var map =
+  {
+    protocol : '',
+    host : '/www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var map =
+  {
+    protocol : '',
+    host : '/bitbucket.org',
+    user : 'git',
+    resourcePath : 'repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var expected = ':///git@bitbucket.org/repo/?query=select#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var map =
+  {
+    host : '/bitbucket.org',
+    port : 'someorg',
+    user : 'git',
+    resourcePath : 'somerepo.git',
+    tag : 'tag',
+    protocol : '',
+  };
+  var expected = ':///git@bitbucket.org:someorg/somerepo.git!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var map =
+  {
+    protocol : '',
+    host : '/bitbucket.org',
+    user : 'git',
+    port : 'someorg',
+    resourcePath : 'somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var expected = ':///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var map =
+  {
+    protocol : '',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var expected = '://?query1#hash1/!tag1/';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var map =
+  {
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocol : '',
+  };
+  var expected = '://"#hash1"/"!tag1"/"?query1"';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+}
+
+//
+
 function full( test )
 {
 
@@ -18394,6 +18836,7 @@ let Self =
 
     str,
     strConvertMapFromParseAtomic,
+    strConvertMapFromParseAtomicWithoutProtocol,
 
     full,
     parseAndStr,
