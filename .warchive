@@ -1,393 +1,390 @@
 {
-  "/pro/module/wUriBasic" : 
+  "/C/pro/module/wUriBasic" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1588223792992, 
-    "absolutePath" : `/pro/module/wUriBasic`
+    "mtime" : 1604505870152, 
+    "ctime" : 1604505870152, 
+    "birthtime" : 1533543881204, 
+    "absolutePath" : `/C/pro/module/wUriBasic`
   }, 
-  "/pro/module/wUriBasic/.eslintrc.yml" : 
+  "/C/pro/module/wUriBasic/.eslintrc.yml" : 
   {
-    "mtime" : 1594837646411, 
-    "ctime" : 1595589356999, 
-    "birthtime" : 1588883912997, 
-    "absolutePath" : `/pro/module/wUriBasic/.eslintrc.yml`, 
-    "size" : 9086n, 
-    "hash" : `566f71779375dae2696433fc849e39ba`, 
-    "hashOfStat" : 24777113n, 
-    "nlink" : 195n
-  }, 
-  "/pro/module/wUriBasic/.ex.will.yml" : 
-  {
-    "mtime" : 1591888307279, 
-    "ctime" : 1591888307279, 
-    "birthtime" : 1588223793056, 
-    "absolutePath" : `/pro/module/wUriBasic/.ex.will.yml`, 
-    "size" : 2009n, 
-    "hash" : `d5a21e484a4ed4121707666c6273e55f`, 
-    "hashOfStat" : 23345478n, 
+    "mtime" : 1604505870125, 
+    "ctime" : 1604505870125, 
+    "birthtime" : 1604505870125, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.eslintrc.yml`, 
+    "size" : 9109n, 
+    "hash" : `c0d9e7a24b51385e533ab9f24f6273f5`, 
+    "hashOfStat" : 70650219154592677n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/.gitattributes" : 
+  "/C/pro/module/wUriBasic/.ex.will.yml" : 
   {
-    "mtime" : 1594837663055, 
-    "ctime" : 1597502489136, 
-    "birthtime" : 1588224166252, 
-    "absolutePath" : `/pro/module/wUriBasic/.gitattributes`, 
+    "mtime" : 1604505870125, 
+    "ctime" : 1604505870125, 
+    "birthtime" : 1571513891697, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.ex.will.yml`, 
+    "size" : 2024n, 
+    "hash" : `f02da7802dd1baf4279198e5332df456`, 
+    "hashOfStat" : 3940649674287865n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/.gitattributes" : 
+  {
+    "mtime" : 1604505870126, 
+    "ctime" : 1604505870126, 
+    "birthtime" : 1540107687156, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.gitattributes`, 
     "size" : 110n, 
     "hash" : `2e00cff2e5f42c17c500340de676189d`, 
-    "hashOfStat" : 7745108n, 
-    "nlink" : 218n
+    "hashOfStat" : 9851624184933860n, 
+    "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/.gitignore" : 
+  "/C/pro/module/wUriBasic/.gitignore" : 
   {
-    "mtime" : 1594236906542, 
-    "ctime" : 1594528751775, 
-    "birthtime" : 1591633293207, 
-    "absolutePath" : `/pro/module/wUriBasic/.gitignore`, 
-    "size" : 205n, 
-    "hash" : `4426d44523b353facb0307fd9fd46525`, 
-    "hashOfStat" : 25307682n, 
-    "nlink" : 65n
+    "mtime" : 1604505870129, 
+    "ctime" : 1604505870129, 
+    "birthtime" : 1540107687161, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.gitignore`, 
+    "size" : 93n, 
+    "hash" : `c2beb357ba394bb73e50b684adf3b8a2`, 
+    "hashOfStat" : 69805794224327383n, 
+    "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/.im.will.yml" : 
+  "/C/pro/module/wUriBasic/.im.will.yml" : 
   {
-    "mtime" : 1594236906526, 
-    "ctime" : 1594236906526, 
-    "birthtime" : 1588223793064, 
-    "absolutePath" : `/pro/module/wUriBasic/.im.will.yml`, 
+    "mtime" : 1604505870130, 
+    "ctime" : 1604505870130, 
+    "birthtime" : 1571513891699, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.im.will.yml`, 
     "size" : 5097n, 
     "hash" : `57e051b212ec2361690ab846377b423c`, 
-    "hashOfStat" : 23345479n, 
+    "hashOfStat" : 12384898976015013n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/.warchive" : 
+  "/C/pro/module/wUriBasic/.warchive" : 
   {
-    "mtime" : 1597723279401, 
-    "ctime" : 1597723279401, 
-    "birthtime" : 1593093530142, 
-    "absolutePath" : `/pro/module/wUriBasic/.warchive`, 
-    "size" : 12041n, 
-    "hash" : `673a7aba5653ee3c9b3621c337688d5e`, 
-    "hashOfStat" : 23348433n, 
+    "mtime" : 1604505870131, 
+    "ctime" : 1604505870131, 
+    "birthtime" : 1563454892432, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.warchive`, 
+    "size" : 12042n, 
+    "hash" : `095597724def7c8774021d626752d948`, 
+    "hashOfStat" : 39406496740237990n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/LICENSE" : 
+  "/C/pro/module/wUriBasic/.will.state.json" : 
   {
-    "mtime" : 1594837663511, 
-    "ctime" : 1597502489132, 
-    "birthtime" : 1588224166256, 
-    "absolutePath" : `/pro/module/wUriBasic/LICENSE`, 
+    "mtime" : 1565756569167, 
+    "ctime" : 1565756569167, 
+    "birthtime" : 1548770829161, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.will.state.json`, 
+    "size" : 2414n, 
+    "hash" : `04dba703f375adf347277790f0f58af7`, 
+    "hashOfStat" : 2814749769580389n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/LICENSE" : 
+  {
+    "mtime" : 1588000195633, 
+    "ctime" : 1604505038661, 
+    "birthtime" : 1519041669458, 
+    "absolutePath" : `/C/pro/module/wUriBasic/LICENSE`, 
     "size" : 1074n, 
     "hash" : `4568cef29795a2860ecae67e559a03b3`, 
-    "hashOfStat" : 7745109n, 
-    "nlink" : 180n
+    "hashOfStat" : 281474977816814n, 
+    "nlink" : 92n
   }, 
-  "/pro/module/wUriBasic/package-lock.json" : 
+  "/C/pro/module/wUriBasic/package-lock.json" : 
   {
-    "mtime" : 1597722766169, 
-    "ctime" : 1597722766169, 
-    "birthtime" : 1597722766165, 
-    "absolutePath" : `/pro/module/wUriBasic/package-lock.json`, 
-    "size" : 109513n, 
-    "hash" : `4811651d16fb204d08f2d7ad37a9b77e`, 
-    "hashOfStat" : 23333465n, 
+    "mtime" : 1581935590869, 
+    "ctime" : 1581935590880, 
+    "birthtime" : 1581935590868, 
+    "absolutePath" : `/C/pro/module/wUriBasic/package-lock.json`, 
+    "size" : 75730n, 
+    "hash" : `b5831d2371d5c99a014e2035e512e355`, 
+    "hashOfStat" : 6192449487660226n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/package.json" : 
+  "/C/pro/module/wUriBasic/package.json" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1597723281275, 
-    "absolutePath" : `/pro/module/wUriBasic/package.json`, 
-    "size" : 1477n, 
-    "hash" : `f3c96152db37a6dffdd2ec70fae4ba26`, 
-    "hashOfStat" : 23340817n, 
+    "mtime" : 1604505870134, 
+    "ctime" : 1604505870134, 
+    "birthtime" : 1581935590810, 
+    "absolutePath" : `/C/pro/module/wUriBasic/package.json`, 
+    "size" : 1287n, 
+    "hash" : `96bff0f8f71a5e6f727c600b912cbd5e`, 
+    "hashOfStat" : 9288674232197802n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/README.md" : 
+  "/C/pro/module/wUriBasic/README.md" : 
   {
-    "mtime" : 1595589241228, 
-    "ctime" : 1595589241228, 
-    "birthtime" : 1588223793064, 
-    "absolutePath" : `/pro/module/wUriBasic/README.md`, 
-    "size" : 891n, 
-    "hash" : `208441d94db58c375c0fbb4a3cbd3214`, 
-    "hashOfStat" : 23345480n, 
+    "mtime" : 1604505870132, 
+    "ctime" : 1604505870132, 
+    "birthtime" : 1571513891702, 
+    "absolutePath" : `/C/pro/module/wUriBasic/README.md`, 
+    "size" : 776n, 
+    "hash" : `0b9b2721ccad5e110b241bbaf54fd0b5`, 
+    "hashOfStat" : 45880421204583079n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/was.package.json" : 
+  "/C/pro/module/wUriBasic/was.package.json" : 
   {
-    "mtime" : 1597723146705, 
-    "ctime" : 1597723146705, 
-    "birthtime" : 1588223793068, 
-    "absolutePath" : `/pro/module/wUriBasic/was.package.json`, 
-    "size" : 1257n, 
-    "hash" : `f0051a8515468d13fe4f1a5e72dfb1f1`, 
-    "hashOfStat" : 23345481n, 
+    "mtime" : 1604505870152, 
+    "ctime" : 1604505870152, 
+    "birthtime" : 1571513891705, 
+    "absolutePath" : `/C/pro/module/wUriBasic/was.package.json`, 
+    "size" : 1272n, 
+    "hash" : `6853c3e5c4752593fae9c105449b55cf`, 
+    "hashOfStat" : 13229323906147013n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/.circleci" : 
+  "/C/pro/module/wUriBasic/.circleci" : 
   {
-    "mtime" : 1593899342835, 
-    "ctime" : 1593899342835, 
-    "birthtime" : 1593899342819, 
-    "absolutePath" : `/pro/module/wUriBasic/.circleci`
+    "mtime" : 1604505870124, 
+    "ctime" : 1604505870124, 
+    "birthtime" : 1604505870123, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.circleci`
   }, 
-  "/pro/module/wUriBasic/.circleci/config.yml" : 
+  "/C/pro/module/wUriBasic/.circleci/config.yml" : 
   {
-    "mtime" : 1596722943248, 
-    "ctime" : 1596722943248, 
-    "birthtime" : 1593898020246, 
-    "absolutePath" : `/pro/module/wUriBasic/.circleci/config.yml`, 
+    "mtime" : 1604505870124, 
+    "ctime" : 1604505870124, 
+    "birthtime" : 1604505870124, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.circleci/config.yml`, 
     "size" : 453n, 
     "hash" : `3580be7e8fdc9fad62116931179e5f96`, 
-    "hashOfStat" : 24773742n, 
-    "nlink" : 192n
-  }, 
-  "/pro/module/wUriBasic/.github" : 
-  {
-    "mtime" : 1593897745684, 
-    "ctime" : 1593897745684, 
-    "birthtime" : 1593897745680, 
-    "absolutePath" : `/pro/module/wUriBasic/.github`
-  }, 
-  "/pro/module/wUriBasic/.github/workflows" : 
-  {
-    "mtime" : 1594297450068, 
-    "ctime" : 1594297450068, 
-    "birthtime" : 1593897745684, 
-    "absolutePath" : `/pro/module/wUriBasic/.github/workflows`
-  }, 
-  "/pro/module/wUriBasic/.github/workflows/Publish.yml" : 
-  {
-    "mtime" : 1597521925355, 
-    "ctime" : 1597521925355, 
-    "birthtime" : 1594294932447, 
-    "absolutePath" : `/pro/module/wUriBasic/.github/workflows/Publish.yml`, 
-    "size" : 806n, 
-    "hash" : `55fd16ae4f897136021c8b381ff41d4c`, 
-    "hashOfStat" : 24779445n, 
-    "nlink" : 190n
-  }, 
-  "/pro/module/wUriBasic/.github/workflows/PullRequest.yml" : 
-  {
-    "mtime" : 1597521909840, 
-    "ctime" : 1597521909840, 
-    "birthtime" : 1591159730376, 
-    "absolutePath" : `/pro/module/wUriBasic/.github/workflows/PullRequest.yml`, 
-    "size" : 1041n, 
-    "hash" : `c1407824f839e8c37d5f5190760d24a4`, 
-    "hashOfStat" : 24773678n, 
-    "nlink" : 192n
-  }, 
-  "/pro/module/wUriBasic/.github/workflows/Push.yml" : 
-  {
-    "mtime" : 1597521932570, 
-    "ctime" : 1597521932570, 
-    "birthtime" : 1594295158217, 
-    "absolutePath" : `/pro/module/wUriBasic/.github/workflows/Push.yml`, 
-    "size" : 1125n, 
-    "hash" : `323e3c5fb7ea7d7de168a39273843a0c`, 
-    "hashOfStat" : 24779459n, 
-    "nlink" : 190n
-  }, 
-  "/pro/module/wUriBasic/out" : 
-  {
-    "mtime" : 1582221464545, 
-    "ctime" : 1588223798663, 
-    "birthtime" : 1588223798659, 
-    "absolutePath" : `/pro/module/wUriBasic/out`
-  }, 
-  "/pro/module/wUriBasic/out/wUriBasic.out.will.yml" : 
-  {
-    "mtime" : 1597573259116, 
-    "ctime" : 1597573259116, 
-    "birthtime" : 1588223798663, 
-    "absolutePath" : `/pro/module/wUriBasic/out/wUriBasic.out.will.yml`, 
-    "size" : 39969n, 
-    "hash" : `e1d86d1de765a94d3868777d9cd48102`, 
-    "hashOfStat" : 23483403n, 
+    "hashOfStat" : 101612466592601376n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto" : 
+  "/C/pro/module/wUriBasic/.github" : 
   {
-    "mtime" : 1595702623374, 
-    "ctime" : 1595702623374, 
-    "birthtime" : 1588223792992, 
-    "absolutePath" : `/pro/module/wUriBasic/proto`
+    "mtime" : 1604505870126, 
+    "ctime" : 1604505870126, 
+    "birthtime" : 1604505870126, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.github`
   }, 
-  "/pro/module/wUriBasic/proto/Integration.test.ss" : 
+  "/C/pro/module/wUriBasic/.github/workflows" : 
   {
-    "mtime" : 1597502511344, 
-    "ctime" : 1597502511356, 
-    "birthtime" : 1591159438057, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/Integration.test.ss`, 
-    "size" : 3946n, 
-    "hash" : `d9bd9d7fa7c6d8273682c08c9e4c5c65`, 
-    "hashOfStat" : 24773675n, 
-    "nlink" : 196n
+    "mtime" : 1604505870128, 
+    "ctime" : 1604505870128, 
+    "birthtime" : 1604505870126, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.github/workflows`
   }, 
-  "/pro/module/wUriBasic/proto/wtools" : 
+  "/C/pro/module/wUriBasic/.github/workflows/Publish.yml" : 
   {
-    "mtime" : 1588326392956, 
-    "ctime" : 1588326392956, 
-    "birthtime" : 1588223792996, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools`
+    "mtime" : 1604505870127, 
+    "ctime" : 1604505870127, 
+    "birthtime" : 1604505870127, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.github/workflows/Publish.yml`, 
+    "size" : 830n, 
+    "hash" : `629fc4d787662dc6a78bdafc7fa6357d`, 
+    "hashOfStat" : 7881299348300717n, 
+    "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/Tools.s" : 
+  "/C/pro/module/wUriBasic/.github/workflows/PullRequest.yml" : 
   {
-    "mtime" : 1594837647171, 
-    "ctime" : 1596174706713, 
-    "birthtime" : 1588219641163, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/Tools.s`, 
+    "mtime" : 1604505870127, 
+    "ctime" : 1604505870127, 
+    "birthtime" : 1604505870127, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.github/workflows/PullRequest.yml`, 
+    "size" : 1060n, 
+    "hash" : `8aa4a7b3cce92369bab446415bc573e5`, 
+    "hashOfStat" : 31243722415628959n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/.github/workflows/Push.yml" : 
+  {
+    "mtime" : 1604505870128, 
+    "ctime" : 1604505870128, 
+    "birthtime" : 1604505870128, 
+    "absolutePath" : `/C/pro/module/wUriBasic/.github/workflows/Push.yml`, 
+    "size" : 1143n, 
+    "hash" : `0c27fcd1e45cba82d236b3b770cfdcfc`, 
+    "hashOfStat" : 6192449488380577n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/out" : 
+  {
+    "mtime" : 1604505870133, 
+    "ctime" : 1604505870133, 
+    "birthtime" : 1582221464544, 
+    "absolutePath" : `/C/pro/module/wUriBasic/out`
+  }, 
+  "/C/pro/module/wUriBasic/out/wUriBasic.out.will.yml" : 
+  {
+    "mtime" : 1604505870133, 
+    "ctime" : 1604505870133, 
+    "birthtime" : 1582221464545, 
+    "absolutePath" : `/C/pro/module/wUriBasic/out/wUriBasic.out.will.yml`, 
+    "size" : 39999n, 
+    "hash" : `882383cc4c5013730eb089569be8e1da`, 
+    "hashOfStat" : 18577348463649449n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/proto" : 
+  {
+    "mtime" : 1604505870135, 
+    "ctime" : 1604505870135, 
+    "birthtime" : 1604505870135, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto`
+  }, 
+  "/C/pro/module/wUriBasic/proto/Integration.test.ss" : 
+  {
+    "mtime" : 1604505870135, 
+    "ctime" : 1604505870135, 
+    "birthtime" : 1604505870135, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/Integration.test.ss`, 
+    "size" : 4271n, 
+    "hash" : `e345b24bcc00416855bdd1678f3de493`, 
+    "hashOfStat" : 11821949022593710n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/proto/wtools" : 
+  {
+    "mtime" : 1604505870136, 
+    "ctime" : 1604505870136, 
+    "birthtime" : 1604505870135, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools`
+  }, 
+  "/C/pro/module/wUriBasic/proto/wtools/Tools.s" : 
+  {
+    "mtime" : 1604505870136, 
+    "ctime" : 1604505870136, 
+    "birthtime" : 1604505870136, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/Tools.s`, 
     "size" : 452n, 
     "hash" : `716c02fe183138c5fbee3a3dee37ccd2`, 
-    "hashOfStat" : 24777309n, 
-    "nlink" : 195n
-  }, 
-  "/pro/module/wUriBasic/proto/wtools/abase" : 
-  {
-    "mtime" : 1541359940048, 
-    "ctime" : 1588223793028, 
-    "birthtime" : 1588223792996, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase`
-  }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l4" : 
-  {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1588223793012, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l4`
-  }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l4/Uri.s" : 
-  {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1597723281271, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l4/Uri.s`, 
-    "size" : 50915n, 
-    "hash" : `4cdfb03614c42e1ed89d3d702641e012`, 
-    "hashOfStat" : 23340896n, 
+    "hashOfStat" : 10133099162329777n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l4/UriOld.s" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1597723281275, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l4/UriOld.s`, 
-    "size" : 49913n, 
-    "hash" : `028a709ff38aef502b62d5be3aff0927`, 
-    "hashOfStat" : 23340897n, 
+    "mtime" : 1604505870149, 
+    "ctime" : 1604505870149, 
+    "birthtime" : 1604505870136, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase`
+  }, 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l4" : 
+  {
+    "mtime" : 1604505870146, 
+    "ctime" : 1604505870146, 
+    "birthtime" : 1604505870144, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l4`
+  }, 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l4/Uri.s" : 
+  {
+    "mtime" : 1604505870145, 
+    "ctime" : 1604505870145, 
+    "birthtime" : 1604505870144, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l4/Uri.s`, 
+    "size" : 50878n, 
+    "hash" : `13cf75b6ba9091e479b5e20383af0e1a`, 
+    "hashOfStat" : 7881299348644539n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l4.test" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l4/UriOld.s" : 
   {
-    "mtime" : 1597723281271, 
-    "ctime" : 1597723281271, 
-    "birthtime" : 1588223793020, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l4.test`
-  }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l4.test/Uri.test.s" : 
-  {
-    "mtime" : 1597723281271, 
-    "ctime" : 1597723281271, 
-    "birthtime" : 1597723281267, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l4.test/Uri.test.s`, 
-    "size" : 453576n, 
-    "hash" : `d28b50041bdab6a3be6f7dcf9696c7c4`, 
-    "hashOfStat" : 23340894n, 
+    "mtime" : 1604505870146, 
+    "ctime" : 1604505870146, 
+    "birthtime" : 1604505870146, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l4/UriOld.s`, 
+    "size" : 49846n, 
+    "hash" : `6d144dc1ca5018ab46f2363bebfa56c2`, 
+    "hashOfStat" : 10977524092461756n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l4.test/UriOld.test.s" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l4.test" : 
   {
-    "mtime" : 1597723281271, 
-    "ctime" : 1597723281271, 
-    "birthtime" : 1597723281271, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l4.test/UriOld.test.s`, 
+    "mtime" : 1604505870142, 
+    "ctime" : 1604505870142, 
+    "birthtime" : 1604505870137, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l4.test`
+  }, 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l4.test/Uri.test.s" : 
+  {
+    "mtime" : 1604505870141, 
+    "ctime" : 1604505870141, 
+    "birthtime" : 1604505870137, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l4.test/Uri.test.s`, 
+    "size" : 453577n, 
+    "hash" : `c0495881b060da2ca590b83afd65a25b`, 
+    "hashOfStat" : 12666373952725686n, 
+    "nlink" : 1n
+  }, 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l4.test/UriOld.test.s" : 
+  {
+    "mtime" : 1604505870143, 
+    "ctime" : 1604505870143, 
+    "birthtime" : 1604505870142, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l4.test/UriOld.test.s`, 
     "size" : 347440n, 
     "hash" : `c7be823c2ba8b6a332de63f4e4d54ec0`, 
-    "hashOfStat" : 23340895n, 
+    "hashOfStat" : 14355223812989624n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l5" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l5" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1588223792996, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l5`
+    "mtime" : 1604505870149, 
+    "ctime" : 1604505870149, 
+    "birthtime" : 1604505870149, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l5`
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l5/Uris.s" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l5/Uris.s" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1597723281275, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l5/Uris.s`, 
-    "size" : 4601n, 
-    "hash" : `60068d8a08da2e11eb8a7c0615ae0a4e`, 
-    "hashOfStat" : 23340899n, 
+    "mtime" : 1604505870150, 
+    "ctime" : 1604505870150, 
+    "birthtime" : 1604505870149, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l5/Uris.s`, 
+    "size" : 4616n, 
+    "hash" : `0f87d7b33eb15e751a15ccad2b1cb12a`, 
+    "hashOfStat" : 9570149208908482n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l5.test" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l5.test" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1588223793008, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l5.test`
+    "mtime" : 1604505870148, 
+    "ctime" : 1604505870148, 
+    "birthtime" : 1604505870147, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l5.test`
   }, 
-  "/pro/module/wUriBasic/proto/wtools/abase/l5.test/Uris.test.s" : 
+  "/C/pro/module/wUriBasic/proto/wtools/abase/l5.test/Uris.test.s" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1597723281275, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/abase/l5.test/Uris.test.s`, 
+    "mtime" : 1604505870148, 
+    "ctime" : 1604505870148, 
+    "birthtime" : 1604505870148, 
+    "absolutePath" : `/C/pro/module/wUriBasic/proto/wtools/abase/l5.test/Uris.test.s`, 
     "size" : 17404n, 
     "hash" : `ee3a4e4c35ead0681eeba243b7a782d3`, 
-    "hashOfStat" : 23340898n, 
+    "hashOfStat" : 13510798882857664n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/proto/wtools/amid" : 
+  "/C/pro/module/wUriBasic/sample" : 
   {
-    "mtime" : 1533541991468, 
-    "ctime" : 1588223793032, 
-    "birthtime" : 1588223793028, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/amid`
+    "mtime" : 1604505870151, 
+    "ctime" : 1604505870151, 
+    "birthtime" : 1533543881747, 
+    "absolutePath" : `/C/pro/module/wUriBasic/sample`
   }, 
-  "/pro/module/wUriBasic/proto/wtools/atop" : 
+  "/C/pro/module/wUriBasic/sample/Sample.html" : 
   {
-    "mtime" : 1533541991468, 
-    "ctime" : 1588223793040, 
-    "birthtime" : 1588223793032, 
-    "absolutePath" : `/pro/module/wUriBasic/proto/wtools/atop`
-  }, 
-  "/pro/module/wUriBasic/sample" : 
-  {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1588223793044, 
-    "absolutePath" : `/pro/module/wUriBasic/sample`
-  }, 
-  "/pro/module/wUriBasic/sample/Sample.html" : 
-  {
-    "mtime" : 1594236906910, 
-    "ctime" : 1594236906910, 
-    "birthtime" : 1588223793048, 
-    "absolutePath" : `/pro/module/wUriBasic/sample/Sample.html`, 
+    "mtime" : 1604505870151, 
+    "ctime" : 1604505870151, 
+    "birthtime" : 1571513891713, 
+    "absolutePath" : `/C/pro/module/wUriBasic/sample/Sample.html`, 
     "size" : 729n, 
     "hash" : `8b3abc6d2d1f32ee5f8c69fc4c1c83bc`, 
-    "hashOfStat" : 23345471n, 
+    "hashOfStat" : 12103423999304387n, 
     "nlink" : 1n
   }, 
-  "/pro/module/wUriBasic/sample/Sample.s" : 
+  "/C/pro/module/wUriBasic/sample/Sample.s" : 
   {
-    "mtime" : 1597723281275, 
-    "ctime" : 1597723281275, 
-    "birthtime" : 1597723281275, 
-    "absolutePath" : `/pro/module/wUriBasic/sample/Sample.s`, 
+    "mtime" : 1604505870151, 
+    "ctime" : 1604505870151, 
+    "birthtime" : 1604505870151, 
+    "absolutePath" : `/C/pro/module/wUriBasic/sample/Sample.s`, 
     "size" : 1142n, 
     "hash" : `ba2410204a20f57e78084ed54b0066ab`, 
-    "hashOfStat" : 23340900n, 
+    "hashOfStat" : 10696049115751108n, 
     "nlink" : 1n
   }
 }
