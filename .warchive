@@ -63,25 +63,25 @@
   }, 
   "/C/pro/module/wUriBasic/.warchive" : 
   {
-    "mtime" : 1604559340391, 
-    "ctime" : 1604559340391, 
+    "mtime" : 1604565953008, 
+    "ctime" : 1604565953008, 
     "birthtime" : 1563454892432, 
     "absolutePath" : `/C/pro/module/wUriBasic/.warchive`, 
-    "size" : 11629n, 
-    "hash" : `e16455133dc3895945347c53aedf8d07`, 
+    "size" : 11630n, 
+    "hash" : `d139263345a951f19ef06170b44afdf7`, 
     "hashOfStat" : 39406496740237990n, 
     "nlink" : 1n
   }, 
   "/C/pro/module/wUriBasic/LICENSE" : 
   {
-    "mtime" : 1588000195633, 
-    "ctime" : 1604505038661, 
+    "mtime" : 1604565315271, 
+    "ctime" : 1604565734066, 
     "birthtime" : 1519041669458, 
     "absolutePath" : `/C/pro/module/wUriBasic/LICENSE`, 
     "size" : 1074n, 
     "hash" : `4568cef29795a2860ecae67e559a03b3`, 
     "hashOfStat" : 281474977816814n, 
-    "nlink" : 92n
+    "nlink" : 108n
   }, 
   "/C/pro/module/wUriBasic/package.json" : 
   {
