@@ -1,8 +1,8 @@
 {
   "/C/pro/module/wUriBasic" : 
   {
-    "mtime" : 1604505870152, 
-    "ctime" : 1604505870152, 
+    "mtime" : 1604513619271, 
+    "ctime" : 1604513619271, 
     "birthtime" : 1533543881204, 
     "absolutePath" : `/C/pro/module/wUriBasic`
   }, 
@@ -63,24 +63,13 @@
   }, 
   "/C/pro/module/wUriBasic/.warchive" : 
   {
-    "mtime" : 1604505870131, 
-    "ctime" : 1604505870131, 
+    "mtime" : 1604559340391, 
+    "ctime" : 1604559340391, 
     "birthtime" : 1563454892432, 
     "absolutePath" : `/C/pro/module/wUriBasic/.warchive`, 
-    "size" : 12042n, 
-    "hash" : `095597724def7c8774021d626752d948`, 
+    "size" : 11629n, 
+    "hash" : `e16455133dc3895945347c53aedf8d07`, 
     "hashOfStat" : 39406496740237990n, 
-    "nlink" : 1n
-  }, 
-  "/C/pro/module/wUriBasic/.will.state.json" : 
-  {
-    "mtime" : 1565756569167, 
-    "ctime" : 1565756569167, 
-    "birthtime" : 1548770829161, 
-    "absolutePath" : `/C/pro/module/wUriBasic/.will.state.json`, 
-    "size" : 2414n, 
-    "hash" : `04dba703f375adf347277790f0f58af7`, 
-    "hashOfStat" : 2814749769580389n, 
     "nlink" : 1n
   }, 
   "/C/pro/module/wUriBasic/LICENSE" : 
@@ -93,17 +82,6 @@
     "hash" : `4568cef29795a2860ecae67e559a03b3`, 
     "hashOfStat" : 281474977816814n, 
     "nlink" : 92n
-  }, 
-  "/C/pro/module/wUriBasic/package-lock.json" : 
-  {
-    "mtime" : 1581935590869, 
-    "ctime" : 1581935590880, 
-    "birthtime" : 1581935590868, 
-    "absolutePath" : `/C/pro/module/wUriBasic/package-lock.json`, 
-    "size" : 75730n, 
-    "hash" : `b5831d2371d5c99a014e2035e512e355`, 
-    "hashOfStat" : 6192449487660226n, 
-    "nlink" : 1n
   }, 
   "/C/pro/module/wUriBasic/package.json" : 
   {
