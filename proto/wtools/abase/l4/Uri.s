@@ -855,25 +855,26 @@ function localFromGlobal( globalPath )
 //
 
 /**
- * Assembles uri string from components
+ * Routine str() assembles URI string from components.
  *
  * @example
+ * let components =
+ * {
+ *   protocol : 'http',
+ *   host : 'www.site.com',
+ *   port : '13',
+ *   resourcePath : '/path/name',
+ *   query : 'query=here&and=here',
+ *   hash : 'anchor',
+ * };
+ * _.uri.str( UrlComponents );
+ * // returns : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
  *
-   let components =
-     {
-       protocol : 'http',
-       host : 'www.site.com',
-       port : '13',
-       resourcePath : '/path/name',
-       query : 'query=here&and=here',
-       hash : 'anchor',
-     };
-   wTools.uri.str( UrlComponents );
-   // 'http://www.site.com:13/path/name?query=here&and=here#anchor'
- * @param {UrlComponents} components Components for uri
- * @returns {string} Complete uri string
- * @throws {Error} If `components` is not UrlComponents map
- * @see {@link UrlComponents}
+ * @param { Map|MapLike|String } map - Map with URI components.
+ * @returns { String } - Returns complete URI string.
+ * @throws { Error } If arguments.length is not equal to 1.
+ * @throws { Error } If {-map-} has incompatible type.
+ * @see { @link UrlComponents }
  * @function str
  * @module Tools/UriBasic
  * @namespace Tools.uri
@@ -891,15 +892,37 @@ function str( map )
 
   if( Config.debug )
   {
-    _.assert( map.longPath === undefined || map.longPath === null || longPathHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}' );
-    _.assert( map.protocols === undefined || map.protocols === null || protocolsHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}' );
-    _.assert( map.hostFull === undefined || map.hostFull === null || hostFullHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}' );
-    _.assert( map.origin === undefined || map.origin === null || originHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-origin-}' );
-    _.assert( map.full === undefined || map.full === null || fullHas( map ), 'Codependent components of URI map are not consistent', 'something wrong with {-full-}' );
+    _.assert
+    (
+      map.longPath === undefined || map.longPath === null || longPathHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-longPath-}'
+    );
+    _.assert
+    (
+      map.protocols === undefined || map.protocols === null || protocolsHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-protocols-}'
+    );
+    _.assert
+    (
+      map.hostFull === undefined || map.hostFull === null || hostFullHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-hostFull-}'
+    );
+    _.assert
+    (
+      map.origin === undefined || map.origin === null || originHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-origin-}'
+    );
+    _.assert
+    (
+      map.full === undefined || map.full === null || fullHas( map ),
+      'Codependent components of URI map are not consistent', 'something wrong with {-full-}'
+    );
     _.assert( _.strIs( map ) || _.mapIs( map ) );
   }
 
   _.assertMapHasOnly( map, this.UriFull.fields );
+
+  /* */
 
   if( map.full )
   {
@@ -921,7 +944,7 @@ function str( map )
   if( map.origin )
   if
   (
-       ( map.user === null || map.user === undefined )
+    ( map.user === null || map.user === undefined )
     || ( map.host === null || map.host === undefined )
     || ( map.port === null || map.port === undefined )
   )
@@ -1525,6 +1548,9 @@ function join_functor( gen )
         if( !result.host && src.host !== undefined )
         result.host = src.host;
 
+        if( !result.user && src.user !== undefined )
+        result.user = src.user;
+
         if( !result.port && src.port !== undefined )
         if( !hostWas || !src.host || hostWas === src.host )
         result.port = src.port;
@@ -1593,6 +1619,128 @@ join_functor.defaults =
 let join = join_functor({ routineName : 'join', web : 0 });
 let joinRaw = join_functor({ routineName : 'joinRaw', web : 0 });
 let reroot = join_functor({ routineName : 'reroot', web : 0 });
+
+//
+
+function join_head( routine, args )
+{
+  let o = args[ 0 ];
+
+  if( !_.mapIs( o ) )
+  o = { args };
+  else
+  _.assert( args.length === 1, 'Expects single options map {-o-}' );
+
+  _.routineOptions( routine, o );
+  _.assert( _.strIs( o.routineName ) );
+
+  return o;
+}
+
+//
+
+function join_body( o )
+{
+  let self = this;
+  let parent = self.path;
+  let isGlobal = false;
+
+  /* */
+
+  let srcs = pathsParseConsecutiveAndSetIsGlobal( o.args );
+  let result = resultMapMake( srcs );
+
+  /* */
+
+  if( !isGlobal )
+  return result.longPath;
+
+  if( ( result.hash || result.tag ) && result.longPath )
+  result.longPath = parent.detrail( result.longPath );
+
+  return this.str( result );
+
+  /* */
+
+  function pathsParseConsecutiveAndSetIsGlobal( args )
+  {
+    let result = _.arrayMake( args.length );
+
+    for( let s = 0 ; s < args.length ; s++ )
+    {
+      if( args[ s ] !== null && self.isGlobal( args[ s ] ) )
+      {
+        isGlobal = true;
+        result[ s ] = self.parseConsecutive( args[ s ] );
+      }
+      else
+      {
+        isGlobal = args[ s ] !== null;
+        result[ s ] = { longPath : args[ s ] };
+      }
+    }
+
+    return result;
+  }
+
+  /* */
+
+  function resultMapMake( srcs )
+  {
+    let result = Object.create( null );
+    result.resourcePath = undefined;
+
+    for( let s = srcs.length - 1 ; s >= 0 ; s-- )
+    {
+      let src = srcs[ s ];
+
+      if( !result.protocol && src.protocol !== undefined )
+      result.protocol = src.protocol;
+
+      if( result.longPath === undefined && src.longPath !== undefined )
+      result.longPath = src.longPath;
+      else if( src.longPath )
+      result.longPath = parent[ o.routineName ]( src.longPath, result.longPath );
+
+      if( src.longPath === null )
+      break;
+
+      if( src.query !== undefined )
+      if( !result.query )
+      result.query = src.query;
+      else
+      result.query = src.query + '&' + result.query;
+
+      if( !result.hash && src.hash !== undefined )
+      result.hash = src.hash;
+
+      if( !result.tag && src.tag !== undefined )
+      result.tag = src.tag;
+    }
+
+    return result;
+  }
+}
+
+join_body.defaults =
+{
+  routineName : 'join',
+  args : null,
+};
+
+//
+
+let join_ = _.routineUnite( join_head, join_body );
+
+//
+
+let joinRaw_ = _.routineUnite( join_head, join_body );
+joinRaw_.defaults.routineName = 'joinRaw';
+
+//
+
+let reroot_ = _.routineUnite( join_head, join_body );
+reroot_.defaults.routineName = 'reroot';
 
 //
 
@@ -2263,8 +2411,11 @@ let Extension =
   join_functor,
 
   join,
+  join_, /* !!! use instead of join */ /* Dmytro : routine contains no redundant 'if' statements for WebUri */
   joinRaw,
+  joinRaw_, /* !!! use instead of joinRaw */ /* Dmytro : routine contains no redundant 'if' statements for WebUri */
   reroot,
+  reroot_, /* !!! use instead of reroot */ /* Dmytro : routine contains no redundant 'if' statements for WebUri */
   resolve,
 
   relative,
