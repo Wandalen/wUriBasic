@@ -9193,9 +9193,9 @@ function str( test )
   test.case = 'from atomic parsed path, resourcePath - global';
   var components =
   {
-    host: 'www.site.com',
-    protocol: 'http',
-    resourcePath: '/z',
+    host : 'www.site.com',
+    protocol : 'http',
+    resourcePath : '/z',
   };
   var expected = 'http://www.site.com//z';
   var got = _.uriNew.str( components );
