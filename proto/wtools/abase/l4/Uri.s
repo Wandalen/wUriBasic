@@ -1622,6 +1622,128 @@ let reroot = join_functor({ routineName : 'reroot', web : 0 });
 
 //
 
+function join_head( routine, args )
+{
+  let o = args[ 0 ];
+
+  if( !_.mapIs( o ) )
+  o = { args };
+  else
+  _.assert( args.length === 1, 'Expects single options map {-o-}' );
+
+  _.routineOptions( routine, o );
+  _.assert( _.strIs( o.routineName ) );
+
+  return o;
+}
+
+//
+
+function join_body( o )
+{
+  let self = this;
+  let parent = self.path;
+  let isGlobal = false;
+
+  /* */
+
+  let srcs = pathsParseConsecutiveAndSetIsGlobal( o.args );
+  let result = resultMapMake( srcs );
+
+  /* */
+
+  if( !isGlobal )
+  return result.longPath;
+
+  if( ( result.hash || result.tag ) && result.longPath )
+  result.longPath = parent.detrail( result.longPath );
+
+  return this.str( result );
+
+  /* */
+
+  function pathsParseConsecutiveAndSetIsGlobal( args )
+  {
+    let result = _.arrayMake( args.length );
+
+    for( let s = 0 ; s < args.length ; s++ )
+    {
+      if( args[ s ] !== null && self.isGlobal( args[ s ] ) )
+      {
+        isGlobal = true;
+        result[ s ] = self.parseConsecutive( args[ s ] );
+      }
+      else
+      {
+        isGlobal = args[ s ] !== null;
+        result[ s ] = { longPath : args[ s ] };
+      }
+    }
+
+    return result;
+  }
+
+  /* */
+
+  function resultMapMake( srcs )
+  {
+    let result = Object.create( null );
+    result.resourcePath = undefined;
+
+    for( let s = srcs.length - 1 ; s >= 0 ; s-- )
+    {
+      let src = srcs[ s ];
+
+      if( !result.protocol && src.protocol !== undefined )
+      result.protocol = src.protocol;
+
+      if( result.longPath === undefined && src.longPath !== undefined )
+      result.longPath = src.longPath;
+      else if( src.longPath )
+      result.longPath = parent[ o.routineName ]( src.longPath, result.longPath );
+
+      if( src.longPath === null )
+      break;
+
+      if( src.query !== undefined )
+      if( !result.query )
+      result.query = src.query;
+      else
+      result.query = src.query + '&' + result.query;
+
+      if( !result.hash && src.hash !== undefined )
+      result.hash = src.hash;
+
+      if( !result.tag && src.tag !== undefined )
+      result.tag = src.tag;
+    }
+
+    return result;
+  }
+}
+
+join_body.defaults =
+{
+  routineName : 'join',
+  args : null,
+};
+
+//
+
+let join_ = _.routineUnite( join_head, join_body );
+
+//
+
+let joinRaw_ = _.routineUnite( join_head, join_body );
+joinRaw_.defaults.routineName = 'joinRaw';
+
+//
+
+let reroot_ = _.routineUnite( join_head, join_body );
+reroot_.defaults.routineName = 'reroot';
+
+//
+
 function resolve()
 {
   let parent = this.path;
@@ -2289,8 +2411,11 @@ let Extension =
   join_functor,
 
   join,
+  join_, /* !!! use instead of join */ /* Dmytro : routine contains no redundant 'if' statements for WebUri */
   joinRaw,
+  joinRaw_, /* !!! use instead of joinRaw */ /* Dmytro : routine contains no redundant 'if' statements for WebUri */
   reroot,
+  reroot_, /* !!! use instead of reroot */ /* Dmytro : routine contains no redundant 'if' statements for WebUri */
   resolve,
 
   relative,
