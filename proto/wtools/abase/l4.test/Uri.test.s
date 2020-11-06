@@ -12382,6 +12382,20 @@ function reroot( test )
 
 //
 
+function reroot_( test )
+{
+
+  // var expected = 'file:///src/file:///a';
+  var expected = 'file:///src/a';
+  var a = 'file:///src';
+  var b = 'file:///a';
+  var got = _.uriNew.reroot_( a, b );
+  test.identical( got, expected );
+
+}
+
+//
+
 function relativeLocalPaths( test )
 {
   var got;
@@ -16617,6 +16631,7 @@ let Self =
     joinRaw,
     joinRaw_,
     reroot,
+    reroot_,
 
     relativeLocalPaths,
     relative,
