@@ -3006,7 +3006,7 @@ function parseCommon( test )
   {
     'resourcePath' : '/',
     'host' : '/',
-  }
+  };
   var got = _.uriNew.parseAtomic( src );
   test.identical( got, expected );
   var str = _.uriNew.str( got );
@@ -6627,763 +6627,2851 @@ function parseCommon( test )
 //   });
 //
 // }
-//
-// //
-//
-// function parseConsecutive( test )
-// {
-//
-//   /* */
-//
-//   test.case = 'query only';
-//   var src = '?entry:1&format:null';
-//   var expected = { 'longPath' : '', 'query' : 'entry:1&format:null' }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'global, relative, with hash, with query';
-//   var src = 'git://../repo/Tools?out=out/wTools.out.will#master';
-//   var expected =
-//   {
-//     'protocol' : 'git',
-//     'longPath' : '../repo/Tools',
-//     'query' : 'out=out/wTools.out.will',
-//     'hash' : 'master'
-//   }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'global, absolute, with hash, with query';
-//   var src = "git:///../repo/Tools?out=out/wTools.out.will#master"
-//   var expected =
-//   {
-//     'protocol' : 'git',
-//     'longPath' : '/../repo/Tools',
-//     'query' : 'out=out/wTools.out.will',
-//     'hash' : 'master'
-//   }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'query with equal. relative';
-//   var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
-//   var expected =
-//   {
-//     'protocol' : 'http',
-//     'longPath' : '127.0.0.1:5000/a/b',
-//     'query' : 'q=3',
-//     'hash' : 'anch'
-//   }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'query with equal. absolute';
-//   var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
-//   var expected =
-//   {
-//     'protocol' : 'http',
-//     'longPath' : '/127.0.0.1:5000/a/b',
-//     'query' : 'q=3',
-//     'hash' : 'anch'
-//   }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'query with colon. relative';
-//   var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
-//   var expected =
-//   {
-//     'protocol' : 'http',
-//     'longPath' : '127.0.0.1:5000/a/b',
-//     'query' : 'q:3',
-//     'hash' : 'anch'
-//   }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'query with colon. absolute';
-//   var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
-//   var expected =
-//   {
-//     'protocol' : 'http',
-//     'longPath' : '/127.0.0.1:5000/a/b',
-//     'query' : 'q:3',
-//     'hash' : 'anch'
-//   }
-//   var got = _.uriNew.parseConsecutive( src );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'no protocol';
-//   var uri = '127.0.0.1:61726/../path';
-//   var expected =
-//   {
-//     longPath : '127.0.0.1:61726/../path',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'full uri with all components';
-//   var expected =
-//   {
-//     protocol : 'http',
-//     longPath : 'www.site.com:13/path/name',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-//   var got = _.uriNew.parseConsecutive( uri1 );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'full uri with all components, primitiveOnly';
-//
-//   var expected =
-//   {
-//     protocol : 'http',
-//     longPath : 'www.site.com:13/path/name',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//
-//   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-//   var got = _.uriNew.parseConsecutive( uri1 );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'reparse with non primitives';
-//
-//   var expected =
-//   {
-//     protocol : 'http',
-//     longPath : 'www.site.com:13/path/name',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//
-//   var parsed = got;
-//   var got = _.uriNew.parseConsecutive( parsed );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'reparse with primitives';
-//
-//   var uri1 = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-//   var expected =
-//   {
-//     protocol : 'http',
-//     longPath : 'www.site.com:13/path/name',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//
-//   var got = _.uriNew.parseConsecutive( uri1 );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'uri with zero length protocol';
-//   var uri = '://some.domain.com/something/filePath/add';
-//   var expected =
-//   {
-//     protocol : '',
-//     longPath : 'some.domain.com/something/filePath/add',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'uri with zero length hostFull';
-//   var uri = 'file:///something/filePath/add';
-//   var expected =
-//   {
-//     protocol : 'file',
-//     longPath : '/something/filePath/add',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'uri with double protocol, user';
-//   var uri = 'svn+https://user@subversion.com:13/svn/trunk';
-//   var expected =
-//   {
-//     protocol : 'svn+https',
-//     longPath : 'user@subversion.com:13/svn/trunk',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'uri with double protocol, user. full';
-//   var uri = 'svn+https://user@subversion.com:13/svn/trunk';
-//   var expected =
-//   {
-//     protocol : 'svn+https',
-//     host : 'subversion.com',
-//     port : 13,
-//     user : 'user',
-//     hostFull : 'user@subversion.com:13',
-//     longPath : 'user@subversion.com:13/svn/trunk',
-//     protocols : [ 'svn', 'https' ],
-//     origin : 'svn+https://user@subversion.com:13',
-//     postfixedPath : 'user@subversion.com:13/svn/trunk',
-//     resourcePath : 'svn/trunk',
-//     full : 'svn+https://user@subversion.com:13/svn/trunk',
-//   }
-//   var got = _.uriNew.parseFull( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'uri with double protocol, user and tag';
-//   var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
-//   var expected =
-//   {
-//     protocol : 'svn+https',
-//     longPath : 'user@subversion.com:13/svn/trunk',
-//     tag : 'tag1',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'uri with double protocol, user and tag. full';
-//   var uri = 'svn+https://user@subversion.com:13/svn/trunk!tag1';
-//   var expected =
-//   {
-//     protocol : 'svn+https',
-//     host : 'subversion.com',
-//     user : 'user',
-//     port : 13,
-//     hostFull : 'user@subversion.com:13',
-//     longPath : 'user@subversion.com:13/svn/trunk',
-//     tag : 'tag1',
-//     protocols : [ 'svn', 'https' ],
-//     origin : 'svn+https://user@subversion.com:13',
-//     postfixedPath : 'user@subversion.com:13/svn/trunk!tag1',
-//     resourcePath : 'svn/trunk',
-//     full : 'svn+https://user@subversion.com:13/svn/trunk!tag1',
-//   }
-//   var got = _.uriNew.parseFull( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'simple path';
-//   var uri = '/some/file';
-//   var expected =
-//   {
-//     longPath : '/some/file',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'without ":"';
-//   var uri = '//some.domain.com/was';
-//   var expected =
-//   {
-//     longPath : '//some.domain.com/was',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'with ":" and protocol';
-//
-//   var uri = 'protocol://some.domain.com/was';
-//   var expected =
-//   {
-//     protocol : 'protocol',
-//     longPath : 'some.domain.com/was',
-//   }
-//
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'simple path';
-//   var uri = '//';
-//   var expected =
-//   {
-//     longPath : '//',
-//   }
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//   /* */
-//
-//   test.case = 'simple path';
-//
-//   var uri = '///';
-//   var expected =
-//   {
-//     longPath : '///',
-//   }
-//
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'simple path';
-//
-//   var uri = '///a/b/c';
-//   var expected =
-//   {
-//     longPath : '///a/b/c',
-//   }
-//
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???'; /* qqq : describe cases without description ( short! ) */
-//   var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
-//   var expected =
-//   {
-//     protocol : 'complex+protocol',
-//     longPath : 'www.site.com:13/path/name',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//
-//   var got = _.uriNew.parseConsecutive( uri );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//   var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
-//   var got = _.uriNew.parseConsecutive( uri );
-//   var expected =
-//   {
-//     protocol : '',
-//     longPath : 'www.site.com:13/path//name//',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//   var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
-//   var got = _.uriNew.parseConsecutive( uri );
-//   var expected =
-//   {
-//     protocol : '',
-//     longPath : '/www.site.com:13/path//name//',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'not ://, but //';
-//
-//   var expected =
-//   {
-//     longPath : '///some.com:99/staging/index.html',
-//     query : 'query=here&and=here',
-//     hash : 'anchor',
-//   }
-//   var got = _.uriNew.parseConsecutive( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'tag and user';
-//
-//   var expected =
-//   {
-//     longPath : 'git@bitbucket.org:someorg/somerepo.git',
-//     tag : 'tag',
-//     protocol : 'git',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git://git@bitbucket.org:someorg/somerepo.git!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     longPath : '/git@bitbucket.org',
-//     protocol : 'git',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     longPath : '/git@bitbucket.org',
-//     tag : 'tag',
-//     protocol : 'git',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     longPath : '/git@bitbucket.org/somerepo.git',
-//     tag : 'tag',
-//     protocol : 'git',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org/somerepo.git!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-//     tag : 'tag',
-//     protocol : 'git',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-//     hash : 'hash'
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git#hash' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-//     hash : 'hash'
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git',
-//     hash : 'hash'
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git#hash' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git/',
-//     hash : 'hash'
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git/#hash' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git/',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git/!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-//     hash : 'hash',
-//     tag : 'tag'
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-//     hash : 'hash',
-//     tag : 'tag'
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git',
-//     hash : 'hash',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git/',
-//     hash : 'hash',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git/#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-//     query : 'query=1',
-//     hash : 'hash',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-//     query : 'query=1',
-//     hash : 'hash',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git',
-//     query : 'query=1',
-//     hash : 'hash',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git?query=1#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git/',
-//     query : 'query=1',
-//     hash : 'hash',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git/?query=1#hash!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git',
-//     query : 'query=1',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/git@bitbucket.org:someorg/somerepo.git/',
-//     query : 'query=1',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git/?query=1!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git',
-//     query : 'query=1',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git?query=1!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '???';
-//
-//   var expected =
-//   {
-//     protocol : 'git',
-//     longPath : '/somerepo.git/',
-//     query : 'query=1',
-//     tag : 'tag',
-//   }
-//   var got = _.uriNew.parseConsecutive( 'git:///somerepo.git/?query=1!tag' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = '# @ ?';
-//   var expected =
-//   {
-//     longPath : '',
-//     query : 'query1',
-//     tag : 'tag1/',
-//     hash : 'hash1/',
-//     protocol : '',
-//   }
-//   var got = _.uriNew.parseConsecutive( '://#hash1/!tag1/?query1' );
-//   test.identical( got, expected );
-//
-//   /* */
-//
-//   test.case = 'escaped # @ ?';
-//   var expected =
-//   {
-//     longPath : '"#hash1"/"!tag1"/"?query1"',
-//     protocol : '',
-//   }
-//   var got = _.uriNew.parseConsecutive( '://"#hash1"/"!tag1"/"?query1"' );
-//   test.identical( got, expected );
-//
-//   /* - */
-//
-//   if( !Config.debug )
-//   return;
-//
-//   test.case = 'missed arguments';
-//   test.shouldThrowErrorSync( function()
-//   {
-//     _.uriNew.parseConsecutive();
-//   });
-//
-//   test.case = 'redundant argument';
-//   test.shouldThrowErrorSync( function()
-//   {
-//     _.uriNew.parseConsecutive( 'http://www.site.com:13/path/name?query=here&and=here#anchor', '' );
-//   });
-//
-//   test.case = 'argument is not string';
-//   test.shouldThrowErrorSync( function()
-//   {
-//     _.uriNew.parseConsecutive( 34 );
-//   });
-//
-// }
-//
-// //
-//
+
+//
+
+function parseAtomic( test )
+{
+  test.case = 'protocol only';
+  var src = 'https://';
+  var expected = { 'protocol' : 'https' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'complex protocol only';
+  var src = 'https+git://';
+  var expected = { 'protocol' : 'https+git' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'simple long path';
+  var src = 'site.com/some/page';
+  var expected = { 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port only';
+  var src = '://:13';
+  var expected = { 'protocol' : '', 'port' : 13, 'host' : '' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag only';
+  var src = '!tag';
+  var expected = { 'tag' : 'tag' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash only';
+  var src = '#hash';
+  var expected = { 'hash' : 'hash' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query only';
+  var src = '?entry:1&format:null';
+  var expected = { 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var src = 'https://site.com';
+  var expected = { 'protocol' : 'https', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https://:13';
+  var expected = { 'protocol' : 'https', 'port' : 13, 'host' : '' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://!tag';
+  var expected = { 'protocol' : 'https', 'tag' : 'tag' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://#hash';
+  var expected = { 'protocol' : 'https', 'hash' : 'hash' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var src = 'https://site.com/some/page';
+  var expected = { 'protocol' : 'https', 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https://site.com:13';
+  var expected = { 'protocol' : 'https', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://site.com!tag';
+  var expected = { 'protocol' : 'https', 'tag' : 'tag', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com#hash';
+  var expected = { 'protocol' : 'https', 'hash' : 'hash', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://site.com?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var src = 'https://site.com:13/some/page';
+  var expected = { 'protocol' : 'https', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://site.com:13!tag';
+  var expected = { 'protocol' : 'https', 'tag' : 'tag', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com:13#hash';
+  var expected = { 'protocol' : 'https', 'hash' : 'hash', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var src = 'https://user@site.com:13/some/page';
+  var expected = { 'protocol' : 'https', 'resourcePath' : 'some/page', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://user@site.com:13!tag';
+  var expected = { 'protocol' : 'https', 'tag' : 'tag', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://user@site.com:13#hash';
+  var expected = { 'protocol' : 'https', 'hash' : 'hash', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://user@site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var src = 'https://site.com:13/some/page!tag';
+  var expected = { 'protocol' : 'https', 'tag' : 'tag', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com:13/some/page#hash';
+  var expected = { 'protocol' : 'https', 'hash' : 'hash', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://site.com:13/some/page?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https://site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https://user@site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://user@site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var src = 'https://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var expected =
+  {
+    'protocol' : 'https',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var src = 'https://../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '..',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var src = 'https:///../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '/..',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var src = 'https:///site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https',
+    'host' : '/site.com',
+    'port' : 13,
+    'resourcePath' : 'some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'root token';
+  var uri = '/';
+  var expected = { 'host' : '/' };
+  var got = _.uriNew.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'two root tokens';
+  var uri = '//';
+  var expected = { 'resourcePath' : '', 'host' : '/' };
+  var got = _.uriNew.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'three root tokens';
+  var uri = '///';
+  var expected = { 'resourcePath' : '/', 'host' : '/' };
+  var got = _.uriNew.parseAtomic( uri );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'regular hd absolute path';
+  var uri = '/some/file';
+  var expected = { 'resourcePath' : 'file', 'host' : '/some' };
+  var got = _.uriNew.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by two root tokens';
+  var uri = '//some.domain.com/was';
+  var expected = { 'resourcePath' : 'some.domain.com/was', 'host' : '/' };
+  var got = _.uriNew.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by three root tokens';
+  var uri = '///a/b/c';
+  var expected = { 'resourcePath' : '/a/b/c', 'host' : '/' };
+  var got = _.uriNew.parseAtomic( uri );
+  test.identical( got, expected );
+
+  test.case = 'full uri, not ://, but //';
+  var expected =
+  {
+    host : '/',
+    resourcePath : '/some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var got = _.uriNew.parseAtomic( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var uri = 'https://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( uri );
+  var expected =
+  {
+    protocol : 'https',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var uri = 'https:///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( uri );
+  var expected =
+  {
+    protocol : 'https',
+    host : '/www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var expected =
+  {
+    protocol : 'git',
+    host : '/bitbucket.org',
+    user : 'git',
+    resourcePath : 'repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org/repo/?query=select#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var expected =
+  {
+    host : '/bitbucket.org',
+    port : 'someorg',
+    user : 'git',
+    resourcePath : 'somerepo.git',
+    tag : 'tag',
+    protocol : 'git',
+  };
+  var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var expected =
+  {
+    protocol : 'git',
+    host : '/bitbucket.org',
+    user : 'git',
+    port : 'someorg',
+    resourcePath : 'somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var expected =
+  {
+    protocol : 'https',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var got = _.uriNew.parseAtomic( 'https://#hash1/!tag1/?query1' );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var expected =
+  {
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocol : 'https',
+  }
+  var got = _.uriNew.parseAtomic( 'https://"#hash1"/"!tag1"/"?query1"' );
+  test.identical( got, expected );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.uriNew.parseAtomic() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.uriNew.parseAtomic( 'http://www.site.com:13/path', '' ) );
+
+  test.case = 'map is not string';
+  test.shouldThrowErrorSync( () => _.uriNew.parseAtomic( 34 ) );
+
+  test.case = 'map is a Map, has unknown fields';
+  test.shouldThrowErrorSync( () => _.uriNew.parseAtomic({ unknown : '://site.com' }) );
+}
+
+//
+
+function parseAtomicWithoutProtocol( test )
+{
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var src = '://site.com';
+  var expected = { 'protocol' : '', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = '://:13';
+  var expected = { 'protocol' : '', 'port' : 13, 'host' : '' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://!tag';
+  var expected = { 'protocol' : '', 'tag' : 'tag' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://#hash';
+  var expected = { 'protocol' : '', 'hash' : 'hash' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://?entry:1&format:null';
+  var expected = { 'protocol' : '', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var src = '://site.com/some/page';
+  var expected = { 'protocol' : '', 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = '://site.com:13';
+  var expected = { 'protocol' : '', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://site.com!tag';
+  var expected = { 'protocol' : '', 'tag' : 'tag', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com#hash';
+  var expected = { 'protocol' : '', 'hash' : 'hash', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://site.com?entry:1&format:null';
+  var expected = { 'protocol' : '', 'query' : 'entry:1&format:null', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var src = '://site.com:13/some/page';
+  var expected = { 'protocol' : '', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://site.com:13!tag';
+  var expected = { 'protocol' : '', 'tag' : 'tag', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13#hash';
+  var expected = { 'protocol' : '', 'hash' : 'hash', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : '', 'query' : 'entry:1&format:null', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var src = '://user@site.com:13/some/page';
+  var expected = { 'protocol' : '', 'resourcePath' : 'some/page', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://user@site.com:13!tag';
+  var expected = { 'protocol' : '', 'tag' : 'tag', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://user@site.com:13#hash';
+  var expected = { 'protocol' : '', 'hash' : 'hash', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://user@site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : '', 'query' : 'entry:1&format:null', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var src = '://site.com:13/some/page!tag';
+  var expected = { 'protocol' : '', 'tag' : 'tag', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13/some/page#hash';
+  var expected = { 'protocol' : '', 'hash' : 'hash', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://site.com:13/some/page?entry:1&format:null';
+  var expected = { 'protocol' : '', 'query' : 'entry:1&format:null', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = '://site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : '',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : '',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = '://user@site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://user@site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var src = '://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var expected =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var src = '://../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : '',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '..',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var src = ':///../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : '',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '/..',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var src = ':///site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : '',
+    'host' : '/site.com',
+    'port' : 13,
+    'resourcePath' : 'some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var src = '://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var src = ':///127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var src = '://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var src = ':///127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( uri );
+  var expected =
+  {
+    protocol : '',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( uri );
+  var expected =
+  {
+    protocol : '',
+    host : '/www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var expected =
+  {
+    protocol : '',
+    host : '/bitbucket.org',
+    user : 'git',
+    resourcePath : 'repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( ':///git@bitbucket.org/repo/?query=select#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var expected =
+  {
+    host : '/bitbucket.org',
+    port : 'someorg',
+    user : 'git',
+    resourcePath : 'somerepo.git',
+    tag : 'tag',
+    protocol : '',
+  };
+  var got = _.uriNew.parseAtomic( ':///git@bitbucket.org:someorg/somerepo.git!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var expected =
+  {
+    protocol : '',
+    host : '/bitbucket.org',
+    user : 'git',
+    port : 'someorg',
+    resourcePath : 'somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( ':///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var expected =
+  {
+    protocol : '',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var got = _.uriNew.parseAtomic( '://#hash1/!tag1/?query1' );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var expected =
+  {
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocol : '',
+  }
+  var got = _.uriNew.parseAtomic( '://"#hash1"/"!tag1"/"?query1"' );
+  test.identical( got, expected );
+}
+
+//
+
+function parseAtomicWithComplexProtocol( test )
+{
+  test.case = 'protocol only';
+  var src = 'https+hd://';
+  var expected = { 'protocol' : 'https+hd' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'complex protocol only';
+  var src = 'https+hd+git+https://';
+  var expected = { 'protocol' : 'https+hd+git+https' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'simple long path';
+  var src = 'site.com/some/page';
+  var expected = { 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port only';
+  var src = '://:13';
+  var expected = { 'protocol' : '', 'port' : 13, 'host' : '' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag only';
+  var src = '!tag';
+  var expected = { 'tag' : 'tag' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash only';
+  var src = '#hash';
+  var expected = { 'hash' : 'hash' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query only';
+  var src = '?entry:1&format:null';
+  var expected = { 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://site.com';
+  var expected = { 'protocol' : 'https+hd', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https+hd://:13';
+  var expected = { 'protocol' : 'https+hd', 'port' : 13, 'host' : '' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://!tag';
+  var expected = { 'protocol' : 'https+hd', 'tag' : 'tag' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://#hash';
+  var expected = { 'protocol' : 'https+hd', 'hash' : 'hash' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://site.com/some/page';
+  var expected = { 'protocol' : 'https+hd', 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https+hd://site.com:13';
+  var expected = { 'protocol' : 'https+hd', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com!tag';
+  var expected = { 'protocol' : 'https+hd', 'tag' : 'tag', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com#hash';
+  var expected = { 'protocol' : 'https+hd', 'hash' : 'hash', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://site.com?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'query' : 'entry:1&format:null', 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://site.com:13/some/page';
+  var expected = { 'protocol' : 'https+hd', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com:13!tag';
+  var expected = { 'protocol' : 'https+hd', 'tag' : 'tag', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13#hash';
+  var expected = { 'protocol' : 'https+hd', 'hash' : 'hash', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'query' : 'entry:1&format:null', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://user@site.com:13/some/page';
+  var expected = { 'protocol' : 'https+hd', 'resourcePath' : 'some/page', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://user@site.com:13!tag';
+  var expected = { 'protocol' : 'https+hd', 'tag' : 'tag', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://user@site.com:13#hash';
+  var expected = { 'protocol' : 'https+hd', 'hash' : 'hash', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://user@site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'query' : 'entry:1&format:null', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com:13/some/page!tag';
+  var expected = { 'protocol' : 'https+hd', 'tag' : 'tag', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13/some/page#hash';
+  var expected = { 'protocol' : 'https+hd', 'hash' : 'hash', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://site.com:13/some/page?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'query' : 'entry:1&format:null', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https+hd://user@site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://user@site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var src = 'https+hd://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var src = 'https+hd://../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '..',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var src = 'https+hd:///../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '/..',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var src = 'https+hd:///site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'host' : '/site.com',
+    'port' : 13,
+    'resourcePath' : 'some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var src = 'http+hd://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var src = 'http+hd:///127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var src = 'http+hd://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var src = 'http+hd:///127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseAtomic( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var uri = 'https+hd://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( uri );
+  var expected =
+  {
+    protocol : 'https+hd',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var uri = 'https+hd:///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseAtomic( uri );
+  var expected =
+  {
+    protocol : 'https+hd',
+    host : '/www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var expected =
+  {
+    protocol : 'git+https',
+    host : '/bitbucket.org',
+    user : 'git',
+    resourcePath : 'repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( 'git+https:///git@bitbucket.org/repo/?query=select#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var expected =
+  {
+    host : '/bitbucket.org',
+    port : 'someorg',
+    user : 'git',
+    resourcePath : 'somerepo.git',
+    tag : 'tag',
+    protocol : 'git+https',
+  };
+  var got = _.uriNew.parseAtomic( 'git+https:///git@bitbucket.org:someorg/somerepo.git!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var expected =
+  {
+    protocol : 'git+https',
+    host : '/bitbucket.org',
+    user : 'git',
+    port : 'someorg',
+    resourcePath : 'somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseAtomic( 'git+https:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var expected =
+  {
+    protocol : 'https+hd',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var got = _.uriNew.parseAtomic( 'https+hd://#hash1/!tag1/?query1' );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var expected =
+  {
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocol : 'https+hd',
+  }
+  var got = _.uriNew.parseAtomic( 'https+hd://"#hash1"/"!tag1"/"?query1"' );
+  test.identical( got, expected );
+}
+
+//
+
+function parseConsecutive( test )
+{
+  test.case = 'protocol only';
+  var src = 'https://';
+  var expected = { 'longPath' : '', 'protocol' : 'https' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'complex protocol only';
+  var src = 'https+git://';
+  var expected = { 'longPath' : '', 'protocol' : 'https+git' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'simple long path';
+  var src = 'site.com/some/page';
+  var expected = { 'longPath' : 'site.com/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port only';
+  var src = '://:13';
+  var expected = { 'protocol' : '', 'longPath' : ':13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag only';
+  var src = '!tag';
+  var expected = { 'longPath' : '', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash only';
+  var src = '#hash';
+  var expected = { 'longPath' : '', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query only';
+  var src = '?entry:1&format:null';
+  var expected = { 'longPath' : '', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var src = 'https://site.com';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https://:13';
+  var expected = { 'protocol' : 'https', 'longPath' : ':13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://!tag';
+  var expected = { 'protocol' : 'https', 'longPath' : '', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://#hash';
+  var expected = { 'protocol' : 'https', 'longPath' : '', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'longPath' : '', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var src = 'https://site.com/some/page';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https://site.com:13';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://site.com!tag';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com#hash';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://site.com?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var src = 'https://site.com:13/some/page';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://site.com:13!tag';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com:13#hash';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var src = 'https://user@site.com:13/some/page';
+  var expected = { 'protocol' : 'https', 'longPath' : 'user@site.com:13/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https://user@site.com:13!tag';
+  var expected = { 'protocol' : 'https', 'longPath' : 'user@site.com:13', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://user@site.com:13#hash';
+  var expected = { 'protocol' : 'https', 'longPath' : 'user@site.com:13', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://user@site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'longPath' : 'user@site.com:13', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var src = 'https://site.com:13/some/page!tag';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13/some/page', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com:13/some/page#hash';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13/some/page', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https://site.com:13/some/page?entry:1&format:null';
+  var expected = { 'protocol' : 'https', 'longPath' : 'site.com:13/some/page', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https://site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : 'site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : 'site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https://user@site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https://user@site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var src = 'https://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var src = 'https://../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : '../site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var src = 'https:///../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : '/../site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var src = 'https:///site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https',
+    'longPath' : '/site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var src = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var src = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var src = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var src = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'root token';
+  var uri = '/';
+  var expected = { longPath : '/' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'two root tokens';
+  var uri = '//';
+  var expected = { longPath : '//' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'three root tokens';
+  var uri = '///';
+  var expected = { longPath : '///' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'regular hd absolute path';
+  var uri = '/some/file';
+  var expected = { longPath : '/some/file' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by two root tokens';
+  var uri = '//some.domain.com/was';
+  var expected = { longPath : '//some.domain.com/was' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by three root tokens';
+  var uri = '///a/b/c';
+  var expected = { longPath : '///a/b/c' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'full uri, not ://, but //';
+  var expected =
+  {
+    longPath : '///some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var got = _.uriNew.parseConsecutive( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var uri = 'https://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : 'https',
+    longPath : 'www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var uri = 'https:///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : 'https',
+    longPath : '/www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/git@bitbucket.org/repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org/repo/?query=select#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var expected =
+  {
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    tag : 'tag',
+    protocol : 'git',
+  };
+  var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var expected =
+  {
+    protocol : 'git',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var expected =
+  {
+    protocol : 'https',
+    longPath : '',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var got = _.uriNew.parseConsecutive( 'https://#hash1/!tag1/?query1' );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var expected =
+  {
+    longPath : '"#hash1"/"!tag1"/"?query1"',
+    protocol : 'https',
+  }
+  var got = _.uriNew.parseConsecutive( 'https://"#hash1"/"!tag1"/"?query1"' );
+  test.identical( got, expected );
+
+  /* */
+
+  // test.case = '???'; /* aaa : describe cases without description ( short! ) */ /* Dmytro : added */
+  // var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  // var expected =
+  // {
+  //   protocol : 'complex+protocol',
+  //   longPath : 'www.site.com:13/path/name',
+  //   query : 'query=here&and=here',
+  //   hash : 'anchor',
+  // }
+  // var got = _.uriNew.parseConsecutive( uri );
+  // test.identical( got, expected );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorSync( () => _.uriNew.parseConsecutive() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorSync( () => _.uriNew.parseConsecutive( 'http://www.site.com:13/path', '' ) );
+
+  test.case = 'map is not string';
+  test.shouldThrowErrorSync( () => _.uriNew.parseConsecutive( 34 ) );
+
+  test.case = 'map is a Map, has unknown fields';
+  test.shouldThrowErrorSync( () => _.uriNew.parseConsecutive({ unknown : '://site.com' }) );
+}
+
+//
+
+function parseConsecutiveWithoutProtocol( test )
+{
+  test.open( 'empty protocol +' );
+
+  test.case = 'long path';
+  var src = '://site.com';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = '://:13';
+  var expected = { 'protocol' : '', 'longPath' : ':13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://!tag';
+  var expected = { 'protocol' : '', 'longPath' : '', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://#hash';
+  var expected = { 'protocol' : '', 'longPath' : '', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://?entry:1&format:null';
+  var expected = { 'protocol' : '', 'longPath' : '', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol +' );
+
+  /* - */
+
+  test.open( 'empty protocol + long path +' );
+
+  test.case = 'long path';
+  var src = '://site.com/some/page';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = '://site.com:13';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://site.com!tag';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com#hash';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://site.com?entry:1&format:null';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol + long path +' );
+
+  /* - */
+
+  test.open( 'empty protocol + long path + port +' );
+
+  test.case = 'long path';
+  var src = '://site.com:13/some/page';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://site.com:13!tag';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13#hash';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'empty protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var src = '://user@site.com:13/some/page';
+  var expected = { 'protocol' : '', 'longPath' : 'user@site.com:13/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = '://user@site.com:13!tag';
+  var expected = { 'protocol' : '', 'longPath' : 'user@site.com:13', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13#hash';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://user@site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : '', 'longPath' : 'user@site.com:13', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'empty protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var src = '://site.com:13/some/page!tag';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13/some/page', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13/some/page#hash';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13/some/page', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = '://site.com:13/some/page?entry:1&format:null';
+  var expected = { 'protocol' : '', 'longPath' : 'site.com:13/some/page', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'empty protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = '://site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : 'site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : 'site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'empty protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = '://user@site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = '://user@site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'empty protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'empty protocol + long path with user + port + long path + query + hash + tag';
+  var src = '://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var src = '://../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '../site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var src = ':///../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '/../site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var src = ':///site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '/site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var src = '://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var src = ':///127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var src = '://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var src = ':///127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : '',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var uri = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    longPath : 'www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var uri = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : '',
+    longPath : '/www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'empty protocol + absolute long path with user + long path + query + hash + tag';
+  var expected =
+  {
+    protocol : '',
+    longPath : '/git@bitbucket.org/repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( ':///git@bitbucket.org/repo/?query=select#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var expected =
+  {
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    tag : 'tag',
+    protocol : '',
+  };
+  var got = _.uriNew.parseConsecutive( ':///git@bitbucket.org:someorg/somerepo.git!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var expected =
+  {
+    protocol : '',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( ':///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var expected =
+  {
+    protocol : '',
+    longPath : '',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var got = _.uriNew.parseConsecutive( '://#hash1/!tag1/?query1' );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var expected =
+  {
+    longPath : '"#hash1"/"!tag1"/"?query1"',
+    protocol : '',
+  }
+  var got = _.uriNew.parseConsecutive( '://"#hash1"/"!tag1"/"?query1"' );
+  test.identical( got, expected );
+}
+
+//
+
+function parseConsecutiveWithComplexProtocol( test )
+{
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://site.com';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https+hd://:13';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : ':13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://!tag';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : '', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://#hash';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : '', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : '', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://site.com/some/page';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var src = 'https+hd://site.com:13';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com!tag';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com#hash';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://site.com?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://site.com:13/some/page';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com:13!tag';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13#hash';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var src = 'https+hd://user@site.com:13/some/page';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'user@site.com:13/some/page' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var src = 'https+hd://user@site.com:13!tag';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'user@site.com:13', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13#hash';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://user@site.com:13?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'user@site.com:13', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com:13/some/page!tag';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13/some/page', 'tag' : 'tag' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13/some/page#hash';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13/some/page', 'hash' : 'hash' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var src = 'https+hd://site.com:13/some/page?entry:1&format:null';
+  var expected = { 'protocol' : 'https+hd', 'longPath' : 'site.com:13/some/page', 'query' : 'entry:1&format:null' };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https+hd://site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : 'site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : 'site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var src = 'https+hd://user@site.com:13/some/page?entry:1&format:null!tag';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var src = 'https+hd://user@site.com:13/some/page?entry:1&format:null#hash';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var src = 'https+hd://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : 'user@site.com:13/some/page',
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var src = 'https+hd://../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : '../site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var src = 'https+hd:///../site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : '/../site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var src = 'https+hd:///site.com:13/some/page?query';
+  var expected =
+  {
+    'protocol' : 'https+hd',
+    'longPath' : '/site.com:13/some/page',
+    'query' : 'query',
+  };
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var src = 'http+hd://127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var src = 'http+hd:///127.0.0.1:5000/a/b?q=3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var src = 'http+hd://127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'longPath' : '127.0.0.1:5000/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var src = 'http+hd:///127.0.0.1:5000/a/b?q:3#anch';
+  var expected =
+  {
+    'protocol' : 'http+hd',
+    'longPath' : '/127.0.0.1:5000/a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  }
+  var got = _.uriNew.parseConsecutive( src );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'root token';
+  var uri = '/';
+  var expected = { longPath : '/' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'two root tokens';
+  var uri = '//';
+  var expected = { longPath : '//' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'three root tokens';
+  var uri = '///';
+  var expected = { longPath : '///' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'regular hd absolute path';
+  var uri = '/some/file';
+  var expected = { longPath : '/some/file' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by two root tokens';
+  var uri = '//some.domain.com/was';
+  var expected = { longPath : '//some.domain.com/was' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by three root tokens';
+  var uri = '///a/b/c';
+  var expected = { longPath : '///a/b/c' };
+  var got = _.uriNew.parseConsecutive( uri );
+  test.identical( got, expected );
+
+  test.case = 'full uri, not ://, but //';
+  var expected =
+  {
+    longPath : '///some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var got = _.uriNew.parseConsecutive( '///some.com:99/staging/index.html?query=here&and=here#anchor' );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var uri = 'https+hd://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : 'https+hd',
+    longPath : 'www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var uri = 'https+hd:///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.parseConsecutive( uri );
+  var expected =
+  {
+    protocol : 'https+hd',
+    longPath : '/www.site.com:13/path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var expected =
+  {
+    protocol : 'git+https',
+    longPath : '/git@bitbucket.org/repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( 'git+https:///git@bitbucket.org/repo/?query=select#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var expected =
+  {
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    tag : 'tag',
+    protocol : 'git+https',
+  };
+  var got = _.uriNew.parseConsecutive( 'git+https:///git@bitbucket.org:someorg/somerepo.git!tag' );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var expected =
+  {
+    protocol : 'git+https',
+    longPath : '/git@bitbucket.org:someorg/somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var got = _.uriNew.parseConsecutive( 'git+https:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag' );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var expected =
+  {
+    protocol : 'https+hd',
+    longPath : '',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var got = _.uriNew.parseConsecutive( 'https+hd://#hash1/!tag1/?query1' );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var expected =
+  {
+    longPath : '"#hash1"/"!tag1"/"?query1"',
+    protocol : 'https+hd',
+  }
+  var got = _.uriNew.parseConsecutive( 'https+hd://"#hash1"/"!tag1"/"?query1"' );
+  test.identical( got, expected );
+}
+
+//
+
 // function parseConsecutive2( test )
 // {
 //
@@ -9168,66 +11256,41 @@ function localFromGlobal( test )
 
 function str( test )
 {
+  /* aaa : normalize test */ /* Dmytro : normalized */
 
-  // var uri = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var components0 =
-  {
-    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
-  }
-
-  var components2 =
-  {
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-
-    origin : 'http://www.site.com:13'
-  }
-
-  var components3 =
-  {
-    protocol : 'http',
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-
-    hostFull : 'www.site.com:13'
-  }
-
-  /* qqq : normalize test */
-
-  /* */
-
-  test.case = 'string basePath string';
+  test.case = 'map is a String';
+  var components = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( 'http://www.site.com:13/path/name?query=here&and=here#anchor' );
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'make uri basePath components uri';
-  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( components0 );
-  test.identical( got, expected );
-
-  /* */
-
-  test.case = 'make uri basePath atomic components';
-  var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
-  var components =
-  {
-    protocol : 'http',
-    host : 'www.site.com',
-    port : 13,
-    resourcePath : '/path/name',
-    query : 'query=here&and=here',
-    hash : 'anchor',
-  }
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
-  test.case = 'make uri basePath atomic components';
+  /* */
+
+  test.case = 'only full field in map';
+  var components =
+  {
+    full : 'http://www.site.com:13/path/name?query=here&and=here#anchor',
+  };
   var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
+  var got = _.uriNew.str( components );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'from atomic parsed path, resourcePath - global';
+  var components =
+  {
+    host : 'www.site.com',
+    protocol : 'http',
+    resourcePath : '/z',
+  };
+  var expected = 'http://www.site.com//z';
+  var got = _.uriNew.str( components );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'from atomic parsed path, resourcePath - local';
   var components =
   {
     protocol : 'http',
@@ -9236,64 +11299,78 @@ function str( test )
     resourcePath : 'path/name',
     query : 'query=here&and=here',
     hash : 'anchor',
-  }
+  };
+  var expected = 'http://www.site.com:13/path/name?query=here&and=here#anchor';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'make uri basePath composites components: origin';
+  test.case = 'from atomic parsed path, resourcePath - global';
+  var components =
+  {
+    protocol : 'http',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
   var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( components2 );
+  var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
+  test.case = 'from composites components with field origin';
+  var components =
+  {
+    resourcePath : '/path/name',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+    origin : 'http://www.site.com:13'
+  };
   var expected = 'http://www.site.com:13//path/name?query=here&and=here#anchor';
-  var got = _.uriNew.str( components3 );
+  var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
-  var expected = 'some.domain.com/was';
+  test.case = 'from host and resourcePath';
   var components =
   {
     host : 'some.domain.com',
     resourcePath : 'was',
-  }
+  };
+  var expected = 'some.domain.com/was';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'no host, but protocol'
-
+  test.case = 'no host, but protocol, resourcePath - global';
   var components =
   {
     resourcePath : '/some2',
     protocol : 'src',
-  }
+  };
   var expected = 'src:///some2';
-  debugger;
   var got = _.uriNew.str( components );
   test.identical( got, expected );
-  debugger;
 
+  test.case = 'no host, but protocol, resourcePath - local';
   var components =
   {
     resourcePath : 'some2',
     protocol : 'src',
-  }
+  };
   var expected = 'src://some2';
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
   /* */
 
-  test.case = 'hash and protocol null, but protocols presents'
-
+  test.case = 'hash and protocol - null, from longPath and protocols';
   var components =
   {
     protocol : null,
@@ -9307,6 +11384,7 @@ function str( test )
 
   /* */
 
+  test.case = 'from full parsed, resourcePath - global';
   var components =
   {
     protocol : 'git',
@@ -9322,6 +11400,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, resourcePath - global, resourcePath ends by upToken';
   var components =
   {
     protocol : 'git',
@@ -9367,6 +11446,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, with tag, resourcePath - global, resourcePath ends by upToken';
   var components =
   {
     protocol : 'git',
@@ -9397,6 +11477,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, longPath - global';
   var components =
   {
     protocol : 'git',
@@ -9413,6 +11494,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, longPath - global, longPath ends by upToken';
   var components =
   {
     protocol : 'git',
@@ -9461,6 +11543,7 @@ function str( test )
   var got = _.uriNew.str( components );
   test.identical( got, expected );
 
+  test.case = 'from full parsed, with query';
   var components =
   {
     protocol : 'git',
@@ -9572,11 +11655,10 @@ function str( test )
     protocols : [ 'git' ],
     hostFull : '',
     origin : 'git://',
-  }
+  };
   var expected = 'git:///somerepo.git?query=1!tag'
   var got = _.uriNew.str( components );
   test.identical( got, expected );
-
 
   var components =
   {
@@ -9589,7 +11671,7 @@ function str( test )
     protocols : [ 'git' ],
     hostFull : '',
     origin : 'git://',
-  }
+  };
   var expected = 'git:///somerepo.git/?query=1!tag'
   var got = _.uriNew.str( components );
   test.identical( got, expected );
@@ -9599,10 +11681,1000 @@ function str( test )
   if( !Config.debug )
   return;
 
+  test.case = 'without arguments';
   test.shouldThrowErrorSync( () => _.uriNew.str() );
+
+  test.case = 'extra arguments';
   test.shouldThrowErrorSync( () => _.uriNew.str( 'a', 'b' ) );
+
+  test.case = 'unknown field in map';
   test.shouldThrowErrorSync( () => _.uriNew.str({ x : 'x' }) );
 
+}
+
+//
+
+function strConvertMapFromParseAtomic( test )
+{
+  test.case = 'protocol only';
+  var map = { 'protocol' : 'https' };
+  var expected = 'https://';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'complex protocol only';
+  var map = { 'protocol' : 'https+git' };
+  var expected = 'https+git://';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'simple long path';
+  var map = { 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var expected = 'site.com/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port only';
+  var map = { 'protocol' : '', 'port' : 13, 'host' : '' };
+  var expected = '://:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag only';
+  var map = { 'tag' : 'tag' };
+  var expected = '!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash only';
+  var map = { 'hash' : 'hash' };
+  var expected = '#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query only';
+  var map = { 'query' : 'entry:1&format:null' };
+  var expected = '?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : 'https', 'host' : 'site.com' };
+  var expected = 'https://site.com';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var map = { 'protocol' : 'https', 'port' : 13, 'host' : '' };
+  var expected = 'https://:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : 'https', 'tag' : 'tag' };
+  var expected = 'https://!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : 'https', 'hash' : 'hash' };
+  var expected = 'https://#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : 'https', 'query' : 'entry:1&format:null' };
+  var expected = 'https://?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : 'https', 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var expected = 'https://site.com/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var map = { 'protocol' : 'https', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : 'https', 'tag' : 'tag', 'host' : 'site.com' };
+  var expected = 'https://site.com!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : 'https', 'hash' : 'hash', 'host' : 'site.com' };
+  var expected = 'https://site.com#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'host' : 'site.com' };
+  var expected = 'https://site.com?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : 'https', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : 'https', 'tag' : 'tag', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : 'https', 'hash' : 'hash', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : 'https', 'resourcePath' : 'some/page', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://user@site.com:13/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : 'https', 'tag' : 'tag', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://user@site.com:13!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : 'https', 'hash' : 'hash', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://user@site.com:13#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://user@site.com:13?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var map = { 'protocol' : 'https', 'tag' : 'tag', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13/some/page!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : 'https', 'hash' : 'hash', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13/some/page#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : 'https', 'query' : 'entry:1&format:null', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = 'https://site.com:13/some/page?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var map =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var expected = 'https://site.com:13/some/page?entry:1&format:null!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var expected = 'https://site.com:13/some/page?entry:1&format:null#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var map =
+  {
+    'protocol' : 'https',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var expected = 'https://user@site.com:13/some/page?entry:1&format:null!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map =
+  {
+    'protocol' : 'https',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var expected = 'https://user@site.com:13/some/page?entry:1&format:null#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var map =
+  {
+    'protocol' : 'https',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var expected = 'https://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var map =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '..',
+    'query' : 'query',
+  };
+  var expected = 'https://../site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var map =
+  {
+    'protocol' : 'https',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '/..',
+    'query' : 'query',
+  };
+  var expected = 'https:///../site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var map =
+  {
+    'protocol' : 'https',
+    'host' : '/site.com',
+    'port' : 13,
+    'resourcePath' : 'some/page',
+    'query' : 'query',
+  };
+  var expected = 'https:///site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var map =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  };
+  var expected = 'http://127.0.0.1:5000/a/b?q=3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var map =
+  {
+    'protocol' : 'http',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  };
+  var expected = 'http:///127.0.0.1:5000/a/b?q=3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var map =
+  {
+    'protocol' : 'http',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  };
+  var expected = 'http://127.0.0.1:5000/a/b?q:3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var map =
+  {
+    'protocol' : 'http',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  };
+  var expected = 'http:///127.0.0.1:5000/a/b?q:3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'root token';
+  var map = { 'host' : '/' };
+  var expected = '/';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'two root tokens';
+  var map = { 'resourcePath' : '', 'host' : '/' };
+  var expected = '//';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'three root tokens';
+  var map = { 'resourcePath' : '/', 'host' : '/' };
+  var expected = '///';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'regular hd absolute path';
+  var map = { 'resourcePath' : 'file', 'host' : '/some' };
+  var expected = '/some/file';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by two root tokens';
+  var map = { 'resourcePath' : 'some.domain.com/was', 'host' : '/' };
+  var expected = '//some.domain.com/was';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'absolute path, starts by three root tokens';
+  var map = { 'resourcePath' : '/a/b/c', 'host' : '/' };
+  var expected = '///a/b/c';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'full expected, not ://, but //';
+  var map =
+  {
+    host : '/',
+    resourcePath : '/some.com:99/staging/index.html',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = '///some.com:99/staging/index.html?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var map =
+  {
+    protocol : 'https',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = 'https://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var map =
+  {
+    protocol : 'https',
+    host : '/www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = 'https:///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var map =
+  {
+    protocol : 'git',
+    host : '/bitbucket.org',
+    user : 'git',
+    resourcePath : 'repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var expected = 'git:///git@bitbucket.org/repo/?query=select#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var map =
+  {
+    host : '/bitbucket.org',
+    port : 'someorg',
+    user : 'git',
+    resourcePath : 'somerepo.git',
+    tag : 'tag',
+    protocol : 'git',
+  };
+  var expected = 'git:///git@bitbucket.org:someorg/somerepo.git!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var map =
+  {
+    protocol : 'git',
+    host : '/bitbucket.org',
+    user : 'git',
+    port : 'someorg',
+    resourcePath : 'somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var expected = 'git:///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var map =
+  {
+    protocol : 'https',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var expected = 'https://?query1#hash1/!tag1/';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var map =
+  {
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocol : 'https',
+  };
+  var expected = 'https://"#hash1"/"!tag1"/"?query1"';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+}
+
+//
+
+function strConvertMapFromParseAtomicWithoutProtocol( test )
+{
+  test.open( 'protocol +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'host' : 'site.com' };
+  var expected = '://site.com';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var map = { 'protocol' : '', 'port' : 13, 'host' : '' };
+  var expected = '://:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag' };
+  var expected = '://!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash' };
+  var expected = '://#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null' };
+  var expected = '://?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol +' );
+
+  /* - */
+
+  test.open( 'protocol + long path +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'resourcePath' : 'some/page', 'host' : 'site.com' };
+  var expected = '://site.com/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'port';
+  var map = { 'protocol' : '', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'host' : 'site.com' };
+  var expected = '://site.com!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'host' : 'site.com' };
+  var expected = '://site.com#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'host' : 'site.com' };
+  var expected = '://site.com?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port +' );
+
+  test.case = 'long path';
+  var map = { 'protocol' : '', 'resourcePath' : 'some/page', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13/some/page';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'user' : 'user', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://user@site.com:13#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'from atomic parsed path, resourcePath - global';
+  var components =
+  {
+    host : 'www.site.com',
+    protocol : 'http',
+    resourcePath : '/z',
+  };
+  var expected = 'http://www.site.com//z';
+  var got = _.uriNew.str( components );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path +' );
+
+  test.case = 'tag';
+  var map = { 'protocol' : '', 'tag' : 'tag', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map = { 'protocol' : '', 'hash' : 'hash', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query';
+  var map = { 'protocol' : '', 'query' : 'entry:1&format:null', 'resourcePath' : 'some/page', 'port' : 13, 'host' : 'site.com' };
+  var expected = '://site.com:13/some/page?entry:1&format:null';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path +' );
+
+  /* - */
+
+  test.open( 'protocol + long path + port + long path + query +' );
+
+  test.case = 'tag';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var expected = '://site.com:13/some/page?entry:1&format:null!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var expected = '://site.com:13/some/page?entry:1&format:null#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path + port + long path + query +' );
+
+  /* - */
+
+  test.open( 'protocol + long path with user + port + long path + query +' );
+
+  test.case = 'tag';
+  var map =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'tag' : 'tag',
+  };
+  var expected = '://user@site.com:13/some/page?entry:1&format:null!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash';
+  var map =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+  };
+  var expected = '://user@site.com:13/some/page?entry:1&format:null#hash';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.close( 'protocol + long path with user + port + long path + query +' );
+
+  /* - */
+
+  test.case = 'protocol + long path with user + port + long path + query + hash + tag';
+  var map =
+  {
+    'protocol' : '',
+    'user' : 'user',
+    'resourcePath' : 'some/page',
+    'host' : 'site.com',
+    'port' : 13,
+    'query' : 'entry:1&format:null',
+    'hash' : 'hash',
+    'tag' : 'tag',
+  };
+  var expected = '://user@site.com:13/some/page?entry:1&format:null#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path is relative path';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '..',
+    'query' : 'query',
+  };
+  var expected = '://../site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path with dots';
+  var map =
+  {
+    'protocol' : '',
+    'resourcePath' : 'site.com:13/some/page',
+    'host' : '/..',
+    'query' : 'query',
+  };
+  var expected = ':///../site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path is absolute path without dots';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '/site.com',
+    'port' : 13,
+    'resourcePath' : 'some/page',
+    'query' : 'query',
+  };
+  var expected = ':///site.com:13/some/page?query';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'query with equal, relative long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  };
+  var expected = '://127.0.0.1:5000/a/b?q=3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with equal, absolute long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q=3',
+    'hash' : 'anch'
+  };
+  var expected = ':///127.0.0.1:5000/a/b?q=3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, relative long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  };
+  var expected = '://127.0.0.1:5000/a/b?q:3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query with colon, absolute long path';
+  var map =
+  {
+    'protocol' : '',
+    'host' : '/127.0.0.1',
+    'port' : 5000,
+    'resourcePath' : 'a/b',
+    'query' : 'q:3',
+    'hash' : 'anch'
+  };
+  var expected = ':///127.0.0.1:5000/a/b?q:3#anch';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'long path has pairs of upToken';
+  var map =
+  {
+    protocol : '',
+    host : 'www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = '://www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'query starts after upTokens';
+  var map =
+  {
+    protocol : '',
+    host : '/www.site.com',
+    port : 13,
+    resourcePath : 'path//name//',
+    query : 'query=here&and=here',
+    hash : 'anchor',
+  };
+  var expected = ':///www.site.com:13/path//name//?query=here&and=here#anchor';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'protocol + absolute long path with user + long path + query + hash + tag';
+  var map =
+  {
+    protocol : '',
+    host : '/bitbucket.org',
+    user : 'git',
+    resourcePath : 'repo/',
+    query : 'query=select',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var expected = ':///git@bitbucket.org/repo/?query=select#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion';
+  var map =
+  {
+    host : '/bitbucket.org',
+    port : 'someorg',
+    user : 'git',
+    resourcePath : 'somerepo.git',
+    tag : 'tag',
+    protocol : '',
+  };
+  var expected = ':///git@bitbucket.org:someorg/somerepo.git!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'long path with user and organisztion, query, hash, tag';
+  var map =
+  {
+    protocol : '',
+    host : '/bitbucket.org',
+    user : 'git',
+    port : 'someorg',
+    resourcePath : 'somerepo.git',
+    query : 'query=1',
+    hash : 'hash',
+    tag : 'tag',
+  };
+  var expected = ':///git@bitbucket.org:someorg/somerepo.git?query=1#hash!tag';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'hash, tag, query';
+  var map =
+  {
+    protocol : '',
+    query : 'query1',
+    tag : 'tag1/',
+    hash : 'hash1/',
+  };
+  var expected = '://?query1#hash1/!tag1/';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
+
+  test.case = 'escaped hash, tag and query';
+  var map =
+  {
+    resourcePath : '"!tag1"/"?query1"',
+    host : '"#hash1"',
+    protocol : '',
+  };
+  var expected = '://"#hash1"/"!tag1"/"?query1"';
+  var got = _.uriNew.str( map );
+  test.identical( got, expected );
 }
 
 //
@@ -9647,7 +12719,7 @@ function full( test )
 
   /* */
 
-  test.case = 'make uri basePath composites components: origin';
+  test.case = 'make uri basePath composites components : origin';
   var components =
   {
     resourcePath : 'path/name',
@@ -9661,7 +12733,7 @@ function full( test )
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
+  test.case = 'make uri basePath composites components : hostFull';
   var components =
   {
     protocol : 'http',
@@ -9677,7 +12749,7 @@ function full( test )
 
   /* */
 
-  test.case = 'make uri basePath composites components: hostFull';
+  test.case = 'make uri basePath composites components : hostFull';
   var expected = 'some.domain.com/was';
   var components =
   {
@@ -11123,6 +14195,448 @@ function join( test )
 
 //
 
+function join_( test )
+{
+
+  test.case = 'join empty';
+  var paths = [ '' ];
+  var expected = '';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.case = 'join several empties';
+  var paths = [ '', '' ];
+  var expected = '';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.case = 'join with empty';
+  var paths = [ '', 'a/b', '', 'c', '' ];
+  var expected = 'a/b/c';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.case = 'replace protocol';
+  var got = _.uriNew.join_( 'src:///in', 'fmap://' );
+  var expected = 'fmap:///in';
+  test.identical( got, expected );
+
+  test.case = 'join different protocols';
+  var got = _.uriNew.join_( 'file://www.site.com:13', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'file:///d', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  test.case = 'join same protocols';
+
+  var got = _.uriNew.join_( 'http://www.site.com:13', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http:///www.site.com:13', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http://server1', 'a', 'http://server2', 'b' );
+  var expected = 'http://server1/a/server2/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http:///server1', 'a', 'http://server2', 'b' );
+  var expected = 'http:///server1/a/server2/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http://server1', 'a', 'http:///server2', 'b' );
+  var expected = 'http:///server2/b';
+  test.identical( got, expected );
+
+  test.case = 'join protocol with protocol-less';
+
+  var got = _.uriNew.join_( 'http://www.site.com:13', 'a', ':///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http:///www.site.com:13', 'a', '://dir', 'b' );
+  var expected = 'http:///www.site.com:13/a/dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http:///www.site.com:13', 'a', ':///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http://www.site.com:13', 'a', '://dir', 'b' );
+  var expected = 'http://www.site.com:13/a/dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http://dir:13', 'a', '://dir', 'b' );
+  var expected = 'http://dir:13/a/dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'http://www.site.com:13', 'a', '://:14', 'b' );
+  var expected = 'http://www.site.com:13/a/:14/b';
+  test.identical( got, expected );
+
+  /**/
+
+  var got = _.uriNew.join_( 'a', '://dir1/x', 'b', 'http://dir2/y', 'c' );
+  var expected = 'http://a/dir1/x/b/dir2/y/c';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'a', ':///dir1/x', 'b', 'http://dir2/y', 'c' );
+  var expected = 'http:///dir1/x/b/dir2/y/c';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'a', '://dir1/x', 'b', 'http:///dir2/y', 'c' );
+  var expected = 'http:///dir2/y/c';
+  test.identical( got, expected );
+
+  var got = _.uriNew.join_( 'a', ':///dir1/x', 'b', 'http:///dir2/y', 'c' );
+  var expected = 'http:///dir2/y/c';
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'server join absolute path 1';
+  var got = _.uriNew.join_( 'http://www.site.com:13', '/x', '/y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server join absolute path 2';
+  var got = _.uriNew.join_( 'http://www.site.com:13/', 'x', '/y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server join absolute path 2';
+  var got = _.uriNew.join_( 'http://www.site.com:13/', 'x', 'y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server join absolute path';
+  var got = _.uriNew.join_( 'http://www.site.com:13/', 'x', '/y', 'z' );
+  test.identical( got, 'http:///y/z' );
+
+  test.case = 'server join relative path';
+  var got = _.uriNew.join_( 'http://www.site.com:13/', 'x', 'y', 'z' );
+  test.identical( got, 'http://www.site.com:13/x/y/z' );
+
+  test.case = 'server with path join absolute path 2';
+  var got = _.uriNew.join_( 'http://www.site.com:13/ab', '/y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server with path join absolute path 2';
+  var got = _.uriNew.join_( 'http://www.site.com:13/ab', '/y', 'z' );
+  test.identical( got, 'http:///y/z' );
+
+  test.case = 'server with path join absolute path 2';
+  var got = _.uriNew.join_( 'http://www.site.com:13/ab', 'y', 'z' );
+  test.identical( got, 'http://www.site.com:13/ab/y/z' );
+
+  test.case = 'add relative filePath uri with no resourcePath';
+  var got = _.uriNew.join_( 'https://some.domain.com/', 'something/filePath/add' );
+  test.identical( got, 'https://some.domain.com/something/filePath/add' );
+
+  test.case = 'add relative filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'https://some.domain.com/was', 'something/filePath/add' );
+  test.identical( got, 'https://some.domain.com/was/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'https://some.domain.com/was', '/something/filePath/add' );
+  test.identical( got, 'https:///something/filePath/add' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '//some.domain.com/was', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '://some.domain.com/was', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '//some.domain.com/was', 'x', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '://some.domain.com/was', 'x', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '//some.domain.com/was', '/something/filePath/add', 'x' );
+  test.identical( got, '/something/filePath/add/x' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '://some.domain.com/was', '/something/filePath/add', 'x' );
+  test.identical( got, ':///something/filePath/add/x' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '//some.domain.com/was', '/something/filePath/add', '/x' );
+  test.identical( got, '/x' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '://some.domain.com/was', '/something/filePath/add', '/x' );
+  test.identical( got, ':///x' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '/some/staging/index.html', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '/some/staging/index.html', 'x', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '/some/staging/index.html', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, '/something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '/some/staging/index.html', '/something/filePath/add', '/y' );
+  test.identical( got, '/y' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '///some/staging/index.html', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( ':///some/staging/index.html', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '///some/staging/index.html', 'x', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( ':///some/staging/index.html', 'x', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, '/something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( ':///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, ':///something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( '///some/staging/index.html', '/something/filePath/add', '/y' );
+  test.identical( got, '/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( ':///some/staging/index.html', '/something/filePath/add', '/y' );
+  test.identical( got, ':///y' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'svn+https://user@subversion.com/svn/trunk', '/something/filePath/add' );
+  test.identical( got, 'svn+https:///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add' );
+  test.identical( got, 'svn+https:///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, 'svn+https:///something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'svn+https://user@subversion.com/svn/trunk', '/something/filePath/add', '/y' );
+  test.identical( got, 'svn+https:///y' );
+
+  /* */
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var parsed = _.uriNew.parse( uri );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( uri, '/something/filePath/add' );
+  test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( uri, 'x', '/something/filePath/add' );
+  test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( uri, 'x', '/something/filePath/add', 'y' );
+  test.identical( got, 'complex+protocol:///something/filePath/add/y?query=here&and=here#anchor' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( uri, '/something/filePath/add', '/y' );
+  test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
+
+  test.case = 'prased uri at the end';
+  var got = _.uriNew.join_( '/something/filePath/add', 'y', uri );
+  test.identical( got, 'complex+protocol:///something/filePath/add/y/www.site.com:13/path/name?query=here&and=here#anchor' );
+
+  /* */
+
+  test.case = 'several queries and hashes'
+  var uri1 = '://user:pass@sub.host.com:8080/p/a/t/h?query1=string1#hash1';
+  var uri2 = '://user:pass@sub.host.com:8080/p/a/t/h?query2=string2#hash2';
+  var got = _.uriNew.join_( uri1, uri2, '/x//y//z'  );
+  var expected = ':///x//y//z?query1=string1&query2=string2#hash2';
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, 'x'  );
+  var expected = '://user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, 'x', '/y'  );
+  var expected = ':///y?query=string#hash';
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, '/x//y//z'  );
+  var expected = ':///x//y//z?query=string#hash';
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p//a//t//h?query=string#hash';
+  var got = _.uriNew.join_( uri, 'x/'  );
+  var expected = '://user:pass@sub.host.com:8080/p//a//t//h/x?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, 'x'  );
+  // var expected = ':///user:pass/x#hash@sub.host.com:8080/p/a/t/h?query=string';
+  var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash';
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, 'x', '/y'  );
+  var expected = ':///y?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, '/x//y//z'  );
+  var expected = ':///x//y//z?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.join_( uri, 'x/'  );
+  var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
+  test.identical( got, expected );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.join_( 'file:///some/file', '/something/filePath/add' );
+  test.identical( got, 'file:///something/filePath/add' );
+
+  /* */
+
+  test.case = 'add uris';
+
+  var got = _.uriNew.join_( '//a', '//b', 'c' );
+  test.identical( got, '//b/c' )
+
+  var got = _.uriNew.join_( 'b://c', 'd://e', 'f' );
+  test.identical( got, 'd://c/e/f' );
+
+  var got = _.uriNew.join_( 'a://b', 'c://d/e', '//f/g' );
+  test.identical( got, 'c:////f/g' )
+
+  /* - */
+
+  test.case = 'not global, windows path';
+  var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
+  var expected = '/c/foo/bar/';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.case = 'not global';
+  var paths = [ '/bar/', '/baz', 'foo/', '.' ];
+  var expected = '/baz/foo';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'with nulls' );
+
+  var paths = [ 'a', null ];
+  var expected = null;
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/', null ];
+  var expected = null;
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'a', null, 'b' ];
+  var expected = 'b';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/a', null, 'b' ];
+  var expected = 'b';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/a', null, '/b' ];
+  var expected = '/b';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.close( 'with nulls' );
+
+  /* - */
+
+  test.open( 'other special cases' );
+
+  var paths = [  '/aa', 'bb//', 'cc' ];
+  var expected = '/aa/bb//cc';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [  '/aa', 'bb//', 'cc', '.' ];
+  var expected = '/aa/bb//cc';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [  '/', 'a', '//b', '././c', '../d', '..e' ];
+  var expected = '//b/d/..e';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [  '/', 'a', '//b', '././c', '../d', '..e' ];
+  var expected = '//b/d/..e';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'git+https:///github.com/repo/wTools#master', '../wTools/**#master' ];
+  var expected = 'git+https:///github.com/repo/wTools/**#master#master';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'git+https:///github.com/repo/wTools#master', 'git+https://../wTools/**#master' ];
+  var expected = 'git+https:///github.com/repo/wTools/**#master';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'git+https:///github.com/repo/wTools#master1', 'git+https://../wTools/**#master2' ];
+  var expected = 'git+https:///github.com/repo/wTools/**#master2';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'http://127.0.0.1:15000/F1.html', '://?entry:1&format:null' ];
+  var expected = 'http://127.0.0.1:15000/F1.html?entry:1&format:null';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'http://127.0.0.1:15000/F1.html', '?entry:1&format:null' ];
+  var expected = 'http://127.0.0.1:15000/F1.html/?entry:1&format:null';
+  var got = _.uriNew.join_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.close( 'other special cases' );
+}
+
+//
+
 function joinRaw( test )
 {
 
@@ -11525,6 +15039,407 @@ function joinRaw( test )
 
 //
 
+function joinRaw_( test )
+{
+
+  test.case = 'joinRaw with empty';
+  var paths = [ '', 'a/b', '', 'c', '' ];
+  var expected = 'a/b/c';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.case = 'replace protocol';
+
+  var got = _.uriNew.joinRaw_( 'src:///in', 'fmap://' );
+  var expected = 'fmap:///in';
+  test.identical( got, expected );
+
+  test.case = 'joinRaw different protocols';
+
+  var got = _.uriNew.joinRaw_( 'file://www.site.com:13', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'file:///d', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  test.case = 'joinRaw same protocols';
+
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http:///www.site.com:13', 'a', 'http:///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http://server1', 'a', 'http://server2', 'b' );
+  var expected = 'http://server1/a/server2/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http:///server1', 'a', 'http://server2', 'b' );
+  var expected = 'http:///server1/a/server2/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http://server1', 'a', 'http:///server2', 'b' );
+  var expected = 'http:///server2/b';
+  test.identical( got, expected );
+
+  test.case = 'joinRaw protocol with protocol-less';
+
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13', 'a', ':///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http:///www.site.com:13', 'a', '://dir', 'b' );
+  var expected = 'http:///www.site.com:13/a/dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http:///www.site.com:13', 'a', ':///dir', 'b' );
+  var expected = 'http:///dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13', 'a', '://dir', 'b' );
+  var expected = 'http://www.site.com:13/a/dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http://dir:13', 'a', '://dir', 'b' );
+  var expected = 'http://dir:13/a/dir/b';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13', 'a', '://:14', 'b' );
+  var expected = 'http://www.site.com:13/a/:14/b';
+  test.identical( got, expected );
+
+  /**/
+
+  var got = _.uriNew.joinRaw_( 'a', '://dir1/x', 'b', 'http://dir2/y', 'c' );
+  var expected = 'http://a/dir1/x/b/dir2/y/c';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'a', ':///dir1/x', 'b', 'http://dir2/y', 'c' );
+  var expected = 'http:///dir1/x/b/dir2/y/c';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'a', '://dir1/x', 'b', 'http:///dir2/y', 'c' );
+  var expected = 'http:///dir2/y/c';
+  test.identical( got, expected );
+
+  var got = _.uriNew.joinRaw_( 'a', ':///dir1/x', 'b', 'http:///dir2/y', 'c' );
+  var expected = 'http:///dir2/y/c';
+  test.identical( got, expected );
+
+  /* */
+
+  test.case = 'server joinRaw absolute path 1';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13', '/x', '/y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server joinRaw absolute path 2';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/', 'x', '/y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server joinRaw absolute path 2';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/', 'x', 'y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server joinRaw absolute path';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/', 'x', '/y', 'z' );
+  test.identical( got, 'http:///y/z' );
+
+  test.case = 'server joinRaw relative path';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/', 'x', 'y', 'z' );
+  test.identical( got, 'http://www.site.com:13/x/y/z' );
+
+  test.case = 'server with path joinRaw absolute path 2';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/ab', '/y', '/z' );
+  test.identical( got, 'http:///z' );
+
+  test.case = 'server with path joinRaw absolute path 2';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/ab', '/y', 'z' );
+  test.identical( got, 'http:///y/z' );
+
+  test.case = 'server with path joinRaw absolute path 2';
+  var got = _.uriNew.joinRaw_( 'http://www.site.com:13/ab', 'y', 'z' );
+  test.identical( got, 'http://www.site.com:13/ab/y/z' );
+
+  test.case = 'add relative filePath uri with no resourcePath';
+  var got = _.uriNew.joinRaw_( 'https://some.domain.com/', 'something/filePath/add' );
+  test.identical( got, 'https://some.domain.com/something/filePath/add' );
+
+  test.case = 'add relative filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'https://some.domain.com/was', 'something/filePath/add' );
+  test.identical( got, 'https://some.domain.com/was/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'https://some.domain.com/was', '/something/filePath/add' );
+  test.identical( got, 'https:///something/filePath/add' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '//some.domain.com/was', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '://some.domain.com/was', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '//some.domain.com/was', 'x', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '://some.domain.com/was', 'x', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '//some.domain.com/was', '/something/filePath/add', 'x' );
+  test.identical( got, '/something/filePath/add/x' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '://some.domain.com/was', '/something/filePath/add', 'x' );
+  test.identical( got, ':///something/filePath/add/x' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '//some.domain.com/was', '/something/filePath/add', '/x' );
+  test.identical( got, '/x' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '://some.domain.com/was', '/something/filePath/add', '/x' );
+  test.identical( got, ':///x' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '/some/staging/index.html', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '/some/staging/index.html', 'x', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '/some/staging/index.html', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, '/something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '/some/staging/index.html', '/something/filePath/add', '/y' );
+  test.identical( got, '/y' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '///some/staging/index.html', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( ':///some/staging/index.html', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '///some/staging/index.html', 'x', '/something/filePath/add' );
+  test.identical( got, '/something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( ':///some/staging/index.html', 'x', '/something/filePath/add' );
+  test.identical( got, ':///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, '/something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( ':///some/staging/index.html', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, ':///something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( '///some/staging/index.html', '/something/filePath/add', '/y' );
+  test.identical( got, '/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( ':///some/staging/index.html', '/something/filePath/add', '/y' );
+  test.identical( got, ':///y' );
+
+  /* */
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'svn+https://user@subversion.com/svn/trunk', '/something/filePath/add' );
+  test.identical( got, 'svn+https:///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add' );
+  test.identical( got, 'svn+https:///something/filePath/add' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'svn+https://user@subversion.com/svn/trunk', 'x', '/something/filePath/add', 'y' );
+  test.identical( got, 'svn+https:///something/filePath/add/y' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'svn+https://user@subversion.com/svn/trunk', '/something/filePath/add', '/y' );
+  test.identical( got, 'svn+https:///y' );
+
+  /* */
+
+  var uri = 'complex+protocol://www.site.com:13/path/name?query=here&and=here#anchor';
+  var parsed = _.uriNew.parse( uri );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( uri, '/something/filePath/add' );
+  test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( uri, 'x', '/something/filePath/add' );
+  test.identical( got, 'complex+protocol:///something/filePath/add?query=here&and=here#anchor' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( uri, 'x', '/something/filePath/add', 'y' );
+  test.identical( got, 'complex+protocol:///something/filePath/add/y?query=here&and=here#anchor' );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( uri, '/something/filePath/add', '/y' );
+  test.identical( got, 'complex+protocol:///y?query=here&and=here#anchor' );
+
+  test.case = 'prased uri at the end';
+  var got = _.uriNew.joinRaw_( '/something/filePath/add', 'y', uri );
+  test.identical( got, 'complex+protocol:///something/filePath/add/y/www.site.com:13/path/name?query=here&and=here#anchor' );
+
+  /* */
+
+  test.case = 'several queries and hashes'
+  var uri1 = '://user:pass@sub.host.com:8080/p/a/t/h?query1=string1#hash1';
+  var uri2 = '://user:pass@sub.host.com:8080/p/a/t/h?query2=string2#hash2';
+  var got = _.uriNew.joinRaw_( uri1, uri2, '/x//y//z'  );
+  var expected = ':///x//y//z?query1=string1&query2=string2#hash2';
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, 'x'  );
+  var expected = '://user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, 'x', '/y'  );
+  var expected = ':///y?query=string#hash';
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, '/x//y//z'  );
+  var expected = ':///x//y//z?query=string#hash';
+  test.identical( got, expected );
+
+  var uri = '://user:pass@sub.host.com:8080/p//a//t//h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, 'x/'  );
+  var expected = '://user:pass@sub.host.com:8080/p//a//t//h/x?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, 'x'  );
+  var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, 'x', '/y'  );
+  var expected = ':///y?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, '/x//y//z'  );
+  var expected = ':///x//y//z?query=string#hash'
+  test.identical( got, expected );
+
+  var uri = ':///user:pass@sub.host.com:8080/p/a/t/h?query=string#hash';
+  var got = _.uriNew.joinRaw_( uri, 'x/'  );
+  var expected = ':///user:pass@sub.host.com:8080/p/a/t/h/x?query=string#hash'
+  test.identical( got, expected );
+
+  test.case = 'add absolute filePath uri with resourcePath';
+  var got = _.uriNew.joinRaw_( 'file:///some/file', '/something/filePath/add' );
+  test.identical( got, 'file:///something/filePath/add' );
+
+  /* */
+
+  test.case = 'add uris';
+
+  var got = _.uriNew.joinRaw_( '//a', '//b', 'c' );
+  test.identical( got, '//b/c' )
+
+  var got = _.uriNew.joinRaw_( 'b://c', 'd://e', 'f' );
+  test.identical( got, 'd://c/e/f' );
+
+  var got = _.uriNew.joinRaw_( 'a://b', 'c://d/e', '//f/g' );
+  test.identical( got, 'c:////f/g' )
+
+  /* - */
+
+  test.case = 'not global, windows path';
+  var paths = [ 'c:\\', 'foo\\', 'bar\\' ];
+  var expected = '/c/foo/bar/';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.case = 'not global';
+  var paths = [ '/bar/', '/baz', 'foo/', '.' ];
+  var expected = '/baz/foo/.';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'with nulls' );
+
+  var paths = [ 'a', null ];
+  var expected = null;
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/', null ];
+  var expected = null;
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ 'a', null, 'b' ];
+  var expected = 'b';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/a', null, 'b' ];
+  var expected = 'b';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [ '/a', null, '/b' ];
+  var expected = '/b';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  test.close( 'with nulls' );
+
+  /* - */
+
+  test.case = 'other special cases';
+
+  /* xxx */
+
+  var paths = [  '/aa', 'bb//', 'cc' ];
+  var expected = '/aa/bb//cc';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [  '/aa', 'bb//', 'cc', '.' ];
+  var expected = '/aa/bb//cc/.';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+
+  var paths = [  '/', 'a', '//b', '././c', '../d', '..e' ];
+  var expected = '//b/././c/../d/..e';
+  var got = _.uriNew.joinRaw_.apply( _.uriNew, paths );
+  test.identical( got, expected );
+}
+
+//
+
 function reroot( test )
 {
 
@@ -11533,6 +15448,20 @@ function reroot( test )
   var a = 'file:///src';
   var b = 'file:///a';
   var got = _.uriNew.reroot( a, b );
+  test.identical( got, expected );
+
+}
+
+//
+
+function reroot_( test )
+{
+
+  // var expected = 'file:///src/file:///a';
+  var expected = 'file:///src/a';
+  var a = 'file:///src';
+  var b = 'file:///a';
+  var got = _.uriNew.reroot_( a, b );
   test.identical( got, expected );
 
 }
@@ -15745,13 +19674,22 @@ let Self =
     refine,
     urisRefine,
 
+    // parse
+
     /* qqq2 : refactor test routines parse, parseAtomic, parseConsecutive, parseFull. make sure all cases are similar */
     // parse,
     parseCommon,
     // parseFull,
     // parseFull2,
-    // parseConsecutive,
-    // parseConsecutive2,
+    parseAtomic,
+    parseAtomicWithoutProtocol,
+    parseAtomicWithComplexProtocol,
+
+    parseConsecutive,
+    parseConsecutiveWithoutProtocol,
+    parseConsecutiveWithComplexProtocol,
+
+    // parseConsecutive2, /* Dmytro : maybe, it should be deleted */
 
     // parseGlob, /* xxx : enable and fix */
 
@@ -15759,6 +19697,9 @@ let Self =
     localFromGlobal,
 
     str,
+    strConvertMapFromParseAtomic,
+    strConvertMapFromParseAtomicWithoutProtocol,
+
     full,
     parseAndStr,
     // basePath,
@@ -15770,8 +19711,11 @@ let Self =
 
     // _uriJoin_body,
     join,
+    join_,
     joinRaw,
+    joinRaw_,
     reroot,
+    reroot_,
 
     relativeLocalPaths,
     relative,
