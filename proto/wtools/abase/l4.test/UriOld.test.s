@@ -11572,28 +11572,28 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 //   var got = _.uriOld.filter( src, onEach );
 //   var expected = [ 'file:///a', 'file:///b' ];
 //   test.identical( got, expected );
-//   test.is( got !== src );
+//   test.true( got !== src );
 //
 //   test.case = 'array filter';
 //   var src = [ 'file:///a', '/b' ];
 //   var got = _.uriOld.filter( src, onEachFilter );
 //   var expected = 'file:///a';
 //   test.identical( got, expected );
-//   test.is( got !== src );
+//   test.true( got !== src );
 //
 //   test.case = 'map';
 //   var src = { '/src' : '/dst' };
 //   var got = _.uriOld.filter( src, onEach );
 //   var expected = { 'file:///src' : 'file:///dst' };
 //   test.identical( got, expected );
-//   test.is( got !== src );
+//   test.true( got !== src );
 //
 //   test.case = 'map filter';
 //   var src = { 'file:///src' : '/dst' };
 //   var got = _.uriOld.filter( src, onEachFilter );
 //   var expected = '';
 //   test.identical( got, expected );
-//   test.is( got !== src );
+//   test.true( got !== src );
 //
 //   test.case = 'map filter';
 //   var src = { 'file:///a' : [ 'file:///b', 'file:///c', null, undefined ] };
@@ -11603,7 +11603,7 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 //     'file:///src/a' : [ 'file:///dst/b', 'file:///dst/c', 'file:///dst' ]
 //   };
 //   test.identical( got, expected );
-//   test.is( got !== src );
+//   test.true( got !== src );
 //
 //   test.case = 'map filter keys, onEach returns array with undefined';
 //   var src = { '/a' : '/b' };
@@ -11613,7 +11613,7 @@ https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash
 //     'file:///a' : '/b'
 //   };
 //   test.identical( got, expected );
-//   test.is( got !== src );
+//   test.true( got !== src );
 //
 //   test.case = 'null';
 //   var src = null;
