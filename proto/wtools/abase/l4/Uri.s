@@ -38,21 +38,19 @@ _.uri = _.uriNew;
 // relation
 // --
 
-let Uri = _.blueprint
+let Uri = _.Blueprint
 ({
   typed : _.trait.typed(),
-  extendable : _.trait.extendable(),
-
+  extendable : _.trait.extendable(), /* qqq xxx : is it required? */
   protocol : null,
   query : null,
   hash : null,
   tag : null,
-
 });
 
 //
 
-let UriFull = _.blueprint
+let UriFull = _.Blueprint
 ({
   extension : _.define.extension( Uri ),
 
@@ -72,7 +70,7 @@ let UriFull = _.blueprint
 
 //
 
-let UriAtomic = _.blueprint
+let UriAtomic = _.Blueprint
 ({
   extension : _.define.extension( Uri ),
 
@@ -82,7 +80,7 @@ let UriAtomic = _.blueprint
 
 //
 
-let UriConsequtive = _.blueprint
+let UriConsequtive = _.Blueprint
 ({
   extension : _.define.extension( Uri ),
 
@@ -629,7 +627,7 @@ function parse_body( o )
 
   if( _.mapIs( o.srcPath ) )
   {
-    _.assertMapHasOnly( o.srcPath, this.UriFull.fields );
+    _.assertMapHasOnly( o.srcPath, this.UriFull.Fields );
     if( o.srcPath.protocols )
     return o.srcPath;
     else if( o.srcPath.full )
@@ -920,7 +918,7 @@ function str( map )
     _.assert( _.strIs( map ) || _.mapIs( map ) );
   }
 
-  _.assertMapHasOnly( map, this.UriFull.fields );
+  _.assertMapHasOnly( map, this.UriFull.Fields );
 
   /* */
 
@@ -1248,7 +1246,7 @@ function full( o )
   if( _.strIs( o ) )
   o = this.parseAtomic( o )
 
-  _.assertMapHasOnly( o, this.UriFull.fields );
+  _.assertMapHasOnly( o, this.UriFull.Fields );
 
   if( !_realGlobal_.location )
   return this.str( o );
@@ -2442,6 +2440,7 @@ let Extension =
   UriFull,
   UriAtomic,
   UriConsequtive,
+  /* qqq : use this blueprints with help of method Blueprint.Rconstruct() */
 
 }
 
