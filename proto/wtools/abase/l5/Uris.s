@@ -193,8 +193,8 @@ let Routines =
 
 }
 
-_.mapSupplementOwn( Self, Fields );
-_.mapSupplementOwn( Self, Routines );
+_.mapExtendDstNotOwn( Self, Fields );
+_.mapExtendDstNotOwn( Self, Routines );
 
 // --
 // export

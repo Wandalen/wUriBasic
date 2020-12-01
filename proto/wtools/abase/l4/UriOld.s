@@ -2188,9 +2188,9 @@ let Extension =
 
 }
 
-_.mapSupplementOwn( Self, Parameters );
-_.mapSupplementOwn( Self, Fields );
-_.mapSupplementOwn( Self, Extension );
+_.mapExtendDstNotOwn( Self, Parameters );
+_.mapExtendDstNotOwn( Self, Fields );
+_.mapExtendDstNotOwn( Self, Extension );
 
 Self.Init();
 
