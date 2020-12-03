@@ -770,7 +770,7 @@ parse_body.defaults =
   kind : 'full',
 }
 
-parse_body.components = UriFull;
+parse_body.components = UriFull.Fields;
 
 parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
@@ -807,20 +807,20 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
 let parse = _.routineUnite( parse_head, parse_body );
 
-parse.components = UriFull;
+parse.components = UriFull.Fields;
 
 //
 
 let parseFull = _.routineUnite( parse_head, parse_body );
 parseFull.defaults.kind = 'full';
-parseFull.components = UriFull;
+parseFull.components = UriFull.Fields;
 
 //
 
 let parseAtomic = _.routineUnite( parse_head, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
-parseAtomic.components = UriFull;
+parseAtomic.components = UriAtomic.Fields;
 
 //
 
@@ -1212,7 +1212,7 @@ function str( map )
 
 }
 
-str.components = UriFull; /* xxx : remove */
+str.components = UriFull.Fields;
 
 //
 
