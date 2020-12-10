@@ -82,7 +82,7 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
 //   return _.routineVectorize_functor
 //   ({
 //     routine : [ 'single', routine ],
-//     fieldFilter : _keyEndsUriFilter,
+//     propertyFilter : _keyEndsUriFilter,
 //     vectorizingArray : 1,
 //     vectorizingMapVals : 1,
 //   });

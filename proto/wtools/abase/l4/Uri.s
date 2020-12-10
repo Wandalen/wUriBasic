@@ -710,7 +710,7 @@ function parse_body( o )
       let split = splits2[ s ];
       if( _.path._unescape( split ).wasEscaped )
       continue;
-      left = _.strLeft( split, delimeter );
+      left = _.strLeft_( split, delimeter );
       if( left.entry )
       {
         if( s > 0 )
