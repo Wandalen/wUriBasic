@@ -7,7 +7,7 @@ Collection of cross-platform routines to operate URI(s) in the reliable and cons
 git clone https://github.com/Wandalen/wUriBasic
 cd wUriBasic
 npm install
-node sample/Sample.s
+node sample/trivial/Sample.s
 ```
 
 ## To add to your project
