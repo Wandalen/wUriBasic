@@ -627,7 +627,7 @@ function parse_body( o )
 
   if( _.mapIs( o.srcPath ) )
   {
-    _.assertMapHasOnly( o.srcPath, this.UriFull.PropsExtension );
+    _.assertMapHasOnly( o.srcPath, this.UriFull.propsExtension );
     if( o.srcPath.protocols )
     return o.srcPath;
     else if( o.srcPath.full )
@@ -770,7 +770,7 @@ parse_body.defaults =
   kind : 'full',
 }
 
-parse_body.components = UriFull.PropsExtension;
+parse_body.components = UriFull.propsExtension;
 
 parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
@@ -807,20 +807,20 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
 
 let parse = _.routineUnite( parse_head, parse_body );
 
-parse.components = UriFull.PropsExtension;
+parse.components = UriFull.propsExtension;
 
 //
 
 let parseFull = _.routineUnite( parse_head, parse_body );
 parseFull.defaults.kind = 'full';
-parseFull.components = UriFull.PropsExtension;
+parseFull.components = UriFull.propsExtension;
 
 //
 
 let parseAtomic = _.routineUnite( parse_head, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
-parseAtomic.components = UriAtomic.PropsExtension;
+parseAtomic.components = UriAtomic.propsExtension;
 
 //
 
@@ -918,7 +918,7 @@ function str( map )
     _.assert( _.strIs( map ) || _.mapIs( map ) );
   }
 
-  _.assertMapHasOnly( map, this.UriFull.PropsExtension );
+  _.assertMapHasOnly( map, this.UriFull.propsExtension );
 
   /* */
 
@@ -1212,7 +1212,7 @@ function str( map )
 
 }
 
-str.components = UriFull.PropsExtension;
+str.components = UriFull.propsExtension;
 
 //
 
@@ -1246,7 +1246,7 @@ function full( o )
   if( _.strIs( o ) )
   o = this.parseAtomic( o )
 
-  _.assertMapHasOnly( o, this.UriFull.PropsExtension );
+  _.assertMapHasOnly( o, this.UriFull.propsExtension );
 
   if( !_realGlobal_.location )
   return this.str( o );
