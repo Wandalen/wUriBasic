@@ -979,7 +979,13 @@ function str( map )
       else
       return hostFull + self.upToken + map.resourcePath;
     }
-    else if( map.longPath !== undefined )
+    else if( map.longPath === undefined )
+    {
+      if( !_.strIs( hostFull ) )
+      hostFull = hostFullFrom( map );
+      return hostFull || '';
+    }
+    else
     {
       if( Config.debug )
       {
@@ -989,12 +995,6 @@ function str( map )
         _.assert( _.strBegins( map.longPath, hostFull ) );
       }
       return map.longPath;
-    }
-    else
-    {
-      if( !_.strIs( hostFull ) )
-      hostFull = hostFullFrom( map );
-      return hostFull || '';
     }
 
   }
@@ -1576,10 +1576,10 @@ function join_functor( gen )
       }
 
       if( src.query !== undefined )
-      if( !result.query )
-      result.query = src.query;
-      else
+      if( result.query )
       result.query = src.query + '&' + result.query;
+      else
+      result.query = src.query;
 
       if( !result.hash && src.hash !==undefined )
       result.hash = src.hash;
@@ -1624,10 +1624,10 @@ function join_head( routine, args )
 {
   let o = args[ 0 ];
 
-  if( !_.mapIs( o ) )
-  o = { args };
-  else
+  if( _.mapIs( o ) )
   _.assert( args.length === 1, 'Expects single options map {-o-}' );
+  else
+  o = { args };
 
   _.routineOptions( routine, o );
   _.assert( _.strIs( o.routineName ) );
@@ -1704,10 +1704,10 @@ function join_body( o )
       break;
 
       if( src.query !== undefined )
-      if( !result.query )
-      result.query = src.query;
-      else
+      if( result.query )
       result.query = src.query + '&' + result.query;
+      else
+      result.query = src.query;
 
       if( !result.hash && src.hash !== undefined )
       result.hash = src.hash;
@@ -1751,14 +1751,14 @@ function resolve()
   for( let i = arguments.length - 1 ; i >= 0 ; i-- )
   {
     let arg = arguments[ i ];
-    if( arg !== null )
-    {
-      args.unshift( arg );
-    }
-    else
+    if( arg === null )
     {
       hasNull = true;
       break;
+    }
+    else
+    {
+      args.unshift( arg );
     }
   }
 
