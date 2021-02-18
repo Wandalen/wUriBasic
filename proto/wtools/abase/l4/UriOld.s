@@ -1779,7 +1779,7 @@ function commonTextualReport( filePath )
   let self = this;
   let parent = this.path;
 
-  _.assert( arguments.length === 1  );
+  _.assert( arguments.length === 1 );
 
   let basePathParsed;
   let o =
