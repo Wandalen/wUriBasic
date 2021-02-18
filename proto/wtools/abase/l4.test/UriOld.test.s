@@ -10142,7 +10142,7 @@ function commonTextualReport( test )
 
   test.shouldThrowErrorSync( () => _.uriOld.commonTextualReport( null ) )
   test.shouldThrowErrorSync( () => _.uriOld.commonTextualReport([ 'npm:///wprocedure#0.3.19', null ]) )
-  test.shouldThrowErrorSync( () => _.uriOld.commonTextualReport([ 'file:///a/b', 'file://c/d'  ]) )
+  test.shouldThrowErrorSync( () => _.uriOld.commonTextualReport([ 'file:///a/b', 'file://c/d' ]) )
 }
 
 //
@@ -10380,7 +10380,7 @@ function resolve( test )
   if( _.fileProvider )
   {
     _.path.current( '/' );
-    current = _.strPrependOnce( _.uriOld.current(),  '/' );
+    current = _.strPrependOnce( _.uriOld.current(), '/' );
   }
 
   try
@@ -10566,7 +10566,7 @@ function resolve( test )
     test.identical( got, _.uriOld.join( current, 'https://web.archive.org/web/*\/http://a.com' ) );
 
     var got = _.uriOld.resolve( '127.0.0.1:61726', '../path' );
-    test.identical( got, _.uriOld.join( _.uriOld.current(),  'path' ) )
+    test.identical( got, _.uriOld.join( _.uriOld.current(), 'path' ) )
 
     var got = _.uriOld.resolve( 'http://127.0.0.1:61726', '../path' );
     test.identical( got, _.uriOld.join( current, 'http://path' ) );
@@ -10660,7 +10660,7 @@ function resolve( test )
     var got = _.uriOld.resolve.apply( _.uriOld, paths );
     test.identical( got, expected );
 
-    var paths = [  null ];
+    var paths = [ null ];
     // var expected = _.uriOld.current();
     var expected = null;
     var got = _.uriOld.resolve.apply( _.uriOld, paths );

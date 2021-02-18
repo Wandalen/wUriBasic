@@ -17995,7 +17995,7 @@ function commonTextualReport( test )
 
   test.shouldThrowErrorSync( () => _.uriNew.commonTextualReport( null ) )
   test.shouldThrowErrorSync( () => _.uriNew.commonTextualReport([ 'npm:///wprocedure#0.3.19', null ]) )
-  test.shouldThrowErrorSync( () => _.uriNew.commonTextualReport([ 'file:///a/b', 'file://c/d'  ]) )
+  test.shouldThrowErrorSync( () => _.uriNew.commonTextualReport([ 'file:///a/b', 'file://c/d' ]) )
 }
 
 //
@@ -18233,7 +18233,7 @@ function resolve( test )
   if( _.fileProvider )
   {
     _.path.current( '/' );
-    current = _.strPrependOnce( _.uriNew.current(),  '/' );
+    current = _.strPrependOnce( _.uriNew.current(), '/' );
   }
 
   try
@@ -18419,7 +18419,7 @@ function resolve( test )
     test.identical( got, _.uriNew.join( current, 'https://web.archive.org/web/*/http://a.com' ) );
 
     var got = _.uriNew.resolve( '127.0.0.1:61726', '../path' );
-    test.identical( got, _.uriNew.join( _.uriNew.current(),  'path' ) )
+    test.identical( got, _.uriNew.join( _.uriNew.current(), 'path' ) )
 
     var got = _.uriNew.resolve( 'http://127.0.0.1:61726', '../path' );
     test.identical( got, _.uriNew.join( current, 'http://path' ) );
