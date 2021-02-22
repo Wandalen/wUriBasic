@@ -127,7 +127,7 @@ function isRefined( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
@@ -152,7 +152,7 @@ function isRefined( filePath )
 //   let parent = this.path;
 //
 //   _.assert( arguments.length === 1, 'Expects single argument' );
-//   _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+//   _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 //
 //   if( this.isGlobal( filePath ) )
 //   filePath = this.parseConsecutive( filePath ).longPath;
@@ -177,7 +177,7 @@ function isNormalized( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
@@ -233,7 +233,7 @@ function isAbsolute( path )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( path ), () => 'Expects string {-path-}, but got ' + _.strType( path ) );
+  _.assert( _.strIs( path ), () => 'Expects string {-path-}, but got ' + _.entity.strType( path ) );
 
   if( this.isGlobal( path ) )
   path = this.parseConsecutive( path ).longPath;
@@ -258,7 +258,7 @@ function isRelative( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
@@ -313,7 +313,7 @@ function isDotted( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
@@ -338,7 +338,7 @@ function isTrailed( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
@@ -363,7 +363,7 @@ function isGlob( filePath )
   let parent = this.path;
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.strType( filePath ) );
+  _.assert( _.strIs( filePath ), () => 'Expects string {-filePath-}, but got ' + _.entity.strType( filePath ) );
 
   if( this.isGlobal( filePath ) )
   filePath = this.parseConsecutive( filePath ).longPath;
