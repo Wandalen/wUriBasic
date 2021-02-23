@@ -868,7 +868,7 @@ function localFromGlobal( globalPath )
  * _.uri.str( UrlComponents );
  * // returns : 'http://www.site.com:13/path/name?query=here&and=here#anchor'
  *
- * @param { Map|MapLike|String } map - Map with URI components.
+ * @param { Map|Aux|String } map - Map with URI components.
  * @returns { String } - Returns complete URI string.
  * @throws { Error } If arguments.length is not equal to 1.
  * @throws { Error } If {-map-} has incompatible type.
