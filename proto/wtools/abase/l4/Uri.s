@@ -805,26 +805,26 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
  * @namespace Tools.uri
  */
 
-let parse = _.routineUnite( parse_head, parse_body );
+let parse = _.routine.uniteCloning_( parse_head, parse_body );
 
 parse.components = UriFull.propsExtension;
 
 //
 
-let parseFull = _.routineUnite( parse_head, parse_body );
+let parseFull = _.routine.uniteCloning_( parse_head, parse_body );
 parseFull.defaults.kind = 'full';
 parseFull.components = UriFull.propsExtension;
 
 //
 
-let parseAtomic = _.routineUnite( parse_head, parse_body );
+let parseAtomic = _.routine.uniteCloning_( parse_head, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
 parseAtomic.components = UriAtomic.propsExtension;
 
 //
 
-let parseConsecutive = _.routineUnite( parse_head, parse_body );
+let parseConsecutive = _.routine.uniteCloning_( parse_head, parse_body );
 parseConsecutive.defaults.kind = 'consecutive';
 
 //
@@ -1728,16 +1728,16 @@ join_body.defaults =
 
 //
 
-let join_ = _.routineUnite( join_head, join_body );
+let join_ = _.routine.uniteCloning_( join_head, join_body );
 
 //
 
-let joinRaw_ = _.routineUnite( join_head, join_body );
+let joinRaw_ = _.routine.uniteCloning_( join_head, join_body );
 joinRaw_.defaults.routineName = 'joinRaw';
 
 //
 
-let reroot_ = _.routineUnite( join_head, join_body );
+let reroot_ = _.routine.uniteCloning_( join_head, join_body );
 reroot_.defaults.routineName = 'reroot';
 
 //
@@ -1844,7 +1844,7 @@ function relative_body( o )
 var defaults = relative_body.defaults = Object.create( Parent.relative.defaults );
 defaults.global = 1; /* qqq : why is this option here? */
 
-let relative = _.routineUnite( Parent.relative.head, relative_body );
+let relative = _.routine.uniteCloning_( Parent.relative.head, relative_body );
 
 //
 
@@ -2016,12 +2016,13 @@ function dir_body( o )
   return this.str( filePath );
 }
 
-_.routineExtend( dir_body, Parent.dir );
+_.assert( _.aux.is( Parent.dir.body.defaults ) );
+_.routineExtend( dir_body, Parent.dir.body );
 
-let dir = _.routineUnite( Parent.dir.head, dir_body );
+let dir = _.routine.uniteCloning_( Parent.dir.head, dir_body );
 _.mapExtend( dir.defaults, Parent.dir.defaults );
 
-let dirFirst = _.routineUnite( Parent.dirFirst.head, dir_body );
+let dirFirst = _.routine.uniteCloning_( Parent.dirFirst.head, dir_body );
 _.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
@@ -2063,7 +2064,7 @@ function groupTextualReport_head( routine, args )
   return parent.groupTextualReport.head.call( self, routine, [ o ] );
 }
 
-let groupTextualReport = _.routineUnite( groupTextualReport_head, Parent.groupTextualReport.body );
+let groupTextualReport = _.routine.uniteCloning_( groupTextualReport_head, Parent.groupTextualReport.body );
 
 //
 
@@ -2148,7 +2149,7 @@ function moveTextualReport_head( routine, args )
   return parent.moveTextualReport.head.call( self, routine, [ o ] );
 }
 
-let moveTextualReport = _.routineUnite( moveTextualReport_head, Parent.moveTextualReport.body );
+let moveTextualReport = _.routine.uniteCloning_( moveTextualReport_head, Parent.moveTextualReport.body );
 
 //
 
