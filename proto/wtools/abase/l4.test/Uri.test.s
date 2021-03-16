@@ -17575,7 +17575,6 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 5
   }
-  debugger;
   var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
   var expected =
 `
@@ -17589,7 +17588,6 @@ function groupTextualReport( test )
 - Deleted 4 file(s), at /, in 5.000s
 `
   test.equivalent( got, expected );
-  debugger;
 
   test.case = 'relative, explanation + groupsMap + spentTime, verbosity : 5';
   var o =
