@@ -1251,8 +1251,6 @@ function full( o )
   if( !_realGlobal_.location )
   return this.str( o );
 
-  debugger;
-
   let serverUri = this.server();
   let serverParsed = this.parseAtomic( serverUri );
 

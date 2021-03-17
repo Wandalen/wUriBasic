@@ -614,21 +614,15 @@ function parse_body( o )
 
     let rest = '';
     let splits2 = _.path.split( result.resourcePath );
-    let left;
-
-    debugger;
-
-    let s;
+    let left, s;
     for( s = 0 ; s < splits2.length ; s++ )
     {
       let split = splits2[ s ];
       if( _.path._unescape( split ).wasEscaped )
       continue;
       left = _.strLeft_( split, delimeter );
-      debugger;
       if( left.entry )
       {
-        debugger;
         if( s > 0 )
         {
           result.resourcePath = splits2.slice( 0, s ).join( self.upToken );
@@ -654,7 +648,6 @@ function parse_body( o )
 
   function restParse( rest, entry, delimeter )
   {
-    debugger;
 
     _.arrayRemoveOnceStrictly( delimeter, entry );
 
@@ -674,7 +667,6 @@ function parse_body( o )
     else if( entry === '@' )
     result.tag = rest;
 
-    debugger;
   }
 
 }
