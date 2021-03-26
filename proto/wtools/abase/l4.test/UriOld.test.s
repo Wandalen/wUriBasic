@@ -11,8 +11,8 @@ if( typeof module !== 'undefined' )
   require( '../l4/Uri.s' );
 }
 
-let _global = _global_;
-let _ = _global_.wTools;
+const _global = _global_;
+const _ = _global_.wTools;
 
 /*
 qqq : improve style, remove array of expected values and array of inputs | Dmytro : improved
@@ -11792,7 +11792,7 @@ function uriConstructors( test )
 // declare
 // --
 
-let Self =
+const Proto =
 {
 
   name : 'Tools.l4.Uri.Old',
@@ -11867,7 +11867,7 @@ let Self =
 
 }
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self );

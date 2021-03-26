@@ -15,10 +15,10 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _global = _global_;
-let _ = _global_.wTools;
-let Parent = _.path;
-let Self = _.uriOld = _.uriOld || Object.create( Parent );
+const _global = _global_;
+const _ = _global_.wTools;
+const Parent = _.path;
+const Self = _.uriOld = _.uriOld || Object.create( Parent );
 // _.uri = _.uriOld;
 
 // --
@@ -488,7 +488,7 @@ function parse_body( o )
 
   if( _.mapIs( o.srcPath ) )
   {
-    _.assertMapHasOnly( o.srcPath, this.UriComponents );
+    _.map.assertHasOnly( o.srcPath, this.UriComponents );
     if( o.srcPath.protocols )
     return o.srcPath;
     else if( o.srcPath.full )
@@ -801,7 +801,7 @@ function str( c )
   if( _.strIs( c ) )
   return c;
 
-  _.assertMapHasOnly( c, this.UriComponents );
+  _.map.assertHasOnly( c, this.UriComponents );
 
   if( c.full )
   {
@@ -1111,7 +1111,7 @@ function full( o )
   if( _.strIs( o ) )
   o = this.parseAtomic( o )
 
-  _.assertMapHasOnly( o, this.UriComponents );
+  _.map.assertHasOnly( o, this.UriComponents );
 
   // if( o.full )
   // return this.str( o );
@@ -1677,7 +1677,7 @@ function rebase( srcPath, oldPath, newPath )
   oldPath = this.parseConsecutive( oldPath );
   newPath = this.parseConsecutive( newPath );
 
-  let dstPath = _.mapExtend( null, srcPath, _.mapSelect( newPath, _.mapKeys( srcPath ) ) );
+  let dstPath = _.mapExtend( null, srcPath, _.mapVaslWithKeys( newPath, _.mapKeys( srcPath ) ) );
 
   // if( srcPath.protocol !== undefined && oldPath.protocol !== undefined )
   // {

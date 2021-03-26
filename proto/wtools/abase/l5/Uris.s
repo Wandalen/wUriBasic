@@ -24,9 +24,9 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools;
-let Parent = _.uri;
-let Self = _.uri.s = _.uri.s || Object.create( Parent );
+const _ = _global_.wTools;
+const Parent = _.uri;
+const Self = _.uri.s = _.uri.s || Object.create( Parent );
 
 // --
 // functors
