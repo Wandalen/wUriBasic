@@ -11,7 +11,7 @@
     { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" }
   ],
   "main" : "proto/wtools/abase/l4/Uri.s",
-  "files" : [ "proto/wtools/abase/l4", "proto/wtools/abase/l5", "proto/wtools/Tools.s", "out", "out" ],
+  "files" : [ "proto/wtools/abase/l4", "proto/wtools/abase/l5", "proto/wtools/Tools.s", "out", "out", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :
   {
@@ -29,6 +29,6 @@
     "wblueprint" : "",
     "wstringer" : ""
   },
-  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "", "wuribasic" : "file:." },
+  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "" },
   "keywords" : [ "wTools", "wPath", "path", "URL", "URI", "path", "file" ]
 }
