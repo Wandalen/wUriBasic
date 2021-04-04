@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wUriBasic.out
 consistency:
-  wUriBasic.out.will.yml: &ref_0
-    hash: 21d27862648747893d1d49b1fdd3d83c
-    size: 39214
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: f02da7802dd1baf4279198e5332df456
     size: 2024
-  ../.im.will.yml: &ref_2
-    hash: c0e48d08057f1ee5cd4225c939097a49
-    size: 5239
+  ../.im.will.yml: &ref_1
+    hash: b9d06915f0ad2257c34d33f6b1362c82
+    size: 5168
 module:
   wUriBasic.out:
     about:
@@ -23,11 +20,11 @@ module:
         get uniform experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
         - wPath
         - path
@@ -36,11 +33,11 @@ module:
         - file
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
         - Volodymyr M. <volodymyr.migdal@gmail.com>
       npm.name: wuribasic
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -71,7 +68,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ../
+        path: ..
       repository:
         path: 'git+https:///github.com/Wandalen/wUriBasic.git'
       origins:
@@ -152,6 +149,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - ../proto/wtools/abase/l4/Uri.s
+          - ../proto/node_modules/wuribasic
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -725,24 +726,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -831,9 +814,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wUriBasic.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wUriBasic
@@ -845,26 +827,13 @@ module:
         get uniform experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
-        - wPath
-        - path
-        - URL
-        - URI
-        - file
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
-        - Volodymyr M. <volodymyr.migdal@gmail.com>
+      contributors: *ref_4
       npm.name: wuribasic
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -893,7 +862,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ./
+        path: .
       repository:
         path: 'git+https:///github.com/Wandalen/wUriBasic.git'
       origins:
@@ -974,6 +943,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - proto/wtools/abase/l4/Uri.s
+          - proto/node_modules/wuribasic
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1544,6 +1517,5 @@ module:
         hash: f02da7802dd1baf4279198e5332df456
         size: 2024
       ../.im.will.yml:
-        hash: c0e48d08057f1ee5cd4225c939097a49
-        size: 5239
-      wUriBasic.out.will.yml: *ref_0
+        hash: b9d06915f0ad2257c34d33f6b1362c82
+        size: 5168

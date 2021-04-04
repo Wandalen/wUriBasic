@@ -1,57 +1,34 @@
 {
-  "name": "wuribasic",
-  "version": "0.6.270",
-  "engine": "node >= 10.0.0",
-  "description": "Collection of cross-platform routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
-  "license": "MIT",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "contributors": [
-    {
-      "name": "Kostiantyn Wandalen",
-      "email": "wanalen@01.school"
-    },
-    {
-      "name": "Volodymyr M.",
-      "email": "volodymyr.migdal@gmail.com"
-    }
+  "name" : "wuribasic",
+  "version" : "0.6.271",
+  "engine" : "node >= 10.0.0",
+  "description" : "Collection of cross-platform routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
+  "license" : "MIT",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "contributors" :
+  [
+    { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
+    { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" }
   ],
-  "main": "proto/wtools/abase/l4/Uri.s",
-  "files": [
-    "proto/wtools/abase/l4",
-    "proto/wtools/abase/l5",
-    "proto/wtools/Tools.s",
-    "out",
-    "out",
-    "proto/node_modules"
-  ],
-  "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3",
-    "docgen": "wdocgen proto"
+  "main" : "proto/node_modules/wuribasic",
+  "files" : [ "proto/wtools/abase/l4", "proto/wtools/abase/l5", "proto/wtools/Tools.s", "out", "out", "proto/node_modules" ],
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "https://github.com/Wandalen/wUriBasic.git"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wandalen/wUriBasic.git"
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/wUriBasic/issues"
   },
-  "bugs": {
-    "url": "https://github.com/Wandalen/wUriBasic/issues"
+  "dependencies" :
+  {
+    "wTools" : "delta",
+    "wpathbasic" : "delta",
+    "wblueprint" : "delta",
+    "wstringer" : "delta"
   },
-  "dependencies": {
-    "wTools": "delta",
-    "wpathbasic": "delta",
-    "wblueprint": "delta",
-    "wstringer": "delta"
-  },
-  "devDependencies": {
-    "eslint": "7.1.0",
-    "wTesting": "delta"
-  },
-  "keywords": [
-    "wTools",
-    "wPath",
-    "path",
-    "URL",
-    "URI",
-    "path",
-    "file"
-  ]
+  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "delta" },
+  "keywords" : [ "wTools", "wPath", "path", "URL", "URI", "path", "file" ]
 }
