@@ -10,7 +10,7 @@
     { "name" : "Kostiantyn Wandalen", "email" : "wanalen@01.school" },
     { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" }
   ],
-  "main" : "proto/wtools/abase/l4/Uri.s",
+  "main" : "proto/node_modules/wuribasic",
   "files" : [ "proto/wtools/abase/l4", "proto/wtools/abase/l5", "proto/wtools/Tools.s", "out", "out", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :
