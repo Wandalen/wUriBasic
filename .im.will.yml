@@ -86,8 +86,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wUriBasic/proto/wtools/abase/l4/Uri.s
-    - /pro/module/wUriBasic/proto/node_modules/wuribasic
+    - proto/wtools/abase/l4/Uri.s
+    - proto/node_modules/wuribasic
 reflector:
   reflect.proto:
     inherit: predefined.*
