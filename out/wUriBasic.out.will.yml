@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wUriBasic.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wUriBasic.out.will.yml: &ref_0
+    hash: bed8a1d0d94d9d798e9b48ac0aba1138
+    size: 39811
+  ../.ex.will.yml: &ref_1
     hash: f02da7802dd1baf4279198e5332df456
     size: 2024
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 4a6ce0bfe012c05c60066b20db66a19b
     size: 5124
 module:
@@ -20,11 +23,11 @@ module:
         get uniform experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
         - wPath
         - path
@@ -33,11 +36,11 @@ module:
         - file
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
         - Volodymyr M. <volodymyr.migdal@gmail.com>
       npm.name: wuribasic
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -168,9 +171,9 @@ module:
           - ../proto
           - ../proto/Integration.test.ss
           - ../proto/node_modules
+          - ../proto/node_modules/Tools
           - ../proto/node_modules/wuribasic
           - ../proto/wtools
-          - ../proto/wtools/Tools.s
           - ../proto/wtools/abase
           - ../proto/wtools/abase/l4
           - ../proto/wtools/abase/l4/Uri.s
@@ -726,6 +729,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          filePath: 'reflector::exported.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          filePath: 'reflector::exported.files.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -814,8 +835,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wUriBasic.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wUriBasic
@@ -827,13 +849,26 @@ module:
         get uniform experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
+        - wPath
+        - path
+        - URL
+        - URI
+        - file
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@01.school>
+        - Volodymyr M. <volodymyr.migdal@gmail.com>
       npm.name: wuribasic
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1519,3 +1554,6 @@ module:
       ../.im.will.yml:
         hash: 4a6ce0bfe012c05c60066b20db66a19b
         size: 5124
+      wUriBasic.out.will.yml:
+        hash: bed8a1d0d94d9d798e9b48ac0aba1138
+        size: 39811
