@@ -158,7 +158,7 @@ function _filterNoInnerArray( arr )
 }
 
 // --
-// checker
+// dichotomy
 // --
 
 // '^(https?:\\/\\/)?'                                     // protocol
@@ -613,7 +613,7 @@ function parse_head( routine, args )
 
   let o = { srcPath : args[ 0 ] };
 
-  _.routineOptions( routine, o );
+  _.routine.options_( routine, o );
   _.assert( _.strIs( o.srcPath ) || _.mapIs( o.srcPath ) );
   _.assert( _.longHas( routine.Kind, o.kind ), () => 'Unknown kind of parsing ' + o.kind );
 
@@ -805,26 +805,26 @@ parse_body.Kind = [ 'full', 'atomic', 'consecutive' ];
  * @namespace Tools.uri
  */
 
-let parse = _.routine.uniteCloning_( parse_head, parse_body );
+let parse = _.routine.uniteCloning_replaceByUnite( parse_head, parse_body );
 
 parse.components = UriFull.propsExtension;
 
 //
 
-let parseFull = _.routine.uniteCloning_( parse_head, parse_body );
+let parseFull = _.routine.uniteCloning_replaceByUnite( parse_head, parse_body );
 parseFull.defaults.kind = 'full';
 parseFull.components = UriFull.propsExtension;
 
 //
 
-let parseAtomic = _.routine.uniteCloning_( parse_head, parse_body );
+let parseAtomic = _.routine.uniteCloning_replaceByUnite( parse_head, parse_body );
 parseAtomic.defaults.kind = 'atomic';
 
 parseAtomic.components = UriAtomic.propsExtension;
 
 //
 
-let parseConsecutive = _.routine.uniteCloning_( parse_head, parse_body );
+let parseConsecutive = _.routine.uniteCloning_replaceByUnite( parse_head, parse_body );
 parseConsecutive.defaults.kind = 'consecutive';
 
 //
@@ -928,7 +928,7 @@ function str( map )
     return map.full;
   }
 
-  map = _.mapExtend( null, map );
+  map = _.props.extend( null, map );
 
   if( map.origin && ( map.protocol === null || map.protocol === undefined ) )
   if( _.strHas( map.origin, self.protocolToken ) )
@@ -1254,7 +1254,7 @@ function full( o )
   let serverUri = this.server();
   let serverParsed = this.parseAtomic( serverUri );
 
-  _.mapExtend( serverParsed, o );
+  _.props.extend( serverParsed, o );
 
   return this.str( serverParsed );
 }
@@ -1385,14 +1385,14 @@ function name( o )
   _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.mapIs( o ) );
   _.assert( _.strIs( o.path ) );
-  _.routineOptions( name, o );
+  _.routine.options_( name, o );
 
   if( !this.isGlobal( o.path ) )
   return parent.name.call( this, o );
 
   let path = this.parseConsecutive( o.path );
 
-  let o2 = _.mapExtend( null, o );
+  let o2 = _.props.extend( null, o );
   o2.path = path.longPath;
   return parent.name.call( this, o2 );
 }
@@ -1460,7 +1460,7 @@ function join_functor( gen )
   gen = { routineName : arguments[ 0 ], web : arguments[ 1 ] }
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.assertRoutineOptions( join_functor, gen );
+  _.routine.assertOptions( join_functor, gen );
 
   let routineName = gen.routineName;
   let web = gen.web;
@@ -1627,7 +1627,7 @@ function join_head( routine, args )
   else
   o = { args };
 
-  _.routineOptions( routine, o );
+  _.routine.options_( routine, o );
   _.assert( _.strIs( o.routineName ) );
 
   return o;
@@ -1660,7 +1660,7 @@ function join_body( o )
 
   function pathsParseConsecutiveAndSetIsGlobal( args )
   {
-    let result = _.arrayMake( args.length );
+    let result = _.array.make( args.length );
 
     for( let s = 0 ; s < args.length ; s++ )
     {
@@ -1726,16 +1726,16 @@ join_body.defaults =
 
 //
 
-let join_ = _.routine.uniteCloning_( join_head, join_body );
+let join_ = _.routine.uniteCloning_replaceByUnite( join_head, join_body );
 
 //
 
-let joinRaw_ = _.routine.uniteCloning_( join_head, join_body );
+let joinRaw_ = _.routine.uniteCloning_replaceByUnite( join_head, join_body );
 joinRaw_.defaults.routineName = 'joinRaw';
 
 //
 
-let reroot_ = _.routine.uniteCloning_( join_head, join_body );
+let reroot_ = _.routine.uniteCloning_replaceByUnite( join_head, join_body );
 reroot_.defaults.routineName = 'reroot';
 
 //
@@ -1799,11 +1799,11 @@ function relative_body( o )
 {
   let parent = this.path;
 
-  _.assertRoutineOptions( relative_body, arguments );
+  _.routine.assertOptions( relative_body, arguments );
 
   if( !this.isGlobal( o.basePath ) && !this.isGlobal( o.filePath ) )
   {
-    let o2 = _.mapExtend( null, o );
+    let o2 = _.props.extend( null, o );
     delete o2.global;
     return this._relative( o2 );
   }
@@ -1811,7 +1811,7 @@ function relative_body( o )
   let basePath = this.parseConsecutive( o.basePath );
   let filePath = this.parseConsecutive( o.filePath );
 
-  let o2 = _.mapExtend( null, o );
+  let o2 = _.props.extend( null, o );
   delete o2.global;
   o2.basePath = basePath.longPath;
   o2.filePath = filePath.longPath;
@@ -1819,8 +1819,8 @@ function relative_body( o )
 
   if( o.global )
   {
-    _.mapExtend( filePath, basePath );
-    // _.mapSupplement( basePath, filePath );
+    _.props.extend( filePath, basePath );
+    // _.props.supplement( basePath, filePath );
     // return this.str( basePath );
   }
   else
@@ -1842,7 +1842,7 @@ function relative_body( o )
 var defaults = relative_body.defaults = Object.create( Parent.relative.defaults );
 defaults.global = 1; /* qqq : why is this option here? */
 
-let relative = _.routine.uniteCloning_( Parent.relative.head, relative_body );
+let relative = _.routine.uniteCloning_replaceByUnite( Parent.relative.head, relative_body );
 
 //
 
@@ -1889,7 +1889,7 @@ function common()
 
   /* */
 
-  let result = _.mapExtend( null, uris[ 0 ] );
+  let result = _.props.extend( null, uris[ 0 ] );
   let protocol = null;
   let withoutProtocol = 0;
 
@@ -1976,7 +1976,7 @@ function rebase( srcPath, oldPath, newPath )
   oldPath = this.parseConsecutive( oldPath );
   newPath = this.parseConsecutive( newPath );
 
-  let dstPath = _.mapExtend( null, srcPath, _.mapVaslWithKeys( newPath, _.mapKeys( srcPath ) ) );
+  let dstPath = _.props.extend( null, srcPath, _.mapValsWithKeys( newPath, _.props.keys( srcPath ) ) );
 
   // if( srcPath.protocol !== undefined && oldPath.protocol !== undefined )
   // {
@@ -2006,7 +2006,7 @@ function dir_body( o )
   if( !this.isGlobal( o.filePath ) )
   return parent.dir.body.call( this, o );
 
-  let o2 = _.mapExtend( null, o );
+  let o2 = _.props.extend( null, o );
   let filePath = this.parseConsecutive( o.filePath );
   o2.filePath = filePath.longPath
   filePath.longPath = parent.dir.body.call( this, o2 )
@@ -2017,11 +2017,11 @@ function dir_body( o )
 _.assert( _.aux.is( Parent.dir.body.defaults ) );
 _.routineExtend( dir_body, Parent.dir.body );
 
-let dir = _.routine.uniteCloning_( Parent.dir.head, dir_body );
-_.mapExtend( dir.defaults, Parent.dir.defaults );
+let dir = _.routine.uniteCloning_replaceByUnite( Parent.dir.head, dir_body );
+_.props.extend( dir.defaults, Parent.dir.defaults );
 
-let dirFirst = _.routine.uniteCloning_( Parent.dirFirst.head, dir_body );
-_.mapExtend( dirFirst.defaults, Parent.dirFirst.defaults );
+let dirFirst = _.routine.uniteCloning_replaceByUnite( Parent.dirFirst.head, dir_body );
+_.props.extend( dirFirst.defaults, Parent.dirFirst.defaults );
 
 //
 
@@ -2062,7 +2062,7 @@ function groupTextualReport_head( routine, args )
   return parent.groupTextualReport.head.call( self, routine, [ o ] );
 }
 
-let groupTextualReport = _.routine.uniteCloning_( groupTextualReport_head, Parent.groupTextualReport.body );
+let groupTextualReport = _.routine.uniteCloning_replaceByUnite( groupTextualReport_head, Parent.groupTextualReport.body );
 
 //
 
@@ -2147,7 +2147,7 @@ function moveTextualReport_head( routine, args )
   return parent.moveTextualReport.head.call( self, routine, [ o ] );
 }
 
-let moveTextualReport = _.routine.uniteCloning_( moveTextualReport_head, Parent.moveTextualReport.body );
+let moveTextualReport = _.routine.uniteCloning_replaceByUnite( moveTextualReport_head, Parent.moveTextualReport.body );
 
 //
 
@@ -2360,7 +2360,7 @@ let Extension =
   _filterOnlyUrl,
   _filterNoInnerArray,
 
-  // checker
+  // dichotomy
 
   is,
   isSafe,

@@ -17495,7 +17495,7 @@ function groupTextualReport( test )
   }
 
   test.case = 'defaults';
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults ) );
   var expected = '0 file(s)';
   test.identical( got, expected );
 
@@ -17504,7 +17504,7 @@ function groupTextualReport( test )
   {
     explanation : '- Deleted '
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected = '- Deleted 0 file(s)';
   test.identical( got, expected );
 
@@ -17513,7 +17513,7 @@ function groupTextualReport( test )
   {
     spentTime : 5000
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected = '0 file(s), in 5.000s';
   test.identical( got, expected );
 
@@ -17529,7 +17529,7 @@ function groupTextualReport( test )
       '/b' : [ '/b', '/b/c' ]
     }
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   [
     '   4 at /',
@@ -17552,7 +17552,7 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 3
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   [
     '   4 at /',
@@ -17575,7 +17575,7 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 5
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
 `
 '/a'
@@ -17602,7 +17602,7 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 5
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   `
     './a'
@@ -17631,7 +17631,7 @@ function groupTextualReport( test )
       'file:///b' : [ 'file:///b', 'file:///b/c' ]
     },
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   [
     '   4 at file:///',
@@ -17654,7 +17654,7 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 3
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   [
     '   4 at file:///',
@@ -17677,7 +17677,7 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 5
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   `
     'file:///a'
@@ -17704,7 +17704,7 @@ function groupTextualReport( test )
     explanation : '- Deleted ',
     verbosity : 5
   }
-  var got = _.uriNew.groupTextualReport( _.mapExtend( null, defaults, o ) );
+  var got = _.uriNew.groupTextualReport( _.props.extend( null, defaults, o ) );
   var expected =
   `
     'file://a'
