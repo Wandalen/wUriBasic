@@ -1734,7 +1734,7 @@ function groupTextualReport_head( routine, args )
 
   let o = args[ 0 ];
 
-  _.assert( _.objectIs( o ), 'Expects object' );
+  _.assert( _.object.isBasic( o ), 'Expects object' );
 
   let basePathParsed;
 
@@ -1819,7 +1819,7 @@ function moveTextualReport_head( routine, args )
   if( args[ 1 ] !== undefined )
   o = { dstPath : args[ 0 ], srcPath : args[ 1 ] }
 
-  _.assert( _.objectIs( o ), 'Expects object' );
+  _.assert( _.object.isBasic( o ), 'Expects object' );
 
   let basePathParsed;
 
