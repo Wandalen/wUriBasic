@@ -1,6 +1,6 @@
 {
   "name" : "wuribasic",
-  "version" : "0.6.281",
+  "version" : "0.6.282",
   "engine" : "node >= 10.0.0",
   "description" : "Collection of cross-platform routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
   "license" : "MIT",
@@ -24,11 +24,11 @@
   },
   "dependencies" :
   {
-    "wTools" : "delta",
-    "wpathbasic" : "delta",
-    "wblueprint" : "delta",
-    "wstringer" : "delta"
+    "wTools" : "stable",
+    "wpathbasic" : "stable",
+    "wblueprint" : "stable",
+    "wstringer" : "stable"
   },
-  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "delta" },
+  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "stable" },
   "keywords" : [ "wTools", "wPath", "path", "URL", "URI", "path", "file" ]
 }
