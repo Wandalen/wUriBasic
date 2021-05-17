@@ -2,12 +2,9 @@ format: outwillfile-2.0
 root:
   - wUriBasic.out
 consistency:
-  ../.ex.will.yml: &ref_0
-    hash: f02da7802dd1baf4279198e5332df456
-    size: 2024
-  ../.im.will.yml: &ref_1
-    hash: 4a6ce0bfe012c05c60066b20db66a19b
-    size: 5124
+  ../will.yml: &ref_0
+    hash: e65f463da9642b46f0abbac1a4b3f6e9
+    size: 6930
 module:
   wUriBasic.out:
     about:
@@ -20,24 +17,24 @@ module:
         get uniform experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters: &ref_2
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords: &ref_3
+      license: MIT
+      npm.name: wuribasic
+      author: Kostiantyn Wandalen <wanalen@01.school>
+      keywords: &ref_1
         - wTools
         - wPath
         - path
         - URL
         - URI
         - file
-      license: MIT
-      author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors: &ref_2
         - Kostiantyn Wandalen <wanalen@01.school>
         - Volodymyr M. <volodymyr.migdal@gmail.com>
-      npm.name: wuribasic
-      npm.scripts: &ref_5
+      interpreters: &ref_3
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      npm.scripts: &ref_4
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -52,15 +49,11 @@ module:
       module.original.willfiles:
         criterion:
           predefined: 1
-        path:
-          - ../.ex.will.yml
-          - ../.im.will.yml
+        path: ../will.yml
       module.peer.willfiles:
         criterion:
           predefined: 1
-        path:
-          - ../.ex.will.yml
-          - ../.im.will.yml
+        path: ../will.yml
       module.peer.in:
         criterion:
           predefined: 1
@@ -189,15 +182,15 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wPathBasic:
+      wpathbasic:
         path: 'npm:///wpathbasic'
         autoExporting: 0
         enabled: 0
-      wBlueprint:
+      wblueprint:
         path: 'npm:///wblueprint'
         autoExporting: 0
         enabled: 0
-      wStringer:
+      wstringer:
         path: 'npm:///wstringer'
         autoExporting: 0
         enabled: 0
@@ -814,8 +807,7 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      ../will.yml: *ref_0
   ../:
     about:
       name: wUriBasic
@@ -827,26 +819,22 @@ module:
         get uniform experience from playing with URI(s) on different platforms.
       enabled: 1
       version: 0.7.0
-      interpreters: *ref_2
-      keywords: *ref_3
       license: MIT
-      author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
       npm.name: wuribasic
-      npm.scripts: *ref_5
+      author: Kostiantyn Wandalen <wanalen@01.school>
+      keywords: *ref_1
+      contributors: *ref_2
+      interpreters: *ref_3
+      npm.scripts: *ref_4
     path:
       module.willfiles:
         criterion:
           predefined: 1
-        path:
-          - .ex.will.yml
-          - .im.will.yml
+        path: will.yml
       module.original.willfiles:
         criterion:
           predefined: 1
-        path:
-          - .ex.will.yml
-          - .im.will.yml
+        path: will.yml
       module.peer.willfiles:
         criterion:
           predefined: 1
@@ -952,15 +940,15 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wPathBasic:
+      wpathbasic:
         path: 'npm:///wpathbasic'
         autoExporting: 0
         enabled: 0
-      wBlueprint:
+      wblueprint:
         path: 'npm:///wblueprint'
         autoExporting: 0
         enabled: 0
-      wStringer:
+      wstringer:
         path: 'npm:///wstringer'
         autoExporting: 0
         enabled: 0
@@ -1513,9 +1501,6 @@ module:
           - 'build::release'
           - 'build::npm'
     consistency:
-      ../.ex.will.yml:
-        hash: f02da7802dd1baf4279198e5332df456
-        size: 2024
-      ../.im.will.yml:
-        hash: 4a6ce0bfe012c05c60066b20db66a19b
-        size: 5124
+      ../will.yml:
+        hash: e65f463da9642b46f0abbac1a4b3f6e9
+        size: 6930
