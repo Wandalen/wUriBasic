@@ -26,7 +26,8 @@ if( typeof module !== 'undefined' )
 
 const _ = _global_.wTools;
 const Parent = _.uri;
-const Self = _.uri.s = _.uri.s || Object.create( Parent );
+// const Self = _.uri.s = _.uri.s || Object.create( Parent );
+const Self = _.uris = _.uri.s = _.uris || _.uri.s || Object.create( Parent );
 
 // --
 // functors
@@ -147,19 +148,10 @@ let _vectorizeOnly = _.path.s._vectorizeOnly;
  */
 
 // --
-// fields
-// --
-
-let Fields =
-{
-  uri : Parent,
-}
-
-// --
 // implementation
 // --
 
-let Routines =
+let Extension =
 {
 
   // _keyEndsUriFilter,
@@ -189,12 +181,15 @@ let Routines =
   documentGet : _vectorize( 'documentGet', 2 ),
   server : _vectorize( 'server' ),
   query : _vectorize( 'query' ),
-  dequery : _vectorize( 'dequery' )
+  dequery : _vectorize( 'dequery' ),
+
+  //
+
+  uri : Parent,
 
 }
 
-_.mapExtendDstNotOwn( Self, Fields );
-_.mapExtendDstNotOwn( Self, Routines );
+_.mapExtendDstNotOwn( Self, Extension );
 
 // --
 // export

@@ -2099,11 +2099,6 @@ let Parameters =
   _uriParseRegexp
 }
 
-let Fields =
-{
-  Parameters
-}
-
 let Extension =
 {
   // internal
@@ -2179,11 +2174,11 @@ let Extension =
 
   single : Self,
   UriComponents,
+  Parameters
 
 }
 
 _.mapExtendDstNotOwn( Self, Parameters );
-_.mapExtendDstNotOwn( Self, Fields );
 _.mapExtendDstNotOwn( Self, Extension );
 
 Self.Init();
