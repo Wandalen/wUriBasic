@@ -66,20 +66,21 @@ function refine( test )
     'https://web.archive.org//web//*//http://www.heritage.org//index//ranking',
     '://www.site.com:13/path//name/?query=here&and=here#anchor',
     ':///www.site.com:13/path//name?query=here&and=here#anchor'
-  ]
+  ];
   var got = _.uri.s.refine( srcs );
   test.identical( got, expected );
+
+  /* - */
 
   if( !Config.debug )
   return;
 
   test.case = 'incorrect input';
   test.shouldThrowErrorSync( () => _.uris.refine() );
-  test.shouldThrowErrorSync( () => _.uris.refine( [] ) );
-  test.shouldThrowErrorSync( () => _.uris.refine( {} ) );
-  test.shouldThrowErrorSync( () => _.uris.refine( [ '' ] ) );
+  // test.shouldThrowErrorSync( () => _.uris.refine( [] ) );
+  // test.shouldThrowErrorSync( () => _.uris.refine( {} ) );
+  // test.shouldThrowErrorSync( () => _.uris.refine( [ '' ] ) );
   test.shouldThrowErrorSync( () => _.uris.refine( [ 1, 'http://some.com' ] ) );
-
 }
 
 //
