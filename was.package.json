@@ -11,7 +11,7 @@
     { "name" : "Volodymyr M.", "email" : "volodymyr.migdal@gmail.com" }
   ],
   "main" : "proto/node_modules/wuribasic",
-  "files" : [ "proto/wtools/abase/l4", "proto/wtools/abase/l5", "out", "out", "proto/node_modules" ],
+  "files" : [ "proto/wtools/abase/l4", "proto/wtools/abase/l5", "out", "out", "proto/node_modules", "proto/node_modules/Tools", "proto/node_modules/wuribasic" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :
   {
