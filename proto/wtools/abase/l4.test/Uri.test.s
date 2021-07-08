@@ -4995,7 +4995,9 @@ function parseCommon( test )
   test.shouldThrowErrorSync( () => _.uriNew.parseAtomic( 13 ) );
   test.shouldThrowErrorSync( () => _.uriNew.parseFull( 13 ) );
 
-} /* eof function parseCommon */
+}
+
+parseCommon.timeOut = 10000;
 
 // //
 //
