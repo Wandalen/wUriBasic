@@ -3,8 +3,8 @@ root:
   - wUriBasic.out
 consistency:
   ../will.yml: &ref_0
-    hash: 2c1885573b0a6e9168b122792e4dc678
-    size: 6789
+    hash: 1716664947118802cb2c2986415ccebe
+    size: 6797
 module:
   wUriBasic.out:
     about:
@@ -1484,5 +1484,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 2c1885573b0a6e9168b122792e4dc678
-        size: 6789
+        hash: 1716664947118802cb2c2986415ccebe
+        size: 6797
