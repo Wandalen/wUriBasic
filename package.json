@@ -1,6 +1,6 @@
 {
   "name": "wuribasic",
-  "version": "0.6.318",
+  "version": "0.6.319",
   "engine": "node >= 10.0.0",
   "description": "Collection of cross-platform routines to operate URI(s) in the reliable and consistent way. UriFundamentals leverages parsing, joining, extracting, normalizing, nativizing, resolving URI(s). Use the module to get uniform experience from playing with URI(s) on different platforms.",
   "license": "MIT",
@@ -37,13 +37,13 @@
     "url": "https://github.com/Wandalen/wUriBasic/issues"
   },
   "dependencies": {
-    "wTools": "delta",
-    "wstringer": "delta",
-    "wpathbasic": "delta",
-    "wblueprint": "delta"
+    "wTools": "alpha",
+    "wstringer": "alpha",
+    "wpathbasic": "alpha",
+    "wblueprint": "alpha"
   },
   "devDependencies": {
-    "wTesting": "delta",
+    "wTesting": "alpha",
     "eslint": "7.32.0"
   },
   "keywords": [
